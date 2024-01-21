@@ -1,0 +1,20 @@
+<h1>Hello</h1>
+
+<p>this is TradeLens.</p>
+
+<p>This is {{ alex_name }}</p>
+
+<h2>These are our favorite stocks. 
+</h2>
+{% for stock in favorite_stocks %}
+    {% if stock == 41%}
+        {{ stock + 100 }}</br>
+    {% else %}
+        {{ stock }}</br>
+    
+    {% endif %}
+
+{% endfor %}
+
+<br/><br/>
+{{ favorite_stocks|reverse }}
