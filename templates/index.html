@@ -1,20 +1,23 @@
-<h1>Hello</h1>
+{% extends 'base.html' %}
 
-<p>this is TradeLens.</p>
+{% block content %}
 
-<p>This is {{ alex_name }}</p>
+    <h1>Hello</h1>
 
-<h2>These are our favorite stocks. 
-</h2>
-{% for stock in favorite_stocks %}
-    {% if stock == 41%}
-        {{ stock + 100 }}</br>
-    {% else %}
-        {{ stock }}</br>
-    
-    {% endif %}
+    <p>this is TradeLens.</p>
 
-{% endfor %}
+    <p>This is {{ alex_name }}</p>
 
-<br/><br/>
-{{ favorite_stocks|reverse }}
+    <h2>These are our favorite stocks. 
+    </h2>
+    {% for stock in favorite_stocks %}
+        {% if stock == 41%}
+            {{ stock + 100 }}<br/>
+        {% else %}
+            {{ stock }}<br/>
+        
+        {% endif %}
+
+    {% endfor %}
+
+{% endblock %}
