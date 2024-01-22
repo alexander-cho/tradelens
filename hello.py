@@ -1,6 +1,16 @@
 from flask import Flask, render_template
+from flask_wtf import FlaskForm
+from wtforms import StringField, SubmitField
+from wtforms.validators import DataRequired
+
 
 app = Flask(__name__)
+app.config['SECRET_KEY'] = "e07b43t"
+
+#create a form class
+class name_form(FlaskForm):
+    name = StringField("What is your name? ", validators=[DataRequired()])
+    submit = SubmitField("Submit")
 
 @app.route('/')
 def index():
@@ -24,6 +34,16 @@ def page_not_found(e):
 def page_not_found(e):
     return render_template("500.html")
 
+@app.route('/name', methods=['GET', 'POST'])
+def name():
+    name = None
+    form = name_form()
+    #Validate form
+    if form.validate_on_submit():
+        name = form.name.data #assign to whatever user inputs
+        form.name.data = '' #clear for next user
+    return render_template("name.html", name=name, form=form)
 
-# if __name__ == '__main__':
-#     app.run(debug=True)
+
+if __name__ == '__main__':
+    app.run(debug=True)
