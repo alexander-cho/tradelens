@@ -1,41 +1,84 @@
-from flask import Flask, render_template, flash
+from flask import Flask, render_template, flash, request
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField
 from wtforms.validators import DataRequired
 from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
 from datetime import datetime
 
 # create a flask instance
 app = Flask(__name__)
 # add database
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///tradelens.db'
+
 # secret key
 app.config['SECRET_KEY'] = "e07b43t"
 # initialize database
 db = SQLAlchemy(app)
+# migrate database
+migrate = Migrate(app, db)
+
 
 # create model
 class Users(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(200), nullable=False)
     email = db.Column(db.String(100), nullable=False, unique=True)
+    favorite_stock = db.Column(db.String(10))
     date_added = db.Column(db.DateTime, default=datetime.utcnow)
 
     # create string representiation
     def __repr__(self) -> str:
         return '<Name %r>' % self.name
 
+# delete a database record
+@app.route('/delete/<int:id>')
+def delete(id):
+    user_to_delete = Users.query.get_or_404(id)
+    name = None
+    form = user_form()
+    try:
+        db.session.delete(user_to_delete)
+        db.session.commit()
+        flash("User deleted successfully")
+        our_users = Users.query.order_by(Users.date_added)
+        return render_template("add_user.html", form=form, name=name, our_users=our_users)
+    except:
+        flash("Could not delete user")
+        return render_template("add_user.html", form=form, name=name, our_users=our_users)
+
 # create a form class
 class user_form(FlaskForm):
     name = StringField("Name", validators=[DataRequired()])
     email = StringField("Email", validators=[DataRequired()])
+    favorite_stock = StringField("Favorite Stock") # no validator, ok if blank
     submit = SubmitField("Submit")
+
+# update a database record
+@app.route('/update/<int:id>', methods=['GET', 'POST'])
+def update(id):
+    form = user_form()
+    name_to_update = Users.query.get_or_404(id) # query the Users table, get or if it doesnt exists, pass in the id, which comes in from the <int: id> url
+    if request.method == 'POST':
+        name_to_update.name = request.form['name']
+        name_to_update.email = request.form['email']
+        name_to_update.favorite_stock = request.form['favorite_stock']
+        try:
+            db.session.commit()
+            flash('User updated successfully')
+            return render_template("update.html", form=form, name_to_update=name_to_update)
+        except:
+            flash('Could not update user')
+            return render_template("update.html", form=form, name_to_update=name_to_update)
+    else:
+        return render_template("update.html", form=form, name_to_update=name_to_update)
 
 
 class name_form(FlaskForm):
     name = StringField("What is your name? ", validators=[DataRequired()])
     submit = SubmitField("Submit")
 
+# add a user to database
 @app.route('/user/add', methods=['GET', 'POST'])
 def add_user():
     name = None
@@ -43,12 +86,13 @@ def add_user():
     if form.validate_on_submit():
         user = Users.query.filter_by(email=form.email.data).first() # this should return None, since all email addresses are unique
         if user is None:
-            user = Users(name=form.name.data, email=form.email.data)
+            user = Users(name = form.name.data, email = form.email.data, favorite_stock = form.favorite_stock.data)
             db.session.add(user)
             db.session.commit()
         name = form.name.data
         form.name.data = ''
         form.email.data = ''
+        form.favorite_stock.data = ''
         flash('User added')
     our_users = Users.query.order_by(Users.date_added)
     return render_template("add_user.html", form=form, name=name, our_users=our_users)
@@ -56,8 +100,8 @@ def add_user():
 @app.route('/')
 def index():
     alex_name = "alex"
-    favorite_stocks = ["SOFI", "LC", "AFRM", "UPST", 41]
-    return render_template("index.html", alex_name=alex_name, favorite_stocks=favorite_stocks)
+    stock_list = ["SOFI", "LC", "AFRM", "UPST", 41]
+    return render_template("index.html", alex_name=alex_name, stock_list=stock_list)
 
 @app.route('/user/<name>')
 def user(name):

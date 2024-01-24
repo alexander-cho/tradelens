@@ -8,9 +8,9 @@
 
     <p>This is {{ alex_name }}</p>
 
-    <h2>These are our favorite stocks. 
+    <h2>This is a fintech stock list. 
     </h2>
-    {% for stock in favorite_stocks %}
+    {% for stock in stock_list %}
         {% if stock == 41%}
             {{ stock + 100 }}<br/>
         {% else %}
