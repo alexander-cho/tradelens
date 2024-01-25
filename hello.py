@@ -1,10 +1,12 @@
 from flask import Flask, render_template, flash, request
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField
-from wtforms.validators import DataRequired
+from wtforms import StringField, SubmitField, PasswordField, BooleanField, ValidationError
+from wtforms.validators import DataRequired, EqualTo, Length
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from datetime import datetime
+from werkzeug.security import generate_password_hash, check_password_hash
+
 
 # create a flask instance
 app = Flask(__name__)
@@ -26,6 +28,19 @@ class Users(db.Model):
     email = db.Column(db.String(100), nullable=False, unique=True)
     favorite_stock = db.Column(db.String(10))
     date_added = db.Column(db.DateTime, default=datetime.utcnow)
+    # passwords
+    password_hash = db.Column(db.String(128))
+
+    @property
+    def password(self):
+        raise AttributeError('Password is not a a readable attribute')
+    
+    @password.setter
+    def password(self, password):
+        self.password_hash = generate_password_hash(password)
+
+    def verify_password(self, password):
+        return check_password_hash(self.password_hash, password) 
 
     # create string representiation
     def __repr__(self) -> str:
@@ -52,6 +67,8 @@ class user_form(FlaskForm):
     name = StringField("Name", validators=[DataRequired()])
     email = StringField("Email", validators=[DataRequired()])
     favorite_stock = StringField("Favorite Stock") # no validator, ok if blank
+    password_hash = PasswordField("Password", validators=[DataRequired(), EqualTo('password_hash2', message="Passwords must match")])
+    password_hash2 = PasswordField("Confirm Password", validators=[DataRequired()])
     submit = SubmitField("Submit")
 
 # update a database record
@@ -78,6 +95,11 @@ class name_form(FlaskForm):
     name = StringField("What is your name? ", validators=[DataRequired()])
     submit = SubmitField("Submit")
 
+class password_form(FlaskForm):
+    email = StringField("What is your email? ", validators=[DataRequired()])
+    password_hash = PasswordField("What is your password? ", validators=[DataRequired()])
+    submit = SubmitField("Submit")
+
 # add a user to database
 @app.route('/user/add', methods=['GET', 'POST'])
 def add_user():
@@ -86,13 +108,16 @@ def add_user():
     if form.validate_on_submit():
         user = Users.query.filter_by(email=form.email.data).first() # this should return None, since all email addresses are unique
         if user is None:
-            user = Users(name = form.name.data, email = form.email.data, favorite_stock = form.favorite_stock.data)
+            # Hash the password
+            hashed_pw = generate_password_hash(form.password_hash.data)
+            user = Users(name = form.name.data, email = form.email.data, favorite_stock = form.favorite_stock.data, password_hash=hashed_pw )
             db.session.add(user)
             db.session.commit()
         name = form.name.data
         form.name.data = ''
         form.email.data = ''
         form.favorite_stock.data = ''
+        form.password_hash.data = ''
         flash('User added')
     our_users = Users.query.order_by(Users.date_added)
     return render_template("add_user.html", form=form, name=name, our_users=our_users)
@@ -119,6 +144,30 @@ def page_not_found(e):
 def page_not_found(e):
     return render_template("500.html")
 
+# Create password test page
+@app.route('/test_pw', methods=['GET', 'POST'])
+def test_pw():
+    email = None
+    password = None
+    pw_to_check = None
+    passed = None
+    form = password_form()
+    # Validate form
+    if form.validate_on_submit():
+        email = form.email.data # assign to whatever user inputs
+        password = form.password_hash.data
+
+        form.email.data = '' # clear for next user
+        form.password_hash.data = ''
+
+        #lookup user by email address
+        pw_to_check = Users.query.filter_by(email=email).first()
+
+        #check hash pw
+        passed = check_password_hash(pw_to_check.password_hash, password)
+    return render_template("test_pw.html", email=email, password=password, pw_to_check=pw_to_check, passed=passed, form=form)
+
+# Create name page
 @app.route('/name', methods=['GET', 'POST'])
 def name():
     name = None
