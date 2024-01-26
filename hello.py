@@ -6,6 +6,8 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from datetime import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
+from datetime import date
+from wtforms.widgets import TextArea
 
 
 # create a flask instance
@@ -20,8 +22,62 @@ db = SQLAlchemy(app)
 # migrate database
 migrate = Migrate(app, db)
 
+# create posts model
+class Posts(db.Model):
+    id = db.Column(db.Integer, primary_key = True)
+    title = db.Column(db.String(255))
+    content = db.Column(db.Text)
+    author = db.Column(db.String(255))
+    date_posted = db.Column(db.DateTime, default=datetime.utcnow)
+    slug = db.Column(db.String(255))
 
-# create model
+# posts form
+class PostForm(FlaskForm):
+    title = StringField("Title", validators=[DataRequired()])
+    content = StringField("Content", validators=[DataRequired()], widget=TextArea())
+    author = StringField("Author", validators=[DataRequired()])
+    slug = StringField("Slug", validators=[DataRequired()])
+    submit = SubmitField("Submit")
+
+@app.route('/posts') #this will potentially become home page content
+def posts():
+    # grab all posts from the database
+    posts = Posts.query.order_by(Posts.date_posted) # let's query by chronological order, from the Posts model.
+    return render_template("posts.html", posts=posts)
+
+# add posts page
+@app.route('/add_post', methods=['GET', 'POST'])
+def add_post():
+    form = PostForm()
+    if form.validate_on_submit():
+        post = Posts(title=form.title.data, content=form.content.data, author=form.author.data, slug=form.slug.data)
+        # clear form
+        form.title.data = ''
+        form.content.data = ''
+        form.author.data = ''
+        form.slug.data = ''
+        #add post to database
+        db.session.add(post)
+        db.session.commit()
+
+        flash("Your post has been submitted")
+
+    return render_template("add_post.html", form=form)
+
+
+# webpage to return JSON (jsonify)
+@app.route('/date')
+def get_current_date():
+    favorite_companies = {
+        "Alex": "SoFi Techs",
+        "Chris": "Paypal Hold",
+        "Tim": "Affirm"
+    }
+    return favorite_companies
+    #return {"Date": date.today()}
+
+
+# create user model
 class Users(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(200), nullable=False)
@@ -119,7 +175,7 @@ def add_user():
         form.favorite_stock.data = ''
         form.password_hash.data = ''
         flash('User added')
-    our_users = Users.query.order_by(Users.date_added)
+    our_users = Users.query.order_by(Users.date_added) # chronological order of account created
     return render_template("add_user.html", form=form, name=name, our_users=our_users)
 
 @app.route('/')
