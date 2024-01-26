@@ -55,7 +55,7 @@ def edit_post(id):
     post = Posts.query.get_or_404(id)
     form = PostForm()
     if form.validate_on_submit():
-        # Update the post attributes with the data from the form
+        # Update the post attributes with the new data once edit submission is validated
         post.title = form.title.data
         post.author = form.author.data
         post.slug = form.slug.data
@@ -64,9 +64,9 @@ def edit_post(id):
         db.session.add(post)
         db.session.commit()
         flash("Post has been updated")
-        return redirect(url_for('post', id=post.id))
+        return redirect(url_for('post', id=post.id)) # redirect back to singular post page
     
-    # Populate the form fields with the new values of the post
+    # Populate the form fields with current values of the post
     form.title.data = post.title
     form.author.data = post.author
     form.slug.data = post.slug
