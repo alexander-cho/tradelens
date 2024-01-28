@@ -9,7 +9,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import date
 from wtforms.widgets import TextArea
 
-
+#
 # create a flask instance
 app = Flask(__name__)
 # add database
