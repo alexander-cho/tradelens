@@ -9,7 +9,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import date
 from wtforms.widgets import TextArea
 
-#
+
 # create a flask instance
 app = Flask(__name__)
 # add database
@@ -38,6 +38,21 @@ class PostForm(FlaskForm):
     author = StringField("Author", validators=[DataRequired()])
     slug = StringField("Slug", validators=[DataRequired()])
     submit = SubmitField("Submit")
+
+# delete a post
+@app.route('/posts/delete/<int:id>')
+def delete_post(id):
+    post_to_delete = Posts.query.get_or_404(id)
+    try:
+        db.session.delete(post_to_delete)
+        db.session.commit()
+        flash("Post has been deleted")
+        return render_template("posts.html", post_to_delete = post_to_delete)
+    except:
+        # return error message
+        flash("Could not delete post")
+        return render_template("posts.html", post_to_delete = post_to_delete)
+
 
 @app.route('/posts') #this will potentially become home page content
 def posts():
