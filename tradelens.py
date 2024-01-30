@@ -68,7 +68,23 @@ def logout():
 @app.route('/dashboard', methods=['GET', 'POST'])
 @login_required
 def dashboard():
-    return render_template("dashboard.html")
+    form = user_form()
+    id = current_user.id
+    name_to_update = Users.query.get_or_404(id) # query the Users table, get or if it doesnt exists, pass in the id, which comes in from the <int: id> url
+    if request.method == 'POST':
+        name_to_update.name = request.form['name']
+        name_to_update.username = request.form['username']
+        name_to_update.email = request.form['email']
+        name_to_update.favorite_stock = request.form['favorite_stock']
+        try:
+            db.session.commit()
+            flash('User updated successfully')
+            return render_template("dashboard.html", form=form, name_to_update=name_to_update)
+        except:
+            flash('Could not update user')
+            return render_template("dashboard.html", form=form, name_to_update=name_to_update)
+    else:
+        return render_template("dashboard.html", form=form, name_to_update=name_to_update)
 
 # create posts model
 class Posts(db.Model):
@@ -89,6 +105,7 @@ class PostForm(FlaskForm):
 
 # delete a post
 @app.route('/posts/delete/<int:id>')
+@login_required
 def delete_post(id):
     post_to_delete = Posts.query.get_or_404(id)
     try:
@@ -114,6 +131,7 @@ def post(id):
     return render_template("post.html", post = post)
 
 @app.route('/posts/edit/<int:id>', methods=['GET', 'POST'])
+@login_required
 def edit_post(id):
     post = Posts.query.get_or_404(id)
     form = PostForm()
@@ -139,6 +157,7 @@ def edit_post(id):
 
 # add posts page
 @app.route('/add_post', methods=['GET', 'POST'])
+# @login_required
 def add_post():
     form = PostForm()
     if form.validate_on_submit():
@@ -206,10 +225,10 @@ def delete(id):
         db.session.commit()
         flash("User deleted successfully")
         our_users = Users.query.order_by(Users.date_added)
-        return render_template("add_user.html", form=form, name=name, our_users=our_users)
+        return render_template("register.html", form=form, name=name, our_users=our_users)
     except:
         flash("Could not delete user")
-        return render_template("add_user.html", form=form, name=name, our_users=our_users)
+        return render_template("register.html", form=form, name=name, our_users=our_users)
 
 # create a form class
 class user_form(FlaskForm):
@@ -228,6 +247,7 @@ def update(id):
     name_to_update = Users.query.get_or_404(id) # query the Users table, get or if it doesnt exists, pass in the id, which comes in from the <int: id> url
     if request.method == 'POST':
         name_to_update.name = request.form['name']
+        name_to_update.username = request.form['username']
         name_to_update.email = request.form['email']
         name_to_update.favorite_stock = request.form['favorite_stock']
         try:
@@ -251,8 +271,8 @@ class password_form(FlaskForm):
     submit = SubmitField("Submit")
 
 # add a user to database
-@app.route('/user/add', methods=['GET', 'POST'])
-def add_user():
+@app.route('/user/register', methods=['GET', 'POST'])
+def register():
     name = None
     form = user_form()
     if form.validate_on_submit():
@@ -269,9 +289,9 @@ def add_user():
         form.email.data = ''
         form.favorite_stock.data = ''
         form.password_hash.data = ''
-        flash('User added')
+        flash('Your account has been created')
     our_users = Users.query.order_by(Users.date_added) # chronological order of account created
-    return render_template("add_user.html", form=form, name=name, our_users=our_users)
+    return render_template("register.html", form=form, name=name, our_users=our_users)
 
 @app.route('/')
 def index():
