@@ -13,14 +13,16 @@
 <br>
 
 {{ post.title }} <br>
-{{ post.author }} <br>
+{{ post.poster.name }} <br> <!-- poster, from the backref created in the Users model to refer to anything assigned there -->
 {{ post.slug }} <br>
 {{ post.date_posted }} <br>
 {{ post.content }} <br><br>
 
 <a href="{{ url_for('posts') }}" class="btn btn-outline-primary btn-sm">Go back</a>
-<a href="{{ url_for('edit_post', id = post.id) }}" class="btn btn-outline-primary btn-sm">Edit Post</a>
-<a href="{{ url_for('delete_post', id = post.id) }}" class="btn btn-outline-danger btn-sm">Delete Post</a>
+{% if current_user.id == post.poster_id %}
+    <a href="{{ url_for('edit_post', id = post.id) }}" class="btn btn-outline-primary btn-sm">Edit Post</a>
+    <a href="{{ url_for('delete_post', id = post.id) }}" class="btn btn-outline-danger btn-sm">Delete Post</a>
+{% endif %}
 
 
 {% endblock %}

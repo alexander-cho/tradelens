@@ -81,21 +81,27 @@ def dashboard():
 @login_required
 def delete_post(id):
     post_to_delete = Posts.query.get_or_404(id)
-    try:
-        db.session.delete(post_to_delete)
-        db.session.commit()
-        flash("Post has been deleted")
-        return render_template("posts.html", post_to_delete = post_to_delete)
-    except:
-        # return error message
-        flash("Could not delete post")
-        return render_template("posts.html", post_to_delete = post_to_delete)
+    if current_user.id == post_to_delete.poster.id:
+        try: 
+            db.session.delete(post_to_delete)
+            db.session.commit()
+            flash("Post has been deleted")
+            posts = Posts.query.order_by(Posts.date_posted)
+            return render_template("posts.html", posts=posts)
+        except:
+            # return error message
+            flash("Could not delete post")
+            return render_template("posts.html", posts=posts)
+    else:
+        flash("You cannot delete that post")
+        posts = Posts.query.order_by(Posts.date_posted)
+        return render_template("posts.html", posts=posts) 
 
 
 @app.route('/posts') #this will potentially become home page content
 def posts():
     # grab all posts from the database
-    posts = Posts.query.order_by(Posts.date_posted) # let's query by chronological order, from the Posts model.
+    posts = Posts.query.order_by(Posts.date_posted) # query by chronological order, from the Posts model.
     return render_template("posts.html", posts = posts)
 
 @app.route('/posts/<int:id>')
@@ -111,7 +117,7 @@ def edit_post(id):
     if form.validate_on_submit():
         # Update the post attributes with the new data once edit submission is validated
         post.title = form.title.data
-        post.author = form.author.data
+        # post.author = form.author.data
         post.slug = form.slug.data
         post.content = form.content.data
         # update database with modifications
@@ -120,12 +126,17 @@ def edit_post(id):
         flash("Post has been updated")
         return redirect(url_for('post', id=post.id)) # redirect back to singular post page
     
-    # Populate the form fields with current values of the post
-    form.title.data = post.title
-    form.author.data = post.author
-    form.slug.data = post.slug
-    form.content.data = post.content
-    return render_template("edit_post.html", form = form) # goes back to newly edited singular post page
+    if current_user.id == post.poster_id: # if id of logged in user matches the id of the poster of particular post
+        # Populate the form fields with current values of the post
+        form.title.data = post.title
+        # form.author.data = post.author
+        form.slug.data = post.slug
+        form.content.data = post.content
+        return render_template("edit_post.html", form=form) # goes back to newly edited singular post page
+    else:
+        flash("You cannot edit this post")
+        posts = Posts.query.order_by(Posts.date_posted)
+        return render_template("posts.html", posts=posts)
 
 
 # add posts page
@@ -134,11 +145,12 @@ def edit_post(id):
 def add_post():
     form = PostForm()
     if form.validate_on_submit():
-        post = Posts(title=form.title.data, content=form.content.data, author=form.author.data, slug=form.slug.data)
+        poster = current_user.id
+        post = Posts(title=form.title.data, content=form.content.data, poster_id=poster, slug=form.slug.data)
         # clear form
         form.title.data = ''
         form.content.data = ''
-        form.author.data = ''
+        # form.author.data = ''
         form.slug.data = ''
         #add post to database
         db.session.add(post)
@@ -282,9 +294,11 @@ class Posts(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(255))
     content = db.Column(db.Text)
-    author = db.Column(db.String(255))
+    # author = db.Column(db.String(255))
     date_posted = db.Column(db.DateTime, default=datetime.utcnow)
     slug = db.Column(db.String(255))
+    # create a foreign key to link users which will refer to the primary key from the Users model
+    poster_id = db.Column(db.Integer, db.ForeignKey('users.id')) # lowercase, referring to the table
 
 # create user model
 class Users(db.Model, UserMixin):
@@ -296,6 +310,8 @@ class Users(db.Model, UserMixin):
     date_added = db.Column(db.DateTime, default=datetime.utcnow)
     # passwords
     password_hash = db.Column(db.String(128))
+    # User can have many posts
+    posts = db.relationship('Posts', backref = 'poster') # uppercase since referencing the Posts class, not a call to the database
 
     @property
     def password(self):
