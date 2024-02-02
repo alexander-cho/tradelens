@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <br>
+    <h2>You searched for:</h2>
+    <p>{{ searched }}</p>
+
+    <br><br>
+
+    {% if post in post.searched %}
+
+    {% for post in posts %}
+        <a href="{{ url_for('post', id = post.id) }}" class="btn btn-primary btn-sm">{{ post.title }}</a><br><br>
+    {% endfor %}
+
+    {% endif %}
+
+{% endblock %}

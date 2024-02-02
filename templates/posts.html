@@ -17,7 +17,7 @@
     By: {{ post.poster.name }} <br> <!-- poster, from the backref created in the Users model to refer to anything assigned there -->
     {{ post.slug }} <br>
     Posted on: {{ post.date_posted }} <br>
-    {{ post.content }} <br>
+    {{ post.content | safe }} <br>
     <a href="{{ url_for('post', id=post.id) }}" class="btn btn-outline-primary btn-sm">Click to View</a>
 
     {% if current_user.id == post.poster_id %}

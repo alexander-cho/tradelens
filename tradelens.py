@@ -5,10 +5,13 @@ from datetime import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import date
 from flask_login import UserMixin, login_user, LoginManager, login_required, logout_user, current_user
-from forms import LoginForm, PostForm, user_form, name_form, password_form
+from forms import LoginForm, PostForm, user_form, name_form, password_form, SearchForm
+from flask_ckeditor import CKEditor
 
 # create a flask instance
 app = Flask(__name__)
+# add CKEditor
+ckeditor = CKEditor(app)
 # add database
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///tradelens.db'
 
@@ -27,6 +30,25 @@ login_manager.login_view = 'login'
 @login_manager.user_loader
 def load_user(user_id):
     return Users.query.get(int(user_id))
+
+# pass things to navbar
+@app.context_processor
+def base():
+    form = SearchForm()
+    return dict(form=form)
+
+# create search function
+@app.route('/search', methods=['POST'])
+def search():
+    form = SearchForm()
+    posts = Posts.query
+    if form.validate_on_submit():
+        # get data from submitted form
+        post.searched = form.searched.data
+        # query the database
+        posts = posts.filter(Posts.content.like('%' + post.searched + '%'))
+        posts = posts.order_by(Posts.title).all()
+        return render_template("search.html", form=form, searched=post.searched, posts=posts)
 
 # create the login page
 @app.route('/login', methods=['GET', 'POST'])
