@@ -3,12 +3,29 @@
 {% block content %}
 
     <br>
-    <h2>You searched for:</h2>
-    <p>{{ searched }}</p>
+    <h2>You searched for: <em>{{ searched }}</em></h2>
     <br><br>
     
-    {% for post in posts %}
-        <a href="{{ url_for('post', id = post.id) }}">{{ post.title }}</a> <br>
-    {% endfor %}
+    {% if posts %}
+
+        {% for post in posts %}
+            {{ post.title }} <br>
+            By: {{ post.poster.name }} <br> <!-- poster, from the backref created in the Users model to refer to anything assigned there -->
+            {{ post.slug }} <br>
+            Posted on: {{ post.date_posted }} <br>
+            {{ post.content | safe }} <br>
+            <a href="{{ url_for('post', id=post.id) }}" class="btn btn-outline-primary btn-sm">Click to View</a>
+        
+            {% if current_user.id == post.poster_id %}
+                <a href="{{ url_for('edit_post', id = post.id) }}" class="btn btn-outline-primary btn-sm">Edit Post</a>
+                <a href="{{ url_for('delete_post', id = post.id) }}" class="btn btn-outline-danger btn-sm">Delete Post</a>
+            {% endif %}
+            <br><br>
+        {% endfor %}
+
+    {% else %}
+        <strong>{{ searched }}</strong> was not found
+
+    {% endif %}
 
 {% endblock %}

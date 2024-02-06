@@ -38,6 +38,17 @@ def base():
     #the search form will get passed into the base.html which then passes to the navbar since it includes the navbar.html
     return dict(form=form)
 
+# create admin page
+@app.route('/admin')
+@login_required
+def admin():
+    id = current_user.id
+    if id == 1:
+        return render_template("admin.html")
+    else:
+        flash("You are not an admin")
+        return redirect(url_for('dashboard'))
+
 # create search function
 @app.route('/search', methods=['POST'])
 def search():
