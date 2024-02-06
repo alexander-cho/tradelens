@@ -34,7 +34,8 @@ def load_user(user_id):
 # pass things to navbar
 @app.context_processor
 def base():
-    form = SearchForm()
+    form = SearchForm() 
+    #the search form will get passed into the base.html which then passes to the navbar since it includes the navbar.html
     return dict(form=form)
 
 # create search function
@@ -43,11 +44,11 @@ def search():
     form = SearchForm()
     posts = Posts.query
     if form.validate_on_submit():
-        # get data from submitted form
+        # get data from the submitted search form
         post.searched = form.searched.data
         # query the database
-        posts = posts.filter(Posts.content.like('%' + post.searched + '%'))
-        posts = posts.order_by(Posts.title).all()
+        posts = posts.filter(Posts.content.like('%' + post.searched + "%")) # filter by the content, doesn't have to be exact match
+        posts = posts.order_by(Posts.title).all() # return the results by title
         return render_template("search.html", form=form, searched=post.searched, posts=posts)
 
 # create the login page
