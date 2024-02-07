@@ -29,6 +29,7 @@
                     <strong>Email: </strong>{{ current_user.email }}<br>
                     <strong>Favorite Stock: </strong>{{ current_user.favorite_stock }}<br>
                     <strong>About author: </strong>{{ current_user.about_author }}<br>
+                    <strong>Profile pic: </strong>{{ current_user.profile_pic }}<br>
                     <strong>Date joined: </strong>{{ current_user.date_added }}<br>
                 </div>
                 <div class="col-4">
@@ -51,7 +52,7 @@
         Update Profile
 
         <div class="shadow p-3 mb-5 bg-body rounded">
-            <form method="POST">
+            <form action="/dashboard" method="POST" enctype="multipart/form-data">
                 {{ form.hidden_tag() }}
                 {{ form.name.label(class="form-label") }}
                 {{ form.name(class="form-control", value=name_to_update.name) }}
@@ -67,6 +68,9 @@
                 <br>
                 {{ form.about_author.label(class="form-label") }}
                 <textarea name="about_author" class="form-control">{{ name_to_update.about_author }}</textarea>
+                <br>
+                {{ form.profile_pic.label(class="form-label") }}
+                {{ form.profile_pic(class="form-control", value=name_to_update.profile_pic) }}
                 <br>
                 {{ form.submit(class="btn btn-secondary") }}
             </form>

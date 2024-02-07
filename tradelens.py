@@ -7,6 +7,9 @@ from datetime import date
 from flask_login import UserMixin, login_user, LoginManager, login_required, logout_user, current_user
 from forms import LoginForm, PostForm, user_form, name_form, password_form, SearchForm
 from flask_ckeditor import CKEditor
+from werkzeug.utils import secure_filename
+import uuid as uuid
+import os
 
 # create a flask instance
 app = Flask(__name__)
@@ -17,6 +20,10 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///tradelens.db'
 
 # secret key
 app.config['SECRET_KEY'] = "e07b43t"
+
+UPLOAD_FOLDER = 'static/images'
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
 # initialize database
 db = SQLAlchemy(app)
 # migrate database
@@ -101,8 +108,18 @@ def dashboard():
         name_to_update.email = request.form['email']
         name_to_update.favorite_stock = request.form['favorite_stock']
         name_to_update.about_author = request.form['about_author']
+        name_to_update.profile_pic = request.files['profile_pic'] # upload a file
+        # grab image name
+        pic_filename = secure_filename(name_to_update.profile_pic.filename)
+        # set uuid, since more than one person can have a pic with same file name
+        pic_name = str(uuid.uuid1()) + "_" + pic_filename
+        # save that image
+        saver = request.files['profile_pic']
+        # change to string to save to database
+        name_to_update.profile_pic = pic_name
         try:
             db.session.commit()
+            saver.name_to_update.profile_pic.save(os.path.join(app.config['UPLOAD_FOLDER']), pic_name)
             flash('User updated successfully')
             return render_template("dashboard.html", form=form, name_to_update=name_to_update)
         except:
@@ -344,6 +361,7 @@ class Users(db.Model, UserMixin):
     favorite_stock = db.Column(db.String(10))
     about_author = db.Column(db.Text(500), nullable=True)
     date_added = db.Column(db.DateTime, default=datetime.utcnow)
+    profile_pic = db.Column(db.String(), nullable=True)
     # passwords
     password_hash = db.Column(db.String(128))
     # User can have many posts
