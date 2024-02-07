@@ -20,16 +20,27 @@
     <div class="card-body">
       <h5 class="card-title">Welcome</h5>
       <p class="card-text">
-        <strong>Name: </strong>{{ current_user.name }}<br>
-        <strong>Username: </strong>{{ current_user.username }}<br>
-        <strong>User Id: </strong>{{ current_user.id }}<br>
-        <strong>Email: </strong>{{ current_user.email }}<br>
-        <strong>Favorite Stock: </strong>{{ current_user.favorite_stock }}<br>
-        <strong>Date joined: </strong>{{ current_user.date_added }}<br>
+        <div class="container">
+            <div class="row">
+                <div class="col-8">
+                    <strong>Name: </strong>{{ current_user.name }}<br>
+                    <strong>Username: </strong>{{ current_user.username }}<br>
+                    <strong>User Id: </strong>{{ current_user.id }}<br>
+                    <strong>Email: </strong>{{ current_user.email }}<br>
+                    <strong>Favorite Stock: </strong>{{ current_user.favorite_stock }}<br>
+                    <strong>Date joined: </strong>{{ current_user.date_added }}<br>
+                </div>
+                <div class="col-4">
+                    <img src="{{ url_for('static', filename = 'images/default_profile_pic.jpeg')}}" align="right">
+                </div> 
+            </div>
+
+        </div>
       </p>
       <a href="{{ url_for('logout') }}" class="btn btn-warning btn-sm ">Logout</a>
       <a href="{{ url_for('update', id=current_user.id) }}" class="btn btn-secondary btn-sm">Update Profile</a>
       <a href="{{ url_for('delete', id=current_user.id) }}" class="btn btn-danger btn-sm">Delete</a>
+
     </div>
 </div>
 
