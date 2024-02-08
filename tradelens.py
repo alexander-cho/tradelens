@@ -95,6 +95,7 @@ def logout():
     flash("You have been logged out")
     return redirect(url_for('login'))
 
+    
 # create initial dashboard page
 @app.route('/dashboard', methods=['GET', 'POST'])
 @login_required
@@ -102,28 +103,35 @@ def dashboard():
     form = user_form()
     id = current_user.id
     name_to_update = Users.query.get_or_404(id) # query the Users table, get or if it doesnt exists, pass in the id, which comes in from the <int: id> url
+
     if request.method == 'POST':
         name_to_update.name = request.form['name']
         name_to_update.username = request.form['username']
         name_to_update.email = request.form['email']
         name_to_update.favorite_stock = request.form['favorite_stock']
         name_to_update.about_author = request.form['about_author']
-        name_to_update.profile_pic = request.files['profile_pic'] # upload a file
-        # grab image name
-        pic_filename = secure_filename(name_to_update.profile_pic.filename)
-        # set uuid, since more than one person can have a pic with same file name
-        pic_name = str(uuid.uuid1()) + "_" + pic_filename
-        # save that image
-        saver = request.files['profile_pic']
-        # change to string to save to database
-        name_to_update.profile_pic = pic_name
+
+        profile_pic = request.files['profile_pic'] # upload a file
+        if profile_pic:
+            try:
+                # grab image name
+                pic_filename = secure_filename(profile_pic.filename)
+                # set uuid, since more than one person can have a pic with same file name
+                pic_name = str(uuid.uuid1()) + "_" + pic_filename
+                profile_pic.save(os.path.join(app.config['UPLOAD_FOLDER'], pic_name))
+                # change to string to save to database
+                name_to_update.profile_pic = pic_name
+            except Exception as e:
+                flash('Error uploading profile picture: {}'.format(str(e)))
+                return render_template("dashboard.html", form=form, name_to_update=name_to_update)
+
         try:
             db.session.commit()
-            saver.name_to_update.profile_pic.save(os.path.join(app.config['UPLOAD_FOLDER']), pic_name)
             flash('User updated successfully')
             return render_template("dashboard.html", form=form, name_to_update=name_to_update)
-        except:
-            flash('Could not update user')
+        except Exception as e:
+            db.session.rollback()
+            flash('Could not update user: {}'.format(str(e)))
             return render_template("dashboard.html", form=form, name_to_update=name_to_update)
     else:
         return render_template("dashboard.html", form=form, name_to_update=name_to_update)
@@ -189,7 +197,6 @@ def edit_post(id):
         flash("You cannot edit this post")
         posts = Posts.query.order_by(Posts.date_posted)
         return render_template("posts.html", posts=posts)
-
 
 # add posts page
 @app.route('/add_post', methods=['GET', 'POST'])

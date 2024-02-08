@@ -33,8 +33,12 @@
                     <strong>Date joined: </strong>{{ current_user.date_added }}<br>
                 </div>
                 <div class="col-4">
-                    <img src="{{ url_for('static', filename = 'images/default_profile_pic.jpeg')}}" align="right">
-                </div> 
+                    {% if current_user.profile_pic %}
+                        <img src="{{ url_for('static', filename = 'images/' + current_user.profile_pic) }}" align="right">
+                    {% else %}
+                        <img src="{{ url_for('static', filename = 'images/default_profile_pic.jpeg') }}" align="right">
+                    {% endif %}
+                </div>
             </div>
         </div>
       </p>
