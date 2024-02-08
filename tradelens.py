@@ -227,18 +227,23 @@ def get_current_date():
 # delete a database record
 @app.route('/delete/<int:id>')
 def delete(id):
-    user_to_delete = Users.query.get_or_404(id)
-    name = None
-    form = user_form()
-    try:
-        db.session.delete(user_to_delete)
-        db.session.commit()
-        flash("User deleted successfully")
-        our_users = Users.query.order_by(Users.date_added)
-        return render_template("register.html", form=form, name=name, our_users=our_users)
-    except:
-        flash("Could not delete user")
-        return render_template("register.html", form=form, name=name, our_users=our_users)
+    if id == current_user.id:
+        user_to_delete = Users.query.get_or_404(id)
+        name = None
+        form = user_form()
+        try:
+            db.session.delete(user_to_delete)
+            db.session.commit()
+            flash("User deleted successfully")
+            our_users = Users.query.order_by(Users.date_added)
+            return render_template("register.html", form=form, name=name, our_users=our_users)
+        except:
+            flash("Could not delete user")
+            return render_template("register.html", form=form, name=name, our_users=our_users)
+    else:
+        flash("You cannot delete that user")
+        return redirect(url_for('dashboard'))
+
 
 # update a database record
 @app.route('/update/<int:id>', methods=['GET', 'POST'])
