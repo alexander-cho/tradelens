@@ -112,6 +112,7 @@ def dashboard():
         name_to_update.about_author = request.form['about_author']
 
         profile_pic = request.files['profile_pic'] # upload a file
+        # check for profile pic
         if profile_pic:
             try:
                 # grab image name

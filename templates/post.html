@@ -12,8 +12,8 @@
 <h1> {{ post.title }} </h1>
 <br>
 
-{{ post.title }} <br>
 {{ post.poster.name }} <br> <!-- poster, from the backref created in the Users model to refer to anything assigned there -->
+{{ post.title }} <br>
 {{ post.slug }} <br>
 {{ post.date_posted }} <br>
 {{ post.content | safe }} <br><br>
