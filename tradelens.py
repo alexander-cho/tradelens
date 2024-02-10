@@ -8,7 +8,7 @@ from flask_ckeditor import CKEditor
 from werkzeug.utils import secure_filename
 import uuid as uuid
 import os
-from models import db, Users, Posts
+from models import db, Users, Posts, Stocks
 
 # create a flask instance
 app = Flask(__name__)
@@ -353,6 +353,14 @@ def name():
         flash("Form submitted successfully")
     return render_template("name.html", name=name, form=form)
 
+# display information for each company in the stocks table
+@app.route('/symbol/<symbol>')
+def symbol(symbol):
+    stock = Stocks.query.filter_by(ticker_symbol=symbol).first()
+    if stock:
+        return render_template("symbol.html", stock=stock)
+    else:
+        return render_template("404.html")
 
 
 # if __name__ == '__main__':

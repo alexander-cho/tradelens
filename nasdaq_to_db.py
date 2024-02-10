@@ -1,3 +1,9 @@
+'''
+This script takes the nasdaq.csv file downloaded from the nasdaq website and populates a Stocks table with the data from
+the first two columns
+'''
+
+
 from models import Stocks
 from tradelens import app, db
 import csv
