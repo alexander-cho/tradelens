@@ -46,3 +46,9 @@ class Users(db.Model, UserMixin):
     # create string representiation
     def __repr__(self) -> str:
         return '<Name %r>' % self.name
+    
+# create stocks model
+class Stocks(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    ticker_symbol = db.Column(db.String(10), nullable=False, unique=True)
+    company_name = db.Column(db.String(100), nullable=False)
