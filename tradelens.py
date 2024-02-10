@@ -1,15 +1,14 @@
 from flask import Flask, render_template, flash, request, url_for, redirect
-from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
-from datetime import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import date
-from flask_login import UserMixin, login_user, LoginManager, login_required, logout_user, current_user
+from flask_login import login_user, LoginManager, login_required, logout_user, current_user
 from forms import LoginForm, PostForm, user_form, name_form, password_form, SearchForm
 from flask_ckeditor import CKEditor
 from werkzeug.utils import secure_filename
 import uuid as uuid
 import os
+from models import db, Users, Posts
 
 # create a flask instance
 app = Flask(__name__)
@@ -24,8 +23,8 @@ app.config['SECRET_KEY'] = "e07b43t"
 UPLOAD_FOLDER = 'static/images'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
-# initialize database
-db = SQLAlchemy(app)
+# Initialize the database with the Flask app
+db.init_app(app)
 # migrate database
 migrate = Migrate(app, db)
 
@@ -354,46 +353,6 @@ def name():
         flash("Form submitted successfully")
     return render_template("name.html", name=name, form=form)
 
-# create posts model
-class Posts(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(255))
-    content = db.Column(db.Text)
-    # author = db.Column(db.String(255))
-    date_posted = db.Column(db.DateTime, default=datetime.utcnow)
-    slug = db.Column(db.String(255))
-    # create a foreign key to link users which will refer to the primary key from the Users model
-    poster_id = db.Column(db.Integer, db.ForeignKey('users.id')) # lowercase, referring to the table
-
-# create user model
-class Users(db.Model, UserMixin):
-    id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(20), nullable=False, unique=True) 
-    name = db.Column(db.String(200), nullable=False)
-    email = db.Column(db.String(100), nullable=False, unique=True)
-    favorite_stock = db.Column(db.String(10))
-    about_author = db.Column(db.Text(), nullable=True)
-    date_added = db.Column(db.DateTime, default=datetime.utcnow)
-    profile_pic = db.Column(db.String(), nullable=True)
-    # passwords
-    password_hash = db.Column(db.String(128))
-    # User can have many posts
-    posts = db.relationship('Posts', backref = 'poster') # uppercase since referencing the Posts class, not a call to the database
-
-    @property
-    def password(self):
-        raise AttributeError('Password is not a a readable attribute')
-    
-    @password.setter
-    def password(self, password):
-        self.password_hash = generate_password_hash(password)
-
-    def verify_password(self, password):
-        return check_password_hash(self.password_hash, password) 
-
-    # create string representiation
-    def __repr__(self) -> str:
-        return '<Name %r>' % self.name
 
 
 # if __name__ == '__main__':
