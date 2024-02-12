@@ -4,6 +4,11 @@
 
     <h1>This is the page for the stock: </h1>
     <h2>{{ stock.ticker_symbol }}</h2>
-    company name: {{ stock.company_name }}
+    Company name: {{ stock.company_name }} <br>
+    Opening price: ${{ '%.2f'|format(stock.open) }} <br>
+    High price: ${{ '%.2f'|format(stock.high) }} <br>
+    Low price: ${{ '%.2f'|format(stock.low) }} <br>
+    Closing price: ${{ '%.2f'|format(stock.close) }} <br>
+    Volume: {{ stock.volume|int }} shares traded<br>
 
 {% endblock %}

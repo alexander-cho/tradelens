@@ -52,3 +52,8 @@ class Stocks(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     ticker_symbol = db.Column(db.String(10), nullable=False, unique=True)
     company_name = db.Column(db.String(100), nullable=False)
+    open = db.Column(db.Float(), nullable=True)
+    high = db.Column(db.Float(), nullable=True)
+    low = db.Column(db.Float(), nullable=True)
+    close = db.Column(db.Float(), nullable=True)
+    volume = db.Column(db.Float(), nullable=True)
