@@ -6,7 +6,6 @@ import warnings
 warnings.filterwarnings("ignore", category=FutureWarning)
 
 def clear_ohlcv():
-    # Query all of the ticker symbols from stocks table
     stocks = Stocks.query.all()
     for stock in stocks:
         stock.open = None

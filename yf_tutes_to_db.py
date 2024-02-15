@@ -1,5 +1,4 @@
 import yfinance as yf
-import pandas as pd
 from models import Stocks
 from tradelens import app, db
 import warnings
