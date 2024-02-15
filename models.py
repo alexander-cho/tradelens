@@ -57,3 +57,4 @@ class Stocks(db.Model):
     low = db.Column(db.Float(), nullable=True)
     close = db.Column(db.Float(), nullable=True)
     volume = db.Column(db.Float(), nullable=True)
+    institutional_info = db.Column(db.Text(), nullable=True)

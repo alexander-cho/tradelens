@@ -10,5 +10,11 @@
     Low price: ${{ '%.2f'|format(stock.low) }} <br>
     Closing price: ${{ '%.2f'|format(stock.close) }} <br>
     Volume: {{ stock.volume|int }} shares traded<br>
+    Institutional Information: {{ stock.institutional_info }}
+
+
+    <br><br><br><br>
+    (PARSE JSON WITH JINJA2)
+
 
 {% endblock %}

@@ -5,6 +5,16 @@ import warnings
 
 warnings.filterwarnings("ignore", category=FutureWarning)
 
+def clear_ohlcv():
+    # Query all of the ticker symbols from stocks table
+    stocks = Stocks.query.all()
+    for stock in stocks:
+        stock.open = None
+        stock.high = None
+        stock.low = None
+        stock.close = None
+        stock.volume = None
+    db.session.commit()
 
 def populate_ohlcv():
     # query all of the ticker symbols from stocks table
@@ -27,4 +37,5 @@ def populate_ohlcv():
 
 if __name__ == '__main__':
     with app.app_context():
+        clear_ohlcv()
         populate_ohlcv()
