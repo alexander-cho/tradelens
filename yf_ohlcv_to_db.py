@@ -3,8 +3,10 @@ import yfinance as yf
 from tradelens import app, db
 import warnings
 
+
 warnings.filterwarnings("ignore", category=FutureWarning)
 
+#clear data first
 def clear_ohlcv():
     stocks = Stocks.query.all()
     for stock in stocks:
@@ -14,6 +16,7 @@ def clear_ohlcv():
         stock.close = None
         stock.volume = None
     db.session.commit()
+
 
 def populate_ohlcv():
     # query all of the ticker symbols from stocks table

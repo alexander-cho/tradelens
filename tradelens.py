@@ -10,6 +10,7 @@ import uuid as uuid
 import os
 from models import db, Users, Posts, Stocks
 
+
 # create a flask instance
 app = Flask(__name__)
 # add CKEditor
@@ -299,7 +300,7 @@ def register():
 @app.route('/')
 def index():
     alex_name = "alex"
-    stock_list = ["SOFI", "LC", "AFRM", "UPST", 41]
+    stock_list = ["SOFI", "LC", "AFRM", "UPST"]
     return render_template("index.html", alex_name=alex_name, stock_list=stock_list)
 
 @app.route('/user/<name>')
