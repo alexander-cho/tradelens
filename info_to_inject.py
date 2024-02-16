@@ -17,7 +17,7 @@ print(sofi.get_calendar())
 {'Earnings Date': [datetime.date(2024, 4, 29), datetime.date(2024, 5, 3)], 
 'Earnings High': 0.04, 
 'Earnings Low': -0.02, 
-'Earnings Average': 0.01, 
+'Earnings Average': 0.01,
 'Revenue High': 662000000, 
 'Revenue Low': 541900000, 
 'Revenue Average': 568380000}
