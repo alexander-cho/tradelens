@@ -23,6 +23,5 @@ print(sofi.get_calendar())
 'Revenue Average': 568380000}
 '''
 
-# print(sofi.quarterly_financials)
-print(sofi.get_fast_info()['lastVolume']) # this gets live volume??
+print(sofi.get_fast_info()['lastPrice']) # this gets live volume??
 

@@ -33,6 +33,7 @@ def populate_ohlcv():
         stock.low = last_day['Low']
         stock.close = last_day['Close']
         stock.volume = last_day['Volume']
+        stock.last_price = ticker.get_fast_info()['lastPrice']
 
     db.session.commit()
 

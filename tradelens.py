@@ -354,6 +354,7 @@ def name():
         flash("Form submitted successfully")
     return render_template("name.html", name=name, form=form)
 
+
 # display information for each company in the stocks table
 @app.route('/symbol/<symbol>')
 def symbol(symbol):

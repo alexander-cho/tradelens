@@ -8,6 +8,7 @@
     Opening price: ${{ '%.2f'|format(stock.open) }} <br>
     High price: ${{ '%.2f'|format(stock.high) }} <br>
     Low price: ${{ '%.2f'|format(stock.low) }} <br>
+    Last price: ${{ '%.2f'|format(stock.last_price) }} <br>
     Closing price: ${{ '%.2f'|format(stock.close) }} <br>
     Volume: {{ stock.volume|int }} shares traded<br>
     Institutional Information: {{ stock.institutional_info }}
