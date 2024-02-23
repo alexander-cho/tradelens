@@ -1,4 +1,4 @@
-from flask import render_template#, flash, request, url_for, redirect
+from flask import render_template, flash, redirect, url_for#, request
 # from flask_migrate import Migrate
 # from werkzeug.security import generate_password_hash, check_password_hash
 # from datetime import date
@@ -11,6 +11,7 @@ from flask import render_template#, flash, request, url_for, redirect
 # from models import db, Users, Posts, Stocks
 
 from app import app
+from app.forms import LoginForm
 
 
 @app.route('/')
@@ -29,7 +30,28 @@ def index():
     ]
     return render_template('index.html', title='Home', user=user, posts=posts)
 
+# create the login page
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    form = LoginForm()
+    if form.validate_on_submit():
+        flash("Login requested for user {}, password: {}, remember_me={}".format(
+            form.username.data, form.password.data, form.remember_me.data
+        ))
+        return redirect(url_for('index'))
+    #     user = Users.query.filter_by(username = form.username.data).first() # query table to look up username which was submitted in the form and see if it exists
+    #     if user:
+    #         # check the hash
+    #         if check_password_hash(user.password_hash, form.password.data): # compare what's already in the database, what the user just typed into the form
+    #             login_user(user) # log them in
+    #             flash("Login successful")
+    #             return redirect(url_for('dashboard'))
+    #         else:
+    #             flash("Wrong password, try again")
+    #     else:
+    #         flash("That user does not exist")
 
+    return render_template('login.html', title='Log In', form=form) # template with the name 'form'='form' object created above
 
 
 # # add CKEditor
@@ -88,23 +110,6 @@ def index():
 #         posts = posts.order_by(Posts.title).all() # return the results by title
 #         return render_template("search.html", form=form, searched=post.searched, posts=posts)
 
-# # create the login page
-# @app.route('/login', methods=['GET', 'POST'])
-# def login():
-#     form = LoginForm()
-#     if form.validate_on_submit():
-#         user = Users.query.filter_by(username = form.username.data).first() # query table to look up username which was submitted in the form and see if it exists
-#         if user:
-#             # check the hash
-#             if check_password_hash(user.password_hash, form.password.data): # compare what's already in the database, what the user just typed into the form
-#                 login_user(user) # log them in
-#                 flash("Login successful")
-#                 return redirect(url_for('dashboard'))
-#             else:
-#                 flash("Wrong password, try again")
-#         else:
-#             flash("That user does not exist")
-#     return render_template("login.html", form=form)
 
 # # log out
 # @app.route('/logout', methods=['GET', 'POST'])
