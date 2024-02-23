@@ -1,50 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    {% if title %}
-        <title>{{ title }} - TradeLens</title>
-    {% else %}
-        <title>Welcome to TradeLens</title>
-    {% endif %}
-</head>
-<body>
+{% extends 'base.html' %}
+
+{% block content %}
+
     <h1>Hello, {{ user.username }}!</h1>
     {% for post in posts %}
         <div><p>{{ post.author.username }} posted this: <b>{{ post.body }}</b> </div></p>
     {% endfor %}
-</body>
-</html>
 
-
-
-
-
-
-
-
-
-{#% extends 'base.html' %#}
-
-{#% block content %}
-
-    <h1>Hello</h1>
-
-    <p>this is TradeLens.</p>
-
-    <p>This is {{ alex_name }}</p>
-
-    <h2>This is a fintech stock list. 
-    </h2>
-    {% for stock in stock_list %}
-        {% if stock == 41%}
-            {{ stock + 100 }}<br/>
-        {% else %}
-            {{ stock }}<br/>
-        
-        {% endif %}
-
-    {% endfor %}
-
-{% endblock %#}
+{% endblock %}
