@@ -6,6 +6,7 @@ from typing import Optional
 import sqlalchemy as sa
 import sqlalchemy.orm as so
 from app import db
+from datetime import datetime, timezone
 
 
 
@@ -19,27 +20,22 @@ class User(db.Model):
     # about_author = db.Column(db.Text(), nullable=True)
     # date_added = db.Column(db.DateTime, default=datetime.utcnow)
     # profile_pic = db.Column(db.String(), nullable=True)
-    # # passwords
-    # password_hash = db.Column(db.String(128))
-    # # User can have many posts
-    # posts = db.relationship('Posts', backref = 'poster') # uppercase since referencing the Posts class, not a call to the database
+    # User can have many posts
+    posts: so.WriteOnlyMapped['Post'] = so.relationship(back_populates='author')
+
     def __repr__(self) -> str:
         return '<User {}>'.format(self.username)
+    
+# create post model
+class Post(db.Model):
+    id: so.Mapped[int] = so.mapped_column(primary_key=True)
+    title: so.Mapped[str] = so.mapped_column(sa.String(255), index=True)
+    content: so.Mapped[str] = so.mapped_column(sa.Text())
+    # slug = db.Column(db.String(255))
+    timestamp: so.Mapped[datetime] = so.mapped_column(index=True, default=lambda: datetime.now(timezone.utc))
+    user_id: so.Mapped[int] = so.mapped_column(sa.ForeignKey(User.id), index=True) # foreign key to link user_id which refers to the primary key id from the User model
 
-# # initialize database
-# db = SQLAlchemy() #(now in __init__.py)
-
-# # create posts model
-# class Posts(db.Model):
-#     id = db.Column(db.Integer, primary_key=True)
-#     title = db.Column(db.String(255))
-#     content = db.Column(db.Text)
-#     # author = db.Column(db.String(255))
-#     date_posted = db.Column(db.DateTime, default=datetime.utcnow)
-#     slug = db.Column(db.String(255))
-#     # create a foreign key to link users which will refer to the primary key from the Users model
-#     poster_id = db.Column(db.Integer, db.ForeignKey('users.id')) # lowercase, referring to the table
-
+    author: so.Mapped[User] = so.relationship(back_populates='posts')
 
 
 #     @property
@@ -53,9 +49,12 @@ class User(db.Model):
 #     def verify_password(self, password):
 #         return check_password_hash(self.password_hash, password) 
 
-#     # create string representiation
-#     def __repr__(self) -> str:
-#         return '<Name %r>' % self.name
+    # create string representiation
+    def __repr__(self) -> str:
+        return '<Post {}>'.format(self.content)
+
+# # initialize database
+# db = SQLAlchemy() #(now in __init__.py)
     
 # # create stocks model
 # class Stocks(db.Model):
