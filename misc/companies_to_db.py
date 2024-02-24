@@ -4,7 +4,7 @@ the first two columns
 '''
 
 
-from models import Stocks
+from app.models import Stocks
 from tradelens import app, db
 import csv
 

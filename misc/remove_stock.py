@@ -1,4 +1,4 @@
-from models import Stocks
+from app.models import Stocks
 from tradelens import app, db
 # from add_stock import stock_exists
 

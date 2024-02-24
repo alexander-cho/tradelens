@@ -56,19 +56,20 @@ def login():
 
 # # add CKEditor
 # ckeditor = CKEditor(app)
+
 # # add database
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///tradelens.db'
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///tradelens.db' #(now in config.py)
 
 # # secret key
-# app.config['SECRET_KEY'] = "e07b43t"
+# app.config['SECRET_KEY'] = "e07b43t" #(now in config.py)
 
 # UPLOAD_FOLDER = 'static/images'
 # app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 # # Initialize the database with the Flask app
-# db.init_app(app)
+# db.init_app(app) #(now in __init__.py) 
 # # migrate database
-# migrate = Migrate(app, db)
+# migrate = Migrate(app, db) #(now in __init__.py)
 
 # # Flask_Login
 # login_manager = LoginManager()
