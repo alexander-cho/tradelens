@@ -16,7 +16,7 @@ from app.forms import LoginForm, RegistrationForm
 
 @app.route('/')
 @app.route('/index')
-@login_required
+# @login_required
 def index():
     posts = [ # posts mock object
         {
@@ -76,6 +76,17 @@ def register():
         flash('Your account has been created')
         return redirect(url_for('login'))
     return render_template('register.html', title='Register', form=form)
+
+
+@app.route('/user/<username>')
+@login_required
+def user(username):
+    user = User.query.filter_by(username=username).first_or_404()
+    posts = [
+        {'author': user, 'body': 'Test post #1'},
+        {'author': user, 'body': 'Test post #2'}
+    ]
+    return render_template('user.html', user=user, posts=posts)
 
 
 # # add CKEditor
@@ -315,10 +326,6 @@ def register():
 #     else:
 #         return render_template("update.html", form=form, name_to_update=name_to_update, id=id)
 
-
-# @app.route('/user/<name>')
-# def user(name):
-#     return render_template("user.html", name=name)
 
 # # custom error pages
 

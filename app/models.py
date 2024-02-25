@@ -8,6 +8,7 @@ import sqlalchemy as sa
 import sqlalchemy.orm as so
 from app import db
 from datetime import datetime, timezone
+from hashlib import md5
 
 
 @login_manager.user_loader
@@ -35,6 +36,10 @@ class User(db.Model, UserMixin):
 
     def __repr__(self) -> str:
         return '<User {}>'.format(self.username)
+    
+    def avatar(self, size):
+        digest = md5(self.email.lower().encode('utf-8')).hexdigest()
+        return f'https://www.gravatar.com/avatar/{digest}?d=identicon&s={size}' # url of user's avatar image
     
 # create post model
 class Post(db.Model):

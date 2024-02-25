@@ -1,0 +1,8 @@
+<!-- This sub template will take care of rendering the layout of each post. -->
+
+<table>
+    <tr valign="top">
+        <td><img src="{{ post.author.avatar(36) }}" alt=""></td> 
+        <td>{{ post.author.username }} says: <br>{{ post.body }} <br></td>
+    </tr>
+</table>
