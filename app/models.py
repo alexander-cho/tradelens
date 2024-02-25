@@ -1,6 +1,7 @@
+from app import login_manager
 # from datetime import datetime
-# from flask_login import UserMixin
-# from werkzeug.security import generate_password_hash, check_password_hash
+from flask_login import UserMixin
+from werkzeug.security import generate_password_hash, check_password_hash
 # from flask_sqlalchemy import SQLAlchemy
 from typing import Optional
 import sqlalchemy as sa
@@ -9,9 +10,12 @@ from app import db
 from datetime import datetime, timezone
 
 
+@login_manager.user_loader
+def load_user(id): # Flask-Login passes id argument as string
+    return db.session.get(User, int(id))
 
 # create user model
-class User(db.Model):
+class User(db.Model, UserMixin):
     id: so.Mapped[int] = so.mapped_column(primary_key=True)
     username: so.Mapped[str] = so.mapped_column(sa.String(64), index=True, unique=True)
     email: so.Mapped[str] = so.mapped_column(sa.String(120), index=True, unique=True)
@@ -22,6 +26,12 @@ class User(db.Model):
     # profile_pic = db.Column(db.String(), nullable=True)
     # User can have many posts
     posts: so.WriteOnlyMapped['Post'] = so.relationship(back_populates='author')
+
+    def set_password(self, password):
+        self.password_hash = generate_password_hash(password)
+
+    def check_password(self, password):
+        return check_password_hash(self.password_hash, password) # compare hash with user entered value
 
     def __repr__(self) -> str:
         return '<User {}>'.format(self.username)

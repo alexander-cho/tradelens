@@ -1,10 +1,10 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField#, ValidationError, TextAreaField
-from wtforms.validators import DataRequired#, EqualTo, Length
+from wtforms.validators import ValidationError, DataRequired, Email, EqualTo#, Length
 # from wtforms.widgets import TextArea
 # from flask_ckeditor import CKEditorField
 # from flask_wtf.file import FileField
-
+from app.models import User
 
 
 # create login form
@@ -12,7 +12,30 @@ class LoginForm(FlaskForm):
     username = StringField("Username", validators=[DataRequired()])
     password = PasswordField("Password", validators=[DataRequired()])
     remember_me = BooleanField("Remember me")
-    submit = SubmitField("Submit")
+    submit = SubmitField("Log in")
+
+
+# create registration form
+class RegistrationForm(FlaskForm):
+    username = StringField("Username", validators=[DataRequired()])
+    email = StringField("Email", validators=[DataRequired(), Email()])
+    password_hash = PasswordField("Password", validators=[DataRequired()])
+    password_hash2 = PasswordField("Confirm Password", validators=[DataRequired(), EqualTo('password_hash', message="Passwords must match")])
+#     profile_pic = FileField("Profile Pic")
+    submit = SubmitField("Register")
+
+    def validate_username(self, username):
+        user = User.query.filter_by(username = username.data).first() # check if the username exists in the database
+        if user is not None:
+            raise ValidationError("Username already registered, please use a different username")
+        
+    def validate_email(self, email):
+        user = User.query.filter_by(email = email.data).first() # check if the email exists in the database
+        if user is not None:
+            raise ValidationError("Email already registered, please use a different email address")
+
+
+
 
 # # posts form
 # class PostForm(FlaskForm):
@@ -23,17 +46,6 @@ class LoginForm(FlaskForm):
 #     slug = StringField("Slug", validators=[DataRequired()])
 #     submit = SubmitField("Submit")
 
-# # create a form class
-# class user_form(FlaskForm):
-#     name = StringField("Name", validators=[DataRequired()])
-#     username = StringField("Username", validators=[DataRequired()])
-#     email = StringField("Email", validators=[DataRequired()])
-#     favorite_stock = StringField("Favorite Stock") # no validator, ok if blank
-#     about_author = TextAreaField("About Author")
-#     password_hash = PasswordField("Password", validators=[DataRequired(), EqualTo('password_hash2', message="Passwords must match")])
-#     password_hash2 = PasswordField("Confirm Password", validators=[DataRequired()])
-#     profile_pic = FileField("Profile Pic")
-#     submit = SubmitField("Submit")
 
 # class name_form(FlaskForm):
 #     name = StringField("What is your name? ", validators=[DataRequired()])

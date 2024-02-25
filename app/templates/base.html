@@ -17,7 +17,11 @@
         <div>
             TradeLens: 
             <a href="{{ url_for('index') }}">Home</a>
+            {% if current_user.is_anonymous %}
             <a href="{{ url_for('login') }}">Log in</a>
+            {% else %}
+            <a href="{{ url_for('logout')}}">Log out</a>
+            {% endif %}
         </div>
         {#% include 'navbar.html' %#}
         <br/> <hr>
@@ -25,7 +29,7 @@
         {% if messages %} <!-- check if messages has some content -->
         <ul>
             {% for message in messages %}
-                {{ message }}
+                {{ message }} <br>
             {% endfor %}
         </ul>
         {% endif %}

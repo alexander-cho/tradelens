@@ -2,13 +2,6 @@
 
 {% block content %}
 
-{#% for message in get_flashed_messages() %}
-    <div class="alert alert-success fade show" role="alert">
-        {{ message }}
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-{% endfor %#}
-
 <h1>Login</h1>
 <div class="shadow p-3 mb-5 bg-body rounded">
     <form action="" method="POST" nonvalidate>
@@ -23,11 +16,16 @@
         <p>
             {{ form.password.label(class="form-label") }} <br>
             {{ form.password(class="form-control") }}
+            {% for error in form.password.errors %}
+                <span style="color: red">[{{ error }}]</span>
+            {% endfor %}
         </p>
         <p>{{ form.remember_me() }} {{ form.remember_me.label }}</p>
         <p>{{ form.submit() }}</p>
     </form>
 </div>
+
+<p>Don't have an account?<a href="{{ url_for('register')}}">Click here to register</a></p>
 
 
 {% endblock %}

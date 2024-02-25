@@ -2,56 +2,82 @@ from flask import render_template, flash, redirect, url_for#, request
 # from flask_migrate import Migrate
 # from werkzeug.security import generate_password_hash, check_password_hash
 # from datetime import date
-# from flask_login import login_user, LoginManager, login_required, logout_user, current_user
+from flask_login import login_user, current_user, logout_user, login_required#, LoginManager
 # from forms import LoginForm, PostForm, user_form, name_form, password_form, SearchForm
 # from flask_ckeditor import CKEditor
 # from werkzeug.utils import secure_filename
 # import uuid as uuid
 # import os
-# from models import db, Users, Posts, Stocks
-
 from app import app
-from app.forms import LoginForm
+from app import db
+from app.models import User
+from app.forms import LoginForm, RegistrationForm
 
 
 @app.route('/')
 @app.route('/index')
+@login_required
 def index():
-    user = {'username': 'Alex'} # user mock object
     posts = [ # posts mock object
         {
             'author': {'username': 'Chris'},
-            'body' : 'great day today'
+            'content' : 'great day today'
         }, 
         {
             'author': {'username': 'Bob'},
-            'body': 'great day.'
+            'content': 'great day.'
         }
     ]
-    return render_template('index.html', title='Home', user=user, posts=posts)
+    return render_template('index.html', title='Home', posts=posts)
 
 # create the login page
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    if current_user.is_authenticated:
+        return redirect(url_for('index')) # return to index page if already logged in
     form = LoginForm()
     if form.validate_on_submit():
-        flash("Login requested for user {}, password: {}, remember_me={}".format(
-            form.username.data, form.password.data, form.remember_me.data
-        ))
-        return redirect(url_for('index'))
-    #     user = Users.query.filter_by(username = form.username.data).first() # query table to look up username which was submitted in the form and see if it exists
-    #     if user:
-    #         # check the hash
-    #         if check_password_hash(user.password_hash, form.password.data): # compare what's already in the database, what the user just typed into the form
-    #             login_user(user) # log them in
-    #             flash("Login successful")
-    #             return redirect(url_for('dashboard'))
-    #         else:
-    #             flash("Wrong password, try again")
-    #     else:
-    #         flash("That user does not exist")
+        user = User.query.filter_by(username = form.username.data).first() # query table to look up username which was submitted in the form and see if it exists
+        if user: # if the user exists
+            # check the hash
+            if user.check_password(form.password.data): # compare what's already in the database with what the user just typed into the form
+                login_user(user, remember=form.remember_me.data) # log them in
+                flash("Login successful")
+                return redirect(url_for('index')) 
+            else:
+                flash("Wrong password, try again")
+                return redirect(url_for('login'))
+        else:
+            flash("That user does not exist")
 
     return render_template('login.html', title='Log In', form=form) # template with the name 'form'='form' object created above
+
+
+# log out
+@app.route('/logout')#, methods=['GET', 'POST'])
+@login_required
+def logout():
+    logout_user()
+    flash("You have been logged out")
+    return redirect(url_for('index'))
+
+
+# register a user
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    if current_user.is_authenticated:
+        return redirect(url_for('index')) # return to index page if already logged in
+    form = RegistrationForm()
+    if form.validate_on_submit():
+        user = User(username=form.username.data, email=form.email.data)
+        user.set_password(form.password_hash.data)
+        db.session.add(user)
+        db.session.commit()
+        flash('Your account has been created')
+        return redirect(url_for('login'))
+    else:
+        flash("Could not register")
+    return render_template('register.html', title='Register', form=form)
 
 
 # # add CKEditor
@@ -72,7 +98,7 @@ def login():
 # migrate = Migrate(app, db) #(now in __init__.py)
 
 # # Flask_Login
-# login_manager = LoginManager()
+# login_manager = LoginManager() #(these are now in __init__.py)
 # login_manager.init_app(app)
 # login_manager.login_view = 'login'
 
@@ -111,14 +137,6 @@ def login():
 #         posts = posts.order_by(Posts.title).all() # return the results by title
 #         return render_template("search.html", form=form, searched=post.searched, posts=posts)
 
-
-# # log out
-# @app.route('/logout', methods=['GET', 'POST'])
-# @login_required
-# def logout():
-#     logout_user()
-#     flash("You have been logged out")
-#     return redirect(url_for('login'))
 
     
 # # create initial dashboard page
@@ -299,28 +317,6 @@ def login():
 #     else:
 #         return render_template("update.html", form=form, name_to_update=name_to_update, id=id)
 
-# # add a user to database
-# @app.route('/user/register', methods=['GET', 'POST'])
-# def register():
-#     name = None
-#     form = user_form()
-#     if form.validate_on_submit():
-#         user = Users.query.filter_by(email=form.email.data).first() # this should return None, since all email addresses are unique
-#         if user is None:
-#             # Hash the password
-#             hashed_pw = generate_password_hash(form.password_hash.data)
-#             user = Users(name = form.name.data, username = form.username.data, email = form.email.data, favorite_stock = form.favorite_stock.data, password_hash=hashed_pw )
-#             db.session.add(user)
-#             db.session.commit()
-#         name = form.name.data
-#         form.name.data = ''
-#         form.username.data = ''
-#         form.email.data = ''
-#         form.favorite_stock.data = ''
-#         form.password_hash.data = ''
-#         flash('Your account has been created')
-#     our_users = Users.query.order_by(Users.date_added) # chronological order of account created
-#     return render_template("register.html", form=form, name=name, our_users=our_users)
 
 # @app.route('/user/<name>')
 # def user(name):
