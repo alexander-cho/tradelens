@@ -75,8 +75,6 @@ def register():
         db.session.commit()
         flash('Your account has been created')
         return redirect(url_for('login'))
-    else:
-        flash("Could not register")
     return render_template('register.html', title='Register', form=form)
 
 
