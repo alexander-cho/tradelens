@@ -352,18 +352,6 @@ def edit_profile():
 #         return render_template("update.html", form=form, name_to_update=name_to_update, id=id)
 
 
-# # custom error pages
-
-# # invalid URL
-# @app.errorhandler(404)
-# def page_not_found(e):
-#     return render_template("404.html")
-
-# #internal server error
-# @app.errorhandler(500)
-# def page_not_found(e):
-#     return render_template("500.html")
-
 # # Create password test page
 # @app.route('/test_pw', methods=['GET', 'POST'])
 # def test_pw():
