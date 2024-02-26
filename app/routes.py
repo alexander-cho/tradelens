@@ -1,4 +1,4 @@
-from flask import render_template, flash, redirect, url_for#, request
+from flask import render_template, flash, redirect, url_for, request
 # from flask_migrate import Migrate
 # from werkzeug.security import generate_password_hash, check_password_hash
 # from datetime import date
@@ -11,7 +11,15 @@ from flask_login import login_user, current_user, logout_user, login_required#, 
 from app import app
 from app import db
 from app.models import User
-from app.forms import LoginForm, RegistrationForm
+from app.forms import LoginForm, RegistrationForm, EditProfileForm
+from datetime import datetime, timezone
+
+
+@app.before_request
+def before_request():
+    if current_user.is_authenticated: # if current_user is logged in
+        current_user.last_seen = datetime.now(timezone.utc) # set last seen field to current time
+        db.session.commit()
 
 
 @app.route('/')
@@ -69,7 +77,7 @@ def register():
         return redirect(url_for('index')) # return to index page if already logged in
     form = RegistrationForm()
     if form.validate_on_submit():
-        user = User(username=form.username.data, email=form.email.data)
+        user = User(username=form.username.data, email=form.email.data, date_joined=datetime.now(timezone.utc))
         user.set_password(form.password_hash.data)
         db.session.add(user)
         db.session.commit()
@@ -87,6 +95,23 @@ def user(username):
         {'author': user, 'body': 'Test post #2'}
     ]
     return render_template('user.html', user=user, posts=posts)
+
+
+@app.route('/edit_profile', methods=['GET', 'POST'])
+@login_required
+def edit_profile():
+    form = EditProfileForm()
+    if form.validate_on_submit():
+        current_user.username = form.username.data
+        current_user.about_me = form.about_me.data
+        db.session.commit()
+        flash("Your information has been updated")
+        return redirect(url_for('user', username=current_user.username))
+    elif request.method == 'GET':
+        form.username.data = current_user.username
+        form.about_me.data = current_user.about_me
+    return render_template('edit_profile.html', title='Edit Profile', form=form)
+        
 
 
 # # add CKEditor

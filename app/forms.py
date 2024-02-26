@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField#, ValidationError, TextAreaField
-from wtforms.validators import ValidationError, DataRequired, Email, EqualTo#, Length
+from wtforms import StringField, PasswordField, BooleanField, SubmitField, TextAreaField
+from wtforms.validators import ValidationError, DataRequired, Email, EqualTo, Length
 # from wtforms.widgets import TextArea
 # from flask_ckeditor import CKEditorField
 # from flask_wtf.file import FileField
@@ -35,6 +35,11 @@ class RegistrationForm(FlaskForm):
             raise ValidationError("Email already registered, please use a different email address")
 
 
+# create a form for user to edit profile
+class EditProfileForm(FlaskForm):
+    username = StringField('Username', validators=[DataRequired()])
+    about_me = TextAreaField('About me', validators=[Length(min=0, max=200)])
+    submit = SubmitField('Confirm changes')
 
 
 # # posts form
