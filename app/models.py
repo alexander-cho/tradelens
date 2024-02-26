@@ -41,6 +41,7 @@ class User(db.Model, UserMixin):
         digest = md5(self.email.lower().encode('utf-8')).hexdigest()
         return f'https://www.gravatar.com/avatar/{digest}?d=identicon&s={size}' # url of user's avatar image
     
+    
 # create post model
 class Post(db.Model):
     id: so.Mapped[int] = so.mapped_column(primary_key=True)
