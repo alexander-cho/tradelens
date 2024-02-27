@@ -11,9 +11,21 @@ from datetime import datetime, timezone
 from hashlib import md5
 
 
+# allow Flask-Login to manage user sessions and authentication
 @login_manager.user_loader
 def load_user(id): # Flask-Login passes id argument as string
     return db.session.get(User, int(id))
+
+
+# followers association table which User model will reference
+followers = sa.Table(
+    'followers', 
+    db.metadata,
+    sa.Column('follower_id', sa.Integer, sa.ForeignKey('user.id'), primary_key=True),
+    sa.Column('following_id', sa.Integer, sa.ForeignKey('user.id'), primary_key=True)
+    # both foreign keys marked as primary keys since the pair creates a unique combination
+)
+
 
 # create user model
 class User(db.Model, UserMixin):
@@ -40,6 +52,20 @@ class User(db.Model, UserMixin):
     def avatar(self, size):
         digest = md5(self.email.lower().encode('utf-8')).hexdigest()
         return f'https://www.gravatar.com/avatar/{digest}?d=identicon&s={size}' # url of user's avatar image
+    
+    following: so.WriteOnlyMapped['User'] = so.relationship(
+        secondary=followers,
+        primaryjoin=(followers.c.follower_id == id),
+        secondaryjoin=(followers.c.following_id == id),
+        back_populates='followers'
+    )
+    followers: so.WriteOnlyMapped['User'] = so.relationship(
+        secondary=followers,
+        primaryjoin=(followers.c.following_id == id),
+        secondaryjoin=(followers.c.follower_id == id),
+        back_populates='following'
+    )
+
     
     
 # create post model
