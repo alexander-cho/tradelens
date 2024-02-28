@@ -82,7 +82,7 @@ def register():
         user.set_password(form.password_hash.data)
         db.session.add(user)
         db.session.commit()
-        flash('Your account has been created')
+        flash("Your account has been created")
         return redirect(url_for('login'))
     return render_template('register.html', title='Register', form=form)
 
@@ -97,7 +97,7 @@ def user(username):
         {'author': user, 'body': 'Test post #1'},
         {'author': user, 'body': 'Test post #2'}
     ]
-    return render_template('user.html', user=user, posts=posts, form=form)
+    return render_template('user.html', title=f'{user.username}', user=user, posts=posts, form=form)
 
 
 # edit your profile
@@ -433,14 +433,15 @@ def unfollow(username):
 #     return render_template("name.html", name=name, form=form)
 
 
-# # display information for each company in the stocks table
-# @app.route('/symbol/<symbol>')
-# def symbol(symbol):
-#     stock = Stocks.query.filter_by(ticker_symbol=symbol).first()
-#     if stock:
-#         return render_template("symbol.html", stock=stock)
-#     else:
-#         return render_template("404.html")
+# display information for each company in the stocks table
+@app.route('/symbol/<symbol>')
+def symbol(symbol):
+    # stock = Stocks.query.filter_by(ticker_symbol=symbol).first()
+    # if stock:
+    #     return render_template("symbol.html", stock=stock)
+    # else:
+    #     return render_template("404.html")
+    return f"This is the page for {symbol}"
 
 
 # # if __name__ == '__main__':

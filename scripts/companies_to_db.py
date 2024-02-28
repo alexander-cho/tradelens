@@ -5,7 +5,7 @@ the first two columns
 
 
 from app.models import Stocks
-from tradelens import app, db
+from app import app, db
 import csv
 
 

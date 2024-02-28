@@ -2,7 +2,6 @@ from app import login_manager
 # from datetime import datetime
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
-# from flask_sqlalchemy import SQLAlchemy
 from typing import Optional
 import sqlalchemy as sa
 import sqlalchemy.orm as so
@@ -114,33 +113,20 @@ class Post(db.Model):
     author: so.Mapped[User] = so.relationship(back_populates='posts')
 
 
-#     @property
-#     def password(self):
-#         raise AttributeError('Password is not a a readable attribute')
-    
-#     @password.setter
-#     def password(self, password):
-#         self.password_hash = generate_password_hash(password)
-
-#     def verify_password(self, password):
-#         return check_password_hash(self.password_hash, password) 
-
     # create string representiation
     def __repr__(self) -> str:
         return '<Post {}>'.format(self.content)
-
-# # initialize database
-# db = SQLAlchemy() #(now in __init__.py)
     
-# # create stocks model
-# class Stocks(db.Model):
-#     id = db.Column(db.Integer, primary_key=True)
-#     ticker_symbol = db.Column(db.String(10), nullable=False, unique=True)
-#     company_name = db.Column(db.String(100), nullable=False)
-#     open = db.Column(db.Float(), nullable=True)
-#     high = db.Column(db.Float(), nullable=True)
-#     low = db.Column(db.Float(), nullable=True)
-#     close = db.Column(db.Float(), nullable=True)
-#     volume = db.Column(db.Float(), nullable=True)
-#     institutional_info = db.Column(db.Text(), nullable=True)
-#     last_price = db.Column(db.Float(), nullable=True)
+    
+# create stocks model
+class Stocks(db.Model):
+    id: so.Mapped[int] = so.mapped_column(primary_key=True)
+    ticker_symbol: so.Mapped[str] = so.mapped_column(sa.String(10), index=True, unique=True)
+    company_name: so.Mapped[str] = so.mapped_column(sa.String(100), index=True)
+    open: so.Mapped[Optional[int]] = so.mapped_column(sa.Float())
+    high: so.Mapped[Optional[int]] = so.mapped_column(sa.Float())
+    low: so.Mapped[Optional[int]] = so.mapped_column(sa.Float())
+    close: so.Mapped[Optional[int]] = so.mapped_column(sa.Float())
+    volume: so.Mapped[Optional[int]] = so.mapped_column(sa.Float())
+    institutional_info: so.Mapped[Optional[str]] = so.mapped_column(sa.Text())
+    last_price: so.Mapped[Optional[int]] = so.mapped_column(sa.Float())
