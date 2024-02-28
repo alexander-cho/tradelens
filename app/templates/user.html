@@ -11,9 +11,18 @@
                 {% if user.about_me %} {{ user.about_me }} {% endif %} <br>
                 {% if user.last_seen %} Last seen on: {{ user.last_seen }} {% endif %} <br>
                 {% if user.date_joined %} Date joined: {{ user.date_joined }} {% endif %} <br>
-                <!-- Option to edit only if it is your own profile-->
-                {% if user == current_user %}
+                {% if user == current_user %} <!-- Option to edit only if it is your own profile-->
                     <a href="{{ url_for('edit_profile') }}">Edit Profile</a>
+                {% elif not current_user.is_following(user) %}
+                    <form action="{{ url_for('follow', username=user.username) }}" method="post">
+                        {{ form.hidden_tag() }}
+                        {{ form.submit(value='Follow')}}
+                    </form>
+                {% else %}
+                    <form action="{{ url_for('unfollow', username=user.username) }}" method="post">
+                        {{ form.hidden_tag() }}
+                        {{ form.submit(value='Unfollow')}}
+                    </form>
                 {% endif %}
             </td>
         </tr>

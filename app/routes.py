@@ -10,8 +10,9 @@ from flask_login import login_user, current_user, logout_user, login_required#, 
 # import os
 from app import app
 from app import db
+import sqlalchemy as sa
 from app.models import User
-from app.forms import LoginForm, RegistrationForm, EditProfileForm
+from app.forms import LoginForm, RegistrationForm, EditProfileForm, EmptyForm
 from datetime import datetime, timezone
 
 
@@ -86,17 +87,20 @@ def register():
     return render_template('register.html', title='Register', form=form)
 
 
+# user profile
 @app.route('/user/<username>')
 @login_required
 def user(username):
     user = User.query.filter_by(username=username).first_or_404()
+    form = EmptyForm()
     posts = [
         {'author': user, 'body': 'Test post #1'},
         {'author': user, 'body': 'Test post #2'}
     ]
-    return render_template('user.html', user=user, posts=posts)
+    return render_template('user.html', user=user, posts=posts, form=form)
 
 
+# edit your profile
 @app.route('/edit_profile', methods=['GET', 'POST'])
 @login_required
 def edit_profile():
@@ -112,6 +116,47 @@ def edit_profile():
         form.about_me.data = current_user.about_me
     return render_template('edit_profile.html', title='Edit Profile', form=form)
         
+
+# follow a user
+@app.route('/follow/<username>', methods=['POST'])
+@login_required
+def follow(username):
+    form = EmptyForm()
+    if form.validate_on_submit():
+        user = db.session.scalar(sa.select(User).where(User.username == username)) # query user to follow
+        if user is None: # if they don't exist in the database
+            flash("User not found")
+            return redirect(url_for('index'))
+        if user == current_user: # if it is yourself
+            flash("You can't follow yourself")
+            return redirect(url_for('user', username=username))
+        current_user.follow(user)
+        db.session.commit()
+        flash(f"You are now following {username}")
+        return redirect(url_for('user', username=username))
+    else:
+        return redirect(url_for('index'))
+    
+
+# unfollow a user
+@app.route('/unfollow/<username>', methods=['POST'])
+@login_required
+def unfollow(username):
+    form = EmptyForm()
+    if form.validate_on_submit():
+        user = db.session.scalar(sa.select(User).where(User.username == username))
+        if user is None:
+            flash("User not found")
+            return redirect(url_for('index'))
+        if user == current_user:
+            flash("You can't unfollow yourself")
+            return redirect(url_for('user', username=username))
+        current_user.unfollow(user)
+        db.session.commit()
+        flash(f"You have unfollowed {username}")
+        return redirect(url_for('user', username=username))
+    else:
+        return redirect(url_for('index'))
 
 
 # # add CKEditor
