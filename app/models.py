@@ -53,6 +53,7 @@ class User(db.Model, UserMixin):
         digest = md5(self.email.lower().encode('utf-8')).hexdigest()
         return f'https://www.gravatar.com/avatar/{digest}?d=identicon&s={size}' # url of user's avatar image
     
+    # followers relationship
     following: so.WriteOnlyMapped['User'] = so.relationship(
         secondary=followers,
         primaryjoin=(followers.c.follower_id == id),
@@ -66,8 +67,41 @@ class User(db.Model, UserMixin):
         back_populates='following'
     )
 
-    
-    
+    def is_following(self, user) -> bool:
+        # select rows from following relationship associated with current user where
+        # id of the user in the following relationship == id of user passed as param
+        query = self.following.select().where(User.id == user.id)
+        return db.session.scalar(query) is not None
+
+    def follow(self, user):
+        if not self.is_following(user): # if they aren't following yet
+            self.following.add(user)
+
+    def unfollow(self, user):
+        if self.is_following(user):
+            self.following.remove(user)
+
+    def followers_count(self) -> int:
+        pass
+
+    def following_count(self) -> int:
+        pass
+
+    def following_posts(self):
+        Author = so.aliased(User)
+        Follower = so.aliased(User)
+        return (
+            sa.select(Post)
+            .join(Post.author.of_type(Author))
+            .join(Author.follower.of_type(Follower), isouter=True)
+            .where(sa.or_(
+                Follower.id == self.id,
+                Author.id == self.id # get own posts as well
+            ))
+            .group_by(Post)
+            .order_by(Post.timestamp.desc()) # get most recent posts first
+        )
+
 # create post model
 class Post(db.Model):
     id: so.Mapped[int] = so.mapped_column(primary_key=True)
