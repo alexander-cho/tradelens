@@ -1,12 +1,25 @@
 {% extends 'base.html' %}
 
 {% block content %}
+
     {% if current_user.is_authenticated %}
         <h1>Hello, {{ current_user.username }}!</h1>
     {% endif %}
     
     {% for post in posts %}
-        <div><p>{{ post.author.username }} posted this: <b>{{ post.content }}</b> </div></p>
+    <img src="{{ post.author.avatar(36) }}" alt="">
+    {{ post.author.username }} <br>
+    <a href="{{ url_for('symbol', symbol=post.title) }}">{{ post.title }}</a> <br> 
+    Posted on: {{ post.timestamp }} <br>
+    {{ post.content | safe }} <br>
+    <!-- <a href="{# {{ url_for('post', id=post.id) }} #}" class="btn btn-outline-primary btn-sm">Click to View</a> -->
+
+    {#% if current_user.id == post.poster_id %}
+        <a href="{{ url_for('edit_post', id = post.id) }}" class="btn btn-outline-primary btn-sm">Edit Post</a>
+        <a href="{{ url_for('delete_post', id = post.id) }}" class="btn btn-outline-danger btn-sm">Delete Post</a>
+    {% endif %#}
+    <br><br>
+
     {% endfor %}
 
 {% endblock %}

@@ -20,5 +20,10 @@
 
     {% include 'add_post.html' %}
 
+    <br><br>
+    {% for post in posts %}
+        {% include '_post.html' %}
+    {% endfor %}
+
 
 {% endblock %}

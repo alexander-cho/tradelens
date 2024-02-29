@@ -27,16 +27,7 @@ def before_request():
 @app.route('/index')
 # @login_required
 def index():
-    posts = [ # posts mock object
-        {
-            'author': {'username': 'Chris'},
-            'content' : 'great day today'
-        }, 
-        {
-            'author': {'username': 'Jin'},
-            'content': 'great day.'
-        }
-    ]
+    posts = Post.query.order_by(Post.timestamp)
     return render_template('index.html', title='Home', posts=posts)
 
 # create the login page
@@ -93,10 +84,7 @@ def register():
 def user(username):
     user = User.query.filter_by(username=username).first_or_404()
     form = EmptyForm()
-    posts = [
-        {'author': user, 'body': 'Test post #1'},
-        {'author': user, 'body': 'Test post #2'}
-    ]
+    posts = Post.query.order_by(Post.timestamp).where(Post.user_id == user.id)
     return render_template('user.html', title=f'{user.username}', user=user, posts=posts, form=form)
 
 
@@ -157,6 +145,32 @@ def unfollow(username):
         return redirect(url_for('user', username=username))
     else:
         return redirect(url_for('index'))
+
+# add posts page
+@app.route('/add_post', methods=['GET', 'POST'])
+# @login_required
+def add_post():
+    form = PostForm()
+    if form.validate_on_submit():
+        post = Post(title=form.title.data, content=form.content.data, timestamp=datetime.now(timezone.utc), user_id=current_user.id)
+        # clear form
+        form.title.data = ''
+        form.content.data = ''
+        # form.author.data = ''
+        # form.slug.data = ''
+        #add post to database
+        db.session.add(post)
+        db.session.commit()
+        flash("Your post has been submitted")
+        return redirect(url_for('posts'))
+    return render_template('add_post.html', form=form)
+
+
+@app.route('/posts') #this will potentially become home page content
+def posts():
+    # grab all posts from the database
+    posts = Post.query.order_by(Post.timestamp) # query by chronological order, from the Posts model.
+    return render_template('posts.html', posts=posts)
 
 
 # # add CKEditor
@@ -281,12 +295,6 @@ def unfollow(username):
 #         return render_template("posts.html", posts=posts) 
 
 
-@app.route('/posts') #this will potentially become home page content
-def posts():
-    # grab all posts from the database
-    posts = Post.query.order_by(Post.timestamp) # query by chronological order, from the Posts model.
-    return render_template('posts.html', posts=posts)
-
 # @app.route('/posts/<int:id>')
 # def post(id):
 #     post = Posts.query.get_or_404(id)
@@ -320,24 +328,6 @@ def posts():
 #         flash("You cannot edit this post")
 #         posts = Posts.query.order_by(Posts.date_posted)
 #         return render_template("posts.html", posts=posts)
-
-# add posts page
-@app.route('/add_post', methods=['GET', 'POST'])
-# @login_required
-def add_post():
-    form = PostForm()
-    if form.validate_on_submit():
-        post = Post(title=form.title.data, content=form.content.data, timestamp=datetime.now(timezone.utc) ,user_id=current_user.id)
-        # clear form
-        form.title.data = ''
-        form.content.data = ''
-        # form.author.data = ''
-        # form.slug.data = ''
-        #add post to database
-        db.session.add(post)
-        db.session.commit()
-        flash("Your post has been submitted")
-    return render_template('add_post.html', form=form)
 
 
 # # webpage to return JSON (jsonify)
@@ -434,9 +424,10 @@ def add_post():
 @app.route('/symbol/<symbol>')
 def symbol(symbol):
     stock = db.session.scalar(sa.select(Stocks).where(Stocks.ticker_symbol == symbol))
+    posts = Post.query.order_by(Post.timestamp).where(Post.title == symbol)
     form = PostForm()
     if stock:
-        return render_template('symbol.html', title=f'{stock.company_name} ({stock.ticker_symbol})', stock=stock, form=form)
+        return render_template('symbol.html', title=f'{stock.company_name} ({stock.ticker_symbol})', stock=stock, form=form, posts=posts)
     else:
         return render_template("404.html")
 
