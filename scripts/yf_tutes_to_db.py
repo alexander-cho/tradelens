@@ -1,3 +1,13 @@
+import os
+import sys
+from pathlib import Path
+
+# Add the parent directory of 'app' to the system path
+current_dir = Path(__file__).resolve().parent
+parent_dir = current_dir.parent
+sys.path.append(str(parent_dir))
+
+
 import yfinance as yf
 from app.models import Stocks
 from tradelens import app, db

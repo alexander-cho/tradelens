@@ -11,8 +11,8 @@ from flask_login import login_user, current_user, logout_user, login_required#, 
 from app import app
 from app import db
 import sqlalchemy as sa
-from app.models import User
-from app.forms import LoginForm, RegistrationForm, EditProfileForm, EmptyForm
+from app.models import User, Post, Stocks
+from app.forms import LoginForm, RegistrationForm, EditProfileForm, EmptyForm, PostForm
 from datetime import datetime, timezone
 
 
@@ -281,11 +281,11 @@ def unfollow(username):
 #         return render_template("posts.html", posts=posts) 
 
 
-# @app.route('/posts') #this will potentially become home page content
-# def posts():
-#     # grab all posts from the database
-#     posts = Posts.query.order_by(Posts.date_posted) # query by chronological order, from the Posts model.
-#     return render_template("posts.html", posts = posts)
+@app.route('/posts') #this will potentially become home page content
+def posts():
+    # grab all posts from the database
+    posts = Post.query.order_by(Post.timestamp) # query by chronological order, from the Posts model.
+    return render_template('posts.html', posts=posts)
 
 # @app.route('/posts/<int:id>')
 # def post(id):
@@ -321,26 +321,23 @@ def unfollow(username):
 #         posts = Posts.query.order_by(Posts.date_posted)
 #         return render_template("posts.html", posts=posts)
 
-# # add posts page
-# @app.route('/add_post', methods=['GET', 'POST'])
-# # @login_required
-# def add_post():
-#     form = PostForm()
-#     if form.validate_on_submit():
-#         poster = current_user.id
-#         post = Posts(title=form.title.data, content=form.content.data, poster_id=poster, slug=form.slug.data)
-#         # clear form
-#         form.title.data = ''
-#         form.content.data = ''
-#         # form.author.data = ''
-#         form.slug.data = ''
-#         #add post to database
-#         db.session.add(post)
-#         db.session.commit()
-
-#         flash("Your post has been submitted")
-
-#     return render_template("add_post.html", form=form)
+# add posts page
+@app.route('/add_post', methods=['GET', 'POST'])
+# @login_required
+def add_post():
+    form = PostForm()
+    if form.validate_on_submit():
+        post = Post(title=form.title.data, content=form.content.data, timestamp=datetime.now(timezone.utc) ,user_id=current_user.id)
+        # clear form
+        form.title.data = ''
+        form.content.data = ''
+        # form.author.data = ''
+        # form.slug.data = ''
+        #add post to database
+        db.session.add(post)
+        db.session.commit()
+        flash("Your post has been submitted")
+    return render_template('add_post.html', form=form)
 
 
 # # webpage to return JSON (jsonify)
@@ -436,12 +433,12 @@ def unfollow(username):
 # display information for each company in the stocks table
 @app.route('/symbol/<symbol>')
 def symbol(symbol):
-    # stock = Stocks.query.filter_by(ticker_symbol=symbol).first()
-    # if stock:
-    #     return render_template("symbol.html", stock=stock)
-    # else:
-    #     return render_template("404.html")
-    return f"This is the page for {symbol}"
+    stock = db.session.scalar(sa.select(Stocks).where(Stocks.ticker_symbol == symbol))
+    form = PostForm()
+    if stock:
+        return render_template('symbol.html', title=f'{stock.company_name} ({stock.ticker_symbol})', stock=stock, form=form)
+    else:
+        return render_template("404.html")
 
 
 # # if __name__ == '__main__':

@@ -2,7 +2,14 @@
 This script takes the nasdaq.csv file downloaded from the nasdaq website and populates a Stocks table with the data from
 the first two columns
 '''
+import os
+import sys
+from pathlib import Path
 
+# Add the parent directory of 'app' to the system path
+current_dir = Path(__file__).resolve().parent
+parent_dir = current_dir.parent
+sys.path.append(str(parent_dir))
 
 from app.models import Stocks
 from app import app, db

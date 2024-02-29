@@ -1,17 +1,11 @@
-{% extends 'base.html' %}
+{#% extends 'base.html' %#}
 
 {% block content %}
 
-{% for message in get_flashed_messages() %}
-    <div class="alert alert-success fade show" role="alert">
-        {{ message }}
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-{% endfor %}
 
 {% if current_user.is_authenticated %}
 
-<h1>Add post:</h1>
+<h1>Share an idea:</h1>
     <br/>
     <div class="shadow p-3 mb-5 bg-body rounded">
         <form method="POST">
@@ -19,17 +13,14 @@
             {{ form.title.label(class="form-label") }}
             {{ form.title(class="form-control") }}
             <br/>
-            {{ form.slug.label(class="form-label") }}
-            {{ form.slug(class="form-control") }}
-            <br/>
             {{ form.content.label(class="form-label") }}
             {{ form.content(class="form-control", rows="10") }}
             <br/>
             {{ form.submit(class="btn btn-secondary") }}
         </form>
 
-        {{ ckeditor.load() }}
-        {{ ckeditor.config(name='content') }}
+        {# {{ ckeditor.load() }} #}
+        {# {{ ckeditor.config(name='content') }} #}
         
     </div>
 

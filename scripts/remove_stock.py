@@ -1,3 +1,12 @@
+import sys
+from pathlib import Path
+
+# Add the parent directory of 'app' to the system path
+current_dir = Path(__file__).resolve().parent
+parent_dir = current_dir.parent
+sys.path.append(str(parent_dir))
+
+
 from app.models import Stocks
 from tradelens import app, db
 # from add_stock import stock_exists
@@ -20,5 +29,5 @@ def remove_stock(ticker):
 
 if __name__ == '__main__':
     with app.app_context():
-        remove_stock('COIN')
+        remove_stock('DWAC')
 
