@@ -14,6 +14,7 @@ import sqlalchemy as sa
 from app.models import User, Post, Stocks
 from app.forms import LoginForm, RegistrationForm, EditProfileForm, EmptyForm, PostForm
 from datetime import datetime, timezone
+import json
 
 
 @app.before_request
@@ -426,8 +427,10 @@ def symbol(symbol):
     stock = db.session.scalar(sa.select(Stocks).where(Stocks.ticker_symbol == symbol))
     posts = Post.query.order_by(Post.timestamp).where(Post.title == symbol)
     form = PostForm()
+    tutes_data = db.session.scalar(sa.select(Stocks.institutional_info).where(Stocks.ticker_symbol == symbol))
+    tutes = json.loads(tutes_data) # valid json to python list of dictionaries
     if stock:
-        return render_template('symbol.html', title=f'{stock.company_name} ({stock.ticker_symbol})', stock=stock, form=form, posts=posts)
+        return render_template('symbol.html', title=f'{stock.company_name} ({stock.ticker_symbol})', stock=stock, form=form, posts=posts, tutes=tutes)
     else:
         return render_template("404.html")
 

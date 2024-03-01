@@ -1,6 +1,6 @@
 import yfinance as yf
-from app.models import Stocks
-from tradelens import app, db
+# from app.models import Stocks
+# from tradelens import app, db
 import warnings
 
 warnings.filterwarnings("ignore", category=FutureWarning)
@@ -26,5 +26,7 @@ print(sofi.get_calendar())
 
 # print(sofi.get_fast_info()['lastPrice']) # this gets live volume??
 
-print(sofi.get_earnings_forecast())
+print(type(sofi.get_institutional_holders()))
+
+
 

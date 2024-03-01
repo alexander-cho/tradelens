@@ -11,8 +11,12 @@
     Closing price: ${{ '%.2f'|format(stock.close) }} <br>
     Last price: ${{ '%.2f'|format(stock.last_price) }} <br>
     Volume: {{ stock.volume|int }} shares traded<br>
-    Top 10 Institutional Investors <br>
-    {{ stock.institutional_info }}
+    <p>
+        Top 10 Institutional Investors <br>
+        {% for tute in tutes %}
+            {{ tute }} <br>
+        {% endfor %}
+    </p>
 
 
     <br><br><br><br>

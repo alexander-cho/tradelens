@@ -24,7 +24,7 @@ def remove_stock(ticker):
         db.session.commit()
         print(f"'{ticker}' has been deleted.")
     else:
-        print(f"Cannot delete '{ticker}' which doesnt not exist in table.")
+        print(f"Cannot delete '{ticker}', which does not exist in table.")
 
 
 if __name__ == '__main__':
