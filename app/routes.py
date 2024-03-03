@@ -420,6 +420,12 @@ def posts():
 #         flash("Form submitted successfully")
 #     return render_template("name.html", name=name, form=form)
 
+# symbol directory route 
+@app.route('/symbol') 
+def symbol_main(): 
+    stock_list = Stocks.query.all() 
+    return render_template('symbol_main.html', title='Symbol Directory', stock_list=stock_list)
+
 
 # display information for each company in the stocks table
 @app.route('/symbol/<symbol>')

@@ -1,0 +1,15 @@
+{% extends 'base.html' %} 
+
+{% block content %} 
+
+Symbol Listing <br> 
+
+<p> Symbol   Company Name </p> 
+
+<p> 
+    {% for stock in stock_list %} 
+        <a href="{{ url_for('symbol', symbol=stock.ticker_symbol) }}">{{ stock.ticker_symbol }}</a>{{ stock.company_name }} <br> 
+    {% endfor %}
+</p>
+
+{% endblock %}

@@ -28,5 +28,5 @@ def add_stock(ticker, company):
 
 if __name__ == '__main__':
     with app.app_context():
-        add_stock('AI', 'C3.ai Inc')
+        add_stock('', '')
 
