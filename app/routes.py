@@ -28,8 +28,12 @@ def before_request():
 @app.route('/index')
 # @login_required
 def index():
-    posts = Post.query.order_by(Post.timestamp)
-    return render_template('index.html', title='Home', posts=posts)
+    if current_user.is_authenticated: # show following posts if logged in
+        posts = db.session.scalars(current_user.following_posts()).all()
+        return render_template('index.html', title='Home', posts=posts)
+    else: # if not logged in show the entire feed
+        posts = Post.query.order_by(Post.timestamp.desc())
+        return render_template('index.html', title='Home', posts=posts)
 
 # create the login page
 @app.route('/login', methods=['GET', 'POST'])
@@ -170,7 +174,7 @@ def add_post():
 @app.route('/posts') #this will potentially become home page content
 def posts():
     # grab all posts from the database
-    posts = Post.query.order_by(Post.timestamp) # query by chronological order, from the Posts model.
+    posts = Post.query.order_by(Post.timestamp.desc()) # query by chronological order, from the Posts model.
     return render_template('posts.html', posts=posts)
 
 
@@ -431,11 +435,11 @@ def symbol_main():
 @app.route('/symbol/<symbol>')
 def symbol(symbol):
     stock = db.session.scalar(sa.select(Stocks).where(Stocks.ticker_symbol == symbol))
-    posts = Post.query.order_by(Post.timestamp).where(Post.title == symbol)
+    posts = Post.query.order_by(Post.timestamp.desc()).where(Post.title == symbol)
     form = PostForm()
     tutes_data = db.session.scalar(sa.select(Stocks.institutional_info).where(Stocks.ticker_symbol == symbol))
-    tutes = json.loads(tutes_data) # valid json to python list of dictionaries
     if stock:
+        tutes = json.loads(tutes_data) # valid json to python list of dictionaries
         return render_template('symbol.html', title=f'{stock.company_name} ({stock.ticker_symbol})', stock=stock, form=form, posts=posts, tutes=tutes)
     else:
         return render_template("404.html")

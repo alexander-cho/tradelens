@@ -92,7 +92,7 @@ class User(db.Model, UserMixin):
         return (
             sa.select(Post)
             .join(Post.author.of_type(Author))
-            .join(Author.follower.of_type(Follower), isouter=True)
+            .join(Author.followers.of_type(Follower), isouter=True)
             .where(sa.or_(
                 Follower.id == self.id,
                 Author.id == self.id # get own posts as well
