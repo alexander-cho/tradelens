@@ -10,17 +10,18 @@
     Low price: ${{ '%.2f'|format(stock.low) }} <br>
     Closing price: ${{ '%.2f'|format(stock.close) }} <br>
     Last price: ${{ '%.2f'|format(stock.last_price) }} <br>
-    Volume: {{ stock.volume|int }} shares traded<br>
+    Volume: {{ '{:,.0f}'.format(stock.volume) }} shares traded<br>
+    <br>
+    Market cap <br>
+    shares outstanding
+    
     <p>
         Top 10 Institutional Investors <br>
         {% for tute in tutes %}
-            {{ tute }} <br>
+            {{ tute.Holder }} holds {{ '{:,.0f}'.format(tute.Shares) }} shares valued at {{ '${:,.0f}'.format(tute.Value) }} which is {{ '%.2f'|format(tute.pctHeld*100) }}% of the company <br>
         {% endfor %}
     </p>
 
-
-    <br><br><br><br>
-    (PARSE JSON WITH JINJA2)
 
     {% include 'add_post.html' %}
 

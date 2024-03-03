@@ -6,7 +6,7 @@ import warnings
 warnings.filterwarnings("ignore", category=FutureWarning)
 
 
-sofi = yf.Ticker('SOFI')
+qqq = yf.Ticker('QQQ')
 # print(sofi.major_holders)
 # print(sofi.balance_sheet)
 
@@ -26,7 +26,7 @@ print(sofi.get_calendar())
 
 # print(sofi.get_fast_info()['lastPrice']) # this gets live volume??
 
-print(type(sofi.get_institutional_holders()))
+print(qqq.history(period="1d"))
 
 
 
