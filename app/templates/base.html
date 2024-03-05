@@ -17,6 +17,7 @@
         <div>
             TradeLens: 
             <a href="{{ url_for('index') }}">Home</a>
+            <a href="{{ url_for('symbol_main') }}">Symbols</a>
             {% if current_user.is_anonymous %}
             <a href="{{ url_for('login') }}">Log in</a>
             {% else %}

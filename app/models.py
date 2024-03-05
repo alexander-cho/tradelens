@@ -100,6 +100,7 @@ class User(db.Model, UserMixin):
             .group_by(Post)
             .order_by(Post.timestamp.desc()) # get most recent posts first
         )
+    
 
 # create post model
 class Post(db.Model):
@@ -111,7 +112,6 @@ class Post(db.Model):
     user_id: so.Mapped[int] = so.mapped_column(sa.ForeignKey(User.id), index=True) # foreign key to link user_id which refers to the primary key id from the User model
 
     author: so.Mapped[User] = so.relationship(back_populates='posts')
-
 
     # create string representiation
     def __repr__(self) -> str:

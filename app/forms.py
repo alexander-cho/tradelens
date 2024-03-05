@@ -58,7 +58,6 @@ class EmptyForm(FlaskForm):
     submit = SubmitField('Submit')
 
 
-
 # posts form
 class PostForm(FlaskForm):
     title = StringField("Title", validators=[DataRequired()])

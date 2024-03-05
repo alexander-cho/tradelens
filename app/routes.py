@@ -35,6 +35,7 @@ def index():
         posts = Post.query.order_by(Post.timestamp.desc())
         return render_template('index.html', title='Home', posts=posts)
 
+
 # create the login page
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -151,23 +152,26 @@ def unfollow(username):
     else:
         return redirect(url_for('index'))
 
+
 # add posts page
 @app.route('/add_post', methods=['GET', 'POST'])
 # @login_required
 def add_post():
     form = PostForm()
     if form.validate_on_submit():
-        post = Post(title=form.title.data, content=form.content.data, timestamp=datetime.now(timezone.utc), user_id=current_user.id)
-        # clear form
-        form.title.data = ''
-        form.content.data = ''
-        # form.author.data = ''
-        # form.slug.data = ''
-        #add post to database
-        db.session.add(post)
-        db.session.commit()
-        flash("Your post has been submitted")
-        return redirect(url_for('posts'))
+        stock = Stocks.query.filter(Stocks.ticker_symbol == form.title.data).first() # check if the title (ticker) exists in the database
+        if stock:
+            post = Post(title=form.title.data, content=form.content.data, timestamp=datetime.now(timezone.utc), user_id=current_user.id)
+            db.session.add(post)
+            db.session.commit()
+            flash("Your post has been submitted")
+            return redirect(url_for('posts'))
+        else:
+            # clear form
+            form.title.data = ''
+            form.content.data = ''
+            flash("That stock does not exist or is not in the database yet")
+            return redirect(url_for('add_post'))
     return render_template('add_post.html', form=form)
 
 
@@ -424,6 +428,7 @@ def posts():
 #         flash("Form submitted successfully")
 #     return render_template("name.html", name=name, form=form)
 
+
 # symbol directory route 
 @app.route('/symbol') 
 def symbol_main(): 
@@ -432,15 +437,22 @@ def symbol_main():
 
 
 # display information for each company in the stocks table
-@app.route('/symbol/<symbol>')
+@app.route('/symbol/<symbol>', methods=['GET', 'POST'])
 def symbol(symbol):
     stock = db.session.scalar(sa.select(Stocks).where(Stocks.ticker_symbol == symbol))
     posts = Post.query.order_by(Post.timestamp.desc()).where(Post.title == symbol)
-    form = PostForm()
     tutes_data = db.session.scalar(sa.select(Stocks.institutional_info).where(Stocks.ticker_symbol == symbol))
+    form = PostForm() # functionality for submitting post directly on specific symbol page
+    if request.method == 'POST':
+        if form.validate_on_submit:
+            post = Post(title=form.title.data, content=form.content.data, timestamp=datetime.now(timezone.utc), user_id=current_user.id)
+            db.session.add(post)
+            db.session.commit()
+            flash("Your post has been submitted")
+            return redirect(url_for('symbol', symbol=form.title.data))
     if stock:
         tutes = json.loads(tutes_data) # valid json to python list of dictionaries
-        return render_template('symbol.html', title=f'{stock.company_name} ({stock.ticker_symbol})', stock=stock, form=form, posts=posts, tutes=tutes)
+        return render_template('symbol.html', title=f'{stock.company_name} ({stock.ticker_symbol})', stock=stock, posts=posts, form=form, tutes=tutes)
     else:
         return render_template("404.html")
 
