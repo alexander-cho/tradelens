@@ -1,7 +1,14 @@
-{% extends 'base.html' %}
-
 {% block content %}
 
+{% with messages = get_flashed_messages() %}
+    {% if messages %} <!-- check if messages has some content -->
+    <ul>
+        {% for message in messages %}
+            {{ message }} <br>
+        {% endfor %}
+    </ul>
+    {% endif %}
+{% endwith %}
 
 {% if current_user.is_authenticated %}
 

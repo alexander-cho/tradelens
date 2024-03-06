@@ -451,10 +451,13 @@ def symbol(symbol):
             flash("Your post has been submitted")
             return redirect(url_for('symbol', symbol=form.title.data))
     if stock:
-        tutes = json.loads(tutes_data) # valid json to python list of dictionaries
-        return render_template('symbol.html', title=f'{stock.company_name} ({stock.ticker_symbol})', stock=stock, posts=posts, form=form, tutes=tutes)
+        if tutes_data: # if the institutional info is not null in the database
+            tutes = json.loads(tutes_data) # valid json to python list of dictionaries
+            return render_template('symbol.html', title=f'{stock.company_name} ({stock.ticker_symbol})', stock=stock, posts=posts, form=form, tutes=tutes)
+        else:
+            return render_template('symbol.html', title=f'{stock.company_name} ({stock.ticker_symbol})', stock=stock, posts=posts, form=form) # without tute data
     else:
-        return render_template("404.html")
+        return render_template('404.html')
 
 
 # # if __name__ == '__main__':

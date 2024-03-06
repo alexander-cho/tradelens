@@ -16,10 +16,14 @@
     Market Capitalization:
     
     <p>
-        Top 10 Institutional Investors <br>
-        {% for tute in tutes %}
-            {{ tute.Holder }} holds {{ '{:,.0f}'.format(tute.Shares) }} shares valued at {{ '${:,.0f}'.format(tute.Value) }} which is {{ '%.2f'|format(tute.pctHeld*100) }}% of the company <br>
-        {% endfor %}
+        {% if tutes %}
+            Top 10 Institutional Investors <br>
+            {% for tute in tutes %}
+                {{ tute.Holder }} holds {{ '{:,.0f}'.format(tute.Shares) }} shares valued at {{ '${:,.0f}'.format(tute.Value) }} which is {{ '%.2f'|format(tute.pctHeld*100) }}% of the company <br>
+            {% endfor %}
+        {% else %}
+            The institutional holder information is not available for this stock.
+        {% endif %}
     </p>
 
 
