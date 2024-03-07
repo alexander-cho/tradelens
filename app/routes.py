@@ -443,16 +443,24 @@ def symbol(symbol):
     posts = Post.query.order_by(Post.timestamp.desc()).where(Post.title == symbol)
     tutes_data = db.session.scalar(sa.select(Stocks.institutional_info).where(Stocks.ticker_symbol == symbol))
     form = PostForm() # functionality for submitting post directly on specific symbol page
-    if request.method == 'POST':
-        if form.validate_on_submit:
+    if request.method == 'POST' and form.validate_on_submit:
+        if form.title.data == symbol: # if the ticker that user inputs in the field matches current symbol page
             post = Post(title=form.title.data, content=form.content.data, timestamp=datetime.now(timezone.utc), user_id=current_user.id)
             db.session.add(post)
             db.session.commit()
             flash("Your post has been submitted")
             return redirect(url_for('symbol', symbol=form.title.data))
+        elif form.title.data != symbol: # if they don't match
+            stock_exists = Stocks.query.filter(Stocks.ticker_symbol == form.title.data).first() # check if the user entered exists in the DB
+            if stock_exists: 
+                flash(f"That was the page for {symbol}, you cannot post that there. Here you go:")
+                return redirect(url_for('symbol', symbol=form.title.data)) # send them to the symbol page they entered
+            else:
+                flash("That stock does not exist or is not in the database yet")
+                return redirect(url_for('index'))
     if stock:
         if tutes_data: # if the institutional info is not null in the database
-            tutes = json.loads(tutes_data) # valid json to python list of dictionaries
+            tutes = json.loads(tutes_data) # turn valid json into python list of dictionaries
             return render_template('symbol.html', title=f'{stock.company_name} ({stock.ticker_symbol})', stock=stock, posts=posts, form=form, tutes=tutes)
         else:
             return render_template('symbol.html', title=f'{stock.company_name} ({stock.ticker_symbol})', stock=stock, posts=posts, form=form) # without tute data

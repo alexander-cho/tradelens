@@ -6,7 +6,12 @@ import warnings
 warnings.filterwarnings("ignore", category=FutureWarning)
 
 
-sofi = yf.Ticker('SOFI')
+# https://awesomepython.org/?c=finance python libraries for finance
+# 
+
+
+
+btc = yf.Ticker('BTC.X')
 # print(sofi.major_holders)
 # print(sofi.balance_sheet)
 
@@ -26,7 +31,5 @@ print(sofi.get_calendar())
 
 # print(sofi.get_fast_info()['lastPrice']) # this gets live volume??
 
-print(sofi.info['sharesOutstanding']) # outstanding shares
-
-
+print(btc.info) # outstanding shares
 
