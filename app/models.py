@@ -130,3 +130,4 @@ class Stocks(db.Model):
     volume: so.Mapped[Optional[int]] = so.mapped_column(sa.Float())
     institutional_info: so.Mapped[Optional[str]] = so.mapped_column(sa.Text())
     last_price: so.Mapped[Optional[int]] = so.mapped_column(sa.Float())
+    shares_outstanding: so.Mapped[Optional[int]] = so.mapped_column(sa.Float())

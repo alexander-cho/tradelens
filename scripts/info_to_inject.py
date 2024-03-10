@@ -11,7 +11,7 @@ warnings.filterwarnings("ignore", category=FutureWarning)
 
 
 
-btc = yf.Ticker('BTC.X')
+sofi = yf.Ticker('MSFT')
 # print(sofi.major_holders)
 # print(sofi.balance_sheet)
 
@@ -31,5 +31,8 @@ print(sofi.get_calendar())
 
 # print(sofi.get_fast_info()['lastPrice']) # this gets live volume??
 
-print(btc.info) # outstanding shares
+try:
+    print(sofi.info['impliedSharesOutstanding']) # outstanding shares
+except:
+    print('not available')
 
