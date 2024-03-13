@@ -12,8 +12,10 @@
     Last price: ${{ '%.2f'|format(stock.last_price) }} <br>
     Volume: {{ '{:,.0f}'.format(stock.volume) }} shares traded<br>
     <br>
-    Shares Outstanding: {{ '{:,.0f}'.format(stock.shares_outstanding) }}<br>
-    Market Capitalization: ${{ '{:,.2f}'.format(stock.shares_outstanding * stock.last_price) }}
+    {% if stock.shares_outstanding %}
+        Shares Outstanding: {{ '{:,.0f}'.format(stock.shares_outstanding) }}<br>
+        Market Capitalization: ${{ '{:,.2f}'.format(stock.shares_outstanding * stock.last_price) }}
+    {% endif %}
     
     <p>
         {% if tutes %}

@@ -44,20 +44,9 @@ def populate_ohlcv():
         stock.volume = last_day['Volume']
 
         stock.last_price = ticker.get_fast_info()['lastPrice']
-        try:
-            stock.shares_outstanding = ticker.info['impliedSharesOutstanding']
-        except:
-            stock.shares_outstanding = None
 
-    db.session.commit()
-
-def populate_others():
-    stocks = Stocks.query.all()
-    for stock in stocks:
-        # print(f"Processing {stock.ticker_symbol}")
-        ticker = yf.Ticker(stock.ticker_symbol)
         try:
-            stock.shares_outstanding = ticker.info['impliedSharesOutstanding']
+            stock.shares_outstanding = ticker.info['sharesOutstanding']
         except Exception as e:
             print(f"Error fetching implied shares for {stock.ticker_symbol}: {e}")
             stock.shares_outstanding = None
@@ -65,8 +54,8 @@ def populate_others():
     db.session.commit()
 
 
+
 if __name__ == '__main__':
     with app.app_context():
-        # clear_ohlcv()
-        # populate_ohlcv()
-        populate_others()
+        clear_ohlcv()
+        populate_ohlcv()

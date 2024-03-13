@@ -11,7 +11,7 @@ warnings.filterwarnings("ignore", category=FutureWarning)
 
 
 
-sofi = yf.Ticker('MSFT')
+ticker = yf.Ticker('MSFT')
 # print(sofi.major_holders)
 # print(sofi.balance_sheet)
 
@@ -31,8 +31,12 @@ print(sofi.get_calendar())
 
 # print(sofi.get_fast_info()['lastPrice']) # this gets live volume??
 
-try:
-    print(sofi.info['impliedSharesOutstanding']) # outstanding shares
-except:
-    print('not available')
+# try:
+#     print(sofi.info['impliedSharesOutstanding']) # outstanding shares
+# except:
+#     print('not available')
+
+# print(ticker.info['sharesOutstanding'])
+print(type(ticker.get_calendar()['Earnings Average']))
+
 
