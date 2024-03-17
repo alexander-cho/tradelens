@@ -11,7 +11,7 @@ warnings.filterwarnings("ignore", category=FutureWarning)
 
 
 
-ticker = yf.Ticker('MSFT')
+ticker = yf.Ticker('SOFI')
 # print(sofi.major_holders)
 # print(sofi.balance_sheet)
 
@@ -37,6 +37,11 @@ print(sofi.get_calendar())
 #     print('not available')
 
 # print(ticker.info['sharesOutstanding'])
-print(type(ticker.get_calendar()['Earnings Average']))
+# print(type(ticker.get_calendar()['Earnings Average']))
 
+# print(ticker.options) # tuple of expiration dates
+# print(ticker.options[0])
+# options = (ticker.option_chain(ticker.options[0]))
+# print(type(options.calls))
+print(ticker.analyst_price_target)
 

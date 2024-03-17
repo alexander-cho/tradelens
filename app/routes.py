@@ -158,13 +158,13 @@ def unfollow(username):
 # @login_required
 def add_post():
     form = PostForm()
+    stock = Stocks.query.filter(Stocks.ticker_symbol == form.title.data).first() # check if the title (ticker) exists in the database
     if form.validate_on_submit():
-        stock = Stocks.query.filter(Stocks.ticker_symbol == form.title.data).first() # check if the title (ticker) exists in the database
         if stock:
             post = Post(title=form.title.data, content=form.content.data, timestamp=datetime.now(timezone.utc), user_id=current_user.id)
             db.session.add(post)
             db.session.commit()
-            flash("Your post has been submitted")
+            flash("Your idea has been submitted")
             return redirect(url_for('posts'))
         else:
             # clear form
@@ -172,7 +172,7 @@ def add_post():
             form.content.data = ''
             flash("That stock does not exist or is not in the database yet")
             return redirect(url_for('add_post'))
-    return render_template('add_post.html', form=form)
+    return render_template('add_post.html', form=form, stock=stock)
 
 
 @app.route('/posts') #this will potentially become home page content
@@ -448,7 +448,7 @@ def symbol(symbol):
             post = Post(title=form.title.data, content=form.content.data, timestamp=datetime.now(timezone.utc), user_id=current_user.id)
             db.session.add(post)
             db.session.commit()
-            flash("Your post has been submitted")
+            flash("Your idea has been submitted")
             return redirect(url_for('symbol', symbol=form.title.data))
         elif form.title.data != symbol: # if they don't match
             stock_exists = Stocks.query.filter(Stocks.ticker_symbol == form.title.data).first() # check if the user entered exists in the DB

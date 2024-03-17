@@ -8,6 +8,7 @@ import sqlalchemy.orm as so
 from app import db
 from datetime import datetime, timezone
 from hashlib import md5
+from sqlalchemy.orm import backref
 
 
 # allow Flask-Login to manage user sessions and authentication
@@ -25,6 +26,14 @@ followers = sa.Table(
     # both foreign keys marked as primary keys since the pair creates a unique combination
 )
 
+# watchlist association table
+watchlist = sa.Table(
+    'watchlist',
+    db.metadata,
+    sa.Column('watcher_id', sa.Integer, sa.ForeignKey('user.id')),
+    sa.Column('watched_id', sa.Integer, sa.ForeignKey('stocks.id'))
+)
+
 
 # create user model
 class User(db.Model, UserMixin):
@@ -38,6 +47,9 @@ class User(db.Model, UserMixin):
     # profile_pic = db.Column(db.String(), nullable=True)
     # User can have many posts
     posts: so.WriteOnlyMapped['Post'] = so.relationship(back_populates='author')
+
+    # represent the stocks that a user is watching
+    watching = db.relationship('Stocks', secondary=watchlist, backref='watchers')
 
     def set_password(self, password):
         self.password_hash = generate_password_hash(password)
@@ -101,6 +113,15 @@ class User(db.Model, UserMixin):
             .order_by(Post.timestamp.desc()) # get most recent posts first
         )
     
+    def is_watching(self, stock):
+        return stock in self.watching 
+
+    def add_to_watchlist(self, stock):
+        pass
+
+    def remove_from_watchlist(self, stock):
+        pass
+    
 
 # create post model
 class Post(db.Model):
@@ -116,6 +137,7 @@ class Post(db.Model):
     # create string representiation
     def __repr__(self) -> str:
         return '<Post {}>'.format(self.content)
+    
     
     
 # create stocks model
