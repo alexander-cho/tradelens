@@ -9,24 +9,26 @@ warnings.filterwarnings("ignore", category=FutureWarning)
 # https://awesomepython.org/?c=finance python libraries for finance
 # 
 
+# API KEY AlphaVantage
+# DMZT7G4N6OHVB8VH
 
 
 ticker = yf.Ticker('SOFI')
 # print(sofi.major_holders)
 # print(sofi.balance_sheet)
 
-'''
-print(sofi.get_calendar())
 
-<class 'dict'> of length 7
-{'Earnings Date': [datetime.date(2024, 4, 29), datetime.date(2024, 5, 3)], 
-'Earnings High': 0.04, 
-'Earnings Low': -0.02, 
-'Earnings Average': 0.01,
-'Revenue High': 662000000, 
-'Revenue Low': 541900000, 
-'Revenue Average': 568380000}
-'''
+print(ticker.get_calendar()['Earnings Date'])
+
+# <class 'dict'> of length 7
+# {'Earnings Date': [datetime.date(2024, 4, 29), datetime.date(2024, 5, 3)], 
+# 'Earnings High': 0.04, 
+# 'Earnings Low': -0.02, 
+# 'Earnings Average': 0.01,
+# 'Revenue High': 662000000, 
+# 'Revenue Low': 541900000, 
+# 'Revenue Average': 568380000}
+
 
 
 # print(sofi.get_fast_info()['lastPrice']) # this gets live volume??
@@ -43,5 +45,5 @@ print(sofi.get_calendar())
 # print(ticker.options[0])
 # options = (ticker.option_chain(ticker.options[0]))
 # print(type(options.calls))
-print(ticker.analyst_price_target)
+# print(ticker.analyst_price_target)
 

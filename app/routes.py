@@ -12,7 +12,7 @@ from app import app
 from app import db
 import sqlalchemy as sa
 from app.models import User, Post, Stocks
-from app.forms import LoginForm, RegistrationForm, EditProfileForm, EmptyForm, PostForm
+from app.forms import LoginForm, RegistrationForm, EditProfileForm, EmptyForm, PostForm, SearchForm
 from datetime import datetime, timezone
 import json
 
@@ -466,6 +466,20 @@ def symbol(symbol):
             return render_template('symbol.html', title=f'{stock.company_name} ({stock.ticker_symbol})', stock=stock, posts=posts, form=form) # without tute data
     else:
         return render_template('404.html')
+    
+
+# create ticker search function
+@app.route('/ticker_search', methods=['GET', 'POST'])
+def ticker_search():
+    form = SearchForm()
+    ticker = Stocks.query
+    if form.validate_on_submit():
+        # get data from the submitted search form
+        ticker.searched = form.searched.data
+        # query the database
+        tickers = posts.filter(Stocks.content.like('%' + ticker.searched + "%")) # filter by the content, doesn't have to be exact match
+        tickers = posts.order_by(Stocks.company_name).all() # return the results by title
+    return render_template("ticker_search.html", form=form)#, searched=ticker.searched, tickers=tickers)
 
 
 # # if __name__ == '__main__':

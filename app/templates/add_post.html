@@ -12,8 +12,8 @@
 
 {% if current_user.is_authenticated %}
 
-<h1>Share an idea:</h1>
-    <br/>
+<h2>Share an idea about {{ stock.ticker_symbol }}:</h2>
+    
     <div class="shadow p-3 mb-5 bg-body rounded">
         <form method="POST">
             {{ form.hidden_tag() }}

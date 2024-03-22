@@ -1,0 +1,7 @@
+<h4>Search for a company</h4>
+
+<form method="POST" action="{{ url_for('ticker_search') }}" class="d-flex" role="search">
+    {{ form.hidden_tag() }}
+    <input class="form-control me-2" ty pe="search" placeholder="Search" aria-label="Search", name="searched">
+    <button class="btn btn-outline-success" type="submit">Search</button>
+</form>
