@@ -16,7 +16,7 @@ import warnings
 
 warnings.filterwarnings("ignore", category=FutureWarning)
 
-#clear data first
+# clear data first
 def clear_institutional_info():
     stocks = Stocks.query.all()
     for stock in stocks:

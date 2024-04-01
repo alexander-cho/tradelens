@@ -18,7 +18,7 @@ ticker = yf.Ticker('SOFI')
 # print(sofi.balance_sheet)
 
 
-print(ticker.get_calendar()['Earnings Date'])
+# print(ticker.get_calendar()['Earnings Date']) # get the estimated next earnings date
 
 # <class 'dict'> of length 7
 # {'Earnings Date': [datetime.date(2024, 4, 29), datetime.date(2024, 5, 3)], 
@@ -31,10 +31,10 @@ print(ticker.get_calendar()['Earnings Date'])
 
 
 
-# print(sofi.get_fast_info()['lastPrice']) # this gets live volume??
+# print(ticker.get_fast_info()['lastPrice']) # this gets live volume??
 
 # try:
-#     print(sofi.info['impliedSharesOutstanding']) # outstanding shares
+#     print(ticker.info['impliedSharesOutstanding']) # outstanding shares
 # except:
 #     print('not available')
 
@@ -43,7 +43,8 @@ print(ticker.get_calendar()['Earnings Date'])
 
 # print(ticker.options) # tuple of expiration dates
 # print(ticker.options[0])
-# options = (ticker.option_chain(ticker.options[0]))
+options = (ticker.option_chain(ticker.options[0]))
 # print(type(options.calls))
-# print(ticker.analyst_price_target)
+# print(options.calls)
+print(options.puts)
 

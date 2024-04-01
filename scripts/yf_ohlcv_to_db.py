@@ -15,7 +15,7 @@ import warnings
 
 warnings.filterwarnings("ignore", category=FutureWarning)
 
-#clear data first
+# clear data first
 def clear_ohlcv():
     stocks = Stocks.query.all()
     for stock in stocks:

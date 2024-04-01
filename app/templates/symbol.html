@@ -14,7 +14,7 @@
     <br>
     {% if stock.shares_outstanding %}
         Shares Outstanding: {{ '{:,.0f}'.format(stock.shares_outstanding) }}<br>
-        Market Capitalization: ${{ '{:,.2f}'.format(stock.shares_outstanding * stock.last_price) }}
+        Market Capitalization: ${{ '{:,.2f}'.format(stock.shares_outstanding * stock.close) }}
     {% endif %}
     
     <p>
