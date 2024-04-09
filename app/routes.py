@@ -182,6 +182,8 @@ def posts():
     return render_template('posts.html', posts=posts)
 
 
+@app.route('/search')
+
 # # add CKEditor
 # ckeditor = CKEditor(app)
 
@@ -207,13 +209,6 @@ def posts():
 # @login_manager.user_loader
 # def load_user(user_id):
 #     return Users.query.get(int(user_id))
-
-# # pass things to navbar
-# @app.context_processor
-# def base():
-#     form = SearchForm() 
-#     #the search form will get passed into the base.html which then passes to the navbar since it includes the navbar.html
-#     return dict(form=form)
 
 # # create admin page
 # @app.route('/admin')
@@ -466,20 +461,8 @@ def symbol(symbol):
             return render_template('symbol.html', title=f'{stock.company_name} ({stock.ticker_symbol})', stock=stock, posts=posts, form=form) # without tute data
     else:
         return render_template('404.html')
-    
 
-# create ticker search function
-@app.route('/ticker_search', methods=['GET', 'POST'])
-def ticker_search():
-    form = SearchForm()
-    ticker = Stocks.query
-    if form.validate_on_submit():
-        # get data from the submitted search form
-        ticker.searched = form.searched.data
-        # query the database
-        tickers = posts.filter(Stocks.content.like('%' + ticker.searched + "%")) # filter by the content, doesn't have to be exact match
-        tickers = posts.order_by(Stocks.company_name).all() # return the results by title
-    return render_template("ticker_search.html", form=form)#, searched=ticker.searched, tickers=tickers)
+
 
 
 # # if __name__ == '__main__':

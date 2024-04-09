@@ -20,7 +20,7 @@ import csv
 import requests
 
 
-CSV_URL = 'https://www.alphavantage.co/query?function=IPO_CALENDAR&apikey=DMZT7G4N6OHVB8VH'
+CSV_URL = 'https://www.alphavantage.co/query?function=IPO_CALENDAR&apikey=GLLVZKDV4221RMO6'
 
 with requests.Session() as s:
     download = s.get(CSV_URL)
