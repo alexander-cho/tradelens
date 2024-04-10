@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <br>
+    <h2>You searched for: <em>{{ searched }}</em></h2>
+    <br><br>
+    
+    {% if display_posts %}
+
+        {% for post in display_posts %}
+            {{ post.title }} <br>
+            By: {{ post.author.name }} <br> <!-- author, from the backref created in the User model to refer to anything assigned there -->
+            <!-- {{ post.slug }} <br> -->
+            Posted on: {{ post.date_posted }} <br>
+            {{ post.content | safe }} <br> <br>
+        {% endfor %}
+
+    {% else %}
+        <strong>{{ searched }}</strong> was not found
+
+    {% endif %}
+
+{% endblock %}

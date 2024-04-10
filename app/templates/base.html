@@ -14,18 +14,7 @@
         <!-- <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet"> -->
     </head>
     <body>
-        <div>
-            TradeLens: 
-            <a href="{{ url_for('index') }}">Home</a>
-            <a href="{{ url_for('symbol_main') }}">Symbols</a>
-            {% if current_user.is_anonymous %}
-            <a href="{{ url_for('login') }}">Log in</a>
-            {% else %}
-            <a href="{{ url_for('user', username=current_user.username) }}">Profile</a>
-            <a href="{{ url_for('logout') }}">Log out</a>
-            {% endif %}
-        </div>
-        {#% include 'navbar.html' %#}
+        {% include 'navbar.html' %}
         <br/> <hr>
         {% with messages = get_flashed_messages() %}
         {% if messages %} <!-- check if messages has some content -->

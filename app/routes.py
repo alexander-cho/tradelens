@@ -24,6 +24,13 @@ def before_request():
         db.session.commit()
 
 
+# Pass search form to navbar
+@app.context_processor
+def base():
+    form = SearchForm()
+    return dict(form=form)
+
+
 @app.route('/')
 @app.route('/index')
 # @login_required
@@ -182,7 +189,18 @@ def posts():
     return render_template('posts.html', posts=posts)
 
 
-@app.route('/search')
+# search for post content
+@app.route('/search', methods=['POST'])
+def search():
+    form = SearchForm()
+    if form.validate_on_submit():
+        search_content = form.searched.data # get data from submitted form
+        posts = Post.query.filter(Post.content.like('%' + search_content + '%'))
+        display_posts = posts.order_by(Post.title).all()
+        return render_template('search.html', form=form, searched=search_content, display_posts=display_posts)
+    else: # if invalid or blank search is submitted
+        return redirect(url_for('index'))
+
 
 # # add CKEditor
 # ckeditor = CKEditor(app)
@@ -220,19 +238,6 @@ def posts():
 #     else:
 #         flash("You are not an admin")
 #         return redirect(url_for('dashboard'))
-
-# # create search function
-# @app.route('/search', methods=['POST'])
-# def search():
-#     form = SearchForm()
-#     posts = Posts.query
-#     if form.validate_on_submit():
-#         # get data from the submitted search form
-#         post.searched = form.searched.data
-#         # query the database
-#         posts = posts.filter(Posts.content.like('%' + post.searched + "%")) # filter by the content, doesn't have to be exact match
-#         posts = posts.order_by(Posts.title).all() # return the results by title
-#         return render_template("search.html", form=form, searched=post.searched, posts=posts)
 
 
     

@@ -6,12 +6,12 @@
     <h2>You searched for: <em>{{ searched }}</em></h2>
     <br><br>
     
-    {% if posts %}
+    {% if display_posts %}
 
-        {% for post in posts %}
+        {% for post in display_posts %}
             {{ post.title }} <br>
             By: {{ post.poster.name }} <br> <!-- poster, from the backref created in the Users model to refer to anything assigned there -->
-            {{ post.slug }} <br>
+            <!-- {{ post.slug }} <br> -->
             Posted on: {{ post.date_posted }} <br>
             {{ post.content | safe }} <br>
             <a href="{{ url_for('post', id=post.id) }}" class="btn btn-outline-primary btn-sm">Click to View</a>

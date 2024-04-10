@@ -3,6 +3,7 @@
 {% block content %}
 
     <h1>This is the page for the stock: </h1>
+    
     <h2>{{ stock.ticker_symbol }}</h2>
     Company name: {{ stock.company_name }} <br>
     Opening price: ${{ '%.2f'|format(stock.open) }} <br>

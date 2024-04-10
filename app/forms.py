@@ -22,7 +22,7 @@ class RegistrationForm(FlaskForm):
     email = StringField("Email", validators=[DataRequired(), Email()])
     password_hash = PasswordField("Password", validators=[DataRequired()])
     password_hash2 = PasswordField("Confirm Password", validators=[DataRequired(), EqualTo('password_hash', message="Passwords must match")])
-#     profile_pic = FileField("Profile Pic")
+    # profile_pic = FileField("Profile Pic")
     submit = SubmitField("Register")
 
     def validate_username(self, username):
@@ -79,5 +79,5 @@ class PostForm(FlaskForm):
 
 # create a search form
 class SearchForm(FlaskForm):
-    searched = StringField("Searched", validators=[DataRequired()])
+    searched = StringField("Searched", validators=[DataRequired()]) # name="searched" attribute, in form of navbar.html
     submit = SubmitField("Submit")
