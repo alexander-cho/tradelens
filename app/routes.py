@@ -1,9 +1,5 @@
 from flask import render_template, flash, redirect, url_for, request
-# from flask_migrate import Migrate
-# from werkzeug.security import generate_password_hash, check_password_hash
-# from datetime import date
-from flask_login import login_user, current_user, logout_user, login_required#, LoginManager
-# from forms import LoginForm, PostForm, user_form, name_form, password_form, SearchForm
+from flask_login import login_user, current_user, logout_user, login_required
 # from flask_ckeditor import CKEditor
 # from werkzeug.utils import secure_filename
 # import uuid as uuid
@@ -205,39 +201,14 @@ def search():
 # # add CKEditor
 # ckeditor = CKEditor(app)
 
-# # add database
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///tradelens.db' #(now in config.py)
-
-# # secret key
-# app.config['SECRET_KEY'] = "e07b43t" #(now in config.py)
 
 # UPLOAD_FOLDER = 'static/images'
 # app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
-# # Initialize the database with the Flask app
-# db.init_app(app) #(now in __init__.py) 
-# # migrate database
-# migrate = Migrate(app, db) #(now in __init__.py)
-
-# # Flask_Login
-# login_manager = LoginManager() #(these are now in __init__.py)
-# login_manager.init_app(app)
-# login_manager.login_view = 'login'
 
 # @login_manager.user_loader
 # def load_user(user_id):
 #     return Users.query.get(int(user_id))
-
-# # create admin page
-# @app.route('/admin')
-# @login_required
-# def admin():
-#     id = current_user.id
-#     if id == 1:
-#         return render_template("admin.html")
-#     else:
-#         flash("You are not an admin")
-#         return redirect(url_for('dashboard'))
 
 
     
@@ -282,6 +253,7 @@ def search():
 #     else:
 #         return render_template("dashboard.html", form=form, name_to_update=name_to_update)
 
+
 # # delete a post
 # @app.route('/posts/delete/<int:id>')
 # @login_required
@@ -308,6 +280,7 @@ def search():
 # def post(id):
 #     post = Posts.query.get_or_404(id)
 #     return render_template("post.html", post = post)
+
 
 # @app.route('/posts/edit/<int:id>', methods=['GET', 'POST'])
 # @login_required
@@ -348,7 +321,7 @@ def search():
 #         "Tim": "Affirm"
 #     }
 #     return favorite_companies
-#     #return {"Date": date.today()}
+
 
 # # delete a database record
 # @app.route('/delete/<int:id>')
@@ -416,17 +389,6 @@ def search():
 #         passed = check_password_hash(pw_to_check.password_hash, password)
 #     return render_template("test_pw.html", email=email, password=password, pw_to_check=pw_to_check, passed=passed, form=form)
 
-# # Create name page
-# @app.route('/name', methods=['GET', 'POST'])
-# def name():
-#     name = None
-#     form = name_form()
-#     # Validate form
-#     if form.validate_on_submit():
-#         name = form.name.data # assign to whatever user inputs
-#         form.name.data = '' # clear for next user
-#         flash("Form submitted successfully")
-#     return render_template("name.html", name=name, form=form)
 
 
 # symbol directory route 
@@ -466,7 +428,6 @@ def symbol(symbol):
             return render_template('symbol.html', title=f'{stock.company_name} ({stock.ticker_symbol})', stock=stock, posts=posts, form=form) # without tute data
     else:
         return render_template('404.html')
-
 
 
 
