@@ -2,9 +2,18 @@
 
 {% block content %} 
 
-Symbol Listing <br> 
+<h2>Symbol Listing</h2>
 
-<p> Symbol | Company Name </p> 
+<p>
+    Search for a ticker:
+    <form method="POST" action="{{ url_for('symbol_search') }}" class="d-flex" role="search">
+        {{ form.hidden_tag() }}
+        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search", name="searched">
+        <button class="btn btn-outline-success" type="submit">Search</button>
+    </form>
+</p>
+
+<h3> Symbol | Company Name </h3> 
 
 <p> 
     {% for stock in stock_list %} 

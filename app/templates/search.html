@@ -2,17 +2,16 @@
 
 {% block content %}
 
-    <br>
     <h2>You searched for: <em>{{ searched }}</em></h2>
-    <br><br>
-    
+
     {% if display_posts %}
 
         {% for post in display_posts %}
-            {{ post.title }} <br>
-            By: {{ post.author.name }} <br> <!-- author, from the backref created in the User model to refer to anything assigned there -->
+            <img src="{{ post.author.avatar(36) }}" alt="">
+            <a href="{{ url_for('user', username=post.author.username) }}">{{ post.author.username }}</a> <br> <!-- author, from the backref created in the User model to refer to anything assigned there -->
+            <a href="{{ url_for('symbol', symbol=post.title)}}">{{ post.title }}</a> <br>
             <!-- {{ post.slug }} <br> -->
-            Posted on: {{ post.date_posted }} <br>
+            Posted on: {{ post.timestamp }} <br>
             {{ post.content | safe }} <br> <br>
         {% endfor %}
 

@@ -196,6 +196,18 @@ def search():
         return render_template('search.html', form=form, searched=search_content, display_posts=display_posts)
     else: # if invalid or blank search is submitted
         return redirect(url_for('index'))
+    
+
+# search for a company
+@app.route('/symbol-search', methods=['POST'])
+def symbol_search():
+    form = SearchForm()
+    if form.validate_on_submit():
+        search_content = form.searched.data
+        stock = Stocks.query.filter(Stocks.ticker_symbol == search_content).first()
+        return render_template('symbol_search.html', form=form, searched=search_content, stock=stock)
+    else:
+        return redirect(url_for('symbol_main'))
 
 
 # # add CKEditor
