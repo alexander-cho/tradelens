@@ -8,8 +8,6 @@ parent_dir = current_dir.parent
 sys.path.append(str(parent_dir))
 
 
-from app.models import Stocks
-from tradelens import app, db
 import warnings
 
 
@@ -20,12 +18,23 @@ import csv
 import requests
 
 
+# with my api key
 CSV_URL = 'https://www.alphavantage.co/query?function=IPO_CALENDAR&apikey=GLLVZKDV4221RMO6'
 
-with requests.Session() as s:
-    download = s.get(CSV_URL)
-    decoded_content = download.content.decode('utf-8')
-    cr = csv.reader(decoded_content.splitlines(), delimiter=',')
-    my_list = list(cr)
-    for row in my_list:
-        print(row)
+# with requests.Session() as s:
+#     download = s.get(CSV_URL)
+#     decoded_content = download.content.decode('utf-8')
+#     cr = csv.reader(decoded_content.splitlines(), delimiter=',')
+#     my_list = list(cr)
+#     for row in my_list:
+#         print(row)
+
+
+def get_ipos_data(CSV_URL: str):
+    with requests.Session() as s:
+        download = s.get(CSV_URL)
+        decoded_content = download.content.decode('utf-8')
+        cr = csv.reader(decoded_content.splitlines(), delimiter=',')
+        my_list = list(cr)
+        for row in my_list:
+            print(row)

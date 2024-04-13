@@ -1,16 +1,21 @@
+import json
+# import os
+# import uuid as uuid
+from datetime import datetime, timezone
+
 from flask import render_template, flash, redirect, url_for, request
 from flask_login import login_user, current_user, logout_user, login_required
 # from flask_ckeditor import CKEditor
 # from werkzeug.utils import secure_filename
-# import uuid as uuid
-# import os
-from app import app
-from app import db
+
 import sqlalchemy as sa
-from app.models import User, Post, Stocks
+
+from app import app, db
 from app.forms import LoginForm, RegistrationForm, EditProfileForm, EmptyForm, PostForm, SearchForm
-from datetime import datetime, timezone
-import json
+from app.models import User, Post, Stocks
+
+from scripts.ipos import get_ipos_data
+
 
 
 @app.before_request
@@ -440,6 +445,13 @@ def symbol(symbol):
             return render_template('symbol.html', title=f'{stock.company_name} ({stock.ticker_symbol})', stock=stock, posts=posts, form=form) # without tute data
     else:
         return render_template('404.html')
+    
+
+# return IPO's anticipated in the next 3 months
+@app.route('/ipos')
+def ipos():
+    ipo_data = get_ipos_data('https://www.alphavantage.co/query?function=IPO_CALENDAR&apikey=GLLVZKDV4221RMO6')
+    return render_template('ipos.html', ipo_data=ipo_data)
 
 
 

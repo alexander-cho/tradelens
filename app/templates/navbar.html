@@ -16,6 +16,10 @@
                 <li class="nav-item">
                     <a class="nav-link" href=" {{ url_for('symbol_main') }}">Symbols</a>
                 </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href=" {{ url_for('ipos') }}">IPO's</a>
+                </li>
                 {% if current_user.is_anonymous %}
                 <li class="nav-item">
                     <a class="nav-link" href=" {{ url_for('login') }}">Log in</a>

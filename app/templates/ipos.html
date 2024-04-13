@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <h1>Anticipated IPO's</h1>
+
+    {% if ipo_data %}
+        {% for ipo in ipo_data %}
+            {{ ipo }}
+        {% endfor %}
+    {% else %}
+        <h3>IPO data not available currently</h3>
+    {% endif %}
+
+{% endblock %}
