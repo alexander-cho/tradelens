@@ -30,4 +30,3 @@ def remove_stock(ticker):
 if __name__ == '__main__':
     with app.app_context():
         remove_stock('DWAC')
-

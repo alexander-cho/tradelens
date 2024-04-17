@@ -1,4 +1,3 @@
-import os
 import sys
 from pathlib import Path
 
@@ -16,6 +15,7 @@ import warnings
 
 warnings.filterwarnings("ignore", category=FutureWarning)
 
+
 # clear data first
 def clear_institutional_info():
     stocks = Stocks.query.all()
@@ -25,7 +25,7 @@ def clear_institutional_info():
 
 
 def populate_institutional_info():
-    # query all of the ticker symbols from stocks table
+    # query all the ticker symbols from stocks table
     stocks = Stocks.query.all()
     for stock in stocks:
         try:

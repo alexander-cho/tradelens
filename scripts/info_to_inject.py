@@ -30,7 +30,6 @@ ticker = yf.Ticker('SOFI')
 # 'Revenue Average': 568380000}
 
 
-
 # print(ticker.get_fast_info()['lastPrice']) # this gets live volume??
 
 # try:
@@ -47,4 +46,3 @@ options = (ticker.option_chain(ticker.options[0]))
 # print(type(options.calls))
 # print(options.calls)
 print(options.puts)
-

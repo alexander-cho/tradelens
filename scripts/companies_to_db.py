@@ -1,8 +1,8 @@
-'''
+"""
 This script takes the companies.csv file downloaded from the nasdaq website and populates the Stocks table with the data from
 the first two columns (ticker_symbol, company_name)
-'''
-import os
+"""
+
 import sys
 from pathlib import Path
 

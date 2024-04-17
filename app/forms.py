@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from flask_wtf.form import _Auto
+# from flask_wtf.form import _Auto
 from wtforms import StringField, PasswordField, BooleanField, SubmitField, TextAreaField
 from wtforms.validators import ValidationError, DataRequired, Email, EqualTo, Length
 from wtforms.widgets import TextArea
@@ -26,12 +26,12 @@ class RegistrationForm(FlaskForm):
     submit = SubmitField("Register")
 
     def validate_username(self, username):
-        user = User.query.filter_by(username = username.data).first() # check if the username exists in the database
+        user = User.query.filter_by(username=username.data).first()  # check if the username exists in the database
         if user is not None:
             raise ValidationError("Username already registered, please use a different username")
         
     def validate_email(self, email):
-        user = User.query.filter_by(email = email.data).first() # check if the email exists in the database
+        user = User.query.filter_by(email=email.data).first()  # check if the email exists in the database
         if user is not None:
             raise ValidationError("Email already registered, please use a different email address")
 
@@ -48,7 +48,7 @@ class EditProfileForm(FlaskForm):
 
     def validate_username(self, username):
         if username.data != self.original_username:
-            user = User.query.filter_by(username = username.data).first()
+            user = User.query.filter_by(username=username.data).first()
             if user is not None:
                 raise ValidationError("That username is already taken. Please choose a different username")
             
@@ -79,5 +79,5 @@ class PostForm(FlaskForm):
 
 # create a search form
 class SearchForm(FlaskForm):
-    searched = StringField("Searched", validators=[DataRequired()]) # name="searched" attribute, in form of navbar.html
+    searched = StringField("Searched", validators=[DataRequired()])  # name="searched" attribute, in form of navbar.html
     submit = SubmitField("Submit")

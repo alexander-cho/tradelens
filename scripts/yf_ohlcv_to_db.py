@@ -15,6 +15,7 @@ import warnings
 
 warnings.filterwarnings("ignore", category=FutureWarning)
 
+
 # clear data first
 def clear_ohlcv():
     stocks = Stocks.query.all()
@@ -28,7 +29,7 @@ def clear_ohlcv():
 
 
 def populate_ohlcv():
-    # query all of the ticker symbols from stocks table
+    # query all the ticker symbols from stocks table
     stocks = Stocks.query.all()
     for stock in stocks:
         ticker = yf.Ticker(stock.ticker_symbol)
@@ -53,6 +54,7 @@ def populate_ohlcv():
 
     db.session.commit()
 
+    # add method that records time it takes for populate_ohlcv method to execute
 
 
 if __name__ == '__main__':

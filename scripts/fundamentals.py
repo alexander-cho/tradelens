@@ -15,7 +15,8 @@ import warnings
 
 warnings.filterwarnings("ignore", category=FutureWarning)
 
-#clear data first
+
+# clear data first
 def clear_fundamentals():
     stocks = Stocks.query.all()
     for stock in stocks:
@@ -25,7 +26,7 @@ def clear_fundamentals():
 
 
 def populate_fundamentals():
-    # query all of the ticker symbols from stocks table
+    # query all the ticker symbols from stocks table
     stocks = Stocks.query.all()
     for stock in stocks:
         ticker = yf.Ticker(stock.ticker_symbol)
@@ -35,6 +36,7 @@ def populate_fundamentals():
     db.session.commit()
 
 # ticker.get_calendar() is a dict type, I need to either index it or inject it as a whole into a column
+
 
 if __name__ == '__main__':
     with app.app_context():

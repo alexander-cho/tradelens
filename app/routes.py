@@ -17,11 +17,10 @@ from app.models import User, Post, Stocks
 from scripts.ipos import get_ipos_data
 
 
-
 @app.before_request
 def before_request():
-    if current_user.is_authenticated: # if current_user is logged in
-        current_user.last_seen = datetime.now(timezone.utc) # set last seen field to current time
+    if current_user.is_authenticated:  # if current_user is logged in
+        current_user.last_seen = datetime.now(timezone.utc)  # set last seen field to current time
         db.session.commit()
 
 
@@ -36,7 +35,7 @@ def base():
 @app.route('/index')
 # @login_required
 def index():
-    if current_user.is_authenticated: # show following posts if logged in
+    if current_user.is_authenticated:  # show following posts if logged in
         posts = db.session.scalars(current_user.following_posts()).all()
         return render_template('index.html', title='Home', posts=posts)
     else: # if not logged in show the entire feed
@@ -51,11 +50,11 @@ def login():
         return redirect(url_for('index')) # return to index page if already logged in
     form = LoginForm()
     if form.validate_on_submit():
-        user = User.query.filter_by(username = form.username.data).first() # query table to look up username which was submitted in the form and see if it exists
-        if user: # if the user exists
+        user = User.query.filter_by(username = form.username.data).first()  # query table to look up username which was submitted in the form and see if it exists
+        if user:  # if the user exists
             # check the hash
-            if user.check_password(form.password.data): # compare what's already in the database with what the user just typed into the form
-                login_user(user, remember=form.remember_me.data) # log them in
+            if user.check_password(form.password.data):  # compare what's already in the database with what the user just typed into the form
+                login_user(user, remember=form.remember_me.data)  # log them in
                 flash("Login successful")
                 return redirect(url_for('index')) 
             else:
@@ -64,11 +63,11 @@ def login():
         else:
             flash("That user does not exist")
 
-    return render_template('login.html', title='Log In', form=form) # template with the name 'form'='form' object created above
+    return render_template('login.html', title='Log In', form=form)  # template with the name 'form'='form' object created above
 
 
 # log out
-@app.route('/logout')#, methods=['GET', 'POST'])
+@app.route('/logout')  #, methods=['GET', 'POST'])
 @login_required
 def logout():
     logout_user()
@@ -80,7 +79,7 @@ def logout():
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if current_user.is_authenticated:
-        return redirect(url_for('index')) # return to index page if already logged in
+        return redirect(url_for('index'))  # return to index page if already logged in
     form = RegistrationForm()
     if form.validate_on_submit():
         user = User(username=form.username.data, email=form.email.data, date_joined=datetime.now(timezone.utc))
@@ -125,11 +124,11 @@ def edit_profile():
 def follow(username):
     form = EmptyForm()
     if form.validate_on_submit():
-        user = db.session.scalar(sa.select(User).where(User.username == username)) # query user to follow
-        if user is None: # if they don't exist in the database
+        user = db.session.scalar(sa.select(User).where(User.username == username))  # query user to follow
+        if user is None:  # if they don't exist in the database
             flash("User not found")
             return redirect(url_for('index'))
-        if user == current_user: # if it is yourself
+        if user == current_user:  # if it is yourself
             flash("You can't follow yourself")
             return redirect(url_for('user', username=username))
         current_user.follow(user)
@@ -166,7 +165,7 @@ def unfollow(username):
 # @login_required
 def add_post():
     form = PostForm()
-    stock = Stocks.query.filter(Stocks.ticker_symbol == form.title.data).first() # check if the title (ticker) exists in the database
+    stock = Stocks.query.filter(Stocks.ticker_symbol == form.title.data).first()  # check if the title (ticker) exists in the database
     if form.validate_on_submit():
         if stock:
             post = Post(title=form.title.data, content=form.content.data, timestamp=datetime.now(timezone.utc), user_id=current_user.id)
@@ -183,10 +182,10 @@ def add_post():
     return render_template('add_post.html', form=form, stock=stock)
 
 
-@app.route('/posts') #this will potentially become home page content
+@app.route('/posts')  # this will potentially become home page content
 def posts():
     # grab all posts from the database
-    posts = Post.query.order_by(Post.timestamp.desc()) # query by chronological order, from the Posts model.
+    posts = Post.query.order_by(Post.timestamp.desc())  # query by chronological order, from the Posts model.
     return render_template('posts.html', posts=posts)
 
 
@@ -195,11 +194,11 @@ def posts():
 def search():
     form = SearchForm()
     if form.validate_on_submit():
-        search_content = form.searched.data # get data from submitted form
+        search_content = form.searched.data  # get data from submitted form
         posts = Post.query.filter(Post.content.like('%' + search_content + '%'))
         display_posts = posts.order_by(Post.title).all()
         return render_template('search.html', form=form, searched=search_content, display_posts=display_posts)
-    else: # if invalid or blank search is submitted
+    else:  # if invalid or blank search is submitted
         return redirect(url_for('index'))
     
 
@@ -273,7 +272,7 @@ def symbol_search():
 
 # # delete a post
 # @app.route('/posts/delete/<int:id>')
-# @login_required
+# @login_required/
 # def delete_post(id):
 #     post_to_delete = Posts.query.get_or_404(id)
 #     if current_user.id == post_to_delete.poster.id:
@@ -316,7 +315,7 @@ def symbol_search():
 #         flash("Post has been updated")
 #         return redirect(url_for('post', id=post.id)) # redirect back to singular post page
     
-#     if current_user.id == post.poster_id: # if id of logged in user matches the id of the poster of particular post
+#     if current_user.id == post.poster_id: # if id of logged-in user matches the id of the poster of particular post
 #         # Populate the form fields with current values of the post
 #         form.title.data = post.title
 #         # form.author.data = post.author
@@ -407,7 +406,6 @@ def symbol_search():
 #     return render_template("test_pw.html", email=email, password=password, pw_to_check=pw_to_check, passed=passed, form=form)
 
 
-
 # symbol directory route 
 @app.route('/symbol') 
 def symbol_main(): 
@@ -421,28 +419,28 @@ def symbol(symbol):
     stock = db.session.scalar(sa.select(Stocks).where(Stocks.ticker_symbol == symbol))
     posts = Post.query.order_by(Post.timestamp.desc()).where(Post.title == symbol)
     tutes_data = db.session.scalar(sa.select(Stocks.institutional_info).where(Stocks.ticker_symbol == symbol))
-    form = PostForm() # functionality for submitting post directly on specific symbol page
+    form = PostForm()  # functionality for submitting post directly on specific symbol page
     if request.method == 'POST' and form.validate_on_submit:
-        if form.title.data == symbol: # if the ticker that user inputs in the field matches current symbol page
+        if form.title.data == symbol:  # if the ticker that user inputs in the field matches current symbol page
             post = Post(title=form.title.data, content=form.content.data, timestamp=datetime.now(timezone.utc), user_id=current_user.id)
             db.session.add(post)
             db.session.commit()
             flash("Your idea has been submitted")
             return redirect(url_for('symbol', symbol=form.title.data))
-        elif form.title.data != symbol: # if they don't match
-            stock_exists = Stocks.query.filter(Stocks.ticker_symbol == form.title.data).first() # check if the user entered exists in the DB
+        elif form.title.data != symbol:  # if they don't match
+            stock_exists = Stocks.query.filter(Stocks.ticker_symbol == form.title.data).first()  # check if the user entered exists in the DB
             if stock_exists: 
                 flash(f"That was the page for {symbol}, you cannot post that there. Here you go:")
-                return redirect(url_for('symbol', symbol=form.title.data)) # send them to the symbol page they entered
+                return redirect(url_for('symbol', symbol=form.title.data))  # send them to the symbol page they entered
             else:
                 flash("That stock does not exist or is not in the database yet")
                 return redirect(url_for('index'))
     if stock:
-        if tutes_data: # if the institutional info is not null in the database
-            tutes = json.loads(tutes_data) # turn valid json into python list of dictionaries
+        if tutes_data:  # if the institutional info is not null in the database
+            tutes = json.loads(tutes_data)  # turn valid json into python list of dictionaries
             return render_template('symbol.html', title=f'{stock.company_name} ({stock.ticker_symbol})', stock=stock, posts=posts, form=form, tutes=tutes)
         else:
-            return render_template('symbol.html', title=f'{stock.company_name} ({stock.ticker_symbol})', stock=stock, posts=posts, form=form) # without tute data
+            return render_template('symbol.html', title=f'{stock.company_name} ({stock.ticker_symbol})', stock=stock, posts=posts, form=form)  # without tute data
     else:
         return render_template('404.html')
     
@@ -452,7 +450,6 @@ def symbol(symbol):
 def ipos():
     ipo_data = get_ipos_data('https://www.alphavantage.co/query?function=IPO_CALENDAR&apikey=GLLVZKDV4221RMO6')
     return render_template('ipos.html', ipo_data=ipo_data)
-
 
 
 # # if __name__ == '__main__':
