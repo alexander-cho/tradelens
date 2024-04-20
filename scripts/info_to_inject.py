@@ -7,10 +7,9 @@ warnings.filterwarnings("ignore", category=FutureWarning)
 
 
 # https://awesomepython.org/?c=finance python libraries for finance
-# 
 
 # API KEY AlphaVantage
-# DMZT7G4N6OHVB8VH
+# GLLVZKDV4221RMO6
 
 
 ticker = yf.Ticker('SOFI')
@@ -44,5 +43,5 @@ ticker = yf.Ticker('SOFI')
 # print(ticker.options[0])
 options = (ticker.option_chain(ticker.options[0]))
 # print(type(options.calls))
-# print(options.calls)
-print(options.puts)
+print(options.calls)
+# print(options.puts)

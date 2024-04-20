@@ -448,8 +448,9 @@ def symbol(symbol):
 # return IPO's anticipated in the next 3 months
 @app.route('/ipos')
 def ipos():
-    ipo_data = get_ipos_data('https://www.alphavantage.co/query?function=IPO_CALENDAR&apikey=GLLVZKDV4221RMO6')
-    return render_template('ipos.html', ipo_data=ipo_data)
+    csv_url = 'https://www.alphavantage.co/query?function=IPO_CALENDAR&apikey=GLLVZKDV4221RMO6'
+    ipo_data = get_ipos_data(csv_url)
+    return render_template('ipos.html', title='IPOs', ipo_data=ipo_data)
 
 
 # # if __name__ == '__main__':
