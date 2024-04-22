@@ -15,6 +15,7 @@ from app.forms import LoginForm, RegistrationForm, EditProfileForm, EmptyForm, P
 from app.models import User, Post, Stocks
 
 from scripts.ipos import get_ipos_data
+from scripts.options import get_call_options
 
 
 @app.before_request
@@ -452,6 +453,13 @@ def ipos():
     ipo_data = get_ipos_data(csv_url)
     return render_template('ipos.html', title='IPOs', ipo_data=ipo_data)
 
+
+@app.route('/options')
+def options():
+    call_options = get_call_options()
+    options_to_html = call_options.describe().to_html()
+    # return render_template('options.html', options_to_html=options_to_html)
+    return options_to_html
 
 # # if __name__ == '__main__':
 # #     app.run(debug=True)
