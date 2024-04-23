@@ -457,9 +457,8 @@ def ipos():
 @app.route('/options')
 def options():
     call_options = get_call_options()
-    options_to_html = call_options.describe().to_html()
-    # return render_template('options.html', options_to_html=options_to_html)
-    return options_to_html
+    return render_template('options.html', call_options=call_options, title='Options')
+
 
 # # if __name__ == '__main__':
 # #     app.run(debug=True)

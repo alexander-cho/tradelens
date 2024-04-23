@@ -4,6 +4,8 @@
 
     <h1>Call options data</h1>
 
-    options_to_html
+    {% for strike in call_options %}
+        {{ strike }} <br>
+    {% endfor %}
 
 {% endblock %}
