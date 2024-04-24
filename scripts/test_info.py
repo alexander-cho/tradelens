@@ -39,9 +39,6 @@ ticker = yf.Ticker('SOFI')
 # print(ticker.info['sharesOutstanding'])
 # print(type(ticker.get_calendar()['Earnings Average']))
 
-# print(ticker.options) # tuple of expiration dates
-# print(ticker.options[0])
-options = (ticker.option_chain(ticker.options[0]))
-# print(type(options.calls))
-print(options.calls)
-# print(options.puts)
+# print(ticker.options)  # tuple of expiration dates
+print(ticker.option_chain().underlying)
+

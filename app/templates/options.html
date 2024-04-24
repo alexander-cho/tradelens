@@ -2,10 +2,10 @@
 
 {% block content %}
 
-    <h1>Call options data</h1>
+    <h1>SOFI options data</h1>
 
-    {% for strike in call_options %}
-        {{ strike }} <br>
-    {% endfor %}
+    <p>{{ underlying }}</p>
+    <p>{{ calls }}</p>
+    <p>{{ puts }}</p>
 
 {% endblock %}

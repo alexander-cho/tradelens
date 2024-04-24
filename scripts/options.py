@@ -1,19 +1,19 @@
 import yfinance as yf
 
 
-ticker = yf.Ticker('SOFI')
-options = (ticker.option_chain(ticker.options[5]))  # index 0 in this case: next expiry date
-print(options.calls.iloc[10])
+def get_underlying():
+    ticker = yf.Ticker('SOFI')
+    return ticker.option_chain().underlying
 
 
 def get_call_options():
     ticker = yf.Ticker('SOFI')
-    options = (ticker.option_chain(ticker.options[0]))
-    return options.calls['strike'].to_list()
+    return ticker.option_chain().calls
 
 
 def get_put_options():
-    pass
+    ticker = yf.Ticker('SOFI')
+    return ticker.option_chain().puts
 
 
 def get_open_interest():
@@ -26,6 +26,3 @@ def get_last_price():
 
 def get_volume():
     pass
-
-
-

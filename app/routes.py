@@ -15,7 +15,7 @@ from app.forms import LoginForm, RegistrationForm, EditProfileForm, EmptyForm, P
 from app.models import User, Post, Stocks
 
 from scripts.ipos import get_ipos_data
-from scripts.options import get_call_options
+from scripts.options import get_call_options, get_underlying, get_put_options
 
 
 @app.before_request
@@ -456,8 +456,10 @@ def ipos():
 
 @app.route('/options')
 def options():
-    call_options = get_call_options()
-    return render_template('options.html', call_options=call_options, title='Options')
+    underlying = get_underlying()
+    calls = get_call_options()
+    puts = get_put_options()
+    return render_template('options.html', underlying=underlying, calls=calls, puts=puts, title='Options')
 
 
 # # if __name__ == '__main__':
