@@ -407,7 +407,7 @@ def symbol_search():
 #     return render_template("test_pw.html", email=email, password=password, pw_to_check=pw_to_check, passed=passed, form=form)
 
 
-# symbol directory route 
+# symbol directory route
 @app.route('/symbol') 
 def symbol_main(): 
     stock_list = Stocks.query.all() 
@@ -454,12 +454,13 @@ def ipos():
     return render_template('ipos.html', title='IPOs', ipo_data=ipo_data)
 
 
-@app.route('/options')
-def options():
-    underlying = get_underlying()
-    calls = get_call_options()
-    puts = get_put_options()
-    return render_template('options.html', underlying=underlying, calls=calls, puts=puts, title='Options')
+@app.route('/options/<symbol>')
+def options(symbol):
+    stock = db.session.scalar(sa.select(Stocks).where(Stocks.ticker_symbol == symbol))
+    underlying = get_underlying(symbol=stock.ticker_symbol)
+    calls = get_call_options(symbol=stock.ticker_symbol)
+    puts = get_put_options(symbol=stock.ticker_symbol)
+    return render_template('options.html', stock=stock, underlying=underlying, calls=calls, puts=puts, title='Options')
 
 
 # # if __name__ == '__main__':

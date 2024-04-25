@@ -2,6 +2,7 @@ import yfinance as yf
 # from app.models import Stocks
 # from tradelens import app, db
 import warnings
+import requests
 
 warnings.filterwarnings("ignore", category=FutureWarning)
 
@@ -40,5 +41,12 @@ ticker = yf.Ticker('SOFI')
 # print(type(ticker.get_calendar()['Earnings Average']))
 
 # print(ticker.options)  # tuple of expiration dates
-print(ticker.option_chain().underlying)
+# print(ticker.option_chain().calls['contractSymbol'])
+# print(ticker.financials)  # quarterly financials
+# print(ticker.get_calendar())
 
+url = 'https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=IBM&interval=5min&apikey=GLLVZKDV4221RMO6'
+r = requests.get(url)
+data = r.json()
+
+print(data)

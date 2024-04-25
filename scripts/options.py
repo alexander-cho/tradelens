@@ -1,18 +1,18 @@
 import yfinance as yf
 
 
-def get_underlying():
-    ticker = yf.Ticker('SOFI')
+def get_underlying(symbol):
+    ticker = yf.Ticker(symbol)
     return ticker.option_chain().underlying
 
 
-def get_call_options():
-    ticker = yf.Ticker('SOFI')
+def get_call_options(symbol):
+    ticker = yf.Ticker(symbol)
     return ticker.option_chain().calls
 
 
-def get_put_options():
-    ticker = yf.Ticker('SOFI')
+def get_put_options(symbol):
+    ticker = yf.Ticker(symbol)
     return ticker.option_chain().puts
 
 

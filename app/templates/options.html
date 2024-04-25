@@ -2,10 +2,30 @@
 
 {% block content %}
 
-    <h1>SOFI options data</h1>
+    <h1>Options data for {{ stock.ticker_symbol }}</h1>
 
-    <p>{{ underlying }}</p>
-    <p>{{ calls }}</p>
-    <p>{{ puts }}</p>
+    <h3>Underlying information</h3>
+    <p>
+        {% for k, v in underlying.items() %}
+            {{ k }} | {{ v }}<br>
+        {% endfor %}
+        <br>
+        Bid: {{ underlying['bid'] }} <br>
+        Ask: {{ underlying['ask'] }}
+    </p>
+
+    <h3>Calls</h3>
+    <p>
+        {% for k, v in calls['contractSymbol'].items() %}
+            {{ v }} <br>
+        {% endfor %}
+    </p>
+
+    <h3>Puts</h3>
+    <p>
+        {% for k, v in puts['contractSymbol'].items() %}
+            {{ v }} <br>
+        {% endfor %}
+    </p>
 
 {% endblock %}
