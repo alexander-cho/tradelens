@@ -15,7 +15,7 @@ from app.forms import LoginForm, RegistrationForm, EditProfileForm, EmptyForm, P
 from app.models import User, Post, Stocks
 
 from scripts.ipos import get_ipos_data
-from scripts.options import get_call_options, get_underlying, get_put_options
+from scripts.options import get_underlying, get_call_options, get_expiry_list, get_put_options
 
 
 @app.before_request
@@ -458,9 +458,10 @@ def ipos():
 def options(symbol):
     stock = db.session.scalar(sa.select(Stocks).where(Stocks.ticker_symbol == symbol))
     underlying = get_underlying(symbol=stock.ticker_symbol)
+    expiry_list = get_expiry_list(symbol=stock.ticker_symbol)
     calls = get_call_options(symbol=stock.ticker_symbol)
     puts = get_put_options(symbol=stock.ticker_symbol)
-    return render_template('options.html', stock=stock, underlying=underlying, calls=calls, puts=puts, title='Options')
+    return render_template('options.html', stock=stock, underlying=underlying, expiry_list=expiry_list, calls=calls, puts=puts, title='Options')
 
 
 # # if __name__ == '__main__':

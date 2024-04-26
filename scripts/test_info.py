@@ -40,13 +40,11 @@ ticker = yf.Ticker('SOFI')
 # print(ticker.info['sharesOutstanding'])
 # print(type(ticker.get_calendar()['Earnings Average']))
 
-# print(ticker.options)  # tuple of expiration dates
+# print(ticker.options[0:len(ticker.options)-1])  # tuple of expiration dates
 # print(ticker.option_chain().calls['contractSymbol'])
 # print(ticker.financials)  # quarterly financials
 # print(ticker.get_calendar())
+may_3_2024_calls = ticker.option_chain(date='2024-05-03').calls
 
-url = 'https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=IBM&interval=5min&apikey=GLLVZKDV4221RMO6'
-r = requests.get(url)
-data = r.json()
+print(may_3_2024_calls.columns)
 
-print(data)

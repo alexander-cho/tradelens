@@ -14,10 +14,21 @@
         Ask: {{ underlying['ask'] }}
     </p>
 
+    <h3>Expiry Dates</h3>
+    <p>
+        {% for expiry in expiry_list %}
+            {{ expiry }} <br>
+        {% endfor %}
+    </p>
+
     <h3>Calls</h3>
     <p>
-        {% for k, v in calls['contractSymbol'].items() %}
-            {{ v }} <br>
+        <!-- consider having this inside the py script-->
+        {% for index, row in calls.iterrows() %}
+            {% for column, value in row.items() %}
+                {{ column }} - {{ value }} <br>
+            {% endfor %}
+            <br>
         {% endfor %}
     </p>
 
