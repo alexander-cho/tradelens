@@ -46,5 +46,6 @@ ticker = yf.Ticker('SOFI')
 # print(ticker.get_calendar())
 may_3_2024_calls = ticker.option_chain(date='2024-05-03').calls
 
-print(may_3_2024_calls.columns)
+# print(may_3_2024_calls.columns)
 
+print(ticker.get_fast_info())

@@ -14,6 +14,7 @@ from app import app, db
 from app.forms import LoginForm, RegistrationForm, EditProfileForm, EmptyForm, PostForm, SearchForm
 from app.models import User, Post, Stocks
 
+from scripts.get_yf_ohlcv import get_ohlcv, get_shares_outstanding
 from scripts.ipos import get_ipos_data
 from scripts.options import get_underlying, get_call_options, get_expiry_list, get_put_options
 
@@ -418,32 +419,36 @@ def symbol_main():
 @app.route('/symbol/<symbol>', methods=['GET', 'POST'])
 def symbol(symbol):
     stock = db.session.scalar(sa.select(Stocks).where(Stocks.ticker_symbol == symbol))
-    posts = Post.query.order_by(Post.timestamp.desc()).where(Post.title == symbol)
-    tutes_data = db.session.scalar(sa.select(Stocks.institutional_info).where(Stocks.ticker_symbol == symbol))
-    form = PostForm()  # functionality for submitting post directly on specific symbol page
-    if request.method == 'POST' and form.validate_on_submit:
-        if form.title.data == symbol:  # if the ticker that user inputs in the field matches current symbol page
-            post = Post(title=form.title.data, content=form.content.data, timestamp=datetime.now(timezone.utc), user_id=current_user.id)
-            db.session.add(post)
-            db.session.commit()
-            flash("Your idea has been submitted")
-            return redirect(url_for('symbol', symbol=form.title.data))
-        elif form.title.data != symbol:  # if they don't match
-            stock_exists = Stocks.query.filter(Stocks.ticker_symbol == form.title.data).first()  # check if the user entered exists in the DB
-            if stock_exists: 
-                flash(f"That was the page for {symbol}, you cannot post that there. Here you go:")
-                return redirect(url_for('symbol', symbol=form.title.data))  # send them to the symbol page they entered
-            else:
-                flash("That stock does not exist or is not in the database yet")
-                return redirect(url_for('index'))
-    if stock:
-        if tutes_data:  # if the institutional info is not null in the database
-            tutes = json.loads(tutes_data)  # turn valid json into python list of dictionaries
-            return render_template('symbol.html', title=f'{stock.company_name} ({stock.ticker_symbol})', stock=stock, posts=posts, form=form, tutes=tutes)
-        else:
-            return render_template('symbol.html', title=f'{stock.company_name} ({stock.ticker_symbol})', stock=stock, posts=posts, form=form)  # without tute data
-    else:
-        return render_template('404.html')
+    ohlcv_data = get_ohlcv(symbol)
+    shares_outstanding = get_shares_outstanding(symbol)
+    return render_template('symbol_new.html', stock=stock, ohlcv_data=ohlcv_data, shares_outstanding=shares_outstanding)
+
+    # posts = Post.query.order_by(Post.timestamp.desc()).where(Post.title == symbol)
+    # tutes_data = db.session.scalar(sa.select(Stocks.institutional_info).where(Stocks.ticker_symbol == symbol))
+    # form = PostForm()  # functionality for submitting post directly on specific symbol page
+    # if request.method == 'POST' and form.validate_on_submit:
+    #     if form.title.data == symbol:  # if the ticker that user inputs in the field matches current symbol page
+    #         post = Post(title=form.title.data, content=form.content.data, timestamp=datetime.now(timezone.utc), user_id=current_user.id)
+    #         db.session.add(post)
+    #         db.session.commit()
+    #         flash("Your idea has been submitted")
+    #         return redirect(url_for('symbol', symbol=form.title.data))
+    #     elif form.title.data != symbol:  # if they don't match
+    #         stock_exists = Stocks.query.filter(Stocks.ticker_symbol == form.title.data).first()  # check if the user entered exists in the DB
+    #         if stock_exists:
+    #             flash(f"That was the page for {symbol}, you cannot post that there. Here you go:")
+    #             return redirect(url_for('symbol', symbol=form.title.data))  # send them to the symbol page they entered
+    #         else:
+    #             flash("That stock does not exist or is not in the database yet")
+    #             return redirect(url_for('index'))
+    # if stock:
+    #     if tutes_data:  # if the institutional info is not null in the database
+    #         tutes = json.loads(tutes_data)  # turn valid json into python list of dictionaries
+    #         return render_template('symbol.html', title=f'{stock.company_name} ({stock.ticker_symbol})', stock=stock, posts=posts, form=form, tutes=tutes)
+    #     else:
+    #         return render_template('symbol.html', title=f'{stock.company_name} ({stock.ticker_symbol})', stock=stock, posts=posts, form=form)  # without tute data
+    # else:
+    #     return render_template('404.html')
     
 
 # return IPO's anticipated in the next 3 months
