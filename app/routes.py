@@ -421,7 +421,7 @@ def symbol(symbol):
     stock = db.session.scalar(sa.select(Stocks).where(Stocks.ticker_symbol == symbol))
     ohlcv_data = get_ohlcv(symbol)
     shares_outstanding = get_shares_outstanding(symbol)
-    return render_template('symbol_new.html', stock=stock, ohlcv_data=ohlcv_data, shares_outstanding=shares_outstanding)
+    return render_template('symbol_new.html', title=f'{stock.company_name} ({stock.ticker_symbol})', stock=stock, ohlcv_data=ohlcv_data, shares_outstanding=shares_outstanding)
 
     # posts = Post.query.order_by(Post.timestamp.desc()).where(Post.title == symbol)
     # tutes_data = db.session.scalar(sa.select(Stocks.institutional_info).where(Stocks.ticker_symbol == symbol))
