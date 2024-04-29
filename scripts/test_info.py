@@ -1,6 +1,4 @@
 import yfinance as yf
-# from app.models import Stocks
-# from tradelens import app, db
 import warnings
 import requests
 

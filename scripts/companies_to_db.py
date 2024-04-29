@@ -3,26 +3,26 @@ This script takes the companies.csv file downloaded from the nasdaq website and 
 the first two columns (ticker_symbol, company_name)
 """
 
+import csv
 import sys
 from pathlib import Path
+
+from app.models import Stocks
+from app import app, db
 
 # Add the parent directory of 'app' to the system path
 current_dir = Path(__file__).resolve().parent
 parent_dir = current_dir.parent
 sys.path.append(str(parent_dir))
 
-from app.models import Stocks
-from app import app, db
-import csv
-
 
 def companies_to_db(filename):
     with open(filename, 'r', encoding='utf-8') as file:
-        reader = csv.reader(file) # create a csv reader object
-        next(reader) # skip the header row
+        reader = csv.reader(file)  # create a csv reader object
+        next(reader)  # skip the header row
         for row in reader:
-            ticker_symbol, company_name = row[1], row[3] # get the columns: ticker symbol and company name
-            stock = Stocks(ticker_symbol=ticker_symbol, company_name=company_name) # create a Stocks object with the extracted data
+            ticker_symbol, company_name = row[1], row[3]  # get the columns: ticker symbol and company name
+            stock = Stocks(ticker_symbol=ticker_symbol, company_name=company_name)  # create a Stocks object with the extracted data
             db.session.add(stock)
         db.session.commit()
 
