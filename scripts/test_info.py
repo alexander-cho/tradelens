@@ -48,4 +48,6 @@ may_3_2024_calls = ticker.option_chain(date='2024-05-03').calls
 
 # print(may_3_2024_calls.columns)
 
-print(ticker.get_fast_info())
+# print(ticker.get_fast_info())
+
+print(ticker.get_insider_transactions())

@@ -2,40 +2,48 @@
 
 {% block content %}
 
-    <h1>This is the page for the stock: </h1>
-    
-    <h2>{{ stock.ticker_symbol }}</h2>
-    Company name: {{ stock.company_name }} <br>
-    Opening price: ${{ '%.2f'|format(stock.open) }} <br>
-    High price: ${{ '%.2f'|format(stock.high) }} <br>
-    Low price: ${{ '%.2f'|format(stock.low) }} <br>
-    Closing price: ${{ '%.2f'|format(stock.close) }} <br>
-    Last price: ${{ '%.2f'|format(stock.last_price) }} <br>
-    Volume: {{ '{:,.0f}'.format(stock.volume) }} shares traded<br>
-    <br>
-    {% if stock.shares_outstanding %}
-        Shares Outstanding: {{ '{:,.0f}'.format(stock.shares_outstanding) }}<br>
-        Market Capitalization: ${{ '{:,.2f}'.format(stock.shares_outstanding * stock.close) }}
-    {% endif %}
-    
-    <p>
-        {% if tutes %}
-            Top 10 Institutional Investors <br>
-            {% for tute in tutes %}
-                {{ tute.Holder }} holds {{ '{:,.0f}'.format(tute.Shares) }} shares valued at {{ '${:,.0f}'.format(tute.Value) }} which is {{ '%.2f'|format(tute.pctHeld*100) }}% of the company <br>
-            {% endfor %}
-        {% else %}
-            The institutional holder information is not available for this stock.
+    <h1>{{ stock.ticker_symbol }}</h1>
+    <h4>{{ stock.company_name }}</h4>
+
+    {% for column in ohlcv_data.columns %}
+        {% if column not in ['Volume', 'Dividends', 'Stock Splits', 'Capital Gains'] %}
+            {{ column }} - ${{ '%.2f'|format(ohlcv_data[column][0]) }} <br>
+        {% elif column == 'Volume' %}
+            {{ column }} - {{ '{:,.0f}'.format(ohlcv_data[column][0]) }} shares traded
         {% endif %}
+    {% endfor %}
+    <br>
+    {% if shares_outstanding %}
+        Shares outstanding: {{ '{:,.0f}'.format( shares_outstanding) }}
+    {% endif %}
+
+    <h3>Institutional Holdings</h3>
+    {% if institutional_holders %}
+        {{ institutional_holders }}
+    {% else %}
+        <p>Institutional holder information is not available for {{ stock.ticker_symbol }}</p>
+    {% endif %}
+
+    <h3>Insider Activity</h3>
+    {% if insider_transactions %}
+        {{ insider_transactions }}
+    {% else %}
+        <p>Insider activity information is not available for {{ stock.ticker_symbol }}</p>
+    {% endif %}
+
+    <p>
+        {{ fast_info }}
     </p>
 
+    <p>
+        {{ earnings_forecast }}
+    </p>
 
-    {% include 'add_post.html' %}
+    {#% include 'add_post.html' %#}
 
-    <br><br>
-    {% for post in posts %}
+    <br>
+    {% for post in symbol_posts %}
         {% include '_post.html' %}
     {% endfor %}
-
 
 {% endblock %}

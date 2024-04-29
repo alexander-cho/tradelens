@@ -9,6 +9,6 @@ data = r.json()
 print(data)
 
 
-# # YF EARNINGS FORECAST
-# ticker = yf.Ticker('SOFI')
-# print(ticker.get_calendar())
+# YF EARNINGS FORECAST
+ticker = yf.Ticker('SOFI')
+print(ticker.get_calendar())

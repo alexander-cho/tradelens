@@ -1,13 +1,13 @@
 import sys
 from pathlib import Path
 
+from app.models import Stocks
+from tradelens import app, db
+
 # Add the parent directory of 'app' to the system path
 current_dir = Path(__file__).resolve().parent
 parent_dir = current_dir.parent
 sys.path.append(str(parent_dir))
-
-from app.models import Stocks
-from tradelens import app, db
 
 
 # check if the stock already exists in the table

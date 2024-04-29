@@ -15,7 +15,9 @@ from app.forms import LoginForm, RegistrationForm, EditProfileForm, EmptyForm, P
 from app.models import User, Post, Stocks
 
 from scripts.get_yf_ohlcv import get_ohlcv, get_shares_outstanding
+from scripts.large_holders import get_institutional_holders, get_insider_transactions
 from scripts.ipos import get_ipos_data
+from scripts.general_info import get_fast_info, get_calendar
 from scripts.options import get_underlying, get_call_options, get_expiry_list, get_put_options
 
 
@@ -419,11 +421,17 @@ def symbol_main():
 @app.route('/symbol/<symbol>', methods=['GET', 'POST'])
 def symbol(symbol):
     stock = db.session.scalar(sa.select(Stocks).where(Stocks.ticker_symbol == symbol))
-    ohlcv_data = get_ohlcv(symbol)
-    shares_outstanding = get_shares_outstanding(symbol)
-    return render_template('symbol_new.html', title=f'{stock.company_name} ({stock.ticker_symbol})', stock=stock, ohlcv_data=ohlcv_data, shares_outstanding=shares_outstanding)
+    symbol_posts = Post.query.order_by(Post.timestamp.desc()).where(Post.title == symbol)
 
-    # posts = Post.query.order_by(Post.timestamp.desc()).where(Post.title == symbol)
+    ohlcv_data = get_ohlcv(symbol)
+    institutional_holders = get_institutional_holders(symbol)
+    insider_transactions = get_insider_transactions(symbol)
+    shares_outstanding = get_shares_outstanding(symbol)
+    fast_info = get_fast_info(symbol)
+    earnings_forecast = get_calendar(symbol)
+
+    return render_template('symbol.html', title=f'{stock.company_name} ({stock.ticker_symbol})', stock=stock, symbol_posts=symbol_posts, ohlcv_data=ohlcv_data, institutional_holders=institutional_holders, insider_transactions=insider_transactions, shares_outstanding=shares_outstanding, fast_info=fast_info, earnings_forecast=earnings_forecast)
+
     # tutes_data = db.session.scalar(sa.select(Stocks.institutional_info).where(Stocks.ticker_symbol == symbol))
     # form = PostForm()  # functionality for submitting post directly on specific symbol page
     # if request.method == 'POST' and form.validate_on_submit:

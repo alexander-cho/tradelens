@@ -84,8 +84,3 @@ def get_shares_outstanding(symbol):
         return outstanding_shares
     except Exception as e:
         print(f"Error fetching implied shares for {symbol}: {e}")
-
-
-def get_fast_info(symbol):
-    pass
-    # last price
