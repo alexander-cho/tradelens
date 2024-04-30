@@ -4,39 +4,32 @@
 
     <h1>Options data for {{ stock.ticker_symbol }}</h1>
 
-    <h3>Underlying information</h3>
-    <p>
-        {% for k, v in underlying.items() %}
-            {{ k }} | {{ v }}<br>
-        {% endfor %}
-        <br>
-        Bid: {{ underlying['bid'] }} <br>
-        Ask: {{ underlying['ask'] }}
-    </p>
+    <h2>Expiration Calendar</h2>
+    {% for expiry in expiry_list %}
+        <a href="#">{{ expiry }}</a> <br>
+    {% endfor %}
 
-    <h3>Expiry Dates</h3>
-    <p>
-        {% for expiry in expiry_list %}
-            {{ expiry }} <br>
-        {% endfor %}
-    </p>
-
-    <h3>Calls</h3>
-    <p>
-        <!-- consider having this inside the py script-->
-        {% for index, row in calls.iterrows() %}
-            {% for column, value in row.items() %}
-                {{ column }} - {{ value }} <br>
+    {% for expiry_date, option_chain in options_detail.items() %}
+        <p>
+        <strong>Calls expiring on {{ expiry_date }}</strong> <br>
+        {% for i, j in option_chain.calls.iterrows() %}
+            <strong>Sep</strong> <br>
+            {% for col, val in j.items() %}
+                {{ col }} | {{ val }} <br>
             {% endfor %}
-            <br>
+            Open interest: {{ j['openInterest'] }}<br>
         {% endfor %}
-    </p>
+        </p>
 
-    <h3>Puts</h3>
-    <p>
-        {% for k, v in puts['contractSymbol'].items() %}
-            {{ v }} <br>
+        <p>
+        <strong>Puts expiring on {{ expiry_date }}</strong> <br>
+        {% for i, j in option_chain.puts.iterrows() %}
+            <strong>Sep</strong> <br>
+            {% for col, val in j.items() %}
+                {{ col }} | {{ val }} <br>
+            {% endfor %}
         {% endfor %}
-    </p>
+        </p>
+    {% endfor %}
 
 {% endblock %}

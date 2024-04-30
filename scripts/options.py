@@ -6,28 +6,11 @@ def get_expiry_list(symbol):
     return ticker.options
 
 
-def get_underlying(symbol):
+def get_options_detail(symbol):
     ticker = yf.Ticker(symbol)
-    return ticker.option_chain().underlying
-
-
-def get_call_options(symbol):
-    ticker = yf.Ticker(symbol)
-    return ticker.option_chain(date='2024-05-03').calls
-
-
-def get_put_options(symbol):
-    ticker = yf.Ticker(symbol)
-    return ticker.option_chain().puts
-
-
-def get_open_interest():
-    pass
-
-
-def get_last_price():
-    pass
-
-
-def get_volume():
-    pass
+    expiry_dates = get_expiry_list(symbol)
+    options_data = {}
+    # populate dictionary with {"expiry date": option chain for that expiry}
+    for expiry in expiry_dates:
+        options_data[expiry] = ticker.option_chain(date=expiry)
+    return options_data

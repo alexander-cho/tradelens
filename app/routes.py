@@ -17,7 +17,7 @@ from scripts.get_yf_ohlcv import get_ohlcv, get_shares_outstanding
 from scripts.large_holders import get_institutional_holders, get_insider_transactions
 from scripts.ipos import get_ipos_data
 from scripts.general_info import get_fast_info, get_calendar
-from scripts.options import get_underlying, get_call_options, get_expiry_list, get_put_options
+from scripts.options import get_expiry_list, get_options_detail
 
 
 @app.before_request
@@ -469,11 +469,12 @@ def ipos():
 @app.route('/options/<symbol>')
 def options(symbol):
     stock = db.session.scalar(sa.select(Stocks).where(Stocks.ticker_symbol == symbol))
-    underlying = get_underlying(symbol=stock.ticker_symbol)
     expiry_list = get_expiry_list(symbol=stock.ticker_symbol)
-    calls = get_call_options(symbol=stock.ticker_symbol)
-    puts = get_put_options(symbol=stock.ticker_symbol)
-    return render_template('options.html', stock=stock, underlying=underlying, expiry_list=expiry_list, calls=calls, puts=puts, title='Options')
+    options_detail = get_options_detail(symbol=stock.ticker_symbol)
+    return render_template('options.html', title='Options', stock=stock, expiry_list=expiry_list, options_detail=options_detail)
+
+
+# urlpattern: '/optoins/symbol/expirydate>'
 
 
 # # if __name__ == '__main__':
