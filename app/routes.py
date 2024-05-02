@@ -427,9 +427,9 @@ def symbol(symbol):
     insider_transactions = get_insider_transactions(symbol)
     shares_outstanding = get_shares_outstanding(symbol)
     fast_info = get_fast_info(symbol)
-    earnings_forecast = get_calendar(symbol)
+    calendar = get_calendar(symbol)
 
-    return render_template('symbol.html', title=f'{stock.company_name} ({stock.ticker_symbol})', stock=stock, symbol_posts=symbol_posts, ohlcv_data=ohlcv_data, institutional_holders=institutional_holders, insider_transactions=insider_transactions, shares_outstanding=shares_outstanding, fast_info=fast_info, earnings_forecast=earnings_forecast)
+    return render_template('symbol.html', title=f'{stock.company_name} ({stock.ticker_symbol})', stock=stock, symbol_posts=symbol_posts, ohlcv_data=ohlcv_data, institutional_holders=institutional_holders, insider_transactions=insider_transactions, shares_outstanding=shares_outstanding, fast_info=fast_info, calendar=calendar)
 
     # tutes_data = db.session.scalar(sa.select(Stocks.institutional_info).where(Stocks.ticker_symbol == symbol))
     # form = PostForm()  # functionality for submitting post directly on specific symbol page
@@ -456,7 +456,7 @@ def symbol(symbol):
     #         return render_template('symbol.html', title=f'{stock.company_name} ({stock.ticker_symbol})', stock=stock, posts=posts, form=form)  # without tute data
     # else:
     #     return render_template('404.html')
-    
+
 
 # return IPO's anticipated in the next 3 months
 @app.route('/ipos')

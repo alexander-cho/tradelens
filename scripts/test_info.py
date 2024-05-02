@@ -11,7 +11,7 @@ warnings.filterwarnings("ignore", category=FutureWarning)
 # GLLVZKDV4221RMO6
 
 
-ticker = yf.Ticker('SOFI')
+ticker = yf.Ticker('AAPL')
 # print(sofi.major_holders)
 # print(sofi.balance_sheet)
 
@@ -44,18 +44,20 @@ ticker = yf.Ticker('SOFI')
 # print(ticker.get_calendar())
 may_3_2024_calls = ticker.option_chain(date='2024-05-03').calls
 
-expiry_dates = ticker.options
-options_data = {}
-for expiry in expiry_dates:
-    options_data[expiry] = ticker.option_chain(date=expiry)
-for expiry_date, option_chain in options_data.items():
-    for i, j in option_chain.calls.iterrows():
-        print(f'Open interest: {j["openInterest"]}')
-
-
-print(type(ticker.option_chain(date='2024-05-03').calls))
+# expiry_dates = ticker.options
+# options_data = {}
+# for expiry in expiry_dates:
+#     options_data[expiry] = ticker.option_chain(date=expiry)
+# for expiry_date, option_chain in options_data.items():
+#     for i, j in option_chain.calls.iterrows():
+#         print(f'Open interest: {j["openInterest"]}')
+#
+#
+# print(type(ticker.option_chain(date='2024-05-03').calls))
 
 
 # print(ticker.get_fast_info())
 
 # print(ticker.get_insider_transactions())
+
+print(ticker.get_calendar())

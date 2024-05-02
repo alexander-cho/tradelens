@@ -7,9 +7,9 @@
 
     {% for column in ohlcv_data.columns %}
         {% if column not in ['Volume', 'Dividends', 'Stock Splits', 'Capital Gains'] %}
-            {{ column }} - ${{ '%.2f'|format(ohlcv_data[column][0]) }} <br>
+            {{ column }}: ${{ '%.2f'|format(ohlcv_data[column][0]) }} <br>
         {% elif column == 'Volume' %}
-            {{ column }} - {{ '{:,.0f}'.format(ohlcv_data[column][0]) }} shares traded
+            {{ column }}: {{ '{:,.0f}'.format(ohlcv_data[column][0]) }} shares traded
         {% endif %}
     {% endfor %}
     <br>
@@ -32,11 +32,26 @@
     {% endif %}
 
     <p>
-        {{ fast_info }}
+    Market Capitalization: {{ '${:,.0f}'.format(fast_info['marketCap']) }} <br>
     </p>
 
+    <h3>Calendar</h3>
     <p>
-        {{ earnings_forecast }}
+    {% for k, v in calendar.items() %}  <!-- earnings_forecast is of type dictionary -->
+        {% if k in ['Dividend Date', 'Ex-Dividend Date'] %}  <!-- Dividend calendar -->
+            {{ k }}: {{ v }} <br>
+        {% elif k == 'Earnings Date' %}
+            {% if v|length == 1 %}  <!-- if next earnings date is confirmed -->
+                {{ k }}: {{ v[0] }} <br>
+            {% else %}
+                {{ k }}: Between {{ v[0] }} and {{ v[1] }} <br>
+            {% endif %}
+        {% elif k in ['Earnings High', 'Earnings Low', 'Earnings Average'] %}  <!-- EPS -->
+            {{ k }}: ${{ '{:.2f}'.format(v) }} per share <br>
+        {% else %}  <!-- Revenue estimates -->
+            {{ k }}: {{ '${:,.0f}'.format(v) }} <br>
+        {% endif %}
+    {% endfor %}
     </p>
 
     {#% include 'add_post.html' %#}
