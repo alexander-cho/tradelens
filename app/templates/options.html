@@ -6,7 +6,7 @@
 
     <h2>Expiration Calendar</h2>
     {% for expiry in expiry_list %}
-        <a href="#">{{ expiry }}</a> <br>
+        <a href="{{ url_for('options_expiry', symbol=stock.ticker_symbol, expiry_date=expiry) }}">{{ expiry }}</a> <br>
     {% endfor %}
 
     {% for expiry_date, option_chain in options_detail.items() %}

@@ -14,3 +14,9 @@ def get_options_detail(symbol):
     for expiry in expiry_dates:
         options_data[expiry] = ticker.option_chain(date=expiry)
     return options_data
+
+
+def get_option_chain_for_expiry(symbol, expiry_date):
+    ticker = yf.Ticker(symbol)
+    option_chain = ticker.option_chain(date=expiry_date)
+    return option_chain
