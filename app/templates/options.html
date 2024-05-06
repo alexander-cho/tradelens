@@ -9,27 +9,4 @@
         <a href="{{ url_for('options_expiry', symbol=stock.ticker_symbol, expiry_date=expiry) }}">{{ expiry }}</a> <br>
     {% endfor %}
 
-    {% for expiry_date, option_chain in options_detail.items() %}
-        <p>
-        <strong>Calls expiring on {{ expiry_date }}</strong> <br>
-        {% for i, j in option_chain.calls.iterrows() %}
-            <strong>Sep</strong> <br>
-            {% for col, val in j.items() %}
-                {{ col }} | {{ val }} <br>
-            {% endfor %}
-            Open interest: {{ j['openInterest'] }}<br>
-        {% endfor %}
-        </p>
-
-        <p>
-        <strong>Puts expiring on {{ expiry_date }}</strong> <br>
-        {% for i, j in option_chain.puts.iterrows() %}
-            <strong>Sep</strong> <br>
-            {% for col, val in j.items() %}
-                {{ col }} | {{ val }} <br>
-            {% endfor %}
-        {% endfor %}
-        </p>
-    {% endfor %}
-
 {% endblock %}

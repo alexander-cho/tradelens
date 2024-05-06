@@ -211,7 +211,7 @@ def symbol_search():
     form = SearchForm()
     if form.validate_on_submit():
         search_content = form.searched.data
-        stock = Stocks.query.filter(Stocks.ticker_symbol == search_content).first()
+        stock = Stocks.query.filter(Stocks.ticker_symbol == search_content.upper()).first()
         return render_template('symbol_search.html', form=form, searched=search_content, stock=stock)
     else:
         return redirect(url_for('symbol_main'))
@@ -466,6 +466,11 @@ def ipos():
     return render_template('ipos.html', title='IPOs', ipo_data=ipo_data)
 
 
+@app.route('/options')
+def options_main():
+    pass
+
+
 @app.route('/options/<symbol>')
 def options(symbol):
     stock = db.session.scalar(sa.select(Stocks).where(Stocks.ticker_symbol == symbol))
@@ -478,7 +483,7 @@ def options(symbol):
 def options_expiry(symbol, expiry_date):
     stock = db.session.scalar(sa.select(Stocks).where(Stocks.ticker_symbol == symbol))
     option_chain = get_option_chain_for_expiry(symbol, expiry_date)
-    return render_template('options_expiry.html', stock=stock, option_chain=option_chain)
+    return render_template('options_expiry.html', title=f'{symbol} {expiry_date}', stock=stock, option_chain=option_chain, expiry_date=expiry_date)
 
 
 # # if __name__ == '__main__':

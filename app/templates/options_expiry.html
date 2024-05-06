@@ -3,6 +3,30 @@
 {% block content %}
 
     <h3>Here is the chain for {{ stock.ticker_symbol }}</h3>
-    {{ option_chain }}
+
+    <p>
+        {{ option_chain.underlying }}
+    </p>
+
+    <h3>Calls expiring on {{ expiry_date }}</h3>
+    <p>
+    {% for i, j in option_chain.calls.iterrows() %}
+        <strong>Sep</strong> <br>
+        {% for col, val in j.items() %}
+            {{ col }} | {{ val }} <br>
+        {% endfor %}
+{#        Open interest: {{ j['openInterest'] }}<br>#}
+    {% endfor %}
+    </p>
+
+    <h3>Puts expiring on {{ expiry_date }}</h3>
+    <p>
+    {% for i, j in option_chain.puts.iterrows() %}
+        <strong>Sep</strong> <br>
+        {% for col, val in j.items() %}
+            {{ col }} | {{ val }} <br>
+        {% endfor %}
+    {% endfor %}
+    </p>
 
 {% endblock %}
