@@ -14,8 +14,13 @@
     {% endfor %}
     <br>
     {% if shares_outstanding %}
-        Shares outstanding: {{ '{:,.0f}'.format( shares_outstanding) }}
+        Shares outstanding: {{ '{:,.0f}'.format(shares_outstanding) }}
     {% endif %}
+
+    <p>
+    Market Capitalization: {{ '${:,.0f}'.format(fast_info['marketCap']) }} <br>
+    </p>
+
 
     <h3>Institutional Holdings</h3>
     {% if institutional_holders %}
@@ -24,6 +29,7 @@
         <p>Institutional holder information is not available for {{ stock.ticker_symbol }}</p>
     {% endif %}
 
+
     <h3>Insider Activity</h3>
     {% if insider_transactions %}
         {{ insider_transactions }}
@@ -31,9 +37,6 @@
         <p>Insider activity information is not available for {{ stock.ticker_symbol }}</p>
     {% endif %}
 
-    <p>
-    Market Capitalization: {{ '${:,.0f}'.format(fast_info['marketCap']) }} <br>
-    </p>
 
     <h3>Calendar</h3>
     <p>
@@ -54,11 +57,16 @@
     {% endfor %}
     </p>
 
+
     {#% include 'add_post.html' %#}
 
     <br>
     {% for post in symbol_posts %}
         {% include '_post.html' %}
     {% endfor %}
+
+    {{ ohlcv_data }} <br>
+    {{ fast_info }} <br>
+    {{ calendar }}
 
 {% endblock %}

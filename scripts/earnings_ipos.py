@@ -6,8 +6,8 @@ import warnings
 warnings.filterwarnings("ignore", category=FutureWarning)
 
 
-# replace the "demo" apikey below with your own key from https://www.alphavantage.co/support/#api-key
-CSV_URL = 'https://www.alphavantage.co/query?function=IPO_CALENDAR&apikey=GLLVZKDV4221RMO6'
+IPO_URL = 'https://www.alphavantage.co/query?function=IPO_CALENDAR&apikey=GLLVZKDV4221RMO6'
+EARNINGS_URL = 'https://www.alphavantage.co/query?function=EARNINGS_CALENDAR&apikey=GLLVZKDV4221RMO6'
 
 
 def get_ipos_data(csv_url):
@@ -17,3 +17,7 @@ def get_ipos_data(csv_url):
         cr = csv.reader(decoded_content.splitlines(), delimiter=',')
         my_list = list(cr)
         return my_list
+
+
+def get_earnings_calendar():
+    pass

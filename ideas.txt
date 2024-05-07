@@ -1,3 +1,6 @@
+python libraries for finance
+https://awesomepython.org/?c=finance
+
 landing page
 technical screener
 fundamentals navbar option and pages

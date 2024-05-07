@@ -15,7 +15,7 @@ from app.models import User, Post, Stocks
 
 from scripts.get_yf_ohlcv import get_ohlcv, get_shares_outstanding
 from scripts.large_holders import get_institutional_holders, get_insider_transactions
-from scripts.ipos import get_ipos_data
+from scripts.earnings_ipos import get_ipos_data, get_earnings_calendar, IPO_URL, EARNINGS_URL
 from scripts.general_info import get_fast_info, get_calendar
 from scripts.options import get_expiry_list, get_options_detail, get_option_chain_for_expiry
 
@@ -459,11 +459,11 @@ def symbol(symbol):
 
 
 # return IPO's anticipated in the next 3 months
-@app.route('/ipos')
-def ipos():
-    csv_url = 'https://www.alphavantage.co/query?function=IPO_CALENDAR&apikey=GLLVZKDV4221RMO6'
-    ipo_data = get_ipos_data(csv_url)
-    return render_template('ipos.html', title='IPOs', ipo_data=ipo_data)
+@app.route('/earnings-ipos')
+def earnings_ipos():
+    ipo_data = get_ipos_data(IPO_URL)
+    earnings_calendar = get_earnings_calendar()
+    return render_template('earnings_ipos.html', title='IPOs', ipo_data=ipo_data, earnings_calendar=earnings_calendar)
 
 
 @app.route('/options')

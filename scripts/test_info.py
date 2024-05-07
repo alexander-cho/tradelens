@@ -5,8 +5,6 @@ import requests
 warnings.filterwarnings("ignore", category=FutureWarning)
 
 
-# https://awesomepython.org/?c=finance python libraries for finance
-
 # API KEY AlphaVantage
 # GLLVZKDV4221RMO6
 
@@ -42,7 +40,6 @@ ticker = yf.Ticker('AAPL')
 # print(ticker.option_chain().calls['contractSymbol'])
 # print(ticker.financials)  # quarterly financials
 # print(ticker.get_calendar())
-may_3_2024_calls = ticker.option_chain(date='2024-05-03').calls
 
 # expiry_dates = ticker.options
 # options_data = {}
@@ -58,6 +55,8 @@ may_3_2024_calls = ticker.option_chain(date='2024-05-03').calls
 
 # print(ticker.get_fast_info())
 
-# print(ticker.get_insider_transactions())
+print(ticker.get_insider_transactions())
 
-print(ticker.get_calendar())
+# print(ticker.get_calendar())
+
+print()

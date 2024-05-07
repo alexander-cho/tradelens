@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <h1>Anticipated IPOs</h1>
+
+    {% if ipo_data %}
+        {% for ipo in ipo_data[1:] %}  <!-- exclude the first element because it represents the column names -->
+            <!-- if there is an anticipated listing price -->
+            {% if ipo[3] != '0' and ipo[4] != '0' %}
+                <p>{{ ipo }}</p>
+            {% endif %}
+        {% endfor %}
+    {% else %}
+        <h3>IPO data not available currently</h3>
+    {% endif %}
+
+
+    <h1>Upcoming Earnings</h1>
+
+    {% if earnings_calendar %}
+        {{ earnings_calendar }}
+    {% else %}
+        <h3>Earnings calendar not available currently</h3>
+    {% endif %}
+
+{% endblock %}
