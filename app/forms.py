@@ -1,9 +1,7 @@
 from flask_wtf import FlaskForm
-# from flask_wtf.form import _Auto
 from wtforms import StringField, PasswordField, BooleanField, SubmitField, TextAreaField
 from wtforms.validators import ValidationError, DataRequired, Email, EqualTo, Length
 from wtforms.widgets import TextArea
-# from flask_ckeditor import CKEditorField
 # from flask_wtf.file import FileField
 from app.models import User
 
@@ -62,20 +60,10 @@ class EmptyForm(FlaskForm):
 class PostForm(FlaskForm):
     title = StringField("Title", validators=[DataRequired()])
     content = StringField("Content", validators=[DataRequired()], widget=TextArea())
-    # content = CKEditorField("Content", validators=[DataRequired()])
     # author = StringField("Author")
     # slug = StringField("Slug", validators=[DataRequired()])
     submit = SubmitField("Submit")
 
-
-# class name_form(FlaskForm):
-#     name = StringField("What is your name? ", validators=[DataRequired()])
-#     submit = SubmitField("Submit")
-
-# class password_form(FlaskForm):
-#     email = StringField("What is your email? ", validators=[DataRequired()])
-#     password_hash = PasswordField("What is your password? ", validators=[DataRequired()])
-#     submit = SubmitField("Submit")
 
 # create a search form
 class SearchForm(FlaskForm):

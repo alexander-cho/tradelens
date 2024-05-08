@@ -1,11 +1,7 @@
-# import os
-# import uuid as uuid
 from datetime import datetime, timezone
 
 from flask import render_template, flash, redirect, url_for, request
 from flask_login import login_user, current_user, logout_user, login_required
-# from flask_ckeditor import CKEditor
-# from werkzeug.utils import secure_filename
 
 import sqlalchemy as sa
 
@@ -34,19 +30,15 @@ def base():
     return dict(form=form)
 
 
+# front page
 @app.route('/')
 @app.route('/index')
 # @login_required
 def index():
-    if current_user.is_authenticated:  # show following posts if logged in
-        posts = db.session.scalars(current_user.following_posts()).all()
-        return render_template('index.html', title='Home', posts=posts)
-    else: # if not logged in show the entire feed
-        posts = Post.query.order_by(Post.timestamp.desc())
-        return render_template('index.html', title='Home', posts=posts)
+    return render_template('index.html', title='Home')
 
 
-# create the login page
+# login
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
@@ -69,8 +61,8 @@ def login():
     return render_template('login.html', title='Log In', form=form)  # template with the name 'form'='form' object created above
 
 
-# log out
-@app.route('/logout')  #, methods=['GET', 'POST'])
+# logout
+@app.route('/logout')
 @login_required
 def logout():
     logout_user()
@@ -78,7 +70,7 @@ def logout():
     return redirect(url_for('index'))
 
 
-# register a user
+# register an account
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if current_user.is_authenticated:
@@ -163,8 +155,8 @@ def unfollow(username):
         return redirect(url_for('index'))
 
 
-# add posts page
-@app.route('/add_post', methods=['GET', 'POST'])
+# create a post
+@app.route('/add-post', methods=['GET', 'POST'])
 # @login_required
 def add_post():
     form = PostForm()
@@ -175,7 +167,7 @@ def add_post():
             db.session.add(post)
             db.session.commit()
             flash("Your idea has been submitted")
-            return redirect(url_for('posts'))
+            return redirect(url_for('feed'))
         else:
             # clear form
             form.title.data = ''
@@ -185,11 +177,73 @@ def add_post():
     return render_template('add_post.html', form=form, stock=stock)
 
 
-@app.route('/posts')  # this will potentially become home page content
-def posts():
+# read a specific post
+@app.route('/post/<int:id>')
+def post(id):
+    post = Post.query.get_or_404(id)
+    return render_template("post.html", post=post)
+
+
+# update/edit a post
+@app.route('/post/<int:id>/edit', methods=['GET', 'POST'])
+@login_required
+def edit_post(id):
+    post = Post.query.get_or_404(id)
+    form = PostForm()
+    if form.validate_on_submit():
+        # Update the post attributes with the new data once edit submission is validated
+        post.title = form.title.data
+        # post.author = form.author.data
+        # post.slug = form.slug.data
+        post.content = form.content.data
+        # update database with modifications
+        db.session.add(post)
+        db.session.commit()
+        flash("Post has been updated")
+        return redirect(url_for('post', id=post.id))  # redirect back to singular post page
+
+    if current_user.id == post.author.id:  # if id of logged-in user matches the id of the author of particular post
+        # Populate the form fields with current values of the post
+        form.title.data = post.title
+        # form.author.data = post.author
+        # form.slug.data = post.slug
+        form.content.data = post.content
+        return render_template("edit_post.html", form=form)  # goes back to newly edited singular post page
+    else:
+        flash("You cannot edit this post")
+        posts = Post.query.order_by(Post.date_posted)
+        return render_template("feed.html", posts=posts)
+
+
+# delete a post
+@app.route('/post/<int:id>/delete')
+@login_required
+def delete_post(id):
+    post_to_delete = Post.query.get_or_404(id)
+    if current_user.id == post_to_delete.author.id:
+        try:
+            db.session.delete(post_to_delete)
+            db.session.commit()
+            flash("Post has been deleted")
+            posts = Post.query.order_by(Post.timestamp.desc())
+            return render_template("feed.html", posts=posts)
+        except:
+            # return error message
+            flash("Could not delete post")
+            posts = Post.query.order_by(Post.timestamp.desc())
+            return render_template("feed.html", posts=posts)
+    else:
+        flash("You cannot delete that post")
+        posts = Post.query.order_by(Post.timestamp.desc())
+        return render_template("feed.html", posts=posts)
+
+
+# show the whole post feed
+@app.route('/feed')
+def feed():
     # grab all posts from the database
     posts = Post.query.order_by(Post.timestamp.desc())  # query by chronological order, from the Posts model.
-    return render_template('posts.html', posts=posts)
+    return render_template('feed.html', posts=posts)
 
 
 # search for post content
@@ -203,210 +257,6 @@ def search():
         return render_template('search.html', form=form, searched=search_content, display_posts=display_posts)
     else:  # if invalid or blank search is submitted
         return redirect(url_for('index'))
-    
-
-# search for a company
-@app.route('/symbol-search', methods=['POST'])
-def symbol_search():
-    form = SearchForm()
-    if form.validate_on_submit():
-        search_content = form.searched.data
-        stock = Stocks.query.filter(Stocks.ticker_symbol == search_content.upper()).first()
-        return render_template('symbol_search.html', form=form, searched=search_content, stock=stock)
-    else:
-        return redirect(url_for('symbol_main'))
-
-
-# # add CKEditor
-# ckeditor = CKEditor(app)
-
-
-# UPLOAD_FOLDER = 'static/images'
-# app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-
-
-# @login_manager.user_loader
-# def load_user(user_id):
-#     return Users.query.get(int(user_id))
-
-
-    
-# # create initial dashboard page
-# @app.route('/dashboard', methods=['GET', 'POST'])
-# @login_required
-# def dashboard():
-#     form = user_form()
-#     id = current_user.id
-#     name_to_update = Users.query.get_or_404(id) # query the Users table, get or if it doesnt exists, pass in the id, which comes in from the <int: id> url
-
-#     if request.method == 'POST':
-#         name_to_update.name = request.form['name']
-#         name_to_update.username = request.form['username']
-#         name_to_update.email = request.form['email']
-#         name_to_update.favorite_stock = request.form['favorite_stock']
-#         name_to_update.about_author = request.form['about_author']
-
-#         profile_pic = request.files['profile_pic'] # upload a file
-#         # check for profile pic
-#         if profile_pic:
-#             try:
-#                 # grab image name
-#                 pic_filename = secure_filename(profile_pic.filename)
-#                 # set uuid, since more than one person can have a pic with same file name
-#                 pic_name = str(uuid.uuid1()) + "_" + pic_filename
-#                 profile_pic.save(os.path.join(app.config['UPLOAD_FOLDER'], pic_name))
-#                 # change to string to save to database
-#                 name_to_update.profile_pic = pic_name
-#             except Exception as e:
-#                 flash('Error uploading profile picture: {}'.format(str(e)))
-#                 return render_template("dashboard.html", form=form, name_to_update=name_to_update)
-
-#         try:
-#             db.session.commit()
-#             flash('User updated successfully')
-#             return render_template("dashboard.html", form=form, name_to_update=name_to_update)
-#         except Exception as e:
-#             db.session.rollback()
-#             flash('Could not update user: {}'.format(str(e)))
-#             return render_template("dashboard.html", form=form, name_to_update=name_to_update)
-#     else:
-#         return render_template("dashboard.html", form=form, name_to_update=name_to_update)
-
-
-# # delete a post
-# @app.route('/posts/delete/<int:id>')
-# @login_required/
-# def delete_post(id):
-#     post_to_delete = Posts.query.get_or_404(id)
-#     if current_user.id == post_to_delete.poster.id:
-#         try: 
-#             db.session.delete(post_to_delete)
-#             db.session.commit()
-#             flash("Post has been deleted")
-#             posts = Posts.query.order_by(Posts.date_posted)
-#             return render_template("posts.html", posts=posts)
-#         except:
-#             # return error message
-#             flash("Could not delete post")
-#             return render_template("posts.html", posts=posts)
-#     else:
-#         flash("You cannot delete that post")
-#         posts = Posts.query.order_by(Posts.date_posted)
-#         return render_template("posts.html", posts=posts) 
-
-
-# @app.route('/posts/<int:id>')
-# def post(id):
-#     post = Posts.query.get_or_404(id)
-#     return render_template("post.html", post = post)
-
-
-# @app.route('/posts/edit/<int:id>', methods=['GET', 'POST'])
-# @login_required
-# def edit_post(id):
-#     post = Posts.query.get_or_404(id)
-#     form = PostForm()
-#     if form.validate_on_submit():
-#         # Update the post attributes with the new data once edit submission is validated
-#         post.title = form.title.data
-#         # post.author = form.author.data
-#         post.slug = form.slug.data
-#         post.content = form.content.data
-#         # update database with modifications
-#         db.session.add(post)
-#         db.session.commit()
-#         flash("Post has been updated")
-#         return redirect(url_for('post', id=post.id)) # redirect back to singular post page
-    
-#     if current_user.id == post.poster_id: # if id of logged-in user matches the id of the poster of particular post
-#         # Populate the form fields with current values of the post
-#         form.title.data = post.title
-#         # form.author.data = post.author
-#         form.slug.data = post.slug
-#         form.content.data = post.content
-#         return render_template("edit_post.html", form=form) # goes back to newly edited singular post page
-#     else:
-#         flash("You cannot edit this post")
-#         posts = Posts.query.order_by(Posts.date_posted)
-#         return render_template("posts.html", posts=posts)
-
-
-# # webpage to return JSON (jsonify)
-# @app.route('/date')
-# def get_current_date():
-#     favorite_companies = {
-#         "Alex": "SoFi Techs",
-#         "Chris": "Paypal Hold",
-#         "Tim": "Affirm"
-#     }
-#     return favorite_companies
-
-
-# # delete a database record
-# @app.route('/delete/<int:id>')
-# def delete(id):
-#     if id == current_user.id:
-#         user_to_delete = Users.query.get_or_404(id)
-#         name = None
-#         form = user_form()
-#         try:
-#             db.session.delete(user_to_delete)
-#             db.session.commit()
-#             flash("User deleted successfully")
-#             our_users = Users.query.order_by(Users.date_added)
-#             return render_template("register.html", form=form, name=name, our_users=our_users)
-#         except:
-#             flash("Could not delete user")
-#             return render_template("register.html", form=form, name=name, our_users=our_users)
-#     else:
-#         flash("You cannot delete that user")
-#         return redirect(url_for('dashboard'))
-
-
-# # update a database record
-# @app.route('/update/<int:id>', methods=['GET', 'POST'])
-# @login_required
-# def update(id): 
-#     form = user_form()
-#     name_to_update = Users.query.get_or_404(id) # query the Users table, get or if it doesnt exists, pass in the id, which comes in from the <int: id> url
-#     if request.method == 'POST':
-#         name_to_update.name = request.form['name']
-#         name_to_update.username = request.form['username']
-#         name_to_update.email = request.form['email']
-#         name_to_update.favorite_stock = request.form['favorite_stock']
-#         try:
-#             db.session.commit()
-#             flash('User updated successfully')
-#             return render_template("update.html", form=form, name_to_update=name_to_update, id=id)
-#         except:
-#             flash('Could not update user')
-#             return render_template("update.html", form=form, name_to_update=name_to_update, id=id)
-#     else:
-#         return render_template("update.html", form=form, name_to_update=name_to_update, id=id)
-
-
-# # Create password test page
-# @app.route('/test_pw', methods=['GET', 'POST'])
-# def test_pw():
-#     email = None
-#     password = None
-#     pw_to_check = None
-#     passed = None
-#     form = password_form()
-#     # Validate form
-#     if form.validate_on_submit():
-#         email = form.email.data # assign to whatever user inputs
-#         password = form.password_hash.data
-
-#         form.email.data = '' # clear for next user
-#         form.password_hash.data = ''
-
-#         #lookup user by email address
-#         pw_to_check = Users.query.filter_by(email=email).first()
-
-#         #check hash pw
-#         passed = check_password_hash(pw_to_check.password_hash, password)
-#     return render_template("test_pw.html", email=email, password=password, pw_to_check=pw_to_check, passed=passed, form=form)
 
 
 # symbol directory route
@@ -414,6 +264,22 @@ def symbol_search():
 def symbol_main(): 
     stock_list = Stocks.query.all() 
     return render_template('symbol_main.html', title='Symbol Directory', stock_list=stock_list)
+
+
+# search for a company
+@app.route('/symbol-search', methods=['POST'])
+def symbol_search():
+    form = SearchForm()
+    if form.validate_on_submit():
+        search_content = form.searched.data.upper()
+        searched_ticker_found = Stocks.query.filter_by(ticker_symbol=search_content).first()
+        if searched_ticker_found:
+            return redirect(url_for('symbol', symbol=search_content))
+        else:
+            flash("That stock does not exist or is not in the database yet")
+            return redirect(url_for('symbol_main'))
+    else:
+        return redirect(url_for('symbol_main'))
 
 
 # display information for each company in the stocks table
@@ -431,7 +297,6 @@ def symbol(symbol):
 
     return render_template('symbol.html', title=f'{stock.company_name} ({stock.ticker_symbol})', stock=stock, symbol_posts=symbol_posts, ohlcv_data=ohlcv_data, institutional_holders=institutional_holders, insider_transactions=insider_transactions, shares_outstanding=shares_outstanding, fast_info=fast_info, calendar=calendar)
 
-    # tutes_data = db.session.scalar(sa.select(Stocks.institutional_info).where(Stocks.ticker_symbol == symbol))
     # form = PostForm()  # functionality for submitting post directly on specific symbol page
     # if request.method == 'POST' and form.validate_on_submit:
     #     if form.title.data == symbol:  # if the ticker that user inputs in the field matches current symbol page
