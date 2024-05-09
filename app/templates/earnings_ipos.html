@@ -8,7 +8,11 @@
         {% for ipo in ipo_data[1:] %}  <!-- exclude the first element because it represents the column names -->
             <!-- if there is an anticipated listing price -->
             {% if ipo[3] != '0' and ipo[4] != '0' %}
-                <p>{{ ipo }}</p>
+                {% if ipo[3] == ipo[4] %}
+                    <p>{{ ipo }} went public today</p>
+                {% else %}
+                    <p>{{ ipo }}</p>
+                {% endif %}
             {% endif %}
         {% endfor %}
     {% else %}

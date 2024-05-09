@@ -1,15 +1,5 @@
 {% block content %}
 
-{% with messages = get_flashed_messages() %}
-    {% if messages %} <!-- check if messages has some content -->
-    <ul>
-        {% for message in messages %}
-            {{ message }} <br>
-        {% endfor %}
-    </ul>
-    {% endif %}
-{% endwith %}
-
 {% if current_user.is_authenticated %}
 
 <h2>Share an idea about {{ stock.ticker_symbol }}:</h2>
@@ -25,14 +15,10 @@
             <br/>
             {{ form.submit(class="btn btn-secondary") }}
         </form>
-
-        {# {{ ckeditor.load() }} #}
-        {# {{ ckeditor.config(name='content') }} #}
-        
     </div>
 
 {% else %}
-    <h2>Must be logged in to share an idea about {{ stock.ticker_symbol }}</h2>
+    <h2>You must be logged in to share an idea</h2>
     <a href="{{ url_for('login') }}" class="btn btn-outline-success">Login</a>
 
 {% endif %}

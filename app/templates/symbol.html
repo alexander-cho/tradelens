@@ -5,20 +5,26 @@
     <h1>{{ stock.ticker_symbol }}</h1>
     <h4>{{ stock.company_name }}</h4>
 
-    {% for column in ohlcv_data.columns %}
-        {% if column not in ['Volume', 'Dividends', 'Stock Splits', 'Capital Gains'] %}
-            {{ column }}: ${{ '%.2f'|format(ohlcv_data[column][0]) }} <br>
-        {% elif column == 'Volume' %}
-            {{ column }}: {{ '{:,.0f}'.format(ohlcv_data[column][0]) }} shares traded
-        {% endif %}
-    {% endfor %}
+    <h5><a href="{{ url_for('options', symbol=stock.ticker_symbol) }}">Option Chain</a></h5>
+
+    {% if not ohlcv_data.empty %}
+        {% for column in ohlcv_data.columns %}
+            {% if column not in ['Volume', 'Dividends', 'Stock Splits', 'Capital Gains'] %}
+                {{ column }}: ${{ '%.2f'|format(ohlcv_data[column][0]) }} <br>
+            {% elif column == 'Volume' %}
+                {{ column }}: {{ '{:,.0f}'.format(ohlcv_data[column][0]) }} shares traded
+            {% endif %}
+        {% endfor %}
+    {% endif %}
     <br>
     {% if shares_outstanding %}
         Shares outstanding: {{ '{:,.0f}'.format(shares_outstanding) }}
     {% endif %}
 
     <p>
-    Market Capitalization: {{ '${:,.0f}'.format(fast_info['marketCap']) }} <br>
+    {% if fast_info['marketCap'] %}
+        Market Capitalization: {{ '${:,.0f}'.format(fast_info['marketCap']) }} <br>
+    {% endif %}
     </p>
 
 
@@ -51,12 +57,20 @@
             {% endif %}
         {% elif k in ['Earnings High', 'Earnings Low', 'Earnings Average'] %}  <!-- EPS -->
             {{ k }}: ${{ '{:.2f}'.format(v) }} per share <br>
-        {% else %}  <!-- Revenue estimates -->
+        {% else %}  <!-- Revenue estimates ['Revenue High', 'Earnings Low', 'Earnings Average'] -->
             {{ k }}: {{ '${:,.0f}'.format(v) }} <br>
         {% endif %}
     {% endfor %}
     </p>
 
+    <h3>Analyst Ratings</h3>
+    <p>
+    {% if analyst_ratings %}
+        {% for firm , rating in analyst_ratings.items() %}
+            {{ firm }} | {{ rating }} <br>
+        {% endfor %}
+    {% endif %}
+    </p>
 
     {#% include 'add_post.html' %#}
 

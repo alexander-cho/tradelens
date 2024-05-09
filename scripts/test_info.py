@@ -9,7 +9,7 @@ warnings.filterwarnings("ignore", category=FutureWarning)
 # GLLVZKDV4221RMO6
 
 
-ticker = yf.Ticker('AAPL')
+ticker = yf.Ticker('SOFI')
 # print(sofi.major_holders)
 # print(sofi.balance_sheet)
 
@@ -55,8 +55,5 @@ ticker = yf.Ticker('AAPL')
 
 # print(ticker.get_fast_info())
 
-print(ticker.get_insider_transactions())
-
-# print(ticker.get_calendar())
-
-print()
+print(ticker.get_upgrades_downgrades())
+# print(ticker.upgrades_downgrades)

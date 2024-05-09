@@ -12,6 +12,7 @@ from app.models import User, Post, Stocks
 from scripts.get_yf_ohlcv import get_ohlcv, get_shares_outstanding
 from scripts.large_holders import get_institutional_holders, get_insider_transactions
 from scripts.earnings_ipos import get_ipos_data, get_earnings_calendar, IPO_URL, EARNINGS_URL
+from scripts.analysts import get_analyst_ratings
 from scripts.general_info import get_fast_info, get_calendar
 from scripts.options import get_expiry_list, get_options_detail, get_option_chain_for_expiry
 
@@ -294,8 +295,9 @@ def symbol(symbol):
     shares_outstanding = get_shares_outstanding(symbol)
     fast_info = get_fast_info(symbol)
     calendar = get_calendar(symbol)
+    analyst_ratings = get_analyst_ratings(symbol)
 
-    return render_template('symbol.html', title=f'{stock.company_name} ({stock.ticker_symbol})', stock=stock, symbol_posts=symbol_posts, ohlcv_data=ohlcv_data, institutional_holders=institutional_holders, insider_transactions=insider_transactions, shares_outstanding=shares_outstanding, fast_info=fast_info, calendar=calendar)
+    return render_template('symbol.html', title=f'{stock.company_name} ({stock.ticker_symbol})', stock=stock, symbol_posts=symbol_posts, ohlcv_data=ohlcv_data, institutional_holders=institutional_holders, insider_transactions=insider_transactions, shares_outstanding=shares_outstanding, fast_info=fast_info, calendar=calendar, analyst_ratings=analyst_ratings)
 
     # form = PostForm()  # functionality for submitting post directly on specific symbol page
     # if request.method == 'POST' and form.validate_on_submit:
@@ -329,11 +331,6 @@ def earnings_ipos():
     ipo_data = get_ipos_data(IPO_URL)
     earnings_calendar = get_earnings_calendar()
     return render_template('earnings_ipos.html', title='IPOs', ipo_data=ipo_data, earnings_calendar=earnings_calendar)
-
-
-@app.route('/options')
-def options_main():
-    pass
 
 
 @app.route('/options/<symbol>')

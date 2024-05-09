@@ -5,7 +5,9 @@
     <h3>Here is the chain for {{ stock.ticker_symbol }}</h3>
 
     <p>
-        {{ option_chain.underlying }}
+    {% for k, v in option_chain.underlying.items() %}
+        {{ k }} | {{ v }} <br>
+    {% endfor %}
     </p>
 
     <h3>Calls expiring on {{ expiry_date }}</h3>
@@ -15,7 +17,6 @@
         {% for col, val in j.items() %}
             {{ col }} | {{ val }} <br>
         {% endfor %}
-{#        Open interest: {{ j['openInterest'] }}<br>#}
     {% endfor %}
     </p>
 

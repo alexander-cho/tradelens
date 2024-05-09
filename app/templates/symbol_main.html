@@ -4,22 +4,28 @@
 
 <h2>Symbol Listing</h2>
 
-<p>
     Search for a ticker:
     <form method="POST" action="{{ url_for('symbol_search') }}" class="d-flex" role="search">
         {{ form.hidden_tag() }}
         <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search", name="searched">
         <button class="btn btn-outline-success" type="submit">Search</button>
     </form>
-</p>
-
 
 <h3> Symbol | Company Name </h3> 
 
-<p> 
-    {% for stock in stock_list %} 
-        <a href="{{ url_for('symbol', symbol=stock.ticker_symbol) }}">{{ stock.ticker_symbol }}</a> | {{ stock.company_name }} <br> 
-    {% endfor %}
-</p>
+<div class="scrollable-list">
+    <p>
+        {% for stock in stock_list %}
+            <a href="{{ url_for('symbol', symbol=stock.ticker_symbol) }}">{{ stock.ticker_symbol }}</a> | {{ stock.company_name }} <br>
+        {% endfor %}
+    </p>
+</div>
+
+<style>
+    .scrollable-list {
+        max-height: 400px; /* Set the maximum height of the scrollable area */
+        overflow-y: auto; /* Enable vertical scrollbar if content overflows */
+    }
+</style>
 
 {% endblock %}
