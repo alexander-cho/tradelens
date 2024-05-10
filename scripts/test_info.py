@@ -55,5 +55,5 @@ ticker = yf.Ticker('SOFI')
 
 # print(ticker.get_fast_info())
 
-print(ticker.get_upgrades_downgrades())
+# print(ticker.get_upgrades_downgrades())
 # print(ticker.upgrades_downgrades)

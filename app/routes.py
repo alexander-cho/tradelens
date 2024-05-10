@@ -93,7 +93,7 @@ def register():
 def user(username):
     user = User.query.filter_by(username=username).first_or_404()
     form = EmptyForm()
-    posts = Post.query.order_by(Post.timestamp).where(Post.user_id == user.id)
+    posts = Post.query.order_by(Post.timestamp.desc()).where(Post.user_id == user.id)
     return render_template('user.html', title=f'{user.username}', user=user, posts=posts, form=form)
 
 
@@ -158,13 +158,17 @@ def unfollow(username):
 
 # create a post
 @app.route('/add-post', methods=['GET', 'POST'])
-# @login_required
+@login_required
 def add_post():
     form = PostForm()
-    stock = Stocks.query.filter(Stocks.ticker_symbol == form.title.data).first()  # check if the title (ticker) exists in the database
+    stock = None
     if form.validate_on_submit():
+        # Convert the title (ticker) input to uppercase
+        ticker_to_upper = form.title.data.upper()
+        # Check if the ticker symbol exists in the database
+        stock = Stocks.query.filter(Stocks.ticker_symbol == ticker_to_upper).first()
         if stock:
-            post = Post(title=form.title.data, content=form.content.data, timestamp=datetime.now(timezone.utc), user_id=current_user.id)
+            post = Post(title=ticker_to_upper, content=form.content.data, timestamp=datetime.now(timezone.utc), user_id=current_user.id)
             db.session.add(post)
             db.session.commit()
             flash("Your idea has been submitted")
@@ -175,6 +179,7 @@ def add_post():
             form.content.data = ''
             flash("That stock does not exist or is not in the database yet")
             return redirect(url_for('add_post'))
+
     return render_template('add_post.html', form=form, stock=stock)
 
 
@@ -193,7 +198,7 @@ def edit_post(id):
     form = PostForm()
     if form.validate_on_submit():
         # Update the post attributes with the new data once edit submission is validated
-        post.title = form.title.data
+        post.title = form.title.data.upper()
         # post.author = form.author.data
         # post.slug = form.slug.data
         post.content = form.content.data
@@ -217,7 +222,7 @@ def edit_post(id):
 
 
 # delete a post
-@app.route('/post/<int:id>/delete')
+@app.route('/post/<int:id>/delete', methods=['GET', 'POST'])
 @login_required
 def delete_post(id):
     post_to_delete = Post.query.get_or_404(id)
@@ -226,8 +231,7 @@ def delete_post(id):
             db.session.delete(post_to_delete)
             db.session.commit()
             flash("Post has been deleted")
-            posts = Post.query.order_by(Post.timestamp.desc())
-            return render_template("feed.html", posts=posts)
+            return redirect(url_for('feed'))
         except:
             # return error message
             flash("Could not delete post")
@@ -261,7 +265,7 @@ def search():
 
 
 # symbol directory route
-@app.route('/symbol') 
+@app.route('/symbol')
 def symbol_main(): 
     stock_list = Stocks.query.all() 
     return render_template('symbol_main.html', title='Symbol Directory', stock_list=stock_list)
@@ -286,9 +290,12 @@ def symbol_search():
 # display information for each company in the stocks table
 @app.route('/symbol/<symbol>', methods=['GET', 'POST'])
 def symbol(symbol):
-    stock = db.session.scalar(sa.select(Stocks).where(Stocks.ticker_symbol == symbol))
+    # query the stock table to retrieve the corresponding symbol
+    stock = db.session.query(Stocks).filter(Stocks.ticker_symbol == symbol).first()
+    # query the posts associated with the symbol
     symbol_posts = Post.query.order_by(Post.timestamp.desc()).where(Post.title == symbol)
 
+    # CONTEXT FROM SCRIPTS FOR SYMBOL DATA
     ohlcv_data = get_ohlcv(symbol)
     institutional_holders = get_institutional_holders(symbol)
     insider_transactions = get_insider_transactions(symbol)
@@ -297,32 +304,25 @@ def symbol(symbol):
     calendar = get_calendar(symbol)
     analyst_ratings = get_analyst_ratings(symbol)
 
-    return render_template('symbol.html', title=f'{stock.company_name} ({stock.ticker_symbol})', stock=stock, symbol_posts=symbol_posts, ohlcv_data=ohlcv_data, institutional_holders=institutional_holders, insider_transactions=insider_transactions, shares_outstanding=shares_outstanding, fast_info=fast_info, calendar=calendar, analyst_ratings=analyst_ratings)
-
-    # form = PostForm()  # functionality for submitting post directly on specific symbol page
-    # if request.method == 'POST' and form.validate_on_submit:
-    #     if form.title.data == symbol:  # if the ticker that user inputs in the field matches current symbol page
-    #         post = Post(title=form.title.data, content=form.content.data, timestamp=datetime.now(timezone.utc), user_id=current_user.id)
-    #         db.session.add(post)
-    #         db.session.commit()
-    #         flash("Your idea has been submitted")
-    #         return redirect(url_for('symbol', symbol=form.title.data))
-    #     elif form.title.data != symbol:  # if they don't match
-    #         stock_exists = Stocks.query.filter(Stocks.ticker_symbol == form.title.data).first()  # check if the user entered exists in the DB
-    #         if stock_exists:
-    #             flash(f"That was the page for {symbol}, you cannot post that there. Here you go:")
-    #             return redirect(url_for('symbol', symbol=form.title.data))  # send them to the symbol page they entered
-    #         else:
-    #             flash("That stock does not exist or is not in the database yet")
-    #             return redirect(url_for('index'))
-    # if stock:
-    #     if tutes_data:  # if the institutional info is not null in the database
-    #         tutes = json.loads(tutes_data)  # turn valid json into python list of dictionaries
-    #         return render_template('symbol.html', title=f'{stock.company_name} ({stock.ticker_symbol})', stock=stock, posts=posts, form=form, tutes=tutes)
-    #     else:
-    #         return render_template('symbol.html', title=f'{stock.company_name} ({stock.ticker_symbol})', stock=stock, posts=posts, form=form)  # without tute data
-    # else:
-    #     return render_template('404.html')
+    # ADDING A POST ON THE SYMBOL PAGE
+    form = PostForm()
+    if request.method == 'POST' and form.validate_on_submit():
+        if form.title.data.upper() == symbol:
+            post = Post(title=form.title.data.upper(), content=form.content.data, timestamp=datetime.now(timezone.utc), user_id=current_user.id)
+            db.session.add(post)
+            db.session.commit()
+            flash("Your idea has been submitted")
+            return redirect(url_for('symbol', symbol=form.title.data.upper()))
+        elif form.title.data.upper() != symbol:  # if they don't match
+            stock_exists = Stocks.query.filter(Stocks.ticker_symbol == form.title.data.upper()).first()  # check if the user entered stock exists in the DB
+            if stock_exists:
+                flash(f"That was the page for {symbol}, you cannot post that there. Here you go:")
+                return redirect(url_for('symbol', symbol=form.title.data.upper()))  # send them to the symbol page they entered
+            else:
+                flash("That stock does not exist or is not in the database yet")
+                return redirect(url_for('symbol_main'))
+    else:
+        return render_template('symbol.html', title=f'{stock.company_name} ({stock.ticker_symbol})', stock=stock, symbol_posts=symbol_posts, ohlcv_data=ohlcv_data, institutional_holders=institutional_holders, insider_transactions=insider_transactions, shares_outstanding=shares_outstanding, fast_info=fast_info, calendar=calendar, analyst_ratings=analyst_ratings, form=form)
 
 
 # return IPO's anticipated in the next 3 months

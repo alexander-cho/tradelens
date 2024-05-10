@@ -19,6 +19,3 @@ def get_analyst_ratings(symbol):
             ratings_by_unique_firms[firm_name] = rating
 
     return ratings_by_unique_firms
-
-
-print(get_analyst_ratings('SOFI'))

@@ -2,8 +2,16 @@
 
 {% if current_user.is_authenticated %}
 
-<h2>Share an idea about {{ stock.ticker_symbol }}:</h2>
-    
+    {% if stock %}
+
+        <h2>Share an idea about {{ stock.ticker_symbol }}:</h2>
+
+    {% else %}
+
+        <h2>Share an idea:</h2>
+
+    {% endif %}
+
     <div class="shadow p-3 mb-5 bg-body rounded">
         <form method="POST">
             {{ form.hidden_tag() }}
@@ -17,9 +25,7 @@
         </form>
     </div>
 
-{% else %}
-    <h2>You must be logged in to share an idea</h2>
-    <a href="{{ url_for('login') }}" class="btn btn-outline-success">Login</a>
+    <a href="{{ url_for('feed') }}">Go Back</a>
 
 {% endif %}
 

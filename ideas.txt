@@ -5,8 +5,9 @@ landing page
 technical screener
 fundamentals navbar option and pages
 reconsider symbols rendering
+Macro economic factors
+news stream (??)
 
 Options
 - max pain
 - data viz charts
-
