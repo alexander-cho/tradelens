@@ -325,7 +325,7 @@ def symbol(symbol):
         return render_template('symbol.html', title=f'{stock.company_name} ({stock.ticker_symbol})', stock=stock, symbol_posts=symbol_posts, ohlcv_data=ohlcv_data, institutional_holders=institutional_holders, insider_transactions=insider_transactions, shares_outstanding=shares_outstanding, fast_info=fast_info, calendar=calendar, analyst_ratings=analyst_ratings, form=form)
 
 
-# return IPO's anticipated in the next 3 months
+# return IPOs anticipated in the next 3 months, upcoming earnings calendar
 @app.route('/earnings-ipos')
 def earnings_ipos():
     ipo_data = get_ipos_data(IPO_URL)
@@ -348,5 +348,5 @@ def options_expiry(symbol, expiry_date):
     return render_template('options_expiry.html', title=f'{symbol} {expiry_date}', stock=stock, option_chain=option_chain, expiry_date=expiry_date)
 
 
-# # if __name__ == '__main__':
-# #     app.run(debug=True)
+# if __name__ == '__main__':
+#     app.run(debug=True)
