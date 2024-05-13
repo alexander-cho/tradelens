@@ -91,11 +91,13 @@ class User(db.Model, UserMixin):
         if self.is_following(user):
             self.following.remove(user)
 
-    def followers_count(self) -> int:
-        pass
+    def followers_count(self):
+        num_followers = sa.select(sa.func.count()).select_from(self.followers.select().subquery())
+        return db.session.scalar(num_followers)
 
-    def following_count(self) -> int:
-        pass
+    def following_count(self):
+        num_following = sa.select(sa.func.count()).select_from(self.following.select().subquery())
+        return db.session.scalar(num_following)
 
     def following_posts(self):
         Author = so.aliased(User)

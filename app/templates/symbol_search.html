@@ -3,12 +3,9 @@
 {% block content %}
 
     {% if stock %}
-
-    <h2>You searched for <a href="{{ url_for('symbol', symbol=stock.ticker_symbol) }}">{{ stock.ticker_symbol }}</a></h2>
-
+        <h2>You searched for <a href="{{ url_for('symbol', symbol=stock.ticker_symbol) }}">{{ stock.ticker_symbol }}</a></h2>
     {% else %}
         <strong>{{ searched }}</strong> was not found
-
     {% endif %}
 
 {% endblock %}

@@ -3,6 +3,7 @@
 {% block content %}
 
 <h1>Login</h1>
+
 <div class="shadow p-3 mb-5 bg-body rounded">
     <form action="" method="POST" nonvalidate>
         {{ form.hidden_tag() }} <!-- generates a hidden field that includes a token that is used to protect the form against CSRF attacks-->
@@ -25,7 +26,8 @@
     </form>
 </div>
 
-<p>Don't have an account? <a href="{{ url_for('register') }}">Click here to register</a></p>
-
+<p>
+    Don't have an account? <a href="{{ url_for('register') }}">Click here to register</a>
+</p>
 
 {% endblock %}

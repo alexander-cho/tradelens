@@ -2,8 +2,6 @@
 
 {% block content %}
 
-    {{ post.author.username }} <br> <!-- author, from the backref created in the Users model to refer to anything assigned there -->
-
     <h1> <a href="{{ url_for('user', username=post.author.username) }}">{{ post.author.username }}</a> on {{ post.timestamp }} </h1>
 
     <a href="{{ url_for('symbol', symbol=post.title) }}">{{ post.title }}</a> <br>

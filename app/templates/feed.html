@@ -8,12 +8,12 @@
 
     {% for post in posts %}
         <p>
-        <img src="{{ post.author.avatar(36) }}" alt="">
-        <a href="{{ url_for('user', username=post.author.username)}}">{{ post.author.username }}</a> <br>
-        <a href="{{ url_for('symbol', symbol=post.title) }}">{{ post.title }}</a> <br>
-        Posted on: {{ post.timestamp }} <br>
-        {{ post.content | safe }} <br>
-        <a href="{{ url_for('post', id=post.id) }}" class="btn btn-outline-primary btn-sm">Click to View</a>
+            <img src="{{ post.author.avatar(36) }}" alt="">
+            <a href="{{ url_for('user', username=post.author.username)}}">{{ post.author.username }}</a> <br>
+            <a href="{{ url_for('symbol', symbol=post.title) }}">{{ post.title }}</a> <br>
+            Posted on: {{ post.timestamp }} <br>
+            {{ post.content | safe }} <br>
+            <a href="{{ url_for('post', id=post.id) }}" class="btn btn-outline-primary btn-sm">Click to View</a>
         </p>
     {% endfor %}
 

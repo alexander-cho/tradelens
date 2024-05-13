@@ -17,13 +17,13 @@
         {% include 'navbar.html' %}
         <br/> <hr>
         {% with messages = get_flashed_messages() %}
-        {% if messages %} <!-- check if messages has some content -->
-        <ul>
-            {% for message in messages %}
-                {{ message }} <br>
-            {% endfor %}
-        </ul>
-        {% endif %}
+            {% if messages %} <!-- check if messages has some content -->
+            <ul>
+                {% for message in messages %}
+                    {{ message }} <br>
+                {% endfor %}
+            </ul>
+            {% endif %}
         {% endwith %}
 
         {% block content %}

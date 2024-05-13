@@ -3,13 +3,9 @@
 {% if current_user.is_authenticated %}
 
     {% if stock %}
-
         <h2>Share an idea about {{ stock.ticker_symbol }}:</h2>
-
     {% else %}
-
         <h2>Share an idea:</h2>
-
     {% endif %}
 
     <div class="shadow p-3 mb-5 bg-body rounded">

@@ -5,29 +5,29 @@
     <h3>Here is the chain for {{ stock.ticker_symbol }}</h3>
 
     <p>
-    {% for k, v in option_chain.underlying.items() %}
-        {{ k }} | {{ v }} <br>
-    {% endfor %}
+        {% for k, v in option_chain.underlying.items() %}
+            {{ k }} | {{ v }} <br>
+        {% endfor %}
     </p>
 
     <h3>Calls expiring on {{ expiry_date }}</h3>
     <p>
-    {% for i, j in option_chain.calls.iterrows() %}
-        <strong>Sep</strong> <br>
-        {% for col, val in j.items() %}
-            {{ col }} | {{ val }} <br>
+        {% for i, j in option_chain.calls.iterrows() %}
+            <strong>Sep</strong> <br>
+            {% for col, val in j.items() %}
+                {{ col }} | {{ val }} <br>
+            {% endfor %}
         {% endfor %}
-    {% endfor %}
     </p>
 
     <h3>Puts expiring on {{ expiry_date }}</h3>
     <p>
-    {% for i, j in option_chain.puts.iterrows() %}
-        <strong>Sep</strong> <br>
-        {% for col, val in j.items() %}
-            {{ col }} | {{ val }} <br>
+        {% for i, j in option_chain.puts.iterrows() %}
+            <strong>Sep</strong> <br>
+            {% for col, val in j.items() %}
+                {{ col }} | {{ val }} <br>
+            {% endfor %}
         {% endfor %}
-    {% endfor %}
     </p>
 
 {% endblock %}
