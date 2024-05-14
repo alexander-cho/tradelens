@@ -281,7 +281,7 @@ def symbol_search():
         if searched_ticker_found:
             return redirect(url_for('symbol', symbol=search_content))
         else:
-            flash("That stock does not exist or is not in the database yet")
+            flash("That stock does not exist or is not in our database yet")
             return redirect(url_for('symbol_main'))
     else:
         return redirect(url_for('symbol_main'))

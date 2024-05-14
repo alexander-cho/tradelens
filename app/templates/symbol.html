@@ -29,7 +29,7 @@
 
 
     <h3>Institutional Holdings</h3>
-    {% if institutional_holders %}
+    {% if institutional_holders and institutional_holders|length > 0 %}
         {{ institutional_holders }}
     {% else %}
         <p>Institutional holder information is not available for {{ stock.ticker_symbol }}</p>
@@ -46,21 +46,25 @@
 
     <h3>Calendar</h3>
     <p>
-    {% for k, v in calendar.items() %}  <!-- earnings_forecast is of type dictionary -->
-        {% if k in ['Dividend Date', 'Ex-Dividend Date'] %}  <!-- Dividend calendar -->
-            {{ k }}: {{ v }} <br>
-        {% elif k == 'Earnings Date' %}
-            {% if v|length == 1 %}  <!-- if next earnings date is confirmed -->
-                {{ k }}: {{ v[0] }} <br>
-            {% else %}
-                {{ k }}: Between {{ v[0] }} and {{ v[1] }} <br>
+    {% if calendar %}
+        {% for k, v in calendar.items() %}  <!-- earnings_forecast is of type dictionary -->
+            {% if k in ['Dividend Date', 'Ex-Dividend Date'] %}  <!-- Dividend calendar -->
+                {{ k }}: {{ v }} <br>
+            {% elif k == 'Earnings Date' %}
+                {% if v|length == 1 %}  <!-- if next earnings date is confirmed -->
+                    {{ k }}: {{ v[0] }} <br>
+                {% else %}
+                    {{ k }}: Between {{ v[0] }} and {{ v[1] }} <br>
+                {% endif %}
+            {% elif k in ['Earnings High', 'Earnings Low', 'Earnings Average'] %}  <!-- EPS -->
+                {{ k }}: ${{ '{:.2f}'.format(v) }} per share <br>
+            {% else %}  <!-- Revenue estimates ['Revenue High', 'Earnings Low', 'Earnings Average'] -->
+                {{ k }}: {{ '${:,.0f}'.format(v) }} <br>
             {% endif %}
-        {% elif k in ['Earnings High', 'Earnings Low', 'Earnings Average'] %}  <!-- EPS -->
-            {{ k }}: ${{ '{:.2f}'.format(v) }} per share <br>
-        {% else %}  <!-- Revenue estimates ['Revenue High', 'Earnings Low', 'Earnings Average'] -->
-            {{ k }}: {{ '${:,.0f}'.format(v) }} <br>
-        {% endif %}
-    {% endfor %}
+        {% endfor %}
+    {% else %}
+        Earnings and Dividend calendar not available for {{ stock.ticker_symbol }}
+    {% endif %}
     </p>
 
     <h3>Analyst Ratings</h3>
