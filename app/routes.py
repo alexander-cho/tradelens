@@ -290,6 +290,11 @@ def symbol_search():
 # display information for each company in the stocks table
 @app.route('/symbol/<symbol>', methods=['GET', 'POST'])
 def symbol(symbol):
+    # if user enters the ticker in lowercase letters in the url
+    symbol = symbol.upper()
+    if request.path != f"/symbol/{symbol}":
+        return redirect(url_for('symbol', symbol=symbol))
+
     # query the stock table to retrieve the corresponding symbol
     stock = db.session.query(Stocks).filter(Stocks.ticker_symbol == symbol).first()
     # query the posts associated with the symbol

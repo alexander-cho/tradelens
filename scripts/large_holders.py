@@ -7,7 +7,7 @@ warnings.filterwarnings("ignore", category=FutureWarning)
 def get_institutional_holders(symbol):
     ticker = yf.Ticker(symbol)
     try:
-        institutions = ticker.get_institutional_holders().to_json(orient='records')
+        institutions = ticker.get_institutional_holders().to_dict(orient='records')
         if institutions == '[]':
             return None
         return institutions
@@ -18,7 +18,7 @@ def get_institutional_holders(symbol):
 def get_insider_transactions(symbol):
     ticker = yf.Ticker(symbol)
     try:
-        insider_transactions = ticker.get_insider_transactions().to_json(orient='records')
+        insider_transactions = ticker.get_insider_transactions().to_dict(orient='records')
         if insider_transactions == '[]':
             return None
         return insider_transactions

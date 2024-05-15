@@ -15,6 +15,8 @@
                 {{ column }}: {{ '{:,.0f}'.format(ohlcv_data[column][0]) }} shares traded
             {% endif %}
         {% endfor %}
+    {% else %}
+
     {% endif %}
     <br>
     {% if shares_outstanding %}
@@ -30,22 +32,25 @@
 
     <h3>Institutional Holdings</h3>
     {% if institutional_holders and institutional_holders|length > 0 %}
-        {{ institutional_holders }}
+        {% for holder in institutional_holders %}
+            {{ holder }} <br>
+        {% endfor %}
     {% else %}
         <p>Institutional holder information is not available for {{ stock.ticker_symbol }}</p>
     {% endif %}
 
 
-    <h3>Insider Activity</h3>
+    <h3>Recent Insider Activity</h3>
     {% if insider_transactions %}
-        {{ insider_transactions }}
+        {% for transaction in insider_transactions %}
+            {{ transaction }} <br>
+        {% endfor %}
     {% else %}
         <p>Insider activity information is not available for {{ stock.ticker_symbol }}</p>
     {% endif %}
 
 
-    <h3>Calendar</h3>
-    <p>
+    <h3>Earnings and Revenue Estimates</h3>
     {% if calendar %}
         {% for k, v in calendar.items() %}  <!-- earnings_forecast is of type dictionary -->
             {% if k in ['Dividend Date', 'Ex-Dividend Date'] %}  <!-- Dividend calendar -->
@@ -56,16 +61,24 @@
                 {% else %}
                     {{ k }}: Between {{ v[0] }} and {{ v[1] }} <br>
                 {% endif %}
-            {% elif k in ['Earnings High', 'Earnings Low', 'Earnings Average'] %}  <!-- EPS -->
-                {{ k }}: ${{ '{:.2f}'.format(v) }} per share <br>
-            {% else %}  <!-- Revenue estimates ['Revenue High', 'Earnings Low', 'Earnings Average'] -->
-                {{ k }}: {{ '${:,.0f}'.format(v) }} <br>
+            {% elif k in ['Earnings High', 'Earnings Low', 'Earnings Average'] %}  <!-- EPS estimates -->
+                {% if v is not none %}  <!-- if the EPS estimates information is available -->
+                    {{ k }}: ${{ '{:.2f}'.format(v) }} per share <br>
+                {% else %}
+                    <h5>EPS estimates are not available</h5>
+                {% endif %}
+            {% elif k in ['Revenue High', 'Revenue Low', 'Revenue Average'] %}  <!-- Revenue estimates -->
+                {% if v is not none %}  <!-- if the revenue estimates information is available -->
+                    {{ k }}: {{ '${:,.0f}'.format(v) }} <br>
+                {% else %}
+                    <h5>Revenue estimates are not available</h5>
+                {% endif %}
             {% endif %}
         {% endfor %}
     {% else %}
         Earnings and Dividend calendar not available for {{ stock.ticker_symbol }}
     {% endif %}
-    </p>
+
 
     <h3>Analyst Ratings</h3>
     <p>
@@ -76,15 +89,12 @@
     {% endif %}
     </p>
 
+
     {% include 'add_post.html' %}
 
     <br>
     {% for post in symbol_posts %}
         {% include '_post.html' %}
     {% endfor %}
-
-    {{ ohlcv_data }} <br>
-    {{ fast_info }} <br>
-    {{ calendar }}
 
 {% endblock %}
