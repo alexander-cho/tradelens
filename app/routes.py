@@ -9,7 +9,7 @@ from app import app, db
 from app.forms import LoginForm, RegistrationForm, EditProfileForm, EmptyForm, PostForm, SearchForm
 from app.models import User, Post, Stocks
 
-from scripts.get_yf_ohlcv import get_ohlcv, get_shares_outstanding, get_underlying_for_daily_change
+from scripts.get_yf_ohlcv import get_ohlcv, get_shares_outstanding, get_underlying_for_main_info
 from scripts.large_holders import get_institutional_holders, get_insider_transactions
 from scripts.earnings_ipos import get_ipos_data, get_earnings_calendar, IPO_URL, EARNINGS_URL
 from scripts.analysts import get_analyst_ratings
@@ -310,7 +310,7 @@ def symbol(symbol):
     analyst_ratings = get_analyst_ratings(symbol)
 
     # get the percent change information which exists in the options underlying
-    percent_changes = get_underlying_for_daily_change(symbol)
+    main_info = get_underlying_for_main_info(symbol)
 
     # ADDING A POST ON THE SYMBOL PAGE
     form = PostForm()
@@ -330,7 +330,7 @@ def symbol(symbol):
                 flash("That stock does not exist or is not in the database yet")
                 return redirect(url_for('symbol_main'))
     else:
-        return render_template('symbol.html', title=f'{stock.company_name} ({stock.ticker_symbol})', stock=stock, symbol_posts=symbol_posts, ohlcv_data=ohlcv_data, percent_changes=percent_changes, institutional_holders=institutional_holders, insider_transactions=insider_transactions, shares_outstanding=shares_outstanding, fast_info=fast_info, calendar=calendar, analyst_ratings=analyst_ratings, form=form)
+        return render_template('symbol.html', title=f'{stock.company_name} ({stock.ticker_symbol})', stock=stock, symbol_posts=symbol_posts, ohlcv_data=ohlcv_data, main_info=main_info, institutional_holders=institutional_holders, insider_transactions=insider_transactions, shares_outstanding=shares_outstanding, fast_info=fast_info, calendar=calendar, analyst_ratings=analyst_ratings, form=form)
 
 
 # return IPOs anticipated in the next 3 months, upcoming earnings calendar

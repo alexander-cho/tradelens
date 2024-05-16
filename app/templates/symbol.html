@@ -5,10 +5,22 @@
     <h1>{{ stock.ticker_symbol }}</h1>
     <h4>{{ stock.company_name }}</h4>
 
+    <h1>{{ main_info['regularMarketPrice'] }}</h1>
+
+    Today's change: <br>
+    {{ main_info['regularMarketChange'] }} <br>
+    {{ main_info['regularMarketChangePercent'] }} percent<br>
+    <br>
+    After hours: <br>
+    {{ main_info['postMarketPrice'] }} <br>
+    {{ main_info['postMarketChange'] }} <br>
+    {{ main_info['postMarketChangePercent'] }} percent
+
     <p>
-        {% for k, v in percent_changes.items() %}
-            {{ k }} | {{ v }} <br>
-        {% endfor %}
+        Bid: {{ main_info['bid'] }} <br>
+        Ask: {{ main_info['ask'] }} <br>
+        Bid Size: {{ main_info['bidSize'] }} <br>
+        Ask Size: {{ main_info['askSize'] }}
     </p>
 
     <h5><a href="{{ url_for('options', symbol=stock.ticker_symbol) }}">Option Chain</a></h5>

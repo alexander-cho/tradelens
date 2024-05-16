@@ -20,7 +20,7 @@ def get_shares_outstanding(symbol):
         print(f"Error fetching implied shares for {symbol}: {e}")
 
 
-def get_underlying_for_daily_change(symbol):
+def get_underlying_for_main_info(symbol):
     ticker = yf.Ticker(symbol)
     underlying = ticker.option_chain().underlying
     return underlying
