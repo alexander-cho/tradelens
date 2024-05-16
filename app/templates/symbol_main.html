@@ -2,16 +2,19 @@
 
 {% block content %} 
 
-<h2>Symbol Listing</h2>
+<h1>Symbol Listing</h1>
 
-    Search for a ticker:
-    <form method="POST" action="{{ url_for('symbol_search') }}" class="d-flex" role="search">
-        {{ form.hidden_tag() }}
-        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search", name="searched">
-        <button class="btn btn-outline-success" type="submit">Search</button>
-    </form>
 
-<h3> Symbol | Company Name </h3> 
+Search for a ticker:
+<form method="POST" action="{{ url_for('symbol_search') }}" class="d-flex" role="search">
+    {{ form.hidden_tag() }}
+    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search", name="searched">
+    <button class="btn btn-outline-success" type="submit">Search</button>
+</form>
+
+<hr>
+
+<h4>Symbol | Company Name</h4>
 
 <div class="scrollable-list">
     <p>
@@ -25,6 +28,9 @@
     .scrollable-list {
         max-height: 400px; /* Set the maximum height of the scrollable area */
         overflow-y: auto; /* Enable vertical scrollbar if content overflows */
+        border: 1px solid darkblue; /* Add a 1px solid border with a light gray color */
+        border-radius: 8px; /* Add border-radius for smoother edges */
+        padding: 8px; /* Add padding to separate content from the border */
     }
 </style>
 

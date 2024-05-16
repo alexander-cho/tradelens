@@ -2,13 +2,9 @@
 
 {% block content %}
 
-    <h3>Here is the chain for {{ stock.ticker_symbol }}</h3>
+    <h1>Here is the chain for {{ stock.ticker_symbol }} {{ expiry_date }}</h1>
 
-    <p>
-        {% for k, v in option_chain.underlying.items() %}
-            {{ k }} | {{ v }} <br>
-        {% endfor %}
-    </p>
+    <hr>
 
     <h3>Calls expiring on {{ expiry_date }}</h3>
     <p>

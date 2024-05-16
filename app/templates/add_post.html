@@ -12,7 +12,7 @@
         <form method="POST">
             {{ form.hidden_tag() }}
             {{ form.title.label(class="form-label") }}
-            {{ form.title(class="form-control") }}
+            {{ form.title(value=stock.ticker_symbol, class="form-control") }}  <!-- pre-populate title with ticker -->
             <br/>
             {{ form.content.label(class="form-label") }}
             {{ form.content(class="form-control", rows="10") }}

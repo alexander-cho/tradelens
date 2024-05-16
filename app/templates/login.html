@@ -8,8 +8,8 @@
     <form action="" method="POST" nonvalidate>
         {{ form.hidden_tag() }} <!-- generates a hidden field that includes a token that is used to protect the form against CSRF attacks-->
         <p>
-            {{ form.username.label }} <br>
-            {{ form.username(size=32) }}
+            {{ form.username.label(class="form-label") }} <br>
+            {{ form.username(class="form-control") }}
             {% for error in form.username.errors %}
                 <span style="color: red">[{{ error }}]</span>
             {% endfor %}

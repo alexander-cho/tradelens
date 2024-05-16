@@ -18,3 +18,9 @@ def get_shares_outstanding(symbol):
         return outstanding_shares
     except Exception as e:
         print(f"Error fetching implied shares for {symbol}: {e}")
+
+
+def get_underlying_for_daily_change(symbol):
+    ticker = yf.Ticker(symbol)
+    underlying = ticker.option_chain().underlying
+    return underlying

@@ -3,9 +3,18 @@ https://awesomepython.org/?c=finance
 
 landing page
 technical screener
-fundamentals navbar option and pages
+ticker fundamentals - income, balance
 reconsider symbols rendering
 Macro economic factors
+- inflation
+- interest rates
+- gdp growth
+- unemployment
+- cci
+- ppi
+- housing market
+- oil
+
 news stream (??)
 
 Options

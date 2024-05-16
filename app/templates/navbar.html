@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg bg-body-tertiary">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
         <a class="navbar-brand" href="{{ url_for('index') }}">TradeLens</a>
 
@@ -23,6 +23,10 @@
 
                 <li class="nav-item">
                     <a class="nav-link" href="{{ url_for('earnings_ipos') }}">IPOs/Earnings</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('technical_screener') }}">Technical Screener</a>
                 </li>
                 {% if current_user.is_anonymous %}
                 <li class="nav-item">

@@ -3,7 +3,7 @@ import yfinance as yf
 
 def get_analyst_ratings(symbol):
     """
-    because there seem to be repeated firm ratings, we get the most recent ones (first occurrences) only
+    because there seem to be repeated firm ratings, we get the most recent ones (latest occurrence) only
     """
     ticker = yf.Ticker(symbol)
     # index of original df is 'GradeDate' which we want to include

@@ -9,12 +9,12 @@ from app import app, db
 from app.forms import LoginForm, RegistrationForm, EditProfileForm, EmptyForm, PostForm, SearchForm
 from app.models import User, Post, Stocks
 
-from scripts.get_yf_ohlcv import get_ohlcv, get_shares_outstanding
+from scripts.get_yf_ohlcv import get_ohlcv, get_shares_outstanding, get_underlying_for_daily_change
 from scripts.large_holders import get_institutional_holders, get_insider_transactions
 from scripts.earnings_ipos import get_ipos_data, get_earnings_calendar, IPO_URL, EARNINGS_URL
 from scripts.analysts import get_analyst_ratings
 from scripts.general_info import get_fast_info, get_calendar
-from scripts.options import get_expiry_list, get_options_detail, get_option_chain_for_expiry
+from scripts.options import get_expiry_list, get_option_chain_for_expiry
 
 
 @app.before_request
@@ -290,7 +290,7 @@ def symbol_search():
 # display information for each company in the stocks table
 @app.route('/symbol/<symbol>', methods=['GET', 'POST'])
 def symbol(symbol):
-    # if user enters the ticker in lowercase letters in the url
+    # if user manually enters the ticker in lowercase letters in the url
     symbol = symbol.upper()
     if request.path != f"/symbol/{symbol}":
         return redirect(url_for('symbol', symbol=symbol))
@@ -308,6 +308,9 @@ def symbol(symbol):
     fast_info = get_fast_info(symbol)
     calendar = get_calendar(symbol)
     analyst_ratings = get_analyst_ratings(symbol)
+
+    # get the percent change information which exists in the options underlying
+    percent_changes = get_underlying_for_daily_change(symbol)
 
     # ADDING A POST ON THE SYMBOL PAGE
     form = PostForm()
@@ -327,7 +330,7 @@ def symbol(symbol):
                 flash("That stock does not exist or is not in the database yet")
                 return redirect(url_for('symbol_main'))
     else:
-        return render_template('symbol.html', title=f'{stock.company_name} ({stock.ticker_symbol})', stock=stock, symbol_posts=symbol_posts, ohlcv_data=ohlcv_data, institutional_holders=institutional_holders, insider_transactions=insider_transactions, shares_outstanding=shares_outstanding, fast_info=fast_info, calendar=calendar, analyst_ratings=analyst_ratings, form=form)
+        return render_template('symbol.html', title=f'{stock.company_name} ({stock.ticker_symbol})', stock=stock, symbol_posts=symbol_posts, ohlcv_data=ohlcv_data, percent_changes=percent_changes, institutional_holders=institutional_holders, insider_transactions=insider_transactions, shares_outstanding=shares_outstanding, fast_info=fast_info, calendar=calendar, analyst_ratings=analyst_ratings, form=form)
 
 
 # return IPOs anticipated in the next 3 months, upcoming earnings calendar
@@ -342,15 +345,19 @@ def earnings_ipos():
 def options(symbol):
     stock = db.session.scalar(sa.select(Stocks).where(Stocks.ticker_symbol == symbol))
     expiry_list = get_expiry_list(symbol=stock.ticker_symbol)
-    options_detail = get_options_detail(symbol=stock.ticker_symbol)
-    return render_template('options.html', title='Options', stock=stock, expiry_list=expiry_list, options_detail=options_detail)
+    return render_template('options.html', title='Options', stock=stock, expiry_list=expiry_list)
 
 
 @app.route('/options/<symbol>/<expiry_date>')
 def options_expiry(symbol, expiry_date):
     stock = db.session.scalar(sa.select(Stocks).where(Stocks.ticker_symbol == symbol))
     option_chain = get_option_chain_for_expiry(symbol, expiry_date)
-    return render_template('options_expiry.html', title=f'{symbol} {expiry_date}', stock=stock, option_chain=option_chain, expiry_date=expiry_date)
+    return render_template('options_expiry.html', title=f'{symbol} ({expiry_date})', stock=stock, option_chain=option_chain, expiry_date=expiry_date)
+
+
+@app.route('/technical-screener')
+def technical_screener():
+    return render_template('technical_screener.html')
 
 
 # if __name__ == '__main__':
