@@ -7,14 +7,20 @@
 
     <h1>{{ main_info['regularMarketPrice'] }}</h1>
 
-    Today's change: <br>
-    {{ main_info['regularMarketChange'] }} <br>
-    {{ main_info['regularMarketChangePercent'] }} percent<br>
-    <br>
-    After hours: <br>
-    {{ main_info['postMarketPrice'] }} <br>
-    {{ main_info['postMarketChange'] }} <br>
-    {{ main_info['postMarketChangePercent'] }} percent
+    <p>
+        Today's change: <br>
+        {{ main_info['regularMarketChange'] }} <br>
+        {{ main_info['regularMarketChangePercent'] }} %
+    </p>
+
+    {% if main_info['postMarketPrice'] %}  <!-- after hours prices not available during market hours -->
+    <p>
+        After hours: <br>
+        {{ main_info['postMarketPrice'] }} <br>
+        {{ main_info['postMarketChange'] }} <br>
+        {{ main_info['postMarketChangePercent'] }} %
+    </p>
+    {% endif %}
 
     <p>
         Bid: {{ main_info['bid'] }} <br>
@@ -23,7 +29,7 @@
         Ask Size: {{ main_info['askSize'] }}
     </p>
 
-    <h5><a href="{{ url_for('options', symbol=stock.ticker_symbol) }}">Option Chain</a></h5>
+    <h5><a href="{{ url_for('options', symbol=stock.ticker_symbol) }}" class="btn btn-primary">Option Chain</a></h5>
 
     {% if not ohlcv_data.empty %}
         {% for column in ohlcv_data.columns %}

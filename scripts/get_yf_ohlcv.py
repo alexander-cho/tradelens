@@ -17,10 +17,13 @@ def get_shares_outstanding(symbol):
         outstanding_shares = ticker.info['sharesOutstanding']
         return outstanding_shares
     except Exception as e:
-        print(f"Error fetching implied shares for {symbol}: {e}")
+        print(f"Error fetching implied shares outstanding for {symbol}: {e}")
 
 
 def get_underlying_for_main_info(symbol):
     ticker = yf.Ticker(symbol)
-    underlying = ticker.option_chain().underlying
-    return underlying
+    try:
+        underlying = ticker.option_chain().underlying
+        return underlying
+    except Exception as e:
+        print(f"Error fetching underlying info for {symbol}: {e}")

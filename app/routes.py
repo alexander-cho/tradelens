@@ -352,7 +352,7 @@ def options(symbol):
 def options_expiry(symbol, expiry_date):
     stock = db.session.scalar(sa.select(Stocks).where(Stocks.ticker_symbol == symbol))
     option_chain = get_option_chain_for_expiry(symbol, expiry_date)
-    return render_template('options_expiry.html', title=f'{symbol} ({expiry_date})', stock=stock, option_chain=option_chain, expiry_date=expiry_date)
+    return render_template('options_expiry.html', title=f'{symbol} {expiry_date}', stock=stock, option_chain=option_chain, expiry_date=expiry_date)
 
 
 @app.route('/technical-screener')
