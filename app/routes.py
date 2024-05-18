@@ -15,6 +15,7 @@ from scripts.earnings_ipos import get_ipos_data, get_earnings_calendar, IPO_URL,
 from scripts.analysts import get_analyst_ratings
 from scripts.general_info import get_fast_info, get_calendar
 from scripts.options import get_expiry_list, get_option_chain_for_expiry
+from scripts._finnhub import Finnhub
 
 
 @app.before_request
@@ -358,6 +359,13 @@ def options_expiry(symbol, expiry_date):
 @app.route('/technical-screener')
 def technical_screener():
     return render_template('technical_screener.html')
+
+
+@app.route('/market-news')
+def market_news():
+    finnhub = Finnhub()
+    news = finnhub.get_market_news()
+    return render_template('market_news.html', news=news)
 
 
 # if __name__ == '__main__':

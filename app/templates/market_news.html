@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <h1>Market News</h1>
+
+    {% for article in news %}
+
+        <p> {{ article }}</p>
+
+    {% endfor %}
+
+{% endblock %}
