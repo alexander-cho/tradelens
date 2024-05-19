@@ -11,5 +11,24 @@ class Finnhub:
         self.fc = finnhub_client
 
     def get_market_news(self):
+        """
+        Get overall market news
+
+        Returns:
+        """
         return self.fc.general_news('general', min_id=0)
 
+    def get_stock_news(self, stock, _from, to):
+        """
+        Get recent news for a specific stock
+
+        Args:
+            stock (str): stock name
+            _from (str): start date
+            to (str): end date
+
+        Returns:
+            list of dictionaries, each containing news data from an external article
+            keys: ['category', 'datetime', 'headline', 'id', 'image', 'related', 'source', 'summary', 'url']
+        """
+        return self.fc.company_news(stock, _from, to)

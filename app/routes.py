@@ -313,6 +313,9 @@ def symbol(symbol):
     # get the percent change information which exists in the options underlying
     main_info = get_underlying_for_main_info(symbol)
 
+    finnhub = Finnhub()
+    ticker_news = finnhub.get_stock_news(stock.ticker_symbol, "2024-05-11", "2024-05-18")
+
     # ADDING A POST ON THE SYMBOL PAGE
     form = PostForm()
     if request.method == 'POST' and form.validate_on_submit():
@@ -331,7 +334,7 @@ def symbol(symbol):
                 flash("That stock does not exist or is not in the database yet")
                 return redirect(url_for('symbol_main'))
     else:
-        return render_template('symbol.html', title=f'{stock.company_name} ({stock.ticker_symbol})', stock=stock, symbol_posts=symbol_posts, ohlcv_data=ohlcv_data, main_info=main_info, institutional_holders=institutional_holders, insider_transactions=insider_transactions, shares_outstanding=shares_outstanding, fast_info=fast_info, calendar=calendar, analyst_ratings=analyst_ratings, form=form)
+        return render_template('symbol.html', title=f'{stock.company_name} ({stock.ticker_symbol})', stock=stock, symbol_posts=symbol_posts, ohlcv_data=ohlcv_data, main_info=main_info, institutional_holders=institutional_holders, insider_transactions=insider_transactions, shares_outstanding=shares_outstanding, fast_info=fast_info, calendar=calendar, analyst_ratings=analyst_ratings, ticker_news=ticker_news, form=form)
 
 
 # return IPOs anticipated in the next 3 months, upcoming earnings calendar
