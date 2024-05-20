@@ -52,30 +52,6 @@
     </p>
 
 
-    <h3>Top Institutional Holders</h3>
-    {% if institutional_holders and institutional_holders|length > 0 %}
-        <p>
-        {% for holder in institutional_holders %}
-            {{ holder }} <br>
-        {% endfor %}
-        </p>
-    {% else %}
-        <p>Institutional holder information is not available for {{ stock.ticker_symbol }}</p>
-    {% endif %}
-
-
-    <h3>Recent Insider Activity</h3>
-    {% if insider_transactions %}
-        <p>
-        {% for transaction in insider_transactions %}
-            {{ transaction }} <br>
-        {% endfor %}
-        </p>
-    {% else %}
-        <p>Insider activity information is not available for {{ stock.ticker_symbol }}</p>
-    {% endif %}
-
-
     <h3>Dividends, Earnings and Revenue Estimates</h3>
     {% if calendar %}
         <p>
@@ -108,6 +84,30 @@
     {% endif %}
 
 
+    <h3>Top Institutional Holders</h3>
+    {% if institutional_holders and institutional_holders|length > 0 %}
+        <p>
+        {% for holder in institutional_holders %}
+            {{ holder }} <br>
+        {% endfor %}
+        </p>
+    {% else %}
+        <p>Institutional holder information is not available for {{ stock.ticker_symbol }}</p>
+    {% endif %}
+
+
+    <h3>Recent Insider Activity</h3>
+    {% if insider_transactions %}
+        <p>
+        {% for transaction in insider_transactions %}
+            {{ transaction }} <br>
+        {% endfor %}
+        </p>
+    {% else %}
+        <p>Insider activity information is not available for {{ stock.ticker_symbol }}</p>
+    {% endif %}
+
+
     <h3>Analyst Ratings</h3>
     {% if analyst_ratings %}
         <p>
@@ -118,10 +118,6 @@
     {% else %}
         <p>Analyst ratings not available for {{ stock.ticker_symbol }}</p>
     {% endif %}
-
-
-    <h3>News about {{ stock.ticker_symbol }}</h3>
-    <p>{{ ticker_news }}</p>
 
 
     {% include 'add_post.html' %}

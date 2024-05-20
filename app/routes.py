@@ -9,12 +9,8 @@ from app import app, db
 from app.forms import LoginForm, RegistrationForm, EditProfileForm, EmptyForm, PostForm, SearchForm
 from app.models import User, Post, Stocks
 
-from scripts.get_yf_ohlcv import get_ohlcv, get_shares_outstanding, get_underlying_for_main_info
-from scripts.large_holders import get_institutional_holders, get_insider_transactions
-from scripts.earnings_ipos import get_ipos_data, get_earnings_calendar, IPO_URL, EARNINGS_URL
-from scripts.analysts import get_analyst_ratings
-from scripts.general_info import get_fast_info, get_calendar
-from scripts.options import get_expiry_list, get_option_chain_for_expiry
+from scripts._yfinance import YFinance
+from scripts._alphavantage import AlphaVantage
 from scripts._finnhub import Finnhub
 
 
@@ -302,19 +298,16 @@ def symbol(symbol):
     symbol_posts = Post.query.order_by(Post.timestamp.desc()).where(Post.title == symbol)
 
     # CONTEXT FROM SCRIPTS FOR SYMBOL DATA
-    ohlcv_data = get_ohlcv(symbol)
-    institutional_holders = get_institutional_holders(symbol)
-    insider_transactions = get_insider_transactions(symbol)
-    shares_outstanding = get_shares_outstanding(symbol)
-    fast_info = get_fast_info(symbol)
-    calendar = get_calendar(symbol)
-    analyst_ratings = get_analyst_ratings(symbol)
+    yfinance = YFinance(symbol)
 
-    # get the percent change information which exists in the options underlying
-    main_info = get_underlying_for_main_info(symbol)
-
-    finnhub = Finnhub()
-    ticker_news = finnhub.get_stock_news(stock.ticker_symbol, "2024-05-11", "2024-05-18")
+    ohlcv_data = yfinance.get_ohlcv()
+    shares_outstanding = yfinance.get_shares_outstanding()
+    main_info = yfinance.get_underlying_for_main_info()
+    fast_info = yfinance.get_fast_info()
+    calendar = yfinance.get_calendar()
+    institutional_holders = yfinance.get_institutional_holders()
+    insider_transactions = yfinance.get_insider_transactions()
+    analyst_ratings = yfinance.get_analyst_ratings()
 
     # ADDING A POST ON THE SYMBOL PAGE
     form = PostForm()
@@ -334,34 +327,45 @@ def symbol(symbol):
                 flash("That stock does not exist or is not in the database yet")
                 return redirect(url_for('symbol_main'))
     else:
-        return render_template('symbol.html', title=f'{stock.company_name} ({stock.ticker_symbol})', stock=stock, symbol_posts=symbol_posts, ohlcv_data=ohlcv_data, main_info=main_info, institutional_holders=institutional_holders, insider_transactions=insider_transactions, shares_outstanding=shares_outstanding, fast_info=fast_info, calendar=calendar, analyst_ratings=analyst_ratings, ticker_news=ticker_news, form=form)
+        return render_template('symbol.html', title=f'{stock.company_name} ({stock.ticker_symbol})', stock=stock, symbol_posts=symbol_posts, ohlcv_data=ohlcv_data, main_info=main_info, institutional_holders=institutional_holders, insider_transactions=insider_transactions, shares_outstanding=shares_outstanding, fast_info=fast_info, calendar=calendar, analyst_ratings=analyst_ratings, form=form)
 
 
 # return IPOs anticipated in the next 3 months, upcoming earnings calendar
 @app.route('/earnings-ipos')
 def earnings_ipos():
-    ipo_data = get_ipos_data(IPO_URL)
-    earnings_calendar = get_earnings_calendar()
+    alphavantage = AlphaVantage()
+    ipo_data = alphavantage.get_ipos_data()
+    earnings_calendar = alphavantage.get_earnings_calendar()
     return render_template('earnings_ipos.html', title='IPOs', ipo_data=ipo_data, earnings_calendar=earnings_calendar)
 
 
 @app.route('/options/<symbol>')
 def options(symbol):
     stock = db.session.scalar(sa.select(Stocks).where(Stocks.ticker_symbol == symbol))
-    expiry_list = get_expiry_list(symbol=stock.ticker_symbol)
+    yfinance = YFinance(symbol)
+    expiry_list = yfinance.get_expiry_list()
     return render_template('options.html', title='Options', stock=stock, expiry_list=expiry_list)
 
 
 @app.route('/options/<symbol>/<expiry_date>')
 def options_expiry(symbol, expiry_date):
     stock = db.session.scalar(sa.select(Stocks).where(Stocks.ticker_symbol == symbol))
-    option_chain = get_option_chain_for_expiry(symbol, expiry_date)
+    yfinance = YFinance(symbol)
+    option_chain = yfinance.get_option_chain_for_expiry(expiry_date)
     return render_template('options_expiry.html', title=f'{symbol} {expiry_date}', stock=stock, option_chain=option_chain, expiry_date=expiry_date)
+
+
+@app.route('/symbol/<symbol>/news')
+def symbol_news(symbol):
+    stock = db.session.query(Stocks).filter(Stocks.ticker_symbol == symbol).first()
+    finnhub = Finnhub()
+    ticker_news = finnhub.get_stock_news(stock.ticker_symbol, "2024-05-11", "2024-05-18")
+    return render_template('symbol_news.html', title=f'News for {symbol}', stock=stock, ticker_news=ticker_news)
 
 
 @app.route('/technical-screener')
 def technical_screener():
-    return render_template('technical_screener.html')
+    return render_template('technical_screener.html', title='Technical Screener')
 
 
 @app.route('/market-news')

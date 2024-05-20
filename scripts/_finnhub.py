@@ -16,7 +16,8 @@ class Finnhub:
 
         Returns:
         """
-        return self.fc.general_news('general', min_id=0)
+        general_news = self.fc.general_news('general', min_id=0)
+        return general_news
 
     def get_stock_news(self, stock, _from, to):
         """
@@ -31,4 +32,5 @@ class Finnhub:
             list of dictionaries, each containing news data from an external article
             keys: ['category', 'datetime', 'headline', 'id', 'image', 'related', 'source', 'summary', 'url']
         """
-        return self.fc.company_news(stock, _from, to)
+        ticker_news = self.fc.company_news(stock, _from, to)
+        return ticker_news
