@@ -28,10 +28,17 @@ class AlphaVantage:
             cr = csv.reader(decoded_content.splitlines(), delimiter=',')
             self.ipo_list = list(cr)
 
-            if len(self.ipo_list) == 1:
-                print("No IPOs available at the moment")
-            else:
-                return self.ipo_list
+            filtered_ipo_list = []
+
+            for ipo in self.ipo_list:
+                low_listing_price = ipo[3]
+                high_listing_price = ipo[4]
+
+                # some listings are ETFs, or other securities without a listing price, so we'll filter them out
+                if low_listing_price != '0' and high_listing_price != '0':
+                    filtered_ipo_list.append(ipo)
+
+        return filtered_ipo_list
 
     def get_earnings_calendar(self):
         pass
@@ -40,3 +47,7 @@ class AlphaVantage:
         r = requests.get(self.BALANCE_SHEET_URL)
         data = r.json()
         return data
+
+
+av = AlphaVantage()
+print(av.get_ipos_data())

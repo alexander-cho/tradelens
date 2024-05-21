@@ -363,6 +363,11 @@ def symbol_news(symbol):
     return render_template('symbol_news.html', title=f'News for {symbol}', stock=stock, ticker_news=ticker_news)
 
 
+@app.route('/macro')
+def macro():
+    return render_template('macro.html', title='Macro')
+
+
 @app.route('/technical-screener')
 def technical_screener():
     return render_template('technical_screener.html', title='Technical Screener')

@@ -4,17 +4,12 @@
 
     <h1>Anticipated IPOs</h1>
 
-    {% if ipo_data %}
-        {% for ipo in ipo_data[1:] %}  <!-- exclude the first element because it represents the column names -->
-            <!-- if there is an anticipated listing price -->
-            {% if ipo[3] != '0' and ipo[4] != '0' %}
-                <div>
-                    <p>{{ ipo }}</p>
-                </div>
-            {% endif %}
-        {% endfor %}
-    {% else %}
+    {% if ipo_data|length == 1 %}  <!-- if only the headers are in the list -->
         <h3>IPO data not available currently</h3>
+    {% else %}
+        {% for ipo in ipo_data %}
+            {{ ipo }}
+        {% endfor %}
     {% endif %}
 
 
