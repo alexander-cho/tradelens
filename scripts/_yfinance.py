@@ -180,7 +180,7 @@ class YFinance:
             call_open_interest[row['strike']] = row['openInterest']
 
         for _, row in puts.iterrows():
-            put_open_interest[row['strike']] = row['OpenInterest']
+            put_open_interest[row['strike']] = row['openInterest']
 
         # return list
         return [call_open_interest, put_open_interest]
