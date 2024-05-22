@@ -352,7 +352,8 @@ def options_expiry(symbol, expiry_date):
     stock = db.session.scalar(sa.select(Stocks).where(Stocks.ticker_symbol == symbol))
     yfinance = YFinance(symbol)
     option_chain = yfinance.get_option_chain_for_expiry(expiry_date)
-    return render_template('options_expiry.html', title=f'{symbol} {expiry_date}', stock=stock, option_chain=option_chain, expiry_date=expiry_date)
+    call_volume = yfinance._get_volume(expiry_date)
+    return render_template('options_expiry.html', title=f'{symbol} {expiry_date}', stock=stock, option_chain=option_chain, expiry_date=expiry_date, call_volume=call_volume)
 
 
 @app.route('/symbol/<symbol>/news')

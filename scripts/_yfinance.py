@@ -1,5 +1,6 @@
 import yfinance as yf
 import warnings
+import pandas as pd
 
 warnings.filterwarnings("ignore", category=FutureWarning)
 
@@ -12,7 +13,7 @@ class YFinance:
         self.symbol = symbol
         self.ticker = yf.Ticker(symbol)
 
-    def get_ohlcv(self):
+    def get_ohlcv(self) -> pd.DataFrame:
         """
         Get OHLCV data for the symbol for same day.
 
@@ -38,13 +39,13 @@ class YFinance:
         except Exception as e:
             print(f"Error fetching implied shares outstanding for {self.symbol}: {e}")
 
-    def get_underlying_for_main_info(self):
+    def get_underlying_for_main_info(self) -> dict:
         """
         This method is used to get the market and pre-/post-market prices/price changes for a ticker,
         as well as bid/ask and sizes, among other things.
 
         Returns:
-            dict: Dictionary of miscellaneous underlying information for the symbol.
+            dict: Dictionary of miscellaneous underlying information for the symbol with the following
             keys: ['language', 'region', 'quoteType', 'typeDisp', ...] (length of 81)
         """
         try:
@@ -53,7 +54,7 @@ class YFinance:
         except Exception as e:
             print(f"Error fetching underlying info for {self.symbol}: {e}")
 
-    def get_fast_info(self):
+    def get_fast_info(self) -> "Fast Info":
         """
         Get miscellaneous quick access info about a ticker such as company market capitalization.
 
@@ -79,9 +80,12 @@ class YFinance:
         except Exception as e:
             print(f"Error fetching calendar info for {self.symbol}: {e}")
 
-    def get_institutional_holders(self):
+    def get_institutional_holders(self) -> any or list[dict]:
         """
         Get the institutional holders for a ticker.
+
+        Returns:
+            list: List of dictionaries, containing keys 'Date Reported', 'Holder', 'pctHeld', 'Shares', 'Value'
         """
         try:
             institutions = self.ticker.get_institutional_holders().to_dict(orient='records')
@@ -91,12 +95,12 @@ class YFinance:
         except Exception as e:
             print(f"Error fetching institutional holders for {self.symbol}: {e}")
 
-    def get_insider_transactions(self):
+    def get_insider_transactions(self) -> any or list[dict]:
         """
         Get the insider transactions data for the symbol.
 
         Returns:
-
+            list: List of dictionaries, containing keys about insider purchase, sell, or option exercise
         """
         try:
             insider_transactions = self.ticker.get_insider_transactions().to_dict(orient='records')
@@ -139,7 +143,7 @@ class YFinance:
         expiry_dates = self.ticker.options
         return expiry_dates
 
-    def get_option_chain_for_expiry(self, expiry_date) -> object:
+    def get_option_chain_for_expiry(self, expiry_date: str) -> object:
         """
         Get the yfinance option chain (calls and puts) for a given ticker symbol and expiry date.
 
@@ -150,3 +154,26 @@ class YFinance:
         """
         option_chain = self.ticker.option_chain(date=expiry_date)
         return option_chain
+
+    def _get_volume(self, expiry_date: str) -> list[dict[float, int]]:
+        """
+        Given an arg expiry date of format 'YYYY-MM-DD', get the call and put volume of all option chains.
+        We utilize the get_option_chain_for_expiry() method to the option chain
+
+        Returns:
+            list: List of length 2, dictionaries containing key-value pairs of strike prices and volume for each
+        """
+        option_chain = self.get_option_chain_for_expiry(expiry_date)
+
+        calls = option_chain.calls
+        puts = option_chain.puts
+
+        call_volumes, put_volumes = {}, {}
+
+        for _, row in calls.iterrows():
+            call_volumes[row['strike']] = row['volume']
+
+        for _, row in puts.iterrows():
+            put_volumes[row['strike']] = row['volume']
+
+        return [call_volumes, put_volumes]
