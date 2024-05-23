@@ -25,6 +25,8 @@ def add_stock(ticker, company):
     else:
         print(f"'{ticker}' already exists.")
 
+    return ticker, company
+
 
 if __name__ == '__main__':
     with app.app_context():
