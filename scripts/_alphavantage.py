@@ -2,6 +2,7 @@ import csv
 import requests
 import warnings
 
+
 warnings.filterwarnings("ignore", category=FutureWarning)
 
 
@@ -40,6 +41,20 @@ class AlphaVantage:
 
         return filtered_ipo_list
 
+    def get_earnings_calendar(self):
+        """
+
+        """
+        pass
+
+    def get_balance_sheet(self):
+        """
+
+        """
+        r = requests.get(self.BALANCE_SHEET_URL)
+        data = r.json()
+        return data
+
     def get_top_gainers_losers(self) -> dict:
         """
         Get the 20 top gainers and losers, as well as the most actively traded stocks for the day
@@ -54,3 +69,8 @@ class AlphaVantage:
         r = requests.get(self.TOP_GAINERS_LOSERS_URL)
         data = r.json()
         return data
+
+
+av = AlphaVantage()
+top_gainers_losers = av.get_top_gainers_losers()
+print(top_gainers_losers)

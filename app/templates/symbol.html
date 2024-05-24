@@ -5,6 +5,10 @@
     <h1>{{ stock.ticker_symbol }}</h1>
     <h4>{{ stock.company_name }}</h4>
 
+    <p>
+        {{ company_profile }}
+    </p>
+
     <h1>{{ main_info['regularMarketPrice'] }}</h1>
 
     <p>
@@ -109,6 +113,12 @@
     {% else %}
         <p>Insider activity information is not available for {{ stock.ticker_symbol }}</p>
     {% endif %}
+
+
+    <h3>Insider Sentiment</h3>
+    <p>
+        {{ insider_sentiment }}
+    </p>
 
 
     <h3>Analyst Ratings</h3>

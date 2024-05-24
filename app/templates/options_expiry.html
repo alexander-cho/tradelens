@@ -2,7 +2,7 @@
 
 {% block content %}
 
-    <h1>Here is the chain for {{ stock.ticker_symbol }} {{ expiry_date }}</h1>
+    <h1>{{ stock.ticker_symbol }} {{ expiry_date }}</h1>
 
     <hr>
 
@@ -30,7 +30,9 @@
     {{ last_bid_ask[1] }}
     </p>
 
-    <h3>Calls expiring on {{ expiry_date }}</h3>
+    <h2>Option chain</h2>
+
+    <h4>Calls expiring on {{ expiry_date }}</h4>
     <p>
         {% for i, j in option_chain.calls.iterrows() %}
             <strong>Sep</strong> <br>
@@ -40,7 +42,7 @@
         {% endfor %}
     </p>
 
-    <h3>Puts expiring on {{ expiry_date }}</h3>
+    <h4>Puts expiring on {{ expiry_date }}</h4>
     <p>
         {% for i, j in option_chain.puts.iterrows() %}
             <strong>Sep</strong> <br>
