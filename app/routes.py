@@ -33,7 +33,9 @@ def base():
 @app.route('/index')
 # @login_required
 def index():
-    return render_template('index.html', title='Home')
+    finnhub = Finnhub()
+    market_status = finnhub.get_market_status()
+    return render_template('index.html', title='Home', market_status=market_status)
 
 
 # login
@@ -363,7 +365,7 @@ def options_expiry(symbol, expiry_date):
 def symbol_news(symbol):
     stock = db.session.query(Stocks).filter(Stocks.ticker_symbol == symbol).first()
     finnhub = Finnhub()
-    ticker_news = finnhub.get_stock_news(stock.ticker_symbol, "2024-05-11", "2024-05-18")
+    ticker_news = finnhub.get_stock_news(ticker=stock.ticker_symbol, _from="2024-05-11", to="2024-05-18")
     return render_template('symbol_news.html', title=f'News for {symbol}', stock=stock, ticker_news=ticker_news)
 
 

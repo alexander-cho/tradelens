@@ -31,6 +31,9 @@
 
     <h5><a href="{{ url_for('options', symbol=stock.ticker_symbol) }}" class="btn btn-primary">Option Chain</a></h5>
 
+    <h5><a href="{{ url_for('symbol_news', symbol=stock.ticker_symbol) }}" class="btn btn-secondary">News Stream</a></h5>
+
+
     {% if not ohlcv_data.empty %}
         {% for column in ohlcv_data.columns %}
             {% if column not in ['Volume', 'Dividends', 'Stock Splits', 'Capital Gains'] %}
