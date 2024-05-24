@@ -1,6 +1,5 @@
 import finnhub
 
-
 API_KEY = "cp42qm9r01qs36663pfgcp42qm9r01qs36663pg0"
 finnhub_client = finnhub.Client(api_key=API_KEY)
 
@@ -34,10 +33,10 @@ class Finnhub:
         """
         Get recent news for a specific stock
 
-        Args:
+        Parameters:
             ticker (str): ticker symbol
-            _from (str): start date
-            to (str): end date
+            _from (str): start date (YYYY-MM-DD)
+            to (str): end date (YYYY-MM-DD)
 
         Returns:
             list: list of dictionaries, each containing news data from an external article
@@ -50,7 +49,7 @@ class Finnhub:
         """
         Get the basic profile data for a company, and return certain keys of use
 
-        Args:
+        Parameters:
             ticker (str): ticker symbol
 
         Returns:
@@ -75,10 +74,10 @@ class Finnhub:
         The closer this number is to 100 (-100) the more reliable that the stock prices of the firm
         increase (decrease) in the next periods.
 
-        Args:
+        Parameters:
             ticker (str): ticker symbol
-            _from (str): start date
-            to (str): end date
+            _from (str): start date (YYYY-MM-DD)
+            to (str): end date (YYYY-MM-DD)
 
         Returns:
             dict containing keys such as "change" which refers to the net buying/selling of insiders in number of shares

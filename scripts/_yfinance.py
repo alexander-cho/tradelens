@@ -2,7 +2,6 @@ import yfinance as yf
 import warnings
 import pandas as pd
 
-
 warnings.filterwarnings("ignore", category=FutureWarning)
 
 
@@ -148,7 +147,8 @@ class YFinance:
         """
         Get the yfinance option chain (calls and puts) for a given ticker symbol and expiry date.
 
-        Args: Expiry_date (string): Expiry date for a given ticker symbol, formatted as YYYY-MM-DD.
+        Parameters:
+            expiry_date (string): Expiry date for a given ticker symbol, formatted as YYYY-MM-DD.
 
         Returns:
             object: yfinance option chain for an expiry date.
@@ -160,6 +160,9 @@ class YFinance:
         """
         Given an arg expiry date of format 'YYYY-MM-DD', get the call and put open interest of all option chains.
         We utilize the get_option_chain_for_expiry() method to get the option chain
+
+        Parameters:
+            expiry_date (string): Expiry date for a given ticker symbol, formatted as YYYY-MM-DD.
 
         Returns:
             list: List of length 2, dictionaries containing key-value pairs of strike prices and open interest for each
@@ -190,6 +193,9 @@ class YFinance:
         Given an arg expiry date of format 'YYYY-MM-DD', get the call and put volume of all option chains.
         We utilize the get_option_chain_for_expiry() method to get the option chain
 
+        Parameters:
+            expiry_date (string): Expiry date for a given ticker symbol, formatted as YYYY-MM-DD.
+
         Returns:
             list: List of length 2, dictionaries containing key-value pairs of strike prices and volume for each
         """
@@ -213,6 +219,9 @@ class YFinance:
         """
         Given an arg expiry date of format 'YYYY-MM-DD', get the call and put implied volatility of all option chains.
         We utilize the get_option_chain_for_expiry() method to get the option chain
+
+        Parameters:
+            expiry_date (string): Expiry date for a given ticker symbol, formatted as YYYY-MM-DD.
 
         Returns:
             list: List of length 2, dictionaries containing key-value pairs of strike prices and
@@ -239,6 +248,9 @@ class YFinance:
         Given an arg expiry date of format 'YYYY-MM-DD', get the last price, bid price, ask price
         for calls and puts of all option chains.
         We utilize the get_option_chain_for_expiry() method to get the option chain
+
+        Parameters:
+            expiry_date (string): Expiry date for a given ticker symbol, formatted as YYYY-MM-DD.
 
         Returns:
             list: List of length 2, dictionaries containing key-value pairs of strike prices and a list for each

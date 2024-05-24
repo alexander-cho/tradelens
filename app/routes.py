@@ -34,8 +34,10 @@ def base():
 # @login_required
 def index():
     finnhub = Finnhub()
+    alphavantage = AlphaVantage()
     market_status = finnhub.get_market_status()
-    return render_template('index.html', title='Home', market_status=market_status)
+    top_gainers_losers = alphavantage.get_top_gainers_losers()
+    return render_template('index.html', title='Home', market_status=market_status, top_gainers_losers=top_gainers_losers)
 
 
 # login

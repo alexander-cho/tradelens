@@ -32,7 +32,7 @@ class UpdateStockUniverse:
         """
         Add a stock to the stock universe
 
-        Args:
+        Parameters:
             ticker: stock ticker symbol
             company (str): company name
         """
@@ -47,6 +47,9 @@ class UpdateStockUniverse:
     def remove_stock(self, ticker):
         """
         Remove a stock from the stock universe
+
+        Parameters:
+            ticker (str): stock ticker symbol
         """
         if self.stock_exists(ticker):
             Stocks.query.filter(Stocks.ticker_symbol == ticker).delete()
@@ -59,4 +62,3 @@ class UpdateStockUniverse:
 if __name__ == '__main__':
     with app.app_context():
         update1 = UpdateStockUniverse(db.session)
-        update1.remove_stock('EFCSCE')
