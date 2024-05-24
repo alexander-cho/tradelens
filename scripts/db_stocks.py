@@ -21,6 +21,9 @@ class UpdateStockUniverse:
     def stock_exists(ticker):
         """
         Check if the stock already exists in the db
+
+        Args:
+            ticker (str): stock ticker
         """
         existing_stock = Stocks.query.filter_by(ticker_symbol=ticker).first()
         return existing_stock is not None
@@ -31,18 +34,29 @@ class UpdateStockUniverse:
 
         Args:
             ticker: stock ticker symbol
-            company: company name
+            company (str): company name
         """
-        pass
+        if not self.stock_exists(ticker):
+            new_stock = Stocks(ticker_symbol=ticker, company_name=company)
+            db.session.add(new_stock)
+            db.session.commit()
+            print(f"'{ticker}' added.")
+        else:
+            print(f"Stock {ticker} already exists")
 
     def remove_stock(self, ticker):
         """
         Remove a stock from the stock universe
         """
-        pass
+        if self.stock_exists(ticker):
+            Stocks.query.filter(Stocks.ticker_symbol == ticker).delete()
+            db.session.commit()
+            print(f"'{ticker}' has been deleted.")
+        else:
+            print(f"Cannot delete '{ticker}', which does not exist in table.")
 
 
 if __name__ == '__main__':
     with app.app_context():
         update1 = UpdateStockUniverse(db.session)
-        update1.add_stock('DJT', 'Trump Media and Technology Group')
+        update1.remove_stock('EFCSCE')
