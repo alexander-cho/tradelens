@@ -462,17 +462,21 @@ def options_expiry(symbol, expiry_date):
 
     yfinance = YFinance(symbol)
 
-    option_chain = yfinance.get_option_chain_for_expiry(expiry_date),
-    open_interest = yfinance._get_open_interest(expiry_date),
-    volume = yfinance._get_volume(expiry_date),
-    implied_volatility = yfinance._get_implied_volatility(expiry_date),
+    option_chain = yfinance.get_option_chain_for_expiry(expiry_date)
+    open_interest = yfinance._get_open_interest(expiry_date)
+    volume = yfinance._get_volume(expiry_date)
+    implied_volatility = yfinance._get_implied_volatility(expiry_date)
     last_bid_ask = yfinance._get_last_price_bid_ask(expiry_date)
 
     return render_template('options_expiry.html',
                            title=f'{symbol} {expiry_date}',
                            stock=stock,
                            expiry_date=expiry_date,
-                           )
+                           option_chain=option_chain,
+                           open_interest=open_interest,
+                           volume=volume,
+                           implied_volatility=implied_volatility,
+                           last_bid_ask=last_bid_ask)
 
 
 @app.route('/symbol/<symbol>/news')

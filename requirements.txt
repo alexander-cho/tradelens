@@ -17,7 +17,7 @@ SQLAlchemy==2.0.25
 typing_extensions==4.9.0
 Werkzeug==3.0.1
 WTForms==3.1.2
-yfinance==0.2.38
+yfinance==0.2.40
 finnhub-python==2.4.19
 TA-Lib==0.4.29
 pandas==2.2.2

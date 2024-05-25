@@ -2,7 +2,6 @@ import csv
 import requests
 import warnings
 
-
 warnings.filterwarnings("ignore", category=FutureWarning)
 
 

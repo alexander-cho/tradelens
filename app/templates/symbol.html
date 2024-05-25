@@ -61,7 +61,6 @@
 
     <h3>Dividends, Earnings and Revenue Estimates</h3>
     {% if calendar %}
-        <p>
         {% for k, v in calendar.items() %}  <!-- earnings_forecast is of type dictionary -->
             {% if k in ['Dividend Date', 'Ex-Dividend Date'] %}  <!-- Dividend calendar -->
                 {{ k }}: {{ v }} <br>
@@ -85,7 +84,6 @@
                 {% endif %}
             {% endif %}
         {% endfor %}
-        </p>
     {% else %}
         <p>Earnings and Dividend calendar not available for {{ stock.ticker_symbol }}</p>
     {% endif %}
@@ -134,12 +132,16 @@
 
     <h3>Lobbying Activity</h3>
     <p>
+    {% if lobbying_activities %}
         {{ lobbying_activities }}
+    {% endif %}
     </p>
 
     <h3>Government Spending</h3>
     <p>
+    {% if government_spending %}
         {{ government_spending }}
+    {% endif %}
     </p>
 
     {% include 'add_post.html' %}
