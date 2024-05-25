@@ -381,6 +381,8 @@ def symbol(symbol):
     analyst_ratings = yfinance.get_analyst_ratings()
     company_profile = finnhub.get_company_profile(ticker=symbol)
     insider_sentiment = finnhub.get_insider_sentiment(ticker=symbol, _from='2023-05-01', to='2024-05-01')
+    lobbying_activities = finnhub.get_lobbying_activities(ticker=symbol, _from='2023-05-01', to='2024-05-01')
+    government_spending = finnhub.get_government_spending(ticker=symbol, _from='2023-05-01', to='2024-05-01')
 
     # ADDING A POST ON THE SYMBOL PAGE
     form = PostForm()
@@ -422,7 +424,9 @@ def symbol(symbol):
                                insider_transactions=insider_transactions,
                                analyst_ratings=analyst_ratings,
                                company_profile=company_profile,
-                               insider_sentiment=insider_sentiment)
+                               insider_sentiment=insider_sentiment,
+                               lobbying_activities=lobbying_activities,
+                               government_spending=government_spending)
 
 
 # return IPOs anticipated in the next 3 months, upcoming earnings calendar

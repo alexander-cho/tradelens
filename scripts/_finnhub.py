@@ -85,3 +85,70 @@ class Finnhub:
         """
         insider_sentiment = self.fc.stock_insider_sentiment(symbol=ticker, _from=_from, to=to)
         return insider_sentiment
+
+    def get_lobbying_activities(self, ticker, _from, to) -> dict:
+        """
+        Get the company's congressional lobbying activities within a time frame
+
+        Parameters:
+            ticker (str): ticker symbol
+            _from (str): start date (YYYY-MM-DD)
+            to (str): end date (YYYY-MM-DD)
+
+        Returns:
+            dict: keys "data", "symbol"
+            "data": list of dictionaries with specific keys pertaining to one lobbying activity
+        """
+        lobbying_activities = self.fc.stock_lobbying(symbol=ticker, _from=_from, to=to)
+
+        # # initialize empty list to pack with dictionaries containing the wanted keys from full API response
+        # filtered_data = []
+        # # for each activity in the "data" list
+        # for activity in lobbying_activities:
+        #     # these are the key value pairs we want to include
+        #     filtered_activity = {
+        #         "year": activity["year"],
+        #         "period": activity["period"],
+        #         "type": activity["type"],
+        #         "documentUrl": activity["documentUrl"],
+        #         "income": activity["income"],
+        #         "expenses": activity["expenses"]
+        #     }
+        #     filtered_data.append(filtered_activity)
+        #
+        # return {"data": filtered_data, "symbol": lobbying_activities["symbol"]}
+        return lobbying_activities
+
+    def get_government_spending(self, ticker, _from, to) -> dict:
+        """
+        Get a particular company's government spending activities within a time frame.
+        Identify large government contracts.
+
+        Parameters:
+            ticker (str): ticker symbol
+            _from (str): start date (YYYY-MM-DD)
+            to (str): end date (YYYY-MM-DD)
+
+        Returns:
+            dict: keys "data", "symbol"
+            "data": list of dictionaries with specific keys pertaining to a government contract or expense.
+        """
+        government_spending = self.fc.stock_usa_spending(symbol=ticker, _from=_from, to=to)
+
+        # # initialize empty list to pack with dictionaries containing the wanted keys from full API response
+        # filtered_data = []
+        # # for each activity in the "data" list
+        # for activity in government_spending:
+        #     # these are the key value pairs we want to include
+        #     filtered_activity = {
+        #         "totalValue": activity["totalValue"],
+        #         "actionDate": activity["actionDate"],
+        #         "awardingAgencyName": activity["awardingAgencyName"],
+        #         "awardingOfficeName": activity["awardingOfficeName"],
+        #         "awardDescription": activity["awardDescription"],
+        #         "permalink": activity["permalink"]
+        #     }
+        #     filtered_data.append(filtered_activity)
+        #
+        # return {"data": filtered_data, "symbol": government_spending["symbol"]}
+        return government_spending

@@ -132,6 +132,15 @@
         <p>Analyst ratings not available for {{ stock.ticker_symbol }}</p>
     {% endif %}
 
+    <h3>Lobbying Activity</h3>
+    <p>
+        {{ lobbying_activities }}
+    </p>
+
+    <h3>Government Spending</h3>
+    <p>
+        {{ government_spending }}
+    </p>
 
     {% include 'add_post.html' %}
 
