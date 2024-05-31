@@ -1,17 +1,21 @@
 import csv
+import os
+from dotenv import load_dotenv
 import requests
 import warnings
 
 warnings.filterwarnings("ignore", category=FutureWarning)
 
+load_dotenv()
+
 
 class AlphaVantage:
-    IPO_URL = 'https://www.alphavantage.co/query?function=IPO_CALENDAR&apikey=GLLVZKDV4221RMO6'
-    EARNINGS_URL = 'https://www.alphavantage.co/query?function=EARNINGS_CALENDAR&apikey=GLLVZKDV4221RMO6'
-    BALANCE_SHEET_URL = 'https://www.alphavantage.co/query?function=BALANCE_SHEET&symbol=SOFI&apikey=GLLVZKDV4221RMO6'
-    TOP_GAINERS_LOSERS_URL = 'https://www.alphavantage.co/query?function=TOP_GAINERS_LOSERS&apikey=GLLVZKDV4221RMO6'
-
     def __init__(self):
+        self.api_key = os.getenv('ALPHA_VANTAGE_API_KEY')
+        self.IPO_URL = f'https://www.alphavantage.co/query?function=IPO_CALENDAR&apikey={self.api_key}'
+        self.EARNINGS_URL = f'https://www.alphavantage.co/query?function=EARNINGS_CALENDAR&apikey={self.api_key}'
+        self.BALANCE_SHEET_URL = f'https://www.alphavantage.co/query?function=BALANCE_SHEET&symbol=SOFI&apikey={self.api_key}'
+        self.TOP_GAINERS_LOSERS_URL = f'https://www.alphavantage.co/query?function=TOP_GAINERS_LOSERS&apikey={self.api_key}'
         self.ipo_list = []
         self.earnings_list = []
 
@@ -34,7 +38,7 @@ class AlphaVantage:
                 low_listing_price = ipo[3]  # index of low listing price
                 high_listing_price = ipo[4]  # index of high listing price
 
-                # some listings are ETFs, or other securities without a listing price, so we'll filter them out
+                # filter ETFs and other securities without a listing price
                 if low_listing_price != '0' and high_listing_price != '0':
                     filtered_ipo_list.append(ipo)
 

@@ -1,13 +1,15 @@
+import os
+from dotenv import load_dotenv
+
 import finnhub
 
-API_KEY = "cp42qm9r01qs36663pfgcp42qm9r01qs36663pg0"
-finnhub_client = finnhub.Client(api_key=API_KEY)
+load_dotenv()
 
 
 class Finnhub:
     def __init__(self):
-        self.api_key = API_KEY
-        self.fc = finnhub_client
+        self.api_key = os.getenv('FINNHUB_API_KEY')
+        self.fc = finnhub.Client(api_key=self.api_key)
 
     def get_market_status(self) -> dict:
         """
@@ -116,7 +118,8 @@ class Finnhub:
             filtered_data.append(filtered_activity)
 
         # return as dict
-        return {"data": filtered_data, "symbol": lobbying_activities["symbol"]}
+        return {"data": filtered_data,
+                "symbol": lobbying_activities["symbol"]}
 
     def get_government_spending(self, ticker, _from, to) -> dict:
         """
@@ -149,4 +152,6 @@ class Finnhub:
             }
             filtered_data.append(filtered_activity)
 
-        return {"data": filtered_data, "symbol": government_spending["symbol"]}
+        # return as dict
+        return {"data": filtered_data,
+                "symbol": government_spending["symbol"]}
