@@ -22,3 +22,4 @@ finnhub-python==2.4.19
 TA-Lib==0.4.29
 pandas==2.2.2
 requests==2.32.2
+fredapi==0.5.2

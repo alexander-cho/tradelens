@@ -9,9 +9,10 @@ from app import app, db
 from app.forms import LoginForm, RegistrationForm, EditProfileForm, EmptyForm, PostForm, SearchForm
 from app.models import User, Post, Stocks
 
-from scripts._yfinance import YFinance
-from scripts._alphavantage import AlphaVantage
-from scripts._finnhub import Finnhub
+from src._yfinance import YFinance
+from src._alphavantage import AlphaVantage
+from src._finnhub import Finnhub
+from src._federalreserve import FederalReserve
 
 
 @app.before_request

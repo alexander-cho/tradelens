@@ -18,12 +18,15 @@ class UpdateStockUniverse:
         self.db_session = db_session
 
     @staticmethod
-    def stock_exists(ticker):
+    def stock_exists(ticker) -> bool:
         """
         Check if the stock already exists in the db
 
-        Args:
+        Parameters:
             ticker (str): stock ticker
+
+        Returns:
+            bool: True if the stock exists, False otherwise
         """
         existing_stock = Stocks.query.filter_by(ticker_symbol=ticker).first()
         return existing_stock is not None
