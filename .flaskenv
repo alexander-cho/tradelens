@@ -1,1 +1,0 @@
-FLASK_APP=tradelens.py
