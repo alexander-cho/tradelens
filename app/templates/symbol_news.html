@@ -3,7 +3,8 @@
 {% block content %}
 
     <h1>News for {{ stock.ticker_symbol }}</h1>
-
-    <p>{{ ticker_news }}</p>
+    {% if ticker_news %}
+        <p>{{ ticker_news }}</p>
+    {% endif %}
 
 {% endblock %}

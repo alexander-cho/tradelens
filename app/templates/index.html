@@ -4,17 +4,21 @@
 
     {% if current_user.is_authenticated %}
         <h1>Hello, {{ current_user.username }}!</h1>
-        <h3>Welcome to TradeLens</h3>
+        <h1>Welcome to TradeLens</h1>
     {% else %}
-        <h3>Welcome to TradeLens</h3>
+        <h1>Welcome to TradeLens</h1>
     {% endif %}
 
-    <p>
-        Current market status: {{ market_status }}
-    </p>
 
-    <p>
-        Top Gainers, Losers, Most actively Traded Stocks: {{ top_gainers_losers }}
-    </p>
+    <h3>Current market status</h3>
+    {% if market_status %}
+        <p>{{ market_status }}</p>
+    {% endif %}
+
+
+    <h3>Top Gainers, Losers, Most actively Traded Stocks</h3>
+    {% if top_gainers_losers %}
+        <p>{{ top_gainers_losers }}</p>
+    {% endif %}
 
 {% endblock %}

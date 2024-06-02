@@ -12,13 +12,13 @@
             {% for error in form.username.errors %}
                 <span style="color: red">[{{ error }}]</span>
             {% endfor %}
-            <br/><br>
+            <br><br>
             {{ form.about_me.label(class="form-label") }} <br>
             {{ form.about_me(class="form-control", cols=50, rows=4) }}
             {% for error in form.about_me.errors %}
                 <span style="color: red">[{{ error }}]</span>
             {% endfor %}
-            <br/>
+            <br>
             {{ form.submit(class="btn btn-secondary") }}
         </form>
     </div>

@@ -7,49 +7,54 @@
     <hr>
 
     <h5>Open Interest</h5>
-    <p>
-    {{ open_interest[0] }} <br>
-    {{ open_interest[1] }}
-    </p>
+    {% if open_interest %}
+        <p>{{ open_interest }}</p>
+    {% endif %}
+
 
     <h5>Volume</h5>
-    <p>
-    {{ volume[0] }} <br>
-    {{ volume[1] }}
-    </p>
+    {% if volume %}
+        <p>{{ volume }}</p>
+    {% endif %}
+
 
     <h5>Implied Volatility</h5>
-    <p>
-    {{ implied_volatility[0] }} <br>
-    {{ implied_volatility[1] }}
-    </p>
+    {% if implied_volatility %}
+        <p>{{ implied_volatility }}</p>
+    {% endif %}
+
 
     <h5>Last price, Bid, Ask</h5>
-    <p>
-    {{ last_bid_ask[0] }} <br>
-    {{ last_bid_ask[1] }}
-    </p>
+    {% if last_bid_ask %}
+        <p>{{ last_bid_ask }}</p>
+    {% endif %}
 
-    <h2>Option chain</h2>
+    <h5>Full option chain</h5>
+    {% if option_chain %}
+        {{ option_chain }}
+    {% endif %}
 
-    <h4>Calls expiring on {{ expiry_date }}</h4>
-    <p>
-        {% for i, j in option_chain.calls.iterrows() %}
-            <strong>Sep</strong> <br>
-            {% for col, val in j.items() %}
-                {{ col }} | {{ val }} <br>
-            {% endfor %}
-        {% endfor %}
-    </p>
 
-    <h4>Puts expiring on {{ expiry_date }}</h4>
-    <p>
-        {% for i, j in option_chain.puts.iterrows() %}
-            <strong>Sep</strong> <br>
-            {% for col, val in j.items() %}
-                {{ col }} | {{ val }} <br>
-            {% endfor %}
-        {% endfor %}
-    </p>
+{#    <h2>Option chain</h2>#}
+{##}
+{#    <h4>Calls expiring on {{ expiry_date }}</h4>#}
+{#    <p>#}
+{#        {% for i, j in option_chain.calls.iterrows() %}#}
+{#            <strong>Sep</strong> <br>#}
+{#            {% for col, val in j.items() %}#}
+{#                {{ col }} | {{ val }} <br>#}
+{#            {% endfor %}#}
+{#        {% endfor %}#}
+{#    </p>#}
+{##}
+{#    <h4>Puts expiring on {{ expiry_date }}</h4>#}
+{#    <p>#}
+{#        {% for i, j in option_chain.puts.iterrows() %}#}
+{#            <strong>Sep</strong> <br>#}
+{#            {% for col, val in j.items() %}#}
+{#                {{ col }} | {{ val }} <br>#}
+{#            {% endfor %}#}
+{#        {% endfor %}#}
+{#    </p>#}
 
 {% endblock %}

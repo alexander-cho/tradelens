@@ -3,22 +3,14 @@
 {% block content %}
 
     <h1>Anticipated IPOs</h1>
-
-    {% if ipo_data|length == 1 %}  <!-- if only the headers are in the list -->
-        <h3>IPO data not available currently</h3>
-    {% else %}
-        {% for ipo in ipo_data %}
-            {{ ipo }}
-        {% endfor %}
+    {% if ipo_data %}
+        <p>{{ ipo_data }}</p>
     {% endif %}
 
 
     <h1>Upcoming Earnings</h1>
-
     {% if earnings_calendar %}
         <p>{{ earnings_calendar }}</p>
-    {% else %}
-        <h3>Earnings calendar not available currently</h3>
     {% endif %}
 
 {% endblock %}

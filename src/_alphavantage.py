@@ -19,7 +19,7 @@ class AlphaVantage:
         self.ipo_list = []
         self.earnings_list = []
 
-    def get_ipos_data(self) -> list[list]:
+    def get_ipos_data(self) -> list:
         """
         Fetch and parse the IPO list for upcoming market IPOs
 

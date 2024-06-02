@@ -368,7 +368,7 @@ def symbol(symbol):
     # query the posts associated with the symbol
     symbol_posts = Post.query.order_by(Post.timestamp.desc()).where(Post.title == symbol)
 
-    # CONTEXT FROM SCRIPTS FOR SYMBOL DATA
+    # CONTEXT FROM SRC FOR SYMBOL DATA
     yfinance = YFinance(symbol)
     finnhub = Finnhub()
 
@@ -485,6 +485,7 @@ def symbol_news(symbol):
     stock = db.session.query(Stocks).filter(Stocks.ticker_symbol == symbol).first()
 
     finnhub = Finnhub()
+
     ticker_news = finnhub.get_stock_news(ticker=stock.ticker_symbol, _from="2024-05-11", to="2024-05-18")
 
     return render_template('symbol_news.html',

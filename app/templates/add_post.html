@@ -13,10 +13,10 @@
             {{ form.hidden_tag() }}
             {{ form.title.label(class="form-label") }}
             {{ form.title(value=stock.ticker_symbol, class="form-control") }}  <!-- pre-populate title with ticker -->
-            <br/>
+            <br>
             {{ form.content.label(class="form-label") }}
             {{ form.content(class="form-control", rows="10") }}
-            <br/>
+            <br>
             {{ form.submit(class="btn btn-secondary") }}
         </form>
     </div>

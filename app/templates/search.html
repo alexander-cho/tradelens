@@ -11,7 +11,7 @@
             <a href="{{ url_for('symbol', symbol=post.title)}}">{{ post.title }}</a> <br>
             <!-- {{ post.slug }} <br> -->
             Posted on: {{ post.timestamp }} <br>
-            {{ post.content | safe }} <br> <br>
+            {{ post.content | safe }} <br><br>
         {% endfor %}
     {% else %}
         <strong>{{ searched }}</strong> was not found

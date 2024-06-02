@@ -5,13 +5,8 @@
     <h1>Options data for {{ stock.ticker_symbol }}</h1>
 
     <h3>Expiration Calendar</h3>
-
     {% if expiry_list %}
-        {% for expiry in expiry_list %}
-            <a href="{{ url_for('options_expiry', symbol=stock.ticker_symbol, expiry_date=expiry) }}">{{ expiry }}</a> <br>
-        {% endfor %}
-    {% else %}
-        <h4>Options data is not available for {{ stock.ticker_symbol }}</h4>
+        {{ expiry_list }}
     {% endif %}
 
 {% endblock %}
