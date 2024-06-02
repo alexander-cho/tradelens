@@ -495,8 +495,13 @@ def symbol_news(symbol):
 
 @app.route('/macro')
 def macro():
+    federal_reserve = FederalReserve()
+    gdp = federal_reserve.get_quarterly_gdp()
+    cpi = federal_reserve.get_cpi()
     return render_template('macro.html',
-                           title='Macro')
+                           title='Macro',
+                           gdp=gdp,
+                           cpi=cpi)
 
 
 @app.route('/technical-screener')

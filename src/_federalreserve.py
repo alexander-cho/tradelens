@@ -52,7 +52,3 @@ class FederalReserve:
 
     def get_cci(self) -> dict:
         pass
-
-
-federal_reserve = FederalReserve()
-print(federal_reserve.get_cpi())

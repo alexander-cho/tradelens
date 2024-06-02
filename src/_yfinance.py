@@ -1,6 +1,5 @@
 import yfinance as yf
 import warnings
-import pandas as pd
 
 warnings.filterwarnings("ignore", category=FutureWarning)
 
@@ -73,7 +72,7 @@ class YFinance:
             print(f"Error fetching underlying info for {self.symbol}: {e}")
             return {}
 
-    def get_fast_info(self) -> "Fast Info":
+    def get_fast_info(self) -> dict:
         """
         Get miscellaneous quick access info about a ticker such as company market capitalization.
 
@@ -82,7 +81,11 @@ class YFinance:
         """
         try:
             fast_info = self.ticker.get_fast_info()
-            return fast_info
+            fast_info_as_dict = {}
+
+            for key in fast_info.keys():
+                fast_info_as_dict[key] = fast_info[key]
+            return fast_info_as_dict
         except Exception as e:
             print(f"Error fetching fast info for {self.symbol}: {e}")
 
