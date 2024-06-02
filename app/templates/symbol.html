@@ -5,147 +5,85 @@
     <h1>{{ stock.ticker_symbol }}</h1>
     <h4>{{ stock.company_name }}</h4>
 
-    <p>
-        {{ company_profile }}
-    </p>
 
-    <h1>{{ main_info['regularMarketPrice'] }}</h1>
-
-    <p>
-        Today's change: <br>
-        {{ main_info['regularMarketChange'] }} <br>
-        {{ main_info['regularMarketChangePercent'] }} %
-    </p>
-
-    {% if main_info['postMarketPrice'] %}  <!-- after hours prices not available during market hours -->
-    <p>
-        After hours: <br>
-        {{ main_info['postMarketPrice'] }} <br>
-        {{ main_info['postMarketChange'] }} <br>
-        {{ main_info['postMarketChangePercent'] }} %
-    </p>
+    <h3>Company logo, ipo date, sector</h3>
+    {% if company_profile %}
+        <p>{{ company_profile }}</p>
     {% endif %}
 
-    <p>
-        Bid: {{ main_info['bid'] }} <br>
-        Ask: {{ main_info['ask'] }} <br>
-        Bid Size: {{ main_info['bidSize'] }} <br>
-        Ask Size: {{ main_info['askSize'] }}
-    </p>
 
-    <h5><a href="{{ url_for('options', symbol=stock.ticker_symbol) }}" class="btn btn-primary">Option Chain</a></h5>
-
-    <h5><a href="{{ url_for('symbol_news', symbol=stock.ticker_symbol) }}" class="btn btn-secondary">News Stream</a></h5>
-
-
-    {% if not ohlcv_data.empty %}
-        {% for column in ohlcv_data.columns %}
-            {% if column not in ['Volume', 'Dividends', 'Stock Splits', 'Capital Gains'] %}
-                {{ column }}: ${{ '%.2f'|format(ohlcv_data[column][0]) }} <br>
-            {% elif column == 'Volume' %}
-                {{ column }}: {{ '{:,.0f}'.format(ohlcv_data[column][0]) }} shares traded
-            {% endif %}
-        {% endfor %}
-    {% endif %}
-    <br>
-    {% if shares_outstanding %}
-        Shares outstanding: {{ '{:,.0f}'.format(shares_outstanding) }}
+    <h3>Main info</h3>
+    {% if main_info %}
+        <p>{{ main_info }}</p>
     {% endif %}
 
-    <p>
-    {% if fast_info['marketCap'] %}
-        Market Capitalization: {{ '${:,.0f}'.format(fast_info['marketCap']) }} <br>
+
+    <p><a href="{{ url_for('options', symbol=stock.ticker_symbol) }}" class="btn btn-primary">Option Chain</a></p>
+
+    <p><a href="{{ url_for('symbol_news', symbol=stock.ticker_symbol) }}" class="btn btn-secondary">News Stream</a></p>
+
+
+    <h3>ohlcv_data</h3>
+    {% if ohlcv_data %}
+        <p>{{ ohlcv_data }}</p>
     {% endif %}
-    </p>
+
+
+    <h3>basic_info</h3>
+    {% if basic_info %}
+        <p>{{ basic_info }}</p>
+    {% endif %}
+
+
+    <h3>fast_info</h3>
+    {% if fast_info %}
+        <p>{{ fast_info }}</p>
+    {% endif %}
 
 
     <h3>Dividends, Earnings and Revenue Estimates</h3>
     {% if calendar %}
-        {% for k, v in calendar.items() %}  <!-- earnings_forecast is of type dictionary -->
-            {% if k in ['Dividend Date', 'Ex-Dividend Date'] %}  <!-- Dividend calendar -->
-                {{ k }}: {{ v }} <br>
-            {% elif k == 'Earnings Date' %}
-                {% if v|length == 1 %}  <!-- if next earnings date is confirmed -->
-                    {{ k }}: {{ v[0] }} <br>
-                {% else %}
-                    {{ k }}: Between {{ v[0] }} and {{ v[1] }} <br>
-                {% endif %}
-            {% elif k in ['Earnings High', 'Earnings Low', 'Earnings Average'] %}  <!-- EPS estimates -->
-                {% if v is not none %}  <!-- if the EPS estimates information is available -->
-                    {{ k }}: ${{ '{:.2f}'.format(v) }} per share <br>
-                {% else %}
-                    <h5>EPS estimates are not available</h5>
-                {% endif %}
-            {% elif k in ['Revenue High', 'Revenue Low', 'Revenue Average'] %}  <!-- Revenue estimates -->
-                {% if v is not none %}  <!-- if the revenue estimates information is available -->
-                    {{ k }}: {{ '${:,.0f}'.format(v) }} <br>
-                {% else %}
-                    <h5>Revenue estimates are not available</h5>
-                {% endif %}
-            {% endif %}
-        {% endfor %}
-    {% else %}
-        <p>Earnings and Dividend calendar not available for {{ stock.ticker_symbol }}</p>
+        <p>{{ calendar }}</p>
     {% endif %}
 
 
     <h3>Top Institutional Holders</h3>
-    {% if institutional_holders and institutional_holders|length > 0 %}
-        <p>
-        {% for holder in institutional_holders %}
-            {{ holder }} <br>
-        {% endfor %}
-        </p>
-    {% else %}
-        <p>Institutional holder information is not available for {{ stock.ticker_symbol }}</p>
+    {% if institutional_holders%}
+        <p>{{ institutional_holders }}</p>
     {% endif %}
 
 
     <h3>Recent Insider Activity</h3>
     {% if insider_transactions %}
-        <p>
-        {% for transaction in insider_transactions %}
-            {{ transaction }} <br>
-        {% endfor %}
-        </p>
-    {% else %}
-        <p>Insider activity information is not available for {{ stock.ticker_symbol }}</p>
+        <p>{{ insider_transactions }}</p>
     {% endif %}
 
 
     <h3>Insider Sentiment</h3>
-    <p>
-        {{ insider_sentiment }}
-    </p>
+    {% if insider_sentiment %}
+        <p>{{ insider_sentiment }}</p>
+    {% endif %}
 
 
     <h3>Analyst Ratings</h3>
     {% if analyst_ratings %}
-        <p>
-        {% for firm , rating in analyst_ratings.items() %}
-            {{ firm }} | {{ rating }} <br>
-        {% endfor %}
-        </p>
-    {% else %}
-        <p>Analyst ratings not available for {{ stock.ticker_symbol }}</p>
+        <p>{{ analyst_ratings }}</p>
     {% endif %}
+
 
     <h3>Lobbying Activity</h3>
-    <p>
     {% if lobbying_activities %}
-        {{ lobbying_activities }}
+        <p>{{ lobbying_activities }}</p>
     {% endif %}
-    </p>
+
 
     <h3>Government Spending</h3>
-    <p>
     {% if government_spending %}
-        {{ government_spending }}
+        <p>{{ government_spending }}</p>
     {% endif %}
-    </p>
+
 
     {% include 'add_post.html' %}
-
     <br>
     {% for post in symbol_posts %}
         {% include '_post.html' %}

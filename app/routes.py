@@ -372,9 +372,9 @@ def symbol(symbol):
     yfinance = YFinance(symbol)
     finnhub = Finnhub()
 
-    ohlcv_data = yfinance.get_ohlcv()
-    shares_outstanding = yfinance.get_shares_outstanding()
-    main_info = yfinance.get_underlying_for_main_info()
+    ohlcv_data = yfinance.get_day_ohlcv()
+    basic_info = yfinance.get_info()
+    main_info = yfinance.get_underlying_for_price_info()
     fast_info = yfinance.get_fast_info()
     calendar = yfinance.get_calendar()
     institutional_holders = yfinance.get_institutional_holders()
@@ -417,7 +417,7 @@ def symbol(symbol):
                                symbol_posts=symbol_posts,
                                form=form,
                                ohlcv_data=ohlcv_data,
-                               shares_outstanding=shares_outstanding,
+                               basic_info=basic_info,
                                main_info=main_info,
                                fast_info=fast_info,
                                calendar=calendar,

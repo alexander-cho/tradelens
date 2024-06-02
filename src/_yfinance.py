@@ -13,7 +13,7 @@ class YFinance:
         self.symbol = symbol
         self.ticker = yf.Ticker(symbol)
 
-    def get_ohlcv(self) -> pd.DataFrame:
+    def get_day_ohlcv(self) -> list[dict]:
         """
         Get OHLCV data for the symbol for same day.
 
@@ -21,38 +21,57 @@ class YFinance:
             DataFrame: OHLCV data for the period '1d'.
         """
         try:
-            ohlcv = self.ticker.history(period='1d')
+            day_history = self.ticker.history(period='1d')
+            ohlcv = day_history.to_dict(orient='records')
             return ohlcv
         except Exception as e:
             print(f"Error fetching OHLCV data for {self.symbol}: {e}")
 
-    def get_shares_outstanding(self) -> int:
+    def get_info(self) -> dict:
         """
-        Get the number of shares outstanding for the symbol.
+        Get the basic information for the symbol, such as number of shares outstanding and short interest
 
         Returns:
-            int: Number of shares outstanding.
+            dict: Basic information for the symbol.
         """
         try:
-            outstanding_shares = self.ticker.info['sharesOutstanding']
-            return outstanding_shares
+            basic_info = self.ticker.info
+            return basic_info
         except Exception as e:
             print(f"Error fetching implied shares outstanding for {self.symbol}: {e}")
 
-    def get_underlying_for_main_info(self) -> dict:
+    def get_underlying_for_price_info(self) -> dict:
         """
         This method is used to get the market and pre-/post-market prices/price changes for a ticker,
         as well as bid/ask and sizes, among other things.
 
         Returns:
             dict: Dictionary of miscellaneous underlying information for the symbol with the following
-            keys: ['language', 'region', 'quoteType', 'typeDisp', ...] (length of 81)
+            keys: keys to keep as defined in list form below
         """
         try:
-            underlying = self.ticker.option_chain().underlying
-            return underlying
+            underlying_info = self.ticker.option_chain().underlying
+
+            # new dict for keeping keys we want from the response
+            price_info = {}
+            keys_to_keep = ['regularMarketPrice',
+                            'regularMarketChange',
+                            'regularMarketChangePercent',
+                            'postMarketPrice',
+                            'postMarketChange',
+                            'postMarketChangePercent',
+                            'bid',
+                            'ask',
+                            'bidSize',
+                            'askSize']
+
+            for key in keys_to_keep:
+                if key in underlying_info:
+                    price_info[key] = underlying_info[key]
+            return price_info
         except Exception as e:
             print(f"Error fetching underlying info for {self.symbol}: {e}")
+            return {}
 
     def get_fast_info(self) -> "Fast Info":
         """
