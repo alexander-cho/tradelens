@@ -29,9 +29,16 @@
         <p>{{ last_bid_ask }}</p>
     {% endif %}
 
-    <h5>Full option chain</h5>
+
+    <h5>Full option chain and underlying info</h5>
     {% if option_chain %}
-        {{ option_chain }}
+        <p>{{ option_chain }}</p>
+    {% endif %}
+
+
+    <h5>Tradier options chain</h5>
+    {% if tradier_options %}
+        {{ tradier_options }}
     {% endif %}
 
 
