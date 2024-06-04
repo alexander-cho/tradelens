@@ -18,7 +18,7 @@ class UpdateStockUniverse:
         self.db_session = db_session
 
     @staticmethod
-    def __stock_exists(ticker) -> bool:
+    def _stock_exists(ticker) -> bool:
         """
         Check if the stock already exists in the db
 
@@ -39,7 +39,7 @@ class UpdateStockUniverse:
             ticker: stock ticker symbol
             company (str): company name
         """
-        if not self.__stock_exists(ticker):
+        if not self._stock_exists(ticker):
             new_stock = Stocks(ticker_symbol=ticker, company_name=company)
             db.session.add(new_stock)
             db.session.commit()
@@ -54,7 +54,7 @@ class UpdateStockUniverse:
         Parameters:
             ticker (str): stock ticker symbol
         """
-        if self.__stock_exists(ticker):
+        if self._stock_exists(ticker):
             Stocks.query.filter(Stocks.ticker_symbol == ticker).delete()
             db.session.commit()
             print(f"'{ticker}' has been deleted.")

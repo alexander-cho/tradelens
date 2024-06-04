@@ -7,7 +7,7 @@ import os
 from app.models import Stocks
 from tradelens import app, db
 
-tickers_file_path = os.path.join('..', 'resources', 'company_tickers.json')
+tickers_file_path = os.path.join('../..', 'resources', 'company_tickers.json')
 
 
 def populate_stocks_from_sec(json_file):

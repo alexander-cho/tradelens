@@ -9,11 +9,13 @@ from app import app, db
 from app.forms import LoginForm, RegistrationForm, EditProfileForm, EmptyForm, PostForm, SearchForm
 from app.models import User, Post, Stocks
 
-from src._yfinance import YFinance
-from src._alphavantage import AlphaVantage
-from src._finnhub import Finnhub
-from src._federalreserve import FederalReserve
-from src._tradier import Tradier
+from src.providers.yfinance_ import YFinance
+from src.providers.alphavantage import AlphaVantage
+from src.providers.finnhub import Finnhub
+from src.providers.federalreserve import FederalReserve
+from src.providers.tradier import Tradier
+
+from src.utils import get_date_range_ahead, get_date_range_past
 
 
 @app.before_request
@@ -382,9 +384,11 @@ def symbol(symbol):
     insider_transactions = yfinance.get_insider_transactions()
     analyst_ratings = yfinance.get_analyst_ratings()
     company_profile = finnhub.get_company_profile(ticker=symbol)
-    insider_sentiment = finnhub.get_insider_sentiment(ticker=symbol, _from='2023-05-01', to='2024-05-01')
-    lobbying_activities = finnhub.get_lobbying_activities(ticker=symbol, _from='2023-05-01', to='2024-05-01')
-    government_spending = finnhub.get_government_spending(ticker=symbol, _from='2023-05-01', to='2024-05-01')
+
+    (past_date, today) = get_date_range_past(days_past=365)
+    insider_sentiment = finnhub.get_insider_sentiment(ticker=symbol, _from=past_date, to=today)
+    lobbying_activities = finnhub.get_lobbying_activities(ticker=symbol, _from=past_date, to=today)
+    government_spending = finnhub.get_government_spending(ticker=symbol, _from=past_date, to=today)
 
     # ADDING A POST ON THE SYMBOL PAGE
     form = PostForm()
@@ -435,9 +439,12 @@ def symbol(symbol):
 @app.route('/earnings-ipos')
 def earnings_ipos():
     alphavantage = AlphaVantage()
+    finnhub = Finnhub()
 
     ipo_data = alphavantage.get_ipos_data()
-    earnings_calendar = alphavantage.get_earnings_calendar()
+
+    (today, future_date) = get_date_range_ahead(days_ahead=14)
+    earnings_calendar = finnhub.get_earnings_calendar(_from=today, to=future_date)
 
     return render_template('earnings_ipos.html',
                            title='IPOs',
@@ -466,10 +473,10 @@ def options_expiry(symbol, expiry_date):
     tradier = Tradier()
 
     option_chain = yfinance.get_option_chain_for_expiry(expiry_date)
-    open_interest = yfinance._get_open_interest(expiry_date)
-    volume = yfinance._get_volume(expiry_date)
-    implied_volatility = yfinance._get_implied_volatility(expiry_date)
-    last_bid_ask = yfinance._get_last_price_bid_ask(expiry_date)
+    open_interest = yfinance.get_open_interest(expiry_date)
+    volume = yfinance.get_volume(expiry_date)
+    implied_volatility = yfinance.get_implied_volatility(expiry_date)
+    last_bid_ask = yfinance.get_last_price_bid_ask(expiry_date)
 
     tradier_options = tradier.get_options_chain(symbol, expiry_date)
 
@@ -491,7 +498,8 @@ def symbol_news(symbol):
 
     finnhub = Finnhub()
 
-    ticker_news = finnhub.get_stock_news(ticker=stock.ticker_symbol, _from="2024-05-11", to="2024-05-18")
+    (past_date, today) = get_date_range_past(days_past=7)
+    ticker_news = finnhub.get_stock_news(ticker=stock.ticker_symbol, _from=past_date, to=today)
 
     return render_template('symbol_news.html',
                            title=f'News for {symbol}',
@@ -502,8 +510,10 @@ def symbol_news(symbol):
 @app.route('/macro')
 def macro():
     federal_reserve = FederalReserve()
+
     gdp = federal_reserve.get_quarterly_gdp()
     cpi = federal_reserve.get_cpi()
+
     return render_template('macro.html',
                            title='Macro',
                            gdp=gdp,
