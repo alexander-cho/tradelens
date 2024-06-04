@@ -2,15 +2,17 @@
 
 {% block content %}
 
-    <h1>Anticipated IPOs</h1>
-    {% if ipo_data %}
-        <p>{{ ipo_data }}</p>
+    <h1>This Week's Earnings</h1>
+    {% if earnings_calendar %}
+        {% for earning in earnings_calendar %}
+            <p>{{ earning }}</p>
+        {% endfor %}
     {% endif %}
 
 
-    <h1>Upcoming Earnings</h1>
-    {% if earnings_calendar %}
-        <p>{{ earnings_calendar }}</p>
+    <h1>Anticipated IPOs</h1>
+    {% if ipo_data %}
+        <p>{{ ipo_data }}</p>
     {% endif %}
 
 {% endblock %}

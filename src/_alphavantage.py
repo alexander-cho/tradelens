@@ -13,7 +13,6 @@ class AlphaVantage:
     def __init__(self):
         self.api_key = os.getenv('ALPHA_VANTAGE_API_KEY')
         self.IPO_URL = f'https://www.alphavantage.co/query?function=IPO_CALENDAR&apikey={self.api_key}'
-        self.EARNINGS_URL = f'https://www.alphavantage.co/query?function=EARNINGS_CALENDAR&apikey={self.api_key}'
         self.TOP_GAINERS_LOSERS_URL = f'https://www.alphavantage.co/query?function=TOP_GAINERS_LOSERS&apikey={self.api_key}'
         self.ipo_list = []
         self.earnings_list = []
@@ -42,20 +41,6 @@ class AlphaVantage:
                     filtered_ipo_list.append(ipo)
 
         return filtered_ipo_list
-
-    def get_earnings_calendar(self):
-        """
-        Get the earnings calendar for the most anticipated company earnings
-
-        Returns:
-
-        """
-        with requests.Session() as s:
-            download = s.get(self.EARNINGS_URL)
-            decoded_content = download.content.decode('utf-8')
-            cr = csv.reader(decoded_content.splitlines(), delimiter=',')
-            my_list = list(cr)
-            return my_list
 
     def get_top_gainers_losers(self) -> dict:
         """

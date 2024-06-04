@@ -155,3 +155,22 @@ class Finnhub:
         # return as dict
         return {"data": filtered_data,
                 "symbol": government_spending["symbol"]}
+
+    def get_earnings_calendar(self, _from, to) -> dict:
+        """
+        Get the earnings calendar of anticipated earnings reports for a specified date range.
+
+        Parameters:
+            _from (str): start date (YYYY-MM-DD)
+            to (str): end date (YYYY-MM-DD)
+
+        Returns:
+            dict:
+        """
+        response = self.fc.earnings_calendar(_from=_from, to=to, symbol=None)
+        earnings_calendar = response.get('earningsCalendar')
+
+        # return list elements in reverse order since response returns nearest earnings at the end
+        reversed_earnings_calendar = earnings_calendar[::-1]
+
+        return reversed_earnings_calendar
