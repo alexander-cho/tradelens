@@ -472,7 +472,6 @@ def options_expiry(symbol, expiry_date):
     yfinance = YFinance(symbol)
     tradier = Tradier()
 
-    option_chain = yfinance.get_option_chain_for_expiry(expiry_date)
     open_interest = yfinance.get_open_interest(expiry_date)
     volume = yfinance.get_volume(expiry_date)
     implied_volatility = yfinance.get_implied_volatility(expiry_date)
@@ -484,7 +483,6 @@ def options_expiry(symbol, expiry_date):
                            title=f'{symbol} {expiry_date}',
                            stock=stock,
                            expiry_date=expiry_date,
-                           option_chain=option_chain,
                            open_interest=open_interest,
                            volume=volume,
                            implied_volatility=implied_volatility,
@@ -526,15 +524,33 @@ def technical_screener():
                            title='Technical Screener')
 
 
-@app.route('/market-news')
+@app.route('/market-news', methods=['GET'])
 def market_news():
-    finnhub = Finnhub()
+    if request.method == 'GET':
+        finnhub = Finnhub()
+        news = finnhub.get_market_news()
+        return news, 200
 
-    news = finnhub.get_market_news()
+    # return render_template('market_news.html',
+    #                        title='News',
+    #                        news=news)
 
-    return render_template('market_news.html',
-                           title='News',
-                           news=news)
+
+@app.route('/test/<symbol>/<expiry_date>', methods=['GET'])
+def test(symbol, expiry_date):
+    yfinance = YFinance(symbol)
+
+    if request.method == 'GET':
+        open_interest = yfinance.get_open_interest(expiry_date)
+        response = {
+            "symbol": symbol,
+            "expiry_date": expiry_date,
+            "data": open_interest,
+        }
+
+        return response, 200
+    else:
+        return 405
 
 
 # if __name__ == '__main__':

@@ -31,37 +31,9 @@
 
 
     <h5>Full option chain and underlying info</h5>
-    {% if option_chain %}
-        <p>{{ option_chain }}</p>
-    {% endif %}
-
-
     <h5>Tradier options chain</h5>
     {% if tradier_options %}
         {{ tradier_options }}
     {% endif %}
-
-
-{#    <h2>Option chain</h2>#}
-{##}
-{#    <h4>Calls expiring on {{ expiry_date }}</h4>#}
-{#    <p>#}
-{#        {% for i, j in option_chain.calls.iterrows() %}#}
-{#            <strong>Sep</strong> <br>#}
-{#            {% for col, val in j.items() %}#}
-{#                {{ col }} | {{ val }} <br>#}
-{#            {% endfor %}#}
-{#        {% endfor %}#}
-{#    </p>#}
-{##}
-{#    <h4>Puts expiring on {{ expiry_date }}</h4>#}
-{#    <p>#}
-{#        {% for i, j in option_chain.puts.iterrows() %}#}
-{#            <strong>Sep</strong> <br>#}
-{#            {% for col, val in j.items() %}#}
-{#                {{ col }} | {{ val }} <br>#}
-{#            {% endfor %}#}
-{#        {% endfor %}#}
-{#    </p>#}
 
 {% endblock %}

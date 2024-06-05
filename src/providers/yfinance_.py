@@ -165,7 +165,7 @@ class YFinance:
         expiry_dates = self.ticker.options
         return expiry_dates
 
-    def get_option_chain_for_expiry(self, expiry_date: str) -> object:
+    def _get_option_chain_for_expiry(self, expiry_date: str) -> object:
         """
         Get the yfinance option chain (calls and puts) for a given ticker symbol and expiry date.
 
@@ -178,117 +178,92 @@ class YFinance:
         option_chain = self.ticker.option_chain(date=expiry_date)
         return option_chain
 
-    def get_open_interest(self, expiry_date: str) -> dict[str, dict]:
+    def _get_calls(self, expiry_date: str):
+        calls = self._get_option_chain_for_expiry(expiry_date=expiry_date).calls
+        return calls
+
+    def _extract_options_data(self, expiry_date: str, attribute: str) -> dict[str, dict]:
         """
-        Given an arg expiry date of format 'YYYY-MM-DD', get the call and put open interest of all option chains.
-        We utilize the get_option_chain_for_expiry() method to get the option chain
+        Extract specific attributes from the option chain.
+        The option chain is of type _namedTuple Options, according to the yfinance implementation, that contains the
+        attributes calls, puts, underlying, the first two being of type pd.DataFrame
 
         Parameters:
-            expiry_date (string): Expiry date for a given ticker symbol, formatted as YYYY-MM-DD.
+            expiry_date (str): Option expiry date of format 'YYYY-MM-DD'
+            attribute (str): Attribute to extract from option chain
+                e.g. 'openInterest', 'volume', 'impliedVolatility', 'lastPrice', 'bid', 'ask'
 
         Returns:
-            dict: dictionary containing Call and Put data of strike price and open interest for each
+            dict: Dictionary containing Call and Put data of strike price and the specified attribute for each.
         """
-        # get the option chain for the specified expiry date
-        option_chain = self.get_option_chain_for_expiry(expiry_date)
+        option_chain = self._get_option_chain_for_expiry(expiry_date)
 
-        # extract the call and put data from the option chain
+        # split the chain between calls and puts
         calls = option_chain.calls
         puts = option_chain.puts
 
-        # initialize dictionaries
-        call_open_interest = {}
-        put_open_interest = {}
+        # to populate with corresponding data
+        call_data = {}
+        put_data = {}
 
-        # populate dictionaries with strike prices and corresponding openInterest
         for _, row in calls.iterrows():
-            call_open_interest[row['strike']] = row['openInterest']
+            if attribute != 'lpba':
+                call_data[row['strike']] = row[attribute]
+            else:
+                call_data[row['strike']] = [row['lastPrice'], row['bid'], row['ask']]
 
         for _, row in puts.iterrows():
-            put_open_interest[row['strike']] = row['openInterest']
+            if attribute != 'lpba':
+                put_data[row['strike']] = row[attribute]
+            else:
+                put_data[row['strike']] = [row['lastPrice'], row['bid'], row['ask']]
 
-        # return list
-        return {"Calls": call_open_interest, "Puts": put_open_interest}
+        return {"Calls": call_data, "Puts": put_data}
 
-    def get_volume(self, expiry_date: str) -> dict[str, dict]:
+    def get_open_interest(self, expiry_date: str) -> dict:
         """
-        Given an arg expiry date of format 'YYYY-MM-DD', get the call and put volume of all option chains.
-        We utilize the get_option_chain_for_expiry() method to get the option chain
+        Get the open interest data for call and put options for a given expiry date.
 
         Parameters:
-            expiry_date (string): Expiry date for a given ticker symbol, formatted as YYYY-MM-DD.
+            expiry_date (str): Expiry date for a given ticker symbol, formatted as YYYY-MM-DD.
 
         Returns:
-            dict: dictionary containing Call and Put data of strike price and volume for each
+            dict: Dictionary containing Call and Put data of strike price and open interest for each.
         """
-        option_chain = self.get_option_chain_for_expiry(expiry_date)
+        return self._extract_options_data(expiry_date, 'openInterest')
 
-        calls = option_chain.calls
-        puts = option_chain.puts
-
-        call_volume = {}
-        put_volume = {}
-
-        for _, row in calls.iterrows():
-            call_volume[row['strike']] = row['volume']
-
-        for _, row in puts.iterrows():
-            put_volume[row['strike']] = row['volume']
-
-        return {"Calls": call_volume, "Puts": put_volume}
-
-    def get_implied_volatility(self, expiry_date: str) -> dict[str, dict]:
+    def get_volume(self, expiry_date: str) -> dict:
         """
-        Given an arg expiry date of format 'YYYY-MM-DD', get the call and put implied volatility of all option chains.
-        We utilize the get_option_chain_for_expiry() method to get the option chain
+        Get the volume data for call and put options for a given expiry date.
 
         Parameters:
-            expiry_date (string): Expiry date for a given ticker symbol, formatted as YYYY-MM-DD.
+            expiry_date (str): Expiry date for a given ticker symbol, formatted as YYYY-MM-DD.
 
         Returns:
-            dict: dictionary containing Call and Put data of strike price and implied volatility for each
+            dict: Dictionary containing Call and Put data of strike price and volume for each.
         """
-        option_chain = self.get_option_chain_for_expiry(expiry_date)
+        return self._extract_options_data(expiry_date, 'volume')
 
-        calls = option_chain.calls
-        puts = option_chain.puts
-
-        call_iv = {}
-        put_iv = {}
-
-        for _, row in calls.iterrows():
-            call_iv[row['strike']] = row['impliedVolatility']
-
-        for _, row in puts.iterrows():
-            put_iv[row['strike']] = row['impliedVolatility']
-
-        return {"Calls": call_iv, "Puts": put_iv}
-
-    def get_last_price_bid_ask(self, expiry_date: str) -> dict[str, dict]:
+    def get_implied_volatility(self, expiry_date: str) -> dict:
         """
-        Given an arg expiry date of format 'YYYY-MM-DD', get the last price, bid price, ask price
-        for calls and puts of all option chains.
-        We utilize the get_option_chain_for_expiry() method to get the option chain
+        Get the implied volatility data for call and put options for a given expiry date.
 
         Parameters:
-            expiry_date (string): Expiry date for a given ticker symbol, formatted as YYYY-MM-DD.
+            expiry_date (str): Expiry date for a given ticker symbol, formatted as YYYY-MM-DD.
 
         Returns:
-            dict: dictionary containing Call and Put data of strike price and last price, bid, ask
-            for each
+            dict: Dictionary containing Call and Put data of strike price and implied volatility for each.
         """
-        option_chain = self.get_option_chain_for_expiry(expiry_date)
+        return self._extract_options_data(expiry_date, 'impliedVolatility')
 
-        calls = option_chain.calls
-        puts = option_chain.puts
+    def get_last_price_bid_ask(self, expiry_date: str) -> dict:
+        """
+        Get the last price, bid, ask data for call and put options for a given expiry date.
 
-        call_lpba = {}
-        put_lpba = {}
+        Parameters:
+            expiry_date (str): Expiry date for a given ticker symbol, formatted as YYYY-MM-DD.
 
-        for _, row in calls.iterrows():
-            call_lpba[row['strike']] = [row['lastPrice'], row['bid'], row['ask']]
-
-        for _, row in puts.iterrows():
-            put_lpba[row['strike']] = [row['lastPrice'], row['bid'], row['ask']]
-
-        return {"Calls": call_lpba, "Puts": put_lpba}
+        Returns:
+            dict: Dictionary containing Call and Put data of strike price and open interest for each.
+        """
+        return self._extract_options_data(expiry_date, 'lastPrice')

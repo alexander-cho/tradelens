@@ -6,6 +6,11 @@
     <h4>{{ stock.company_name }}</h4>
 
 
+    <p><a href="{{ url_for('options', symbol=stock.ticker_symbol) }}" class="btn btn-primary">Option Chain</a></p>
+
+    <p><a href="{{ url_for('symbol_news', symbol=stock.ticker_symbol) }}" class="btn btn-dark">News Stream</a></p>
+
+
     <h3>Company logo, ipo date, sector</h3>
     {% if company_profile %}
         <p>{{ company_profile }}</p>
@@ -16,11 +21,6 @@
     {% if main_info %}
         <p>{{ main_info }}</p>
     {% endif %}
-
-
-    <p><a href="{{ url_for('options', symbol=stock.ticker_symbol) }}" class="btn btn-primary">Option Chain</a></p>
-
-    <p><a href="{{ url_for('symbol_news', symbol=stock.ticker_symbol) }}" class="btn btn-secondary">News Stream</a></p>
 
 
     <h3>ohlcv_data</h3>
