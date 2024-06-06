@@ -227,7 +227,8 @@ class YFinance:
         Returns:
             dict: Dictionary containing Call and Put data of strike price and open interest for each.
         """
-        return self._extract_options_data(expiry_date, 'openInterest')
+        open_interest = self._extract_options_data(expiry_date, 'openInterest')
+        return open_interest
 
     def get_volume(self, expiry_date: str) -> dict:
         """
@@ -239,7 +240,8 @@ class YFinance:
         Returns:
             dict: Dictionary containing Call and Put data of strike price and volume for each.
         """
-        return self._extract_options_data(expiry_date, 'volume')
+        volume = self._extract_options_data(expiry_date, 'volume')
+        return volume
 
     def get_implied_volatility(self, expiry_date: str) -> dict:
         """
@@ -251,7 +253,8 @@ class YFinance:
         Returns:
             dict: Dictionary containing Call and Put data of strike price and implied volatility for each.
         """
-        return self._extract_options_data(expiry_date, 'impliedVolatility')
+        implied_volatility = self._extract_options_data(expiry_date, 'impliedVolatility')
+        return implied_volatility
 
     def get_last_price_bid_ask(self, expiry_date: str) -> dict:
         """
@@ -263,4 +266,8 @@ class YFinance:
         Returns:
             dict: Dictionary containing Call and Put data of strike price and open interest for each.
         """
-        return self._extract_options_data(expiry_date, 'lpba')
+        lpba = self._extract_options_data(expiry_date, 'lpba')
+        return lpba
+
+    def draw_open_interest_chart(self, symbol: str, expiry_date: str):
+        pass

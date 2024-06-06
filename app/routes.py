@@ -15,7 +15,7 @@ from src.providers.finnhub import Finnhub
 from src.providers.federalreserve import FederalReserve
 from src.providers.tradier import Tradier
 
-from src.utils import get_date_range_ahead, get_date_range_past
+from src.utils.date_ranges import get_date_range_ahead, get_date_range_past
 
 
 @app.before_request
@@ -201,36 +201,27 @@ def unfollow(username):
 
 
 # create a post
-@app.route('/add-post', methods=['GET', 'POST'])
+@app.route('/add-post', methods=['POST'])
 @login_required
 def add_post():
     form = PostForm()
-    stock = None
-
-    if form.validate_on_submit():
-        # Convert the title (ticker) input to uppercase
-        ticker_to_upper = form.title.data.upper()
-        # Check if the ticker symbol exists in the database
-        stock = Stocks.query.filter(Stocks.ticker_symbol == ticker_to_upper).first()
-        if stock:
-            post = Post(title=ticker_to_upper,
+    if request.method == 'POST' and form.validate_on_submit():
+        if form.title.data.upper() == symbol:
+            post = Post(title=form.title.data.upper(),
                         content=form.content.data,
                         timestamp=datetime.now(timezone.utc),
                         user_id=current_user.id)
             db.session.add(post)
             db.session.commit()
             flash("Your idea has been submitted")
-            return redirect(url_for('feed'))
+            return redirect(url_for('symbol',
+                                    symbol=form.title.data.upper()))
         else:
-            # clear form
-            form.title.data = ''
-            form.content.data = ''
-            flash("That stock does not exist or is not in the database yet")
-            return redirect(url_for('add_post'))
-
-    return render_template('add_post.html',
-                           form=form,
-                           stock=stock)
+            flash("Wrong symbol, you cannot post that here.")
+            return redirect(url_for('symbol', symbol=form.title.data.upper()))
+    else:
+        flash("Invalid request")
+        return redirect(url_for('index'))
 
 
 # read a specific post
@@ -390,49 +381,28 @@ def symbol(symbol):
     lobbying_activities = finnhub.get_lobbying_activities(ticker=symbol, _from=past_date, to=today)
     government_spending = finnhub.get_government_spending(ticker=symbol, _from=past_date, to=today)
 
-    # ADDING A POST ON THE SYMBOL PAGE
+    # # ADDING A POST ON THE SYMBOL PAGE
     form = PostForm()
-    if request.method == 'POST' and form.validate_on_submit():
-        if form.title.data.upper() == symbol:
-            post = Post(title=form.title.data.upper(),
-                        content=form.content.data,
-                        timestamp=datetime.now(timezone.utc),
-                        user_id=current_user.id)
-            db.session.add(post)
-            db.session.commit()
-            flash("Your idea has been submitted")
-            return redirect(url_for('symbol',
-                                    symbol=form.title.data.upper()))
-        # if the user entered stock and the current symbol page symbol don't match
-        elif form.title.data.upper() != symbol:
-            # check if that user entered stock exists in the DB
-            stock_exists = Stocks.query.filter(Stocks.ticker_symbol == form.title.data.upper()).first()
-            if stock_exists:
-                flash(f"That was the page for {symbol}, you cannot post that there. Here you go:")
-                # send them to the symbol page they entered in the form
-                return redirect(url_for('symbol',
-                                        symbol=form.title.data.upper()))
-            else:
-                flash("That stock does not exist or is not in the database yet")
-                return redirect(url_for('symbol_main'))
-    else:
-        return render_template('symbol.html',
-                               title=f'{stock.company_name} ({stock.ticker_symbol})',
-                               stock=stock,
-                               symbol_posts=symbol_posts,
-                               form=form,
-                               ohlcv_data=ohlcv_data,
-                               basic_info=basic_info,
-                               main_info=main_info,
-                               fast_info=fast_info,
-                               calendar=calendar,
-                               institutional_holders=institutional_holders,
-                               insider_transactions=insider_transactions,
-                               analyst_ratings=analyst_ratings,
-                               company_profile=company_profile,
-                               insider_sentiment=insider_sentiment,
-                               lobbying_activities=lobbying_activities,
-                               government_spending=government_spending)
+    if form.validate_on_submit():
+        add_post()
+
+    return render_template('symbol.html',
+                           title=f'{stock.company_name} ({stock.ticker_symbol})',
+                           stock=stock,
+                           form=form,
+                           symbol_posts=symbol_posts,
+                           ohlcv_data=ohlcv_data,
+                           basic_info=basic_info,
+                           main_info=main_info,
+                           fast_info=fast_info,
+                           calendar=calendar,
+                           institutional_holders=institutional_holders,
+                           insider_transactions=insider_transactions,
+                           analyst_ratings=analyst_ratings,
+                           company_profile=company_profile,
+                           insider_sentiment=insider_sentiment,
+                           lobbying_activities=lobbying_activities,
+                           government_spending=government_spending)
 
 
 # return IPOs anticipated in the next 3 months, upcoming earnings calendar

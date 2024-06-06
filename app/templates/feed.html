@@ -4,7 +4,9 @@
 
     <h1>Feed</h1>
 
-    <h5><a href="{{ url_for('add_post') }}">Share an Idea</a></h5>
+    {% if current_user.is_authenticated %}
+        <h5><a href="{{ url_for('symbol_main') }}">Search for a symbol to share an idea</a></h5>
+    {% endif %}
 
     {% for post in posts %}
         <p>
