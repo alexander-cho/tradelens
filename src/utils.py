@@ -1,7 +1,7 @@
 from datetime import datetime, timedelta
 
 
-def get_date_range_ahead(days_ahead) -> tuple[str, str]:
+def get_date_range_ahead(days_ahead: int) -> tuple[str, str]:
     """
     Get the date range from today to a specified number of days in the future
 
@@ -21,7 +21,7 @@ def get_date_range_ahead(days_ahead) -> tuple[str, str]:
     return today_str, future_date_str
 
 
-def get_date_range_past(days_past) -> tuple[str, str]:
+def get_date_range_past(days_past: int) -> tuple[str, str]:
     """
     Get the date range from a specified number of days in the past to today
 

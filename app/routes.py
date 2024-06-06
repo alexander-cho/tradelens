@@ -436,7 +436,7 @@ def symbol(symbol):
 
 
 # return IPOs anticipated in the next 3 months, upcoming earnings calendar
-@app.route('/earnings-ipos')
+@app.route('/earnings-ipos', methods=['GET'])
 def earnings_ipos():
     alphavantage = AlphaVantage()
     finnhub = Finnhub()
@@ -460,7 +460,7 @@ def options(symbol):
     expiry_list = yfinance.get_expiry_list()
 
     return render_template('options.html',
-                           title='Options',
+                           title=f"{symbol} - Options Expiration Calendar",
                            stock=stock,
                            expiry_list=expiry_list)
 
@@ -529,28 +529,10 @@ def market_news():
     if request.method == 'GET':
         finnhub = Finnhub()
         news = finnhub.get_market_news()
-        return news, 200
 
-    # return render_template('market_news.html',
-    #                        title='News',
-    #                        news=news)
-
-
-@app.route('/test/<symbol>/<expiry_date>', methods=['GET'])
-def test(symbol, expiry_date):
-    yfinance = YFinance(symbol)
-
-    if request.method == 'GET':
-        open_interest = yfinance.get_open_interest(expiry_date)
-        response = {
-            "symbol": symbol,
-            "expiry_date": expiry_date,
-            "data": open_interest,
-        }
-
-        return response, 200
-    else:
-        return 405
+        return render_template('market_news.html',
+                               title='News',
+                               news=news)
 
 
 # if __name__ == '__main__':

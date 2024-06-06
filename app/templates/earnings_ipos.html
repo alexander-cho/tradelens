@@ -4,9 +4,7 @@
 
     <h1>This Week's Earnings</h1>
     {% if earnings_calendar %}
-        {% for earning in earnings_calendar %}
-            <p>{{ earning }}</p>
-        {% endfor %}
+        {{ earnings_calendar }}
     {% endif %}
 
 

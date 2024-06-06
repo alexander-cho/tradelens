@@ -8,7 +8,7 @@ class YFinance:
     """
     Class containing methods for fetching data from the yfinance API.
     """
-    def __init__(self, symbol):
+    def __init__(self, symbol: str):
         self.symbol = symbol
         self.ticker = yf.Ticker(symbol)
 
@@ -178,10 +178,6 @@ class YFinance:
         option_chain = self.ticker.option_chain(date=expiry_date)
         return option_chain
 
-    def _get_calls(self, expiry_date: str):
-        calls = self._get_option_chain_for_expiry(expiry_date=expiry_date).calls
-        return calls
-
     def _extract_options_data(self, expiry_date: str, attribute: str) -> dict[str, dict]:
         """
         Extract specific attributes from the option chain.
@@ -218,7 +214,8 @@ class YFinance:
             else:
                 put_data[row['strike']] = [row['lastPrice'], row['bid'], row['ask']]
 
-        return {"Calls": call_data, "Puts": put_data}
+        response = {"symbol": self.symbol, "expiry_date": expiry_date, "data": {"Calls": call_data, "Puts": put_data}}
+        return response
 
     def get_open_interest(self, expiry_date: str) -> dict:
         """
@@ -266,4 +263,4 @@ class YFinance:
         Returns:
             dict: Dictionary containing Call and Put data of strike price and open interest for each.
         """
-        return self._extract_options_data(expiry_date, 'lastPrice')
+        return self._extract_options_data(expiry_date, 'lpba')
