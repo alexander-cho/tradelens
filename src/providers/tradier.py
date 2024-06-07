@@ -10,7 +10,7 @@ class Tradier:
     Class containing methods for fetching data from the Tradier brokerage API
     """
     def __init__(self):
-        self.api_key = os.getenv('Tradier_API_KEY')
+        self.api_key = os.getenv('TRADIER_API_KEY')
         self.options_chain_url = 'https://api.tradier.com/v1/markets/options/chains'
 
     def get_options_chain(self, symbol, expiration_date) -> list[dict[str, any]]:

@@ -2,7 +2,7 @@
 
 {% block content %}
 
-    <h1>Market News</h1>
+    <h1>{{ category|capitalize }} News</h1>
     {% if news %}
         {{ news }}
     {% endif %}

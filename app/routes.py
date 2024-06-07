@@ -11,7 +11,7 @@ from app.models import User, Post, Stocks
 
 from src.providers.yfinance_ import YFinance
 from src.providers.alphavantage import AlphaVantage
-from src.providers.finnhub import Finnhub
+from src.providers.finnhub_ import Finnhub
 from src.providers.federalreserve import FederalReserve
 from src.providers.tradier import Tradier
 
@@ -494,15 +494,27 @@ def technical_screener():
                            title='Technical Screener')
 
 
-@app.route('/market-news', methods=['GET'])
-def market_news():
-    if request.method == 'GET':
-        finnhub = Finnhub()
-        news = finnhub.get_market_news()
+@app.route('/market-news/<category>', methods=['GET'])
+def market_news(category):
+    category = category.lower()
+    # market news categories
+    valid_categories = ['general', 'forex', 'crypto', 'merger']
+    if category not in valid_categories:
+        flash(f"Invalid news category: {category}. Showing general news instead.")
+        category = 'general'
+        return redirect(url_for('market_news', category=category))
 
-        return render_template('market_news.html',
-                               title='News',
-                               news=news)
+    finnhub = Finnhub()
+    try:
+        news = finnhub.get_market_news(category)
+    except ValueError as e:
+        flash(str(e))
+        return redirect(url_for('market_news', category='general'))
+
+    return render_template('market_news.html',
+                           title=f"{category.capitalize()} News",
+                           category=category,
+                           news=news)
 
 
 # if __name__ == '__main__':

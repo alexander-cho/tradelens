@@ -21,17 +21,17 @@ class Finnhub:
         market_status = self.fc.market_status(exchange='US')
         return market_status
 
-    def get_market_news(self) -> list[dict]:
+    def get_market_news(self, category: str) -> list[dict]:
         """
         Get overall market news
 
         Returns:
             list: List of dictionaries each containing info for news article
         """
-        general_news = self.fc.general_news(category='general', min_id=0)
-        return general_news
+        market_news = self.fc.general_news(category=category, min_id=0)
+        return market_news
 
-    def get_stock_news(self, ticker, _from, to) -> list[dict]:
+    def get_stock_news(self, ticker: str, _from: str, to: str) -> list[dict]:
         """
         Get recent news for a specific stock
 
@@ -47,7 +47,7 @@ class Finnhub:
         ticker_news = self.fc.company_news(symbol=ticker, _from=_from, to=to)
         return ticker_news
 
-    def get_company_profile(self, ticker) -> dict:
+    def get_company_profile(self, ticker: str) -> dict:
         """
         Get the basic profile data for a company, and return certain keys of use
 
@@ -67,7 +67,7 @@ class Finnhub:
 
         return condensed_profile
 
-    def get_insider_sentiment(self, ticker, _from, to) -> dict:
+    def get_insider_sentiment(self, ticker: str, _from: str, to: str) -> dict:
         """
         Get the insider sentiment data for a specific stock, based on monthly purchases.
         Metric called MSPR (monthly share purchase ratio) is used, if market purchases > market sells, sentiment
@@ -88,7 +88,7 @@ class Finnhub:
         insider_sentiment = self.fc.stock_insider_sentiment(symbol=ticker, _from=_from, to=to)
         return insider_sentiment
 
-    def get_lobbying_activities(self, ticker, _from, to) -> dict:
+    def get_lobbying_activities(self, ticker: str, _from: str, to: str) -> dict:
         """
         Get the company's congressional lobbying activities within a time frame
 
@@ -121,7 +121,7 @@ class Finnhub:
         return {"data": filtered_data,
                 "symbol": lobbying_activities["symbol"]}
 
-    def get_government_spending(self, ticker, _from, to) -> dict:
+    def get_government_spending(self, ticker: str, _from: str, to: str) -> dict:
         """
         Get a particular company's government spending activities within a time frame.
         Identify large government contracts.
@@ -156,7 +156,7 @@ class Finnhub:
         return {"data": filtered_data,
                 "symbol": government_spending["symbol"]}
 
-    def get_earnings_calendar(self, _from, to) -> dict:
+    def get_earnings_calendar(self, _from: str, to: str) -> dict:
         """
         Get the earnings calendar of anticipated earnings reports for a specified date range.
 

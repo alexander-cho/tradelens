@@ -11,7 +11,7 @@ load_dotenv()
 
 class AlphaVantage:
     def __init__(self):
-        self.api_key = os.getenv('ALPHA_VANTAGE_API_KEY')
+        self.api_key = os.getenv('ALPHAVANTAGE_API_KEY')
         self.IPO_URL = f'https://www.alphavantage.co/query?function=IPO_CALENDAR&apikey={self.api_key}'
         self.TOP_GAINERS_LOSERS_URL = f'https://www.alphavantage.co/query?function=TOP_GAINERS_LOSERS&apikey={self.api_key}'
         self.ipo_list = []

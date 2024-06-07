@@ -6,32 +6,31 @@
 
     <hr>
 
-    <h5>Open Interest</h5>
+    <h4>Open Interest</h4>
     {% if open_interest %}
         <p>{{ open_interest }}</p>
     {% endif %}
 
 
-    <h5>Volume</h5>
+    <h4>Volume</h4>
     {% if volume %}
         <p>{{ volume }}</p>
     {% endif %}
 
 
-    <h5>Implied Volatility</h5>
+    <h4>Implied Volatility</h4>
     {% if implied_volatility %}
         <p>{{ implied_volatility }}</p>
     {% endif %}
 
 
-    <h5>Last price, Bid, Ask</h5>
+    <h4>Last price, Bid, Ask</h4>
     {% if last_bid_ask %}
         <p>{{ last_bid_ask }}</p>
     {% endif %}
 
 
-    <h5>Full option chain and underlying info</h5>
-    <h5>Tradier options chain</h5>
+    <h4>Tradier full options chain</h4>
     {% if tradier_options %}
         {{ tradier_options }}
     {% endif %}

@@ -33,8 +33,15 @@
                     <a class="nav-link" href="{{ url_for('technical_screener') }}">Technical Screener</a>
                 </li>
 
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('market_news') }}">News</a>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">News</a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" href="{{ url_for('market_news', category='general') }}">General</a></li>
+                        <li><hr class="dropdown-divider"/></li>
+                        <li><a class="dropdown-item" href="{{ url_for('market_news', category='forex') }}">Forex</a></li>
+                        <li><a class="dropdown-item" href="{{ url_for('market_news', category='crypto') }}">Crypto</a></li>
+                        <li><a class="dropdown-item" href="{{ url_for('market_news', category='merger') }}">Merger</a></li>
+                    </ul>
                 </li>
 
                 {% if current_user.is_anonymous %}
