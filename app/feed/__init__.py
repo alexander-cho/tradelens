@@ -1,5 +1,5 @@
 from flask import Blueprint
 
-bp_auth = Blueprint('auth', __name__)
+bp_feed = Blueprint('feed', __name__)
 
 from . import routes

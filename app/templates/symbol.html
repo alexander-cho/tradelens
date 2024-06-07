@@ -83,11 +83,11 @@
     {% endif %}
 
 
-    {% include 'add_post.html' %}
+    {% include 'feed/add_post.html' %}
 
     <br>
     {% for post in symbol_posts %}
-        {% include '_post.html' %}
+        {% include 'feed/_post.html' %}
     {% endfor %}
 
 {% endblock %}

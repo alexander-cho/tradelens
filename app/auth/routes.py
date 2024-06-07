@@ -1,6 +1,6 @@
 from datetime import datetime, timezone
 
-from flask import Blueprint, login_required, render_template, flash, redirect, url_for
+from flask import render_template, flash, redirect, url_for
 from flask_login import current_user, login_required, login_user, logout_user
 
 from .forms import LoginForm, RegistrationForm
@@ -9,11 +9,11 @@ from app.models import User
 
 from app import db
 
-auth = Blueprint('auth', __name__)
+from . import bp_auth
 
 
 # login
-@auth.route('/login', methods=['GET', 'POST'])
+@bp_auth.route('/login', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
         # return to index page if already logged in
@@ -38,13 +38,13 @@ def login():
         else:
             flash("That user does not exist")
 
-    return render_template('login.html',
+    return render_template('auth/login.html',
                            title='Log In',
                            form=form)
 
 
 # logout
-@auth.route('/logout')
+@bp_auth.route('/logout')
 @login_required
 def logout():
     logout_user()
@@ -53,7 +53,7 @@ def logout():
 
 
 # register an account
-@auth.route('/register', methods=['GET', 'POST'])
+@bp_auth.route('/register', methods=['GET', 'POST'])
 def register():
     if current_user.is_authenticated:
         # return to index page if already logged in
@@ -70,6 +70,6 @@ def register():
         flash("Your account has been created")
         return redirect(url_for('login'))
 
-    return render_template('register.html',
+    return render_template('auth/register.html',
                            title='Register',
                            form=form)

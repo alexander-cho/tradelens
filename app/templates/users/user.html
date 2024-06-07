@@ -12,14 +12,14 @@
                 {% if user.date_joined %} Date joined: {{ user.date_joined }} {% endif %} <br>
                 Following: {{ user.following_count() }}, Followers: {{ user.followers_count() }} <br>
                 {% if user == current_user %} <!-- Option to edit only if it is your own profile-->
-                    <a href="{{ url_for('edit_profile') }}">Edit Profile</a>
+                    <a href="{{ url_for('users.edit_profile') }}">Edit Profile</a>
                 {% elif not current_user.is_following(user) %}
-                    <form action="{{ url_for('follow', username=user.username) }}" method="post">
+                    <form action="{{ url_for('users.follow', username=user.username) }}" method="post">
                         {{ form.hidden_tag() }}
                         {{ form.submit(value='Follow')}}
                     </form>
                 {% else %}
-                    <form action="{{ url_for('unfollow', username=user.username) }}" method="post">
+                    <form action="{{ url_for('users.unfollow', username=user.username) }}" method="post">
                         {{ form.hidden_tag() }}
                         {{ form.submit(value='Unfollow')}}
                     </form>
@@ -29,7 +29,7 @@
     </table>
     <hr>
     {% for post in posts %}
-        {% include '_post.html' %}
+        {% include 'feed/_post.html' %}
     {% endfor %}
 
 {% endblock %}

@@ -18,7 +18,7 @@ def load_user(id):  # Flask-Login passes id argument as string
 
 # followers association table which User model will reference
 followers = sa.Table(
-    'followers', 
+    'followers',
     db.metadata,
     sa.Column('follower_id', sa.Integer, sa.ForeignKey('user.id'), primary_key=True),
     sa.Column('following_id', sa.Integer, sa.ForeignKey('user.id'), primary_key=True)
@@ -42,7 +42,8 @@ class User(db.Model, UserMixin):
     password_hash: so.Mapped[Optional[str]] = so.mapped_column(sa.String(256))
     about_me: so.Mapped[Optional[str]] = so.mapped_column(sa.String(200))
     last_seen: so.Mapped[Optional[datetime]] = so.mapped_column(default=lambda: datetime.now(timezone.utc))
-    date_joined: so.Mapped[Optional[datetime]] = so.mapped_column(index=True, default=lambda: datetime.now(timezone.utc))
+    date_joined: so.Mapped[Optional[datetime]] = so.mapped_column(index=True,
+                                                                  default=lambda: datetime.now(timezone.utc))
     # profile_pic = db.Column(db.String(), nullable=True)
     # User can have many posts
     posts: so.WriteOnlyMapped['Post'] = so.relationship(back_populates='author')
@@ -58,11 +59,11 @@ class User(db.Model, UserMixin):
 
     def __repr__(self) -> str:
         return '<User {}>'.format(self.username)
-    
+
     def avatar(self, size):
         digest = md5(self.email.lower().encode('utf-8')).hexdigest()
         return f'https://www.gravatar.com/avatar/{digest}?d=identicon&s={size}'  # url of user's avatar image
-    
+
     # followers relationship
     following: so.WriteOnlyMapped['User'] = so.relationship(
         secondary=followers,
@@ -113,16 +114,16 @@ class User(db.Model, UserMixin):
             .group_by(Post)
             .order_by(Post.timestamp.desc())  # get most recent posts first
         )
-    
+
     def is_watching(self, stock):
-        return stock in self.watching 
+        return stock in self.watching
 
     def add_to_watchlist(self, stock):
         pass
 
     def remove_from_watchlist(self, stock):
         pass
-    
+
 
 # create post model
 class Post(db.Model):
@@ -131,14 +132,16 @@ class Post(db.Model):
     content: so.Mapped[str] = so.mapped_column(sa.Text())
     # slug = db.Column(db.String(255))
     timestamp: so.Mapped[datetime] = so.mapped_column(index=True, default=lambda: datetime.now(timezone.utc))
-    user_id: so.Mapped[int] = so.mapped_column(sa.ForeignKey(User.id), index=True)  # foreign key to link user_id which refers to the primary key id from the User model
 
-    author: so.Mapped[User] = so.relationship(back_populates='posts')
+    # foreign key to link user_id which refers to the primary key id from the User model
+    user_id: so.Mapped[int] = so.mapped_column(sa.ForeignKey(User.id), index=True)
+
+    author: so.Mapped['User'] = so.relationship(back_populates='posts')
 
     # create string representation
     def __repr__(self) -> str:
         return '<Post {}>'.format(self.content)
-    
+
 
 # create stocks model
 class Stocks(db.Model):

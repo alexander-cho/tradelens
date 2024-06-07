@@ -9,9 +9,6 @@ from flask_login import LoginManager
 app = Flask(__name__)
 app.config.from_object(Config)
 
-# from app.errors import bp as errors_bp
-# app.register_blueprint(errors_bp)
-
 db = SQLAlchemy(app)
 
 migrate = Migrate(app, db)
@@ -19,6 +16,17 @@ migrate = Migrate(app, db)
 login_manager = LoginManager(app)
 
 # view function that handles logins
-login_manager.login_view = 'login'
+login_manager.login_view = 'auth.login'
 
 from app import routes, models
+
+
+from app.errors import errors
+from app.auth import bp_auth
+from app.feed import bp_feed
+from app.users import bp_users
+
+app.register_blueprint(errors)
+app.register_blueprint(bp_auth)
+app.register_blueprint(bp_feed)
+app.register_blueprint(bp_users)

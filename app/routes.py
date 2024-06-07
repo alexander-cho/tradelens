@@ -6,8 +6,10 @@ from flask_login import login_user, current_user, logout_user, login_required
 import sqlalchemy as sa
 
 from app import app, db
-from app.forms import LoginForm, RegistrationForm, EditProfileForm, EmptyForm, PostForm, SearchForm
-from app.models import User, Post, Stocks
+
+from .models import Stocks, Post
+
+from .feed.forms import SearchForm
 
 from src.providers.yfinance_ import YFinance
 from src.providers.alphavantage import AlphaVantage
@@ -49,214 +51,6 @@ def index():
                            title='Home',
                            market_status=market_status,
                            top_gainers_losers=top_gainers_losers)
-
-
-# user profile
-@app.route('/user/<username>')
-@login_required
-def user(username):
-    user = User.query.filter_by(username=username).first_or_404()
-    form = EmptyForm()
-    posts = Post.query.order_by(Post.timestamp.desc()).where(Post.user_id == user.id)
-
-    return render_template('user.html',
-                           title=f'{user.username}',
-                           user=user,
-                           posts=posts,
-                           form=form)
-
-
-# edit your profile
-@app.route('/edit_profile', methods=['GET', 'POST'])
-@login_required
-def edit_profile():
-    form = EditProfileForm(current_user.username)
-
-    if form.validate_on_submit():
-        current_user.username = form.username.data
-        current_user.about_me = form.about_me.data
-        db.session.commit()
-        flash("Your information has been updated")
-        return redirect(url_for('user',
-                                username=current_user.username))
-    elif request.method == 'GET':
-        form.username.data = current_user.username
-        form.about_me.data = current_user.about_me
-
-    return render_template('edit_profile.html',
-                           title='Edit Profile',
-                           form=form)
-        
-
-# follow a user
-@app.route('/follow/<username>', methods=['POST'])
-@login_required
-def follow(username):
-    form = EmptyForm()
-    if form.validate_on_submit():
-        # query user to follow
-        user = db.session.scalar(sa.select(User).where(User.username == username))
-        # if they don't exist in the database
-        if user is None:
-            flash("User not found")
-            return redirect(url_for('index'))
-        # if it is yourself
-        if user == current_user:
-            flash("You can't follow yourself")
-            return redirect(url_for('user',
-                                    username=username))
-        current_user.follow(user)
-        db.session.commit()
-        flash(f"You are now following {username}")
-        return redirect(url_for('user',
-                                username=username))
-    else:
-        return redirect(url_for('index'))
-    
-
-# unfollow a user
-@app.route('/unfollow/<username>', methods=['POST'])
-@login_required
-def unfollow(username):
-    form = EmptyForm()
-    if form.validate_on_submit():
-        user = db.session.scalar(sa.select(User).where(User.username == username))
-        if user is None:
-            flash("User not found")
-            return redirect(url_for('index'))
-        if user == current_user:
-            flash("You can't unfollow yourself")
-            return redirect(url_for('user',
-                                    username=username))
-        current_user.unfollow(user)
-        db.session.commit()
-        flash(f"You have unfollowed {username}")
-        return redirect(url_for('user',
-                                username=username))
-    else:
-        return redirect(url_for('index'))
-
-
-# create a post
-@app.route('/add-post', methods=['POST'])
-@login_required
-def add_post():
-    form = PostForm()
-    if request.method == 'POST' and form.validate_on_submit():
-        if form.title.data.upper() == symbol:
-            post = Post(title=form.title.data.upper(),
-                        content=form.content.data,
-                        timestamp=datetime.now(timezone.utc),
-                        user_id=current_user.id)
-            db.session.add(post)
-            db.session.commit()
-            flash("Your idea has been submitted")
-            return redirect(url_for('symbol',
-                                    symbol=form.title.data.upper()))
-        else:
-            flash("Wrong symbol, you cannot post that here.")
-            return redirect(url_for('symbol', symbol=form.title.data.upper()))
-    else:
-        flash("Invalid request")
-        return redirect(url_for('index'))
-
-
-# read a specific post
-@app.route('/post/<int:id>')
-def post(id):
-    post = Post.query.get_or_404(id)
-
-    return render_template("post.html",
-                           post=post)
-
-
-# update/edit a post
-@app.route('/post/<int:id>/edit', methods=['GET', 'POST'])
-@login_required
-def edit_post(id):
-    post = Post.query.get_or_404(id)
-    form = PostForm()
-
-    if form.validate_on_submit():
-        # Update the post attributes with the new data once edit submission is validated
-        post.title = form.title.data.upper()
-        # post.author = form.author.data
-        # post.slug = form.slug.data
-        post.content = form.content.data
-        # update database with modifications
-        db.session.add(post)
-        db.session.commit()
-        flash("Post has been updated")
-        # redirect back to singular post page
-        return redirect(url_for('post',
-                                id=post.id))
-
-    # if id of logged-in user matches the id of the author of particular post
-    if current_user.id == post.author.id:
-        # Populate the form fields with current values of the post
-        form.title.data = post.title
-        # form.author.data = post.author
-        # form.slug.data = post.slug
-        form.content.data = post.content
-        # goes back to newly edited singular post page
-        return render_template("edit_post.html",
-                               form=form)
-    else:
-        flash("You cannot edit this post")
-        posts = Post.query.order_by(Post.date_posted)
-        return render_template("feed.html",
-                               posts=posts)
-
-
-# delete a post
-@app.route('/post/<int:id>/delete', methods=['GET', 'POST'])
-@login_required
-def delete_post(id):
-    post_to_delete = Post.query.get_or_404(id)
-    if current_user.id == post_to_delete.author.id:
-        try:
-            db.session.delete(post_to_delete)
-            db.session.commit()
-            flash("Post has been deleted")
-            return redirect(url_for('feed'))
-        except:
-            # return error message
-            flash("Could not delete post")
-            posts = Post.query.order_by(Post.timestamp.desc())
-            return render_template("feed.html",
-                                   posts=posts)
-    else:
-        flash("You cannot delete that post")
-        posts = Post.query.order_by(Post.timestamp.desc())
-        return render_template("feed.html",
-                               posts=posts)
-
-
-# show the whole post feed
-@app.route('/feed')
-def feed():
-    # grab all posts from the database, query by chronological order from the Posts model.
-    posts = Post.query.order_by(Post.timestamp.desc())
-    return render_template('feed.html',
-                           posts=posts)
-
-
-# search for post content
-@app.route('/search', methods=['POST'])
-def search():
-    form = SearchForm()
-    if form.validate_on_submit():
-        # get data from submitted form
-        search_content = form.searched.data
-        posts = Post.query.filter(Post.content.like('%' + search_content + '%'))
-        display_posts = posts.order_by(Post.title).all()
-        return render_template('search.html',
-                               form=form,
-                               searched=search_content,
-                               display_posts=display_posts)
-    # if invalid or blank search is submitted
-    else:
-        return redirect(url_for('index'))
 
 
 # symbol directory route
@@ -318,15 +112,15 @@ def symbol(symbol):
     lobbying_activities = finnhub.get_lobbying_activities(ticker=symbol, _from=past_date, to=today)
     government_spending = finnhub.get_government_spending(ticker=symbol, _from=past_date, to=today)
 
-    # # ADDING A POST ON THE SYMBOL PAGE
-    form = PostForm()
-    if form.validate_on_submit():
-        add_post()
+    # # # ADDING A POST ON THE SYMBOL PAGE
+    # form = PostForm()
+    # if form.validate_on_submit():
+    #     add_post()
 
     return render_template('symbol.html',
                            title=f'{stock.company_name} ({stock.ticker_symbol})',
                            stock=stock,
-                           form=form,
+                           # form=form,
                            symbol_posts=symbol_posts,
                            ohlcv_data=ohlcv_data,
                            basic_info=basic_info,
