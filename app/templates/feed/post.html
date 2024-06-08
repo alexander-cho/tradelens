@@ -2,19 +2,19 @@
 
 {% block content %}
 
-    <h1> <a href="{{ url_for('user', username=post.author.username) }}">{{ post.author.username }}</a> on {{ post.timestamp }} </h1>
+    <h1> <a href="{{ url_for('users.user', username=post.author.username) }}">{{ post.author.username }}</a> on {{ post.timestamp }} </h1>
 
-    <a href="{{ url_for('symbol', symbol=post.title) }}">{{ post.title }}</a> <br>
+    <a href="{{ url_for('stocks.symbol', symbol=post.title) }}">{{ post.title }}</a> <br>
     {{ post.content | safe }} <br><br>
     {% if post.author.about_author %}
         {{ post.author.about_author }} <br><br>
 
     {% endif %}
 
-    <a href="{{ url_for('feed') }}" class="btn btn-outline-primary btn-sm">Go back</a>
+    <a href="{{ url_for('feed.feed') }}" class="btn btn-outline-primary btn-sm">Go back</a>
     {% if current_user.id == post.author.id %}
-        <a href="{{ url_for('edit_post', id=post.id) }}">Edit Post</a>
-        <a href="{{ url_for('delete_post', id=post.id) }}">Delete Post</a>
+        <a href="{{ url_for('feed.edit_post', id=post.id) }}">Edit Post</a>
+        <a href="{{ url_for('feed.delete_post', id=post.id) }}">Delete Post</a>
     {% endif %}
 
 {% endblock %}
