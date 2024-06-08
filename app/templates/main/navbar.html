@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
-        <a class="navbar-brand" href="{{ url_for('index') }}">TradeLens</a>
+        <a class="navbar-brand" href="{{ url_for('main.index') }}">TradeLens</a>
 
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -10,7 +10,7 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('index') }}">Home</a>
+                    <a class="nav-link" href="{{ url_for('main.index') }}">Home</a>
                 </li>
 
                 <li class="nav-item">
@@ -18,29 +18,29 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('symbol_main') }}">Symbols</a>
+                    <a class="nav-link" href="{{ url_for('stocks.symbol_main') }}">Symbols</a>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('earnings_ipos') }}">Earnings/IPOs</a>
+                    <a class="nav-link" href="{{ url_for('broad.earnings_ipos') }}">Earnings/IPOs</a>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('macro') }}">Macro</a>
+                    <a class="nav-link" href="{{ url_for('broad.macro') }}">Macro</a>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('technical_screener') }}">Technical Screener</a>
+                    <a class="nav-link" href="{{ url_for('screener.technical_screener') }}">Technical Screener</a>
                 </li>
 
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">News</a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="{{ url_for('market_news', category='general') }}">General</a></li>
+                        <li><a class="dropdown-item" href="{{ url_for('broad.market_news', category='general') }}">General</a></li>
                         <li><hr class="dropdown-divider"/></li>
-                        <li><a class="dropdown-item" href="{{ url_for('market_news', category='forex') }}">Forex</a></li>
-                        <li><a class="dropdown-item" href="{{ url_for('market_news', category='crypto') }}">Crypto</a></li>
-                        <li><a class="dropdown-item" href="{{ url_for('market_news', category='merger') }}">Merger</a></li>
+                        <li><a class="dropdown-item" href="{{ url_for('broad.market_news', category='forex') }}">Forex</a></li>
+                        <li><a class="dropdown-item" href="{{ url_for('broad.market_news', category='crypto') }}">Crypto</a></li>
+                        <li><a class="dropdown-item" href="{{ url_for('broad.market_news', category='merger') }}">Merger</a></li>
                     </ul>
                 </li>
 
@@ -59,8 +59,8 @@
                 {% endif %}
             </ul>
             
-            <form method="POST" action="{{ url_for('feed.search') }}" class="d-flex" role="search">
-                {{ form.hidden_tag() }}
+            <form method="POST" action="{{ url_for('main.search') }}" class="d-flex" role="search">
+                {{ search_form.hidden_tag() }}
                 <input class="form-control me-2" type="search" placeholder="Search post content" aria-label="Search" name="searched">
                 <button class="btn btn-outline-success" type="submit">Search</button>
             </form>

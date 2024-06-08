@@ -12,10 +12,3 @@ class PostForm(FlaskForm):
     # author = StringField("Author")
     # slug = StringField("Slug", validators=[DataRequired()])
     submit = SubmitField("Submit")
-
-
-# create a search form
-class SearchForm(FlaskForm):
-    searched = StringField("Searched",
-                           validators=[DataRequired()])  # name="searched" attribute, in form of navbar.html
-    submit = SubmitField("Submit")

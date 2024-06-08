@@ -8,7 +8,7 @@
         <td>
             <a href="{{ url_for('users.user', username=post.author.username) }}">{{ post.author.username }}</a>
             says on {{ post.timestamp }}: <br> 
-            <a href="{{ url_for('symbol', symbol=post.title) }}">{{ post.title }}</a>
+            <a href="{{ url_for('stocks.symbol', symbol=post.title) }}">{{ post.title }}</a>
             {{ post.content }} <br>
         </td>
     </tr>

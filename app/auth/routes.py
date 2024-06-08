@@ -17,7 +17,7 @@ from . import bp_auth
 def login():
     if current_user.is_authenticated:
         # return to index page if already logged in
-        return redirect(url_for('index'))
+        return redirect(url_for('main.index'))
 
     form = LoginForm()
     if form.validate_on_submit():
@@ -31,10 +31,10 @@ def login():
                 # log them in
                 login_user(user, remember=form.remember_me.data)
                 flash("Login successful")
-                return redirect(url_for('index'))
+                return redirect(url_for('main.index'))
             else:
                 flash("Wrong password, try again")
-                return redirect(url_for('login'))
+                return redirect(url_for('auth.login'))
         else:
             flash("That user does not exist")
 
@@ -49,7 +49,7 @@ def login():
 def logout():
     logout_user()
     flash("You have been logged out")
-    return redirect(url_for('index'))
+    return redirect(url_for('main.index'))
 
 
 # register an account
@@ -57,7 +57,7 @@ def logout():
 def register():
     if current_user.is_authenticated:
         # return to index page if already logged in
-        return redirect(url_for('index'))
+        return redirect(url_for('main.index'))
 
     form = RegistrationForm()
     if form.validate_on_submit():
@@ -68,7 +68,7 @@ def register():
         db.session.add(user)
         db.session.commit()
         flash("Your account has been created")
-        return redirect(url_for('login'))
+        return redirect(url_for('auth.login'))
 
     return render_template('auth/register.html',
                            title='Register',

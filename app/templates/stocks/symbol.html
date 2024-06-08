@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'main/base.html' %}
 
 {% block content %}
 
@@ -6,9 +6,9 @@
     <h4>{{ stock.company_name }}</h4>
 
 
-    <p><a href="{{ url_for('options', symbol=stock.ticker_symbol) }}" class="btn btn-primary">Option Chain</a></p>
+    <p><a href="{{ url_for('options.options', symbol=stock.ticker_symbol) }}" class="btn btn-primary">Option Chain</a></p>
 
-    <p><a href="{{ url_for('symbol_news', symbol=stock.ticker_symbol) }}" class="btn btn-dark">News Stream</a></p>
+    <p><a href="{{ url_for('stocks.symbol_news', symbol=stock.ticker_symbol) }}" class="btn btn-dark">News Stream</a></p>
 
 
     <h3>Company logo, ipo date, sector</h3>

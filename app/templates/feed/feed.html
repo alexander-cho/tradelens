@@ -1,18 +1,18 @@
-{% extends 'base.html' %}
+{% extends 'main/base.html' %}
 
 {% block content %}
 
     <h1>Feed</h1>
 
     {% if current_user.is_authenticated %}
-        <h5><a href="{{ url_for('symbol_main') }}">Search for a symbol to share an idea</a></h5>
+        <h5><a href="{{ url_for('stocks.symbol_main') }}">Search for a symbol to share an idea</a></h5>
     {% endif %}
 
     {% for post in posts %}
         <p>
             <img src="{{ post.author.avatar(36) }}" alt="">
             <a href="{{ url_for('users.user', username=post.author.username)}}">{{ post.author.username }}</a> <br>
-            <a href="{{ url_for('symbol', symbol=post.title) }}">{{ post.title }}</a> <br>
+            <a href="{{ url_for('stocks.symbol', symbol=post.title) }}">{{ post.title }}</a> <br>
             Posted on: {{ post.timestamp }} <br>
             {{ post.content | safe }} <br>
             <a href="{{ url_for('feed.post', id=post.id) }}" class="btn btn-outline-primary btn-sm">Click to View</a>
