@@ -14,13 +14,15 @@
 
 <h4>Symbol | Company Name</h4>
 
-<div class="scrollable-list">
-    <p>
-        {% for stock in stock_list %}
-            <a href="{{ url_for('stocks.symbol', symbol=stock.ticker_symbol) }}" class="btn-ticker">{{ stock.ticker_symbol }}</a> | {{ stock.company_name }} <br>
-        {% endfor %}
-    </p>
-</div>
+{#<div class="scrollable-list">#}
+{#    <p>#}
+{#        {% for stock in stock_list %}#}
+{#            <a href="{{ url_for('stocks.symbol', symbol=stock.ticker_symbol) }}" class="btn-ticker">{{ stock.ticker_symbol }}</a> | {{ stock.company_name }} <br>#}
+{#        {% endfor %}#}
+{#    </p>#}
+{#</div>#}
+
+{{ stock_list }}
 
 <style>
     .scrollable-list {

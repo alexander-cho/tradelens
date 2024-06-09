@@ -5,7 +5,7 @@ the stock db table with the ticker symbol and company name.
 import json
 import os
 from app.models import Stocks
-from tradelens import app, db
+from tradelens import current_app, db
 
 tickers_file_path = os.path.join('../..', 'resources', 'company_tickers.json')
 
@@ -33,5 +33,5 @@ def populate_stocks_from_sec(json_file):
 
 
 if __name__ == '__main__':
-    with app.app_context():
+    with current_app.app_context():
         populate_stocks_from_sec(tickers_file_path)

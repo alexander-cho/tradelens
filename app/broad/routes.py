@@ -1,9 +1,9 @@
 from flask import render_template, flash, redirect, url_for
-from src.providers.alphavantage import AlphaVantage
-from src.providers.finnhub_ import Finnhub
-from src.providers.federalreserve import FederalReserve
+from modules.providers.alphavantage import AlphaVantage
+from modules.providers.finnhub_ import Finnhub
+from modules.providers.federalreserve import FederalReserve
 
-from src.utils.date_ranges import get_date_range_ahead
+from modules.utils.date_ranges import get_date_range_ahead
 
 from . import bp_broad
 

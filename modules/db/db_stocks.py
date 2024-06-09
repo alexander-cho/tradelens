@@ -2,7 +2,7 @@ import sys
 from pathlib import Path
 
 from app.models import Stocks
-from tradelens import app, db
+from tradelens import current_app, db
 
 # Add the parent directory of 'app' to the system path
 current_dir = Path(__file__).resolve().parent
@@ -67,5 +67,5 @@ class UpdateStockUniverse:
 
 
 if __name__ == '__main__':
-    with app.app_context():
+    with current_app.app_context():
         update1 = UpdateStockUniverse(db.session)

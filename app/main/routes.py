@@ -9,8 +9,8 @@ from .forms import SearchForm
 
 from ..models import Post
 
-from src.providers.alphavantage import AlphaVantage
-from src.providers.finnhub_ import Finnhub
+from modules.providers.alphavantage import AlphaVantage
+from modules.providers.finnhub_ import Finnhub
 
 from . import bp_main
 

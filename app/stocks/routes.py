@@ -9,9 +9,9 @@ from ..feed.forms import PostForm
 
 from ..feed.routes import add_post
 
-from src.providers.yfinance_ import YFinance
-from src.providers.finnhub_ import Finnhub
-from src.utils.date_ranges import get_date_range_past
+from modules.providers.yfinance_ import YFinance
+from modules.providers.finnhub_ import Finnhub
+from modules.utils.date_ranges import get_date_range_past
 
 from . import bp_stocks
 
