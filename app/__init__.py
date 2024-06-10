@@ -13,10 +13,10 @@ login_manager.login_view = 'auth.login'
 
 
 # application factory
-def create_app(config_name=Config):
+def create_app(config_class='config.Config'):
     # create a flask instance
     app = Flask(__name__)
-    app.config.from_object(Config)
+    app.config.from_object(config_class)
 
     db.init_app(app)
     migrate.init_app(app, db)

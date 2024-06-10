@@ -19,8 +19,7 @@ class RegistrationForm(FlaskForm):
     username = StringField("Username", validators=[DataRequired()])
     email = StringField("Email", validators=[DataRequired(), Email()])
     password_hash = PasswordField("Password", validators=[DataRequired()])
-    password_hash2 = PasswordField("Confirm Password", validators=[DataRequired(), EqualTo('password_hash',
-                                                                                           message="Passwords must match")])
+    password_hash2 = PasswordField("Confirm Password", validators=[DataRequired(), EqualTo('password_hash', message="Passwords must match")])
     # profile_pic = FileField("Profile Pic")
     submit = SubmitField("Register")
 
