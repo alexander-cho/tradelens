@@ -1,6 +1,6 @@
 from datetime import datetime, timezone
 
-from flask import render_template, flash, redirect, url_for
+from flask import render_template, flash, redirect, url_for, request
 from flask_login import current_user, login_required, login_user, logout_user
 
 from .forms import LoginForm, RegistrationForm
@@ -44,12 +44,16 @@ def login():
 
 
 # logout
-@bp_auth.route('/logout')
+@bp_auth.route('/logout', methods=['GET', 'POST'])
 @login_required
 def logout():
-    logout_user()
-    flash("You have been logged out")
-    return redirect(url_for('main.index'))
+    if request.method == "POST":
+        logout_user()
+        flash("You have been logged out")
+        return redirect(url_for('main.index'))
+    else:
+        flash("Invalid request")
+        return redirect(url_for('main.index'))
 
 
 # register an account

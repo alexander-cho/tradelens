@@ -5,12 +5,16 @@
     <h1>This Week's Earnings</h1>
     {% if earnings_calendar %}
         {{ earnings_calendar }}
+    {% else %}
+        <h5>No earnings data available</h5>
     {% endif %}
 
 
     <h1>Anticipated IPOs</h1>
     {% if ipo_data %}
         <p>{{ ipo_data }}</p>
+    {% else %}
+        <h5>No IPOs found</h5>
     {% endif %}
 
 {% endblock %}
