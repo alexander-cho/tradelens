@@ -45,7 +45,7 @@ class FederalReserve:
         monthly_interest_rates = self.fred.get_series('FEDFUNDS').to_dict()
         return monthly_interest_rates
 
-    def unemployment_rates(self) -> dict:
+    def get_unemployment_rate(self) -> dict:
         monthly_unemployment_rate = self.fred.get_series('UNRATE').to_dict()
         return monthly_unemployment_rate
 
@@ -71,7 +71,12 @@ class FederalReserve:
         units_started = self.fred.get_series('HOUST').to_dict()
         median_sales_price = self.fred.get_series('MSPUS').to_dict()
 
-        return units_started
+        housing_data = {
+            'units_started': units_started,
+            'median_sales_price': median_sales_price
+        }
+
+        return housing_data
 
     def get_commodities(self) -> dict:
         oil_prices = self.fred.get_series('MCOILWTICO').to_dict()
@@ -79,4 +84,11 @@ class FederalReserve:
         sugar_prices = self.fred.get_series('PSUGAUSAUSDM').to_dict()
         corn_prices = self.fred.get_series('PMAIZMTUSDM').to_dict()
 
-        return oil_prices
+        commodities = {
+            "oil_prices": oil_prices,
+            "natural_gas_prices": natural_gas_prices,
+            "sugar_prices": sugar_prices,
+            "corn_prices": corn_prices
+        }
+
+        return commodities

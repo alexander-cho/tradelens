@@ -26,17 +26,29 @@ def earnings_ipos():
                            earnings_calendar=earnings_calendar)
 
 
-@bp_broad.route('/macro')
+@bp_broad.route('/macro', methods=['GET'])
 def macro():
     federal_reserve = FederalReserve()
 
     gdp = federal_reserve.get_quarterly_gdp()
     cpi = federal_reserve.get_cpi()
+    interest_rates = federal_reserve.get_interest_rates()
+    unemployment_rate = federal_reserve.get_unemployment_rate()
+    trade_deficit = federal_reserve.get_trade_balance()
+    capacity_utilization = federal_reserve.get_capacity_utilization()
+    housing_data = federal_reserve.get_housing_data()
+    commodities = federal_reserve.get_commodities()
 
     return render_template('broad/macro.html',
                            title='Macro',
                            gdp=gdp,
-                           cpi=cpi)
+                           cpi=cpi,
+                           interest_rates=interest_rates,
+                           unemployment_rate=unemployment_rate,
+                           trade_deficit=trade_deficit,
+                           capacity_utilization=capacity_utilization,
+                           housing_data=housing_data,
+                           commodities=commodities)
 
 
 @bp_broad.route('/market-news/<category>', methods=['GET'])
