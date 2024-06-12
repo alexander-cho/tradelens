@@ -42,13 +42,41 @@ class FederalReserve:
         return monthly_cpi
 
     def get_interest_rates(self):
-        pass
+        monthly_interest_rates = self.fred.get_series('FEDFUNDS').to_dict()
+        return monthly_interest_rates
 
     def unemployment_rates(self) -> dict:
-        pass
+        monthly_unemployment_rate = self.fred.get_series('UNRATE').to_dict()
+        return monthly_unemployment_rate
 
-    def get_ppi(self) -> dict:
-        pass
+    def get_trade_balance(self) -> dict:
+        """
+        Get the monthly trade balance (trade deficit) data from 1992 to present
 
-    def get_cci(self) -> dict:
-        pass
+        Returns:
+            dict: Monthly trade deficit data of key value pairs of type Timestamp and float
+        """
+        trade_balance = self.fred.get_series('BOPGSTB').to_dict()
+        return trade_balance
+
+    def get_capacity_utilization(self) -> dict:
+        """
+        Get the capacity utilization as a percentage of the maximum potential output of the economy can produce
+        under normal operating conditions without straining its resources
+        """
+        capacity_utilization = self.fred.get_series('TCU').to_dict()
+        return capacity_utilization
+
+    def get_housing_data(self) -> dict:
+        units_started = self.fred.get_series('HOUST').to_dict()
+        median_sales_price = self.fred.get_series('MSPUS').to_dict()
+
+        return units_started
+
+    def get_commodities(self) -> dict:
+        oil_prices = self.fred.get_series('MCOILWTICO').to_dict()
+        natural_gas_prices = self.fred.get_series('MHHNGSP').to_dict()
+        sugar_prices = self.fred.get_series('PSUGAUSAUSDM').to_dict()
+        corn_prices = self.fred.get_series('PMAIZMTUSDM').to_dict()
+
+        return oil_prices

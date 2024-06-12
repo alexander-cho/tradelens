@@ -1,4 +1,5 @@
 from flask import render_template, flash, redirect, url_for
+
 from modules.providers.alphavantage import AlphaVantage
 from modules.providers.finnhub_ import Finnhub
 from modules.providers.federalreserve import FederalReserve
@@ -16,7 +17,7 @@ def earnings_ipos():
 
     ipo_data = alphavantage.get_ipos_data()
 
-    (today, future_date) = get_date_range_ahead(days_ahead=14)
+    (today, future_date) = get_date_range_ahead(days_ahead=7)
     earnings_calendar = finnhub.get_earnings_calendar(_from=today, to=future_date)
 
     return render_template('broad/earnings_ipos.html',
