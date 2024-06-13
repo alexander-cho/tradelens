@@ -174,3 +174,17 @@ class Finnhub:
         reversed_earnings_calendar = earnings_calendar[::-1]
 
         return reversed_earnings_calendar
+
+    def get_upcoming_ipos(self, _from: str, to: str) -> dict:
+        """
+        Get the anticipated IPOs (Initial Public Offering) for a specified date range.
+
+        Parameters:
+            _from (str): start date (YYYY-MM-DD)
+            to (str): end date (YYYY-MM-DD)
+
+        Returns:
+            dict:
+        """
+        anticipated_ipos = self.fc.ipo_calendar(_from=_from, to=to)
+        return anticipated_ipos

@@ -4,7 +4,7 @@
 
     <h1>Upcoming Earnings</h1>
     {% if earnings_calendar %}
-        {{ earnings_calendar }}
+        <p>{{ earnings_calendar }}</p>
     {% else %}
         <h5>No earnings data available</h5>
     {% endif %}
@@ -15,6 +15,12 @@
         <p>{{ ipo_data }}</p>
     {% else %}
         <h5>No IPOs found</h5>
+    {% endif %}
+
+
+    <h1>Finnhub IPOs</h1>
+    {% if anticipated_ipos %}
+        <p>{{ anticipated_ipos }}</p>
     {% endif %}
 
 {% endblock %}
