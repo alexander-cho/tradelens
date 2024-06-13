@@ -49,6 +49,10 @@ class FederalReserve:
         monthly_unemployment_rate = self.fred.get_series('UNRATE').to_dict()
         return monthly_unemployment_rate
 
+    def get_10yr(self) -> dict:
+        ten_year_yield = self.fred.get_series('DGS10').to_dict()
+        return ten_year_yield
+
     def get_trade_balance(self) -> dict:
         """
         Get the monthly trade balance (trade deficit) data from 1992 to present
@@ -66,6 +70,10 @@ class FederalReserve:
         """
         capacity_utilization = self.fred.get_series('TCU').to_dict()
         return capacity_utilization
+
+    def get_payroll(self) -> dict:
+        total_nonfarm_payroll = self.fred.get_series('PAYEMS').to_dict()
+        return total_nonfarm_payroll
 
     def get_housing_data(self) -> dict:
         units_started = self.fred.get_series('HOUST').to_dict()

@@ -19,11 +19,13 @@ def earnings_ipos():
 
     (today, future_date) = get_date_range_ahead(days_ahead=7)
     earnings_calendar = finnhub.get_earnings_calendar(_from=today, to=future_date)
+    anticipated_ipos = finnhub.get_upcoming_ipos(_from=today, to=future_date)
 
     return render_template('broad/earnings_ipos.html',
                            title='IPOs',
                            ipo_data=ipo_data,
-                           earnings_calendar=earnings_calendar)
+                           earnings_calendar=earnings_calendar,
+                           anticipated_ipos=anticipated_ipos)
 
 
 @bp_broad.route('/macro', methods=['GET'])
@@ -34,8 +36,10 @@ def macro():
     cpi = federal_reserve.get_cpi()
     interest_rates = federal_reserve.get_interest_rates()
     unemployment_rate = federal_reserve.get_unemployment_rate()
+    ten_year_yield = federal_reserve.get_10yr()
     trade_deficit = federal_reserve.get_trade_balance()
     capacity_utilization = federal_reserve.get_capacity_utilization()
+    total_nonfarm_payroll = federal_reserve.get_payroll()
     housing_data = federal_reserve.get_housing_data()
     commodities = federal_reserve.get_commodities()
 
@@ -45,8 +49,10 @@ def macro():
                            cpi=cpi,
                            interest_rates=interest_rates,
                            unemployment_rate=unemployment_rate,
+                           ten_year_yield=ten_year_yield,
                            trade_deficit=trade_deficit,
                            capacity_utilization=capacity_utilization,
+                           total_nonfarm_payroll=total_nonfarm_payroll,
                            housing_data=housing_data,
                            commodities=commodities)
 

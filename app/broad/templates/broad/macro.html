@@ -28,6 +28,12 @@
     {% endif %}
 
 
+    <h3>10 Year Yield</h3>
+    {% if ten_year_yield %}
+        {{ ten_year_yield }}
+    {% endif %}
+
+
     <h3>Trade Deficit</h3>
     {% if trade_deficit %}
         <p>{{ trade_deficit }}</p>
@@ -37,6 +43,12 @@
     <h3>Capacity Utilization</h3>
     {% if capacity_utilization %}
         <p>{{ capacity_utilization }}</p>
+    {% endif %}
+
+
+    <h3>Total Nonfarm Payroll</h3>
+    {% if total_nonfarm_payroll %}
+        <p>{{ total_nonfarm_payroll }}</p>
     {% endif %}
 
 
