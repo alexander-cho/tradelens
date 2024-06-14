@@ -5,7 +5,7 @@ from modules.providers.federalreserve import FederalReserve
 from modules.providers.tradier import Tradier
 
 
-y = YFinance('SOFI')
+y = YFinance('AAPL')
 f = Finnhub()
 a = AlphaVantage()
 fred = FederalReserve()

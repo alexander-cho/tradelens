@@ -9,4 +9,10 @@
         {{ expiry_list }}
     {% endif %}
 
+    <p>
+    {% for expiry in expiry_list %}
+        <a href="{{ url_for('options.options_expiry', symbol=stock.ticker_symbol, expiry_date=expiry) }}">{{ expiry }}</a> <br>
+    {% endfor %}
+    </p>
+
 {% endblock %}
