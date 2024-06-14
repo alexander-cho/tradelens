@@ -21,6 +21,16 @@ class Finnhub:
         market_status = self.fc.market_status(exchange='US')
         return market_status
 
+    def get_market_holidays(self) -> dict:
+        """
+        Get the current market holidays for US exchanges
+
+        Returns:
+            dict: market holidays
+        """
+        market_holidays = self.fc.market_holiday(exchange='US')
+        return market_holidays
+
     def get_market_news(self, category: str) -> list[dict]:
         """
         Get overall market news
@@ -165,7 +175,8 @@ class Finnhub:
             to (str): end date (YYYY-MM-DD)
 
         Returns:
-            dict:
+            dict: data value contains a list of dictionaries, which contains the following keys:
+            'date', 'epsActual', 'epsEstimate', 'hour', 'quarter', 'revenueActual', 'revenueEstimate', 'symbol', 'year'
         """
         response = self.fc.earnings_calendar(_from=_from, to=to, symbol=None)
         earnings_calendar = response.get('earningsCalendar')
@@ -173,9 +184,9 @@ class Finnhub:
         # return list elements in reverse order since response returns nearest earnings at the end
         reversed_earnings_calendar = earnings_calendar[::-1]
 
-        return reversed_earnings_calendar
+        return {"earnings_calendar": reversed_earnings_calendar}
 
-    def get_upcoming_ipos(self, _from: str, to: str) -> dict:
+    def get_upcoming_ipos(self, _from: str, to: str) -> dict[str, list]:
         """
         Get the anticipated IPOs (Initial Public Offering) for a specified date range.
 
@@ -184,7 +195,8 @@ class Finnhub:
             to (str): end date (YYYY-MM-DD)
 
         Returns:
-            dict:
+            dict: data value contains a list of dictionaries, which contains the following keys:
+            'date', 'exchange', 'name', 'numberOfShares', 'price', 'status', 'symbol', 'totalSharesValue'
         """
         anticipated_ipos = self.fc.ipo_calendar(_from=_from, to=to)
         return anticipated_ipos

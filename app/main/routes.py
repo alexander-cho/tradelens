@@ -32,13 +32,15 @@ def index():
     finnhub = Finnhub()
     alphavantage = AlphaVantage()
 
-    market_status = finnhub.get_market_status(),
+    market_status = finnhub.get_market_status()
     top_gainers_losers = alphavantage.get_top_gainers_losers()
+    market_holidays = finnhub.get_market_holidays()
 
     return render_template('main/index.html',
                            title='Home',
                            market_status=market_status,
-                           top_gainers_losers=top_gainers_losers)
+                           top_gainers_losers=top_gainers_losers,
+                           market_holidays=market_holidays)
 
 
 # search for post content

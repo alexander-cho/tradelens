@@ -15,15 +15,12 @@ def earnings_ipos():
     alphavantage = AlphaVantage()
     finnhub = Finnhub()
 
-    ipo_data = alphavantage.get_ipos_data()
-
     (today, future_date) = get_date_range_ahead(days_ahead=7)
     earnings_calendar = finnhub.get_earnings_calendar(_from=today, to=future_date)
     anticipated_ipos = finnhub.get_upcoming_ipos(_from=today, to=future_date)
 
     return render_template('broad/earnings_ipos.html',
                            title='IPOs',
-                           ipo_data=ipo_data,
                            earnings_calendar=earnings_calendar,
                            anticipated_ipos=anticipated_ipos)
 
