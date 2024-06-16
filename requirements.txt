@@ -24,3 +24,4 @@ pandas==2.2.2
 requests==2.32.3
 fredapi==0.5.2
 pytest==8.2.2
+plotly==5.22.0
