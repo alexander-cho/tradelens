@@ -12,7 +12,6 @@ from . import bp_broad
 # return IPOs anticipated in the next 3 months, upcoming earnings calendar
 @bp_broad.route('/earnings-ipos', methods=['GET'])
 def earnings_ipos():
-    alphavantage = AlphaVantage()
     finnhub = Finnhub()
 
     (today, future_date) = get_date_range_ahead(days_ahead=7)

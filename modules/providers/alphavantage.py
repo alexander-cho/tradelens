@@ -3,7 +3,7 @@ from dotenv import load_dotenv
 import requests
 import warnings
 
-warnings.filterwarnings("ignore", category=FutureWarning)
+warnings.filterwarnings(action="ignore", category=FutureWarning)
 
 load_dotenv()
 
