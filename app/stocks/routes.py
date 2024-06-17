@@ -11,6 +11,7 @@ from ..feed.routes import add_post
 
 from modules.providers.yfinance_ import YFinance
 from modules.providers.finnhub_ import Finnhub
+from modules.providers.polygon_ import Polygon
 
 from modules.utils.date_ranges import get_date_range_past
 
@@ -52,24 +53,32 @@ def symbol(symbol):
         return redirect(url_for('stocks.symbol',
                                 symbol=symbol))
 
+    (chart_past_date, chart_today) = get_date_range_past(days_past=365)
+    polygon = Polygon(
+        ticker=f'{symbol}',
+        multiplier=1,
+        timespan='day',
+        from_=f'{chart_past_date}',
+        to=f'{chart_today}',
+        limit=50000
+    )
+    symbol_chart = polygon.create_symbol_chart()
+
     # query the stock table to retrieve the corresponding symbol
     stock = db.session.query(Stocks).filter(Stocks.ticker_symbol == symbol).first()
-    # query the posts associated with the symbol
-    symbol_posts = Post.query.order_by(Post.timestamp.desc()).where(Post.title == symbol)
 
     # CONTEXT FROM SRC FOR SYMBOL DATA
     yfinance = YFinance(symbol)
     finnhub = Finnhub()
 
-    ohlcv_data = yfinance.get_day_ohlcv()
-    basic_info = yfinance.get_info()
+    company_profile = finnhub.get_company_profile(ticker=symbol)
     main_info = yfinance.get_underlying_for_price_info()
+    basic_info = yfinance.get_basic_info()
     fast_info = yfinance.get_fast_info()
     calendar = yfinance.get_calendar()
     institutional_holders = yfinance.get_institutional_holders()
     insider_transactions = yfinance.get_insider_transactions()
     analyst_ratings = yfinance.get_analyst_ratings()
-    company_profile = finnhub.get_company_profile(ticker=symbol)
 
     (past_date, today) = get_date_range_past(days_past=365)
     insider_sentiment = finnhub.get_insider_sentiment(ticker=symbol, _from=past_date, to=today)
@@ -81,23 +90,26 @@ def symbol(symbol):
     if post_form.validate_on_submit():
         add_post()
 
+    # query the posts associated with the symbol
+    symbol_posts = Post.query.order_by(Post.timestamp.desc()).where(Post.title == symbol)
+
     return render_template('stocks/symbol.html',
                            title=f'{stock.company_name} ({stock.ticker_symbol})',
                            stock=stock,
-                           post_form=post_form,
-                           symbol_posts=symbol_posts,
-                           ohlcv_data=ohlcv_data,
-                           basic_info=basic_info,
+                           symbol_chart=symbol_chart,
+                           company_profile=company_profile,
                            main_info=main_info,
+                           basic_info=basic_info,
                            fast_info=fast_info,
                            calendar=calendar,
                            institutional_holders=institutional_holders,
                            insider_transactions=insider_transactions,
                            analyst_ratings=analyst_ratings,
-                           company_profile=company_profile,
                            insider_sentiment=insider_sentiment,
                            lobbying_activities=lobbying_activities,
-                           government_spending=government_spending)
+                           government_spending=government_spending,
+                           post_form=post_form,
+                           symbol_posts=symbol_posts)
 
 
 @bp_stocks.route('/symbol/<symbol>/news')

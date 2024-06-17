@@ -12,21 +12,7 @@ class YFinance:
         self.symbol = symbol
         self.ticker = yf.Ticker(symbol)
 
-    def get_day_ohlcv(self) -> list[dict]:
-        """
-        Get OHLCV data for the symbol for same day.
-
-        Returns:
-            DataFrame: OHLCV data for the period '1d'.
-        """
-        try:
-            day_history = self.ticker.history(period='1d')
-            ohlcv = day_history.to_dict(orient='records')
-            return ohlcv
-        except Exception as e:
-            print(f"Error fetching OHLCV data for {self.symbol}: {e}")
-
-    def get_info(self) -> dict:
+    def get_basic_info(self) -> dict:
         """
         Get the basic information for the symbol, such as number of shares outstanding and short interest
 
@@ -140,19 +126,22 @@ class YFinance:
         Returns:
             dict: Dictionary of analyst ratings, {firm_name: {dict containing 'GradeDate', 'Action', etc.}}
         """
-        # index of original df is 'GradeDate' which we want to include
-        analyst_ratings_df = self.ticker.get_upgrades_downgrades().reset_index()
-        analyst_ratings_dict = analyst_ratings_df.to_dict('records')
+        try:
+            # index of original df is 'GradeDate' which we want to include
+            analyst_ratings_df = self.ticker.get_upgrades_downgrades().reset_index()
+            analyst_ratings_dict = analyst_ratings_df.to_dict('records')
 
-        ratings_by_unique_firms = {}
+            ratings_by_unique_firms = {}
 
-        for rating in analyst_ratings_dict:
-            firm_name = rating['Firm']
-            if firm_name not in ratings_by_unique_firms:
-                # If the firm is not already seen, add it to the unique_ratings dictionary
-                ratings_by_unique_firms[firm_name] = rating
+            for rating in analyst_ratings_dict:
+                firm_name = rating['Firm']
+                if firm_name not in ratings_by_unique_firms:
+                    # If the firm is not already seen, add it to the unique_ratings dictionary
+                    ratings_by_unique_firms[firm_name] = rating
 
-        return ratings_by_unique_firms
+            return ratings_by_unique_firms
+        except Exception as e:
+            print(f"Error fetching analyst ratings for {self.symbol}: {e}")
 
     def get_expiry_list(self) -> tuple:
         """
@@ -162,8 +151,11 @@ class YFinance:
         Returns:
             tuple: Tuple of expiry dates of all option chains for a given ticker symbol.
         """
-        expiry_dates = self.ticker.options
-        return expiry_dates
+        try:
+            expiry_dates = self.ticker.options
+            return expiry_dates
+        except Exception as e:
+            print(f"Error fetching expiry list for {self.symbol}: {e}")
 
     def _get_option_chain_for_expiry(self, expiry_date: str) -> object:
         """
@@ -175,8 +167,11 @@ class YFinance:
         Returns:
             object: yfinance option chain for an expiry date.
         """
-        option_chain = self.ticker.option_chain(date=expiry_date)
-        return option_chain
+        try:
+            option_chain = self.ticker.option_chain(date=expiry_date)
+            return option_chain
+        except Exception as e:
+            print(f"Error fetching option chain for {self.symbol}: {e}")
 
     def _extract_options_data(self, expiry_date: str, attribute: str) -> dict[str, dict]:
         """
@@ -192,32 +187,35 @@ class YFinance:
         Returns:
             dict: Dictionary containing Call and Put data of strike price and the specified attribute for each.
         """
-        option_chain = self._get_option_chain_for_expiry(expiry_date)
-
-        # split the chain between calls and puts
-        calls = option_chain.calls
-        puts = option_chain.puts
-
         # to populate with corresponding data
         call_data = {}
         put_data = {}
 
-        for _, row in calls.iterrows():
-            if attribute != 'lpba':
-                call_data[row['strike']] = row[attribute]
-            else:
-                call_data[row['strike']] = [row['lastPrice'], row['bid'], row['ask']]
+        try:
+            option_chain = self._get_option_chain_for_expiry(expiry_date)
 
-        for _, row in puts.iterrows():
-            if attribute != 'lpba':
-                put_data[row['strike']] = row[attribute]
-            else:
-                put_data[row['strike']] = [row['lastPrice'], row['bid'], row['ask']]
+            # split the chain between calls and puts
+            calls = option_chain.calls
+            puts = option_chain.puts
 
-        response = {"symbol": self.symbol, "expiry_date": expiry_date, "data": {"Calls": call_data, "Puts": put_data}}
-        return response
+            for _, row in calls.iterrows():
+                if attribute != 'lpba':
+                    call_data[row['strike']] = row[attribute]
+                else:
+                    call_data[row['strike']] = [row['lastPrice'], row['bid'], row['ask']]
 
-    def get_open_interest(self, expiry_date: str) -> dict:
+            for _, row in puts.iterrows():
+                if attribute != 'lpba':
+                    put_data[row['strike']] = row[attribute]
+                else:
+                    put_data[row['strike']] = [row['lastPrice'], row['bid'], row['ask']]
+
+            response = {"symbol": self.symbol, "expiry_date": expiry_date, "data": {"Calls": call_data, "Puts": put_data}}
+            return response
+        except Exception as e:
+            print(f"Error extracting options data for {self.symbol}: {e}")
+
+    def _get_open_interest(self, expiry_date: str) -> dict:
         """
         Get the open interest data for call and put options for a given expiry date.
 
@@ -227,10 +225,10 @@ class YFinance:
         Returns:
             dict: Dictionary containing Call and Put data of strike price and open interest for each.
         """
-        open_interest = self._extract_options_data(expiry_date, 'openInterest')
+        open_interest = self._extract_options_data(expiry_date, attribute='openInterest')
         return open_interest
 
-    def get_volume(self, expiry_date: str) -> dict:
+    def _get_volume(self, expiry_date: str) -> dict:
         """
         Get the volume data for call and put options for a given expiry date.
 
@@ -240,10 +238,10 @@ class YFinance:
         Returns:
             dict: Dictionary containing Call and Put data of strike price and volume for each.
         """
-        volume = self._extract_options_data(expiry_date, 'volume')
+        volume = self._extract_options_data(expiry_date, attribute='volume')
         return volume
 
-    def get_implied_volatility(self, expiry_date: str) -> dict:
+    def _get_implied_volatility(self, expiry_date: str) -> dict:
         """
         Get the implied volatility data for call and put options for a given expiry date.
 
@@ -253,10 +251,10 @@ class YFinance:
         Returns:
             dict: Dictionary containing Call and Put data of strike price and implied volatility for each.
         """
-        implied_volatility = self._extract_options_data(expiry_date, 'impliedVolatility')
+        implied_volatility = self._extract_options_data(expiry_date, attribute='impliedVolatility')
         return implied_volatility
 
-    def get_last_price_bid_ask(self, expiry_date: str) -> dict:
+    def _get_last_price_bid_ask(self, expiry_date: str) -> dict:
         """
         Get the last price, bid, ask data for call and put options for a given expiry date.
 
@@ -266,8 +264,10 @@ class YFinance:
         Returns:
             dict: Dictionary containing Call and Put data of strike price and open interest for each.
         """
-        lpba = self._extract_options_data(expiry_date, 'lpba')
+        lpba = self._extract_options_data(expiry_date, attribute='lpba')
         return lpba
 
-    def draw_open_interest_chart(self, symbol: str, expiry_date: str):
-        pass
+    def draw_open_interest_chart(self, expiry_date: str):
+        call_oi = self._get_open_interest(expiry_date).get('data').get('Calls')
+        put_oi = self._get_open_interest(expiry_date).get('data').get('Puts')
+        return call_oi, put_oi

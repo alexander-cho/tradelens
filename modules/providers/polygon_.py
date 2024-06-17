@@ -121,7 +121,7 @@ class Polygon:
 
         return datetime_strings
 
-    def create_symbol_plot(self) -> str:
+    def create_symbol_chart(self) -> str:
         """
         Plot the candlestick chart of the ohlcv bars and volume chart with the volume bars. Create two rows (subplots)
 
@@ -169,7 +169,6 @@ class Polygon:
 
         # Update the layout for better visualization
         fig.update_layout(
-            title=f'Chart for {self.ticker} ({self.multiplier} {self.timespan})',
             yaxis1_title='Share price',
             yaxis2_title='Volume (M)',
             xaxis1_title='Time',
