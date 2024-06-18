@@ -5,8 +5,8 @@ import pandas as pd
 import pytz
 
 import plotly.graph_objects as go
-import plotly.subplots as subplots
 import plotly.io as pio
+import plotly.subplots as subplots
 
 from polygon import RESTClient
 
@@ -172,7 +172,15 @@ class Polygon:
             yaxis1_title='Share price',
             yaxis2_title='Volume (M)',
             xaxis1_title='Time',
-            xaxis_rangeslider_visible=False
+            xaxis_rangeslider_visible=False,
+            width=1300,
+            height=700,
+            margin=dict(
+                l=10,
+                r=10,
+                t=10,
+                b=10
+            )
         )
 
         # get rid of gaps from weekend/holiday closures and non-market hours

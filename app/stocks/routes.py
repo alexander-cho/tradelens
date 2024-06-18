@@ -76,14 +76,6 @@ def symbol(symbol):
     basic_info = yfinance.get_basic_info()
     fast_info = yfinance.get_fast_info()
     calendar = yfinance.get_calendar()
-    institutional_holders = yfinance.get_institutional_holders()
-    insider_transactions = yfinance.get_insider_transactions()
-    analyst_ratings = yfinance.get_analyst_ratings()
-
-    (past_date, today) = get_date_range_past(days_past=365)
-    insider_sentiment = finnhub.get_insider_sentiment(ticker=symbol, _from=past_date, to=today)
-    lobbying_activities = finnhub.get_lobbying_activities(ticker=symbol, _from=past_date, to=today)
-    government_spending = finnhub.get_government_spending(ticker=symbol, _from=past_date, to=today)
 
     # # ADDING A POST ON THE SYMBOL PAGE
     post_form = PostForm()
@@ -102,12 +94,6 @@ def symbol(symbol):
                            basic_info=basic_info,
                            fast_info=fast_info,
                            calendar=calendar,
-                           institutional_holders=institutional_holders,
-                           insider_transactions=insider_transactions,
-                           analyst_ratings=analyst_ratings,
-                           insider_sentiment=insider_sentiment,
-                           lobbying_activities=lobbying_activities,
-                           government_spending=government_spending,
                            post_form=post_form,
                            symbol_posts=symbol_posts)
 
@@ -125,3 +111,43 @@ def symbol_news(symbol):
                            title=f'News for {symbol}',
                            stock=stock,
                            ticker_news=ticker_news)
+
+
+@bp_stocks.route('/symbol/<symbol>/holders')
+def symbol_holders(symbol):
+    stock = db.session.query(Stocks).filter(Stocks.ticker_symbol == symbol).first()
+
+    yfinance = YFinance(symbol)
+    finnhub = Finnhub()
+
+    institutional_holders = yfinance.get_institutional_holders()
+    insider_transactions = yfinance.get_insider_transactions()
+    analyst_ratings = yfinance.get_analyst_ratings()
+
+    (past_date, today) = get_date_range_past(days_past=365)
+    insider_sentiment = finnhub.get_insider_sentiment(ticker=symbol, _from=past_date, to=today)
+
+    return render_template('stocks/symbol_holders.html',
+                           title=f'{stock.company_name} ({stock.ticker_symbol}) - Holders',
+                           stock=stock,
+                           institutional_holders=institutional_holders,
+                           insider_transactions=insider_transactions,
+                           analyst_ratings=analyst_ratings,
+                           insider_sentiment=insider_sentiment)
+
+
+@bp_stocks.route('/symbol/<symbol>/federal')
+def symbol_federal(symbol):
+    stock = db.session.query(Stocks).filter(Stocks.ticker_symbol == symbol).first()
+
+    finnhub = Finnhub()
+
+    (past_date, today) = get_date_range_past(days_past=365)
+    lobbying_activities = finnhub.get_lobbying_activities(ticker=symbol, _from=past_date, to=today)
+    government_spending = finnhub.get_government_spending(ticker=symbol, _from=past_date, to=today)
+
+    return render_template('stocks/symbol_federal.html',
+                           title=f'{stock.company_name} ({stock.ticker_symbol}) - Federal',
+                           stock=stock,
+                           lobbying_activities=lobbying_activities,
+                           government_spending=government_spending)

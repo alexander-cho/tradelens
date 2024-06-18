@@ -1,0 +1,18 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
+
+    <h1>Federal Activity for {{ stock.ticker_symbol }}</h1>
+
+    <h3>Lobbying Activity</h3>
+    {% if lobbying_activities %}
+        <p>{{ lobbying_activities }}</p>
+    {% endif %}
+
+
+    <h3>Government Spending</h3>
+    {% if government_spending %}
+        <p>{{ government_spending }}</p>
+    {% endif %}
+
+{% endblock %}

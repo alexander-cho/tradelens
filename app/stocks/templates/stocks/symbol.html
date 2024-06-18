@@ -6,9 +6,13 @@
     <h4>{{ stock.company_name }}</h4>
 
 
-    <p><a href="{{ url_for('options.options', symbol=stock.ticker_symbol) }}" class="btn btn-primary">Option Chain</a></p>
+    <a href="{{ url_for('options.options', symbol=stock.ticker_symbol) }}" class="btn btn-outline-primary">Option Chain</a>
 
-    <p><a href="{{ url_for('stocks.symbol_news', symbol=stock.ticker_symbol) }}" class="btn btn-dark">News Stream</a></p>
+    <a href="{{ url_for('stocks.symbol_news', symbol=stock.ticker_symbol) }}" class="btn btn-outline-dark">News Stream</a>
+
+    <a href="{{ url_for('stocks.symbol_holders', symbol=stock.ticker_symbol) }}" class="btn btn-outline-info">Holders/Insiders/Analysts</a>
+
+    <a href="{{ url_for('stocks.symbol_federal', symbol=stock.ticker_symbol) }}" class="btn btn-outline-success">Federal Activity</a>
 
 
     <div id="plotly-div">{{ symbol_chart | safe }}</div>
@@ -41,42 +45,6 @@
     <h3>Dividends, Earnings and Revenue Estimates</h3>
     {% if calendar %}
         <p>{{ calendar }}</p>
-    {% endif %}
-
-
-    <h3>Top Institutional Holders</h3>
-    {% if institutional_holders%}
-        <p>{{ institutional_holders }}</p>
-    {% endif %}
-
-
-    <h3>Recent Insider Activity</h3>
-    {% if insider_transactions %}
-        <p>{{ insider_transactions }}</p>
-    {% endif %}
-
-
-    <h3>Insider Sentiment</h3>
-    {% if insider_sentiment %}
-        <p>{{ insider_sentiment }}</p>
-    {% endif %}
-
-
-    <h3>Analyst Ratings</h3>
-    {% if analyst_ratings %}
-        <p>{{ analyst_ratings }}</p>
-    {% endif %}
-
-
-    <h3>Lobbying Activity</h3>
-    {% if lobbying_activities %}
-        <p>{{ lobbying_activities }}</p>
-    {% endif %}
-
-
-    <h3>Government Spending</h3>
-    {% if government_spending %}
-        <p>{{ government_spending }}</p>
     {% endif %}
 
 
