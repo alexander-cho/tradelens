@@ -1,8 +1,6 @@
 from flask import render_template, flash, redirect, url_for
 
-from modules.providers.alphavantage import AlphaVantage
 from modules.providers.finnhub_ import Finnhub
-from modules.providers.federalreserve import FederalReserve
 
 from modules.utils.date_ranges import get_date_range_ahead
 
@@ -22,35 +20,6 @@ def earnings_ipos():
                            title='IPOs',
                            earnings_calendar=earnings_calendar,
                            anticipated_ipos=anticipated_ipos)
-
-
-@bp_broad.route('/macro', methods=['GET'])
-def macro():
-    federal_reserve = FederalReserve()
-
-    gdp = federal_reserve.get_quarterly_gdp()
-    cpi = federal_reserve.get_cpi()
-    interest_rates = federal_reserve.get_interest_rates()
-    unemployment_rate = federal_reserve.get_unemployment_rate()
-    ten_year_yield = federal_reserve.get_10yr()
-    trade_deficit = federal_reserve.get_trade_balance()
-    capacity_utilization = federal_reserve.get_capacity_utilization()
-    total_nonfarm_payroll = federal_reserve.get_payroll()
-    housing_data = federal_reserve.get_housing_data()
-    commodities = federal_reserve.get_commodities()
-
-    return render_template('broad/macro.html',
-                           title='Macro',
-                           gdp=gdp,
-                           cpi=cpi,
-                           interest_rates=interest_rates,
-                           unemployment_rate=unemployment_rate,
-                           ten_year_yield=ten_year_yield,
-                           trade_deficit=trade_deficit,
-                           capacity_utilization=capacity_utilization,
-                           total_nonfarm_payroll=total_nonfarm_payroll,
-                           housing_data=housing_data,
-                           commodities=commodities)
 
 
 @bp_broad.route('/market-news/<category>', methods=['GET'])

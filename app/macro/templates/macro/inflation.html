@@ -1,0 +1,12 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
+
+    <h1>Inflation</h1>
+
+    <h3>CPI</h3>
+    {% if cpi %}
+        <p>{{ cpi }}</p>
+    {% endif %}
+
+{% endblock %}

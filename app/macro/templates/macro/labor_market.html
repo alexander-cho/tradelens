@@ -1,0 +1,18 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
+
+    <h1>Labor market</h1>
+
+    <h3>Unemployment Rate</h3>
+    {% if unemployment_rate %}
+        <p>{{ unemployment_rate }}</p>
+    {% endif %}
+
+
+    <h3>Total Nonfarm Payroll</h3>
+    {% if total_nonfarm_payroll %}
+        <p>{{ total_nonfarm_payroll }}</p>
+    {% endif %}
+
+{% endblock %}

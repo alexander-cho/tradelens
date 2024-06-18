@@ -1,0 +1,12 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
+
+    <h1>Housing market</h1>
+
+    <h3>Housing Data</h3>
+    {% if housing_data %}
+        <p>{{ housing_data }}</p>
+    {% endif %}
+
+{% endblock %}

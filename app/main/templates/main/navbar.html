@@ -25,8 +25,19 @@
                     <a class="nav-link" href="{{ url_for('broad.earnings_ipos') }}">Earnings/IPOs</a>
                 </li>
 
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('broad.macro') }}">Macro</a>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Macro</a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" href="{{ url_for('macro.general') }}">General</a></li>
+                        <li><hr class="dropdown-divider"/></li>
+                        <li><a class="dropdown-item" href="{{ url_for('macro.inflation') }}">Inflation</a></li>
+                        <li><a class="dropdown-item" href="{{ url_for('macro.labor_market') }}">Labor Market</a></li>
+                        <li><a class="dropdown-item" href="{{ url_for('macro.financial_markets') }}">Financial Markets</a></li>
+                        <li><a class="dropdown-item" href="{{ url_for('macro.trade') }}">Trade</a></li>
+                        <li><a class="dropdown-item" href="{{ url_for('macro.industrial_activity') }}">Industrial Activity</a></li>
+                        <li><a class="dropdown-item" href="{{ url_for('macro.housing_market') }}">Housing Market</a></li>
+                        <li><a class="dropdown-item" href="{{ url_for('macro.commodities') }}">Commodities</a></li>
+                    </ul>
                 </li>
 
                 <li class="nav-item">

@@ -41,6 +41,7 @@ def create_app(config_class='config.Config'):
     from app.stocks import bp_stocks
     from app.options import bp_options
     from app.broad import bp_broad
+    from app.macro import bp_macro
     from app.screener import bp_screener
     app.register_blueprint(errors)
     app.register_blueprint(bp_auth)
@@ -50,6 +51,7 @@ def create_app(config_class='config.Config'):
     app.register_blueprint(bp_stocks)
     app.register_blueprint(bp_options)
     app.register_blueprint(bp_broad)
+    app.register_blueprint(bp_macro)
     app.register_blueprint(bp_screener)
 
     return app

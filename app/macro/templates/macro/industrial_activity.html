@@ -1,0 +1,12 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
+
+    <h1>Industrial activity</h1>
+
+    <h3>Capacity utilization</h3>
+    {% if capacity_utilization %}
+        <p>{{ capacity_utilization }}</p>
+    {% endif %}
+
+{% endblock %}

@@ -1,0 +1,12 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
+
+    <h1>General economy</h1>
+
+    <h3>GDP</h3>
+    {% if gdp %}
+        <p>{{ gdp }}</p>
+    {% endif %}
+
+{% endblock %}

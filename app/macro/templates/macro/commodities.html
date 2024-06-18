@@ -1,0 +1,12 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
+
+    <h1>Commodities</h1>
+
+    <h3>Commodity 1</h3>
+    {% if commodities %}
+        <p>{{ commodities }}</p>
+    {% endif %}
+
+{% endblock %}

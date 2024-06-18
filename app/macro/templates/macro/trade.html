@@ -1,0 +1,12 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
+
+    <h1>Trade</h1>
+
+    <h3>Trade Deficit</h3>
+    {% if trade_deficit %}
+        <p>{{ trade_deficit }}</p>
+    {% endif %}
+
+{% endblock %}
