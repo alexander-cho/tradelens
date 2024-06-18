@@ -113,6 +113,15 @@ def symbol_news(symbol):
                            ticker_news=ticker_news)
 
 
+@bp_stocks.route('/symbol/<symbol>/financials')
+def symbol_financials(symbol):
+    stock = db.session.query(Stocks).filter(Stocks.ticker_symbol == symbol).first()
+
+    return render_template('stocks/symbol_financials.html',
+                           title=f'{symbol} Financials',
+                           stock=stock)
+
+
 @bp_stocks.route('/symbol/<symbol>/holders')
 def symbol_holders(symbol):
     stock = db.session.query(Stocks).filter(Stocks.ticker_symbol == symbol).first()
@@ -151,3 +160,12 @@ def symbol_federal(symbol):
                            stock=stock,
                            lobbying_activities=lobbying_activities,
                            government_spending=government_spending)
+
+
+@bp_stocks.route('/symbol/<symbol>/dividends-splits')
+def symbol_dividends_splits(symbol):
+    stock = db.session.query(Stocks).filter(Stocks.ticker_symbol == symbol).first()
+
+    return render_template('stocks/symbol_dividends_splits.html',
+                           title=f'{symbol} Dividends and Splits',
+                           stock=stock)

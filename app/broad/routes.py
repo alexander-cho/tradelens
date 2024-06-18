@@ -14,7 +14,7 @@ from . import bp_broad
 def earnings_ipos():
     finnhub = Finnhub()
 
-    (today, future_date) = get_date_range_ahead(days_ahead=7)
+    (today, future_date) = get_date_range_ahead(days_ahead=14)
     earnings_calendar = finnhub.get_earnings_calendar(_from=today, to=future_date)
     anticipated_ipos = finnhub.get_upcoming_ipos(_from=today, to=future_date)
 
@@ -74,3 +74,8 @@ def market_news(category):
                            title=f"{category.capitalize()} News",
                            category=category,
                            news=news)
+
+
+@bp_broad.route('/dividends-splits', methods=['GET'])
+def dividends_splits():
+    return render_template('broad/dividends_splits.html')

@@ -88,6 +88,24 @@ class YFinance:
         except Exception as e:
             print(f"Error fetching calendar info for {self.symbol}: {e}")
 
+    def get_balance_sheet(self) -> dict:
+        """
+
+        """
+        pass
+
+    def get_cashflow(self) -> dict:
+        """
+
+        """
+        pass
+
+    def get_income_statement(self) -> dict:
+        """
+
+        """
+        pass
+
     def get_institutional_holders(self) -> any or list[dict]:
         """
         Get the institutional holders for a ticker.

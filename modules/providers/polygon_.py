@@ -21,9 +21,10 @@ class Polygon:
             timespan: str,
             from_: str,
             to: str,
-            limit: int):
+            limit: int
+    ):
         """
-        Initializes the Polygon class with the provided parameters.
+        Initialize the Polygon class with the provided parameters.
 
         Parameters:
             ticker (str): The ticker symbol.
@@ -167,7 +168,7 @@ class Polygon:
             col=1
         )
 
-        # Update the layout for better visualization
+        # update layout
         fig.update_layout(
             yaxis1_title='Share price',
             yaxis2_title='Volume (M)',

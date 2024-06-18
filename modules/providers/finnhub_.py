@@ -198,5 +198,10 @@ class Finnhub:
             dict: data value contains a list of dictionaries, which contains the following keys:
             'date', 'exchange', 'name', 'numberOfShares', 'price', 'status', 'symbol', 'totalSharesValue'
         """
-        anticipated_ipos = self.fc.ipo_calendar(_from=_from, to=to)
-        return anticipated_ipos
+        response = self.fc.ipo_calendar(_from=_from, to=to)
+        anticipated_ipos = response.get('ipoCalendar')
+
+        # return list elements in reverse order since response returns nearest ipos at the end
+        reversed_anticipated_ipos = anticipated_ipos[::-1]
+
+        return reversed_anticipated_ipos

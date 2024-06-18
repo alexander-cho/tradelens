@@ -1,0 +1,11 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
+
+    <h1>Greeks for {{ stock.ticker_symbol }} contracts expiring on {{ expiry_date }}</h1>
+
+    {% if tradier_greeks %}
+        <p>{{ tradier_greeks }}</p>
+    {% endif %}
+
+{% endblock %}

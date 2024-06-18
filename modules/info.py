@@ -12,3 +12,10 @@ a = AlphaVantage()
 fred = FederalReserve()
 t = Tradier()
 # p = Polygon()
+
+import yfinance as yf
+
+sofi = yf.Ticker('AAPL')
+print(sofi.get_cashflow(freq='quarterly'))
+print(sofi.get_incomestmt(freq='quarterly'))
+print(sofi.get_balance_sheet(freq='quarterly'))

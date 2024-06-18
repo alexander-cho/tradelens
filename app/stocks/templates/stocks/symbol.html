@@ -10,9 +10,13 @@
 
     <a href="{{ url_for('stocks.symbol_news', symbol=stock.ticker_symbol) }}" class="btn btn-outline-dark">News Stream</a>
 
-    <a href="{{ url_for('stocks.symbol_holders', symbol=stock.ticker_symbol) }}" class="btn btn-outline-info">Holders/Insiders/Analysts</a>
+    <a href="{{ url_for('stocks.symbol_financials', symbol=stock.ticker_symbol) }}" class="btn btn-outline-info">Financials</a>
+
+    <a href="{{ url_for('stocks.symbol_holders', symbol=stock.ticker_symbol) }}" class="btn btn-outline-secondary">Holders/Insiders/Analysts</a>
 
     <a href="{{ url_for('stocks.symbol_federal', symbol=stock.ticker_symbol) }}" class="btn btn-outline-success">Federal Activity</a>
+
+    <a href="{{ url_for('stocks.symbol_dividends_splits', symbol=stock.ticker_symbol) }}" class="btn btn-outline-warning">Dividends/Splits</a>
 
 
     <div id="plotly-div">{{ symbol_chart | safe }}</div>

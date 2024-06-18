@@ -4,8 +4,6 @@
 
     <h1>Holders and Insiders Activity for {{ stock.ticker_symbol }}</h1>
 
-    <p><a href="{{ url_for('stocks.symbol', symbol=stock.ticker_symbol) }}" class="btn btn-dark">Go back</a></p>
-
     <h3>Top Institutional Holders</h3>
     {% if institutional_holders%}
         <p>{{ institutional_holders }}</p>
