@@ -4,9 +4,27 @@
 
     <h1>Commodities</h1>
 
-    <h3>Commodity 1</h3>
-    {% if commodities %}
-        <p>{{ commodities }}</p>
+    <h3>Crude Oil</h3>
+    {% if oil_prices %}
+        <p>{{ oil_prices }}</p>
+    {% endif %}
+
+
+    <h3>Natural Gas</h3>
+    {% if natural_gas_prices %}
+        <p>{{ natural_gas_prices }}</p>
+    {% endif %}
+
+
+    <h3>Sugar</h3>
+    {% if sugar_prices %}
+        <p>{{ sugar_prices }}</p>
+    {% endif %}
+
+
+    <h3>Corn</h3>
+    {% if corn_prices %}
+        <p>{{ corn_prices }}</p>
     {% endif %}
 
 {% endblock %}

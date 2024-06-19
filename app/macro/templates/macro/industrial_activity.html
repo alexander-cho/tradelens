@@ -2,7 +2,13 @@
 
 {% block content %}
 
-    <h1>Industrial activity</h1>
+    <h1>Industrial Activity</h1>
+
+    <h3>Industrial production</h3>
+    {% if industrial_production %}
+        {{ industrial_production }}
+    {% endif %}
+
 
     <h3>Capacity utilization</h3>
     {% if capacity_utilization %}

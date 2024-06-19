@@ -2,11 +2,23 @@
 
 {% block content %}
 
-    <h1>General economy</h1>
+    <h1>General Economy</h1>
 
     <h3>GDP</h3>
     {% if gdp %}
         <p>{{ gdp }}</p>
+    {% endif %}
+
+
+    <h3>Debt as percentage of GDP</h3>
+    {% if debt_as_pct_of_gdp %}
+        <p>{{ debt_as_pct_of_gdp }}</p>
+    {% endif %}
+
+
+    <h3>Total Public Debt</h3>
+    {% if total_debt %}
+        <p>{{ total_debt }}</p>
     {% endif %}
 
 {% endblock %}

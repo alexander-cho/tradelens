@@ -1,4 +1,5 @@
 import yfinance as yf
+from pandas import Timestamp
 
 from modules.providers.yfinance_ import YFinance
 from modules.providers.finnhub_ import Finnhub
@@ -24,6 +25,8 @@ polygon = Polygon(
 
 
 sofi = yf.Ticker('SOFI')
-print(sofi.get_cashflow(freq='quarterly'))
-print(sofi.get_incomestmt(freq='quarterly'))
-print(sofi.get_balance_sheet(freq='quarterly'))
+# print(sofi.get_cashflow(freq='quarterly'))
+# print(sofi.get_incomestmt(freq='quarterly'))
+# print(sofi.get_balance_sheet(freq='quarterly'))
+
+# print(type(fred.get_fdi().get(Timestamp('1946-10-01 00:00:00'))))
