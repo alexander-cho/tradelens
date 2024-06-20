@@ -12,6 +12,7 @@ from ..feed.routes import add_post
 from modules.providers.yfinance_ import YFinance
 from modules.providers.finnhub_ import Finnhub
 from modules.providers.polygon_ import Polygon
+from modules.providers.fmp import FMP
 
 from modules.utils.date_ranges import get_date_range_past
 
@@ -68,10 +69,10 @@ def symbol(symbol):
     stock = db.session.query(Stocks).filter(Stocks.ticker_symbol == symbol).first()
 
     # CONTEXT FROM SRC FOR SYMBOL DATA
-    yfinance = YFinance(symbol)
+    yfinance = YFinance(stock.ticker_symbol)
     finnhub = Finnhub()
 
-    company_profile = finnhub.get_company_profile(ticker=symbol)
+    company_profile = finnhub.get_company_profile(ticker=stock.ticker_symbol)
     main_info = yfinance.get_underlying_for_price_info()
     basic_info = yfinance.get_basic_info()
     fast_info = yfinance.get_fast_info()
@@ -108,7 +109,7 @@ def symbol_news(symbol):
     ticker_news = finnhub.get_stock_news(ticker=stock.ticker_symbol, _from=past_date, to=today)
 
     return render_template('stocks/symbol_news.html',
-                           title=f'News for {symbol}',
+                           title=f'News for {stock.ticker_symbol}',
                            stock=stock,
                            ticker_news=ticker_news)
 
@@ -118,7 +119,7 @@ def symbol_financials(symbol):
     stock = db.session.query(Stocks).filter(Stocks.ticker_symbol == symbol).first()
 
     return render_template('stocks/symbol_financials.html',
-                           title=f'{symbol} Financials',
+                           title=f'{stock.ticker_symbol} Financials',
                            stock=stock)
 
 
@@ -126,7 +127,7 @@ def symbol_financials(symbol):
 def symbol_holders(symbol):
     stock = db.session.query(Stocks).filter(Stocks.ticker_symbol == symbol).first()
 
-    yfinance = YFinance(symbol)
+    yfinance = YFinance(stock.ticker_symbol)
     finnhub = Finnhub()
 
     institutional_holders = yfinance.get_institutional_holders()
@@ -134,7 +135,7 @@ def symbol_holders(symbol):
     analyst_ratings = yfinance.get_analyst_ratings()
 
     (past_date, today) = get_date_range_past(days_past=365)
-    insider_sentiment = finnhub.get_insider_sentiment(ticker=symbol, _from=past_date, to=today)
+    insider_sentiment = finnhub.get_insider_sentiment(ticker=stock.ticker_symbol, _from=past_date, to=today)
 
     return render_template('stocks/symbol_holders.html',
                            title=f'{stock.company_name} ({stock.ticker_symbol}) - Holders',
@@ -166,6 +167,13 @@ def symbol_federal(symbol):
 def symbol_dividends_splits(symbol):
     stock = db.session.query(Stocks).filter(Stocks.ticker_symbol == symbol).first()
 
+    fmp = FMP()
+
+    ticker_dividends = fmp.get_ticker_dividends(ticker=stock.ticker_symbol)
+    ticker_splits = fmp.get_ticker_splits(ticker=stock.ticker_symbol)
+
     return render_template('stocks/symbol_dividends_splits.html',
-                           title=f'{symbol} Dividends and Splits',
-                           stock=stock)
+                           title=f'{stock.ticker_symbol} Dividends and Splits',
+                           stock=stock,
+                           ticker_dividends=ticker_dividends,
+                           ticker_splits=ticker_splits)

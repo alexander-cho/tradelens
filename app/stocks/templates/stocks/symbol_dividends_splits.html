@@ -4,4 +4,15 @@
 
     <h1>Dividends and Splits for {{ stock.ticker_symbol }}</h1>
 
+    <h3>Dividends</h3>
+    {% if ticker_dividends %}
+        <p>{{ ticker_dividends }}</p>
+    {% endif %}
+
+
+    <h3>Splits</h3>
+    {% if ticker_splits %}
+        <p>{{ ticker_splits }}</p>
+    {% endif %}
+
 {% endblock %}
