@@ -12,12 +12,14 @@ def general():
     gdp = fed.get_gdp()
     debt_as_pct_of_gdp = fed.get_debt_as_pct_of_gdp()
     total_debt = fed.get_total_debt()
+    interest_payments = fed.get_interest_payments()
 
     return render_template('macro/general_economy.html',
                            title='Macro - Economy',
                            gdp=gdp,
                            debt_as_pct_of_gdp=debt_as_pct_of_gdp,
-                           total_debt=total_debt)
+                           total_debt=total_debt,
+                           interest_payments=interest_payments)
 
 
 @bp_macro.route('/macro/inflation', methods=['GET'])

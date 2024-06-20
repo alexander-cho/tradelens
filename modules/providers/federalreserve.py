@@ -51,6 +51,16 @@ class FederalReserve:
         debt = self.fred.get_series('GFDEBTN').to_dict()
         return debt
 
+    def get_interest_payments(self) -> dict:
+        """
+        Get the quarterly interest payments
+
+        Returns:
+            dict: quarterly interest payments of key value pairs of type Timestamp and float, in billions of dollars
+        """
+        interest_payments = self.fred.get_series('A091RC1Q027SBEA').to_dict()
+        return interest_payments
+
     def get_cpi(self) -> dict:
         """
         Get the monthly YoY consumer price changes
