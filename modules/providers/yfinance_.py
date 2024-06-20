@@ -90,21 +90,44 @@ class YFinance:
 
     def get_balance_sheet(self) -> dict:
         """
+        Get the quarterly balance sheet for a ticker
 
+        Returns:
+            dict: keys 'ticker' and 'balance_sheet', latter containing k, v pairs of Timestamp and balance sheet
+                attributes
         """
-        pass
+        try:
+            balance_sheet = self.ticker.get_balance_sheet(freq='quarterly').to_dict()
+            return {'ticker': self.symbol, 'balance_sheet': balance_sheet}
+        except Exception as e:
+            print(f"Error fetching balance sheet for {self.symbol}: {e}")
 
     def get_cashflow(self) -> dict:
         """
+        Get the quarterly cashflow statement for a ticker
 
+        Returns:
+            dict: keys 'ticker' and 'cashflow', latter containing k, v pairs of Timestamp and cashflow attributes
         """
-        pass
+        try:
+            cashflow = self.ticker.get_cashflow(freq='quarterly').to_dict()
+            return {'ticker': self.symbol, 'cashflow': cashflow}
+        except Exception as e:
+            print(f"Error fetching cashflow for {self.symbol}: {e}")
 
     def get_income_statement(self) -> dict:
         """
+        Get the quarterly income statement for a ticker
 
+        Returns:
+            dict: keys 'ticker' and 'income_statement', latter containing k, v pairs of Timestamp and income statement
+                attributes
         """
-        pass
+        try:
+            income_statement = self.ticker.get_incomestmt(freq='quarterly').to_dict()
+            return {'ticker': self.symbol, 'income_statement': income_statement}
+        except Exception as e:
+            print(f"Error fetching income statement for {self.symbol}: {e}")
 
     def get_institutional_holders(self) -> any or list[dict]:
         """

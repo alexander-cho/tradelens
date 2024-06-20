@@ -6,6 +6,10 @@
 
     <hr>
 
+    <p>
+        <a href="{{ url_for('options.options_greeks', symbol=stock.ticker_symbol, expiry_date=expiry_date) }}" class="btn btn-outline-success">View Greeks</a>
+    </p>
+
     <h4>Open Interest</h4>
     {% if open_interest %}
         <p>{{ open_interest }}</p>

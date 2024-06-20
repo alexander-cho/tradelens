@@ -7,6 +7,7 @@ from modules.providers.alphavantage import AlphaVantage
 from modules.providers.federalreserve import FederalReserve
 from modules.providers.tradier import Tradier
 from modules.providers.polygon_ import Polygon
+from modules.providers.fmp import FMP
 
 
 y = YFinance('SOFI')
@@ -22,11 +23,4 @@ polygon = Polygon(
         to='2024-06-18',
         limit=50000
     )
-
-
-sofi = yf.Ticker('SOFI')
-# print(sofi.get_cashflow(freq='quarterly'))
-# print(sofi.get_incomestmt(freq='quarterly'))
-# print(sofi.get_balance_sheet(freq='quarterly'))
-
-# print(type(fred.get_fdi().get(Timestamp('1946-10-01 00:00:00'))))
+fmp = FMP()

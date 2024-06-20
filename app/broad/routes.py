@@ -43,8 +43,3 @@ def market_news(category):
                            title=f"{category.capitalize()} News",
                            category=category,
                            news=news)
-
-
-@bp_broad.route('/dividends-splits', methods=['GET'])
-def dividends_splits():
-    return render_template('broad/dividends_splits.html')

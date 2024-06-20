@@ -29,6 +29,12 @@ class FMP:
         return ticker_dividends
 
     def get_ticker_dividends(self, ticker: str) -> dict:
+        """
+        Get the historical dividend dates, payouts, etc. of a ticker.
+
+        Returns:
+            dict: keys 'symbol' and 'historical', latter being a list of dictionaries for each payout
+        """
         ticker_dividends_url = f"https://financialmodelingprep.com/api/v3/historical-price-full/stock_dividend/{ticker}?apikey={self.api_key}"
         response = urlopen(url=ticker_dividends_url, context=self.context)
         data = response.read().decode("utf-8")
@@ -36,6 +42,12 @@ class FMP:
         return ticker_dividends
 
     def get_ticker_splits(self, ticker: str) -> dict:
+        """
+        Get the historical stock splits of a ticker.
+
+        Returns:
+            dict: keys 'symbol' and 'historical', latter being a list of dictionaries for each split
+        """
         ticker_splits_url = f"https://financialmodelingprep.com/api/v3/historical-price-full/stock_split/{ticker}?apikey={self.api_key}"
         response = urlopen(url=ticker_splits_url, context=self.context)
         data = response.read().decode("utf-8")

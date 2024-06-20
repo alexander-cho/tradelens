@@ -118,9 +118,18 @@ def symbol_news(symbol):
 def symbol_financials(symbol):
     stock = db.session.query(Stocks).filter(Stocks.ticker_symbol == symbol).first()
 
+    yfinance = YFinance(stock.ticker_symbol)
+
+    balance_sheet = yfinance.get_balance_sheet()
+    cashflow = yfinance.get_cashflow()
+    income_statement = yfinance.get_income_statement()
+
     return render_template('stocks/symbol_financials.html',
                            title=f'{stock.ticker_symbol} Financials',
-                           stock=stock)
+                           stock=stock,
+                           balance_sheet=balance_sheet,
+                           cashflow=cashflow,
+                           income_statement=income_statement)
 
 
 @bp_stocks.route('/symbol/<symbol>/holders')
