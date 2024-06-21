@@ -24,32 +24,32 @@
     <div id="plotly-div">{{ symbol_chart | safe }}</div>
 
 
-    <h3>Company logo, ipo date, sector</h3>
     {% if company_profile %}
+        <h3>Company logo, ipo date, sector</h3>
         <p>{{ company_profile }}</p>
     {% endif %}
 
 
-    <h3>Main info</h3>
     {% if main_info %}
+        <h3>Main info</h3>
         <p>{{ main_info }}</p>
     {% endif %}
 
 
-    <h3>basic_info</h3>
     {% if basic_info %}
+        <h3>basic_info</h3>
         <p>{{ basic_info }}</p>
     {% endif %}
 
 
-    <h3>fast_info</h3>
     {% if fast_info %}
+        <h3>fast_info</h3>
         <p>{{ fast_info }}</p>
     {% endif %}
 
 
-    <h3>Dividends, Earnings and Revenue Estimates</h3>
     {% if calendar %}
+        <h3>Dividends, Earnings and Revenue Estimates</h3>
         <p>{{ calendar }}</p>
     {% endif %}
 

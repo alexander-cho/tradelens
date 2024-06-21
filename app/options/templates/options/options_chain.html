@@ -11,26 +11,26 @@
         <a href="{{ url_for('options.options', symbol=stock.ticker_symbol) }}" class="btn btn-outline-dark btn-lg">Expiration Calendar</a>
     </p>
 
-    <h4>Open Interest</h4>
     {% if open_interest %}
+        <h4>Open Interest</h4>
         <p>{{ open_interest }}</p>
     {% endif %}
 
 
-    <h4>Volume</h4>
     {% if volume %}
+        <h4>Volume</h4>
         <p>{{ volume }}</p>
     {% endif %}
 
 
-    <h4>Implied Volatility</h4>
     {% if implied_volatility %}
+        <h4>Implied Volatility</h4>
         <p>{{ implied_volatility }}</p>
     {% endif %}
 
 
-    <h4>Last price, Bid, Ask</h4>
     {% if last_bid_ask %}
+        <h4>Last price, Bid, Ask</h4>
         <p>{{ last_bid_ask }}</p>
     {% endif %}
 

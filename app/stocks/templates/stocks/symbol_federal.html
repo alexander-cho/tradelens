@@ -4,14 +4,14 @@
 
     <h1>Federal Activity for {{ stock.ticker_symbol }}</h1>
 
-    <h3>Lobbying Activity</h3>
     {% if lobbying_activities %}
+        <h3>Lobbying Activity</h3>
         <p>{{ lobbying_activities }}</p>
     {% endif %}
 
 
-    <h3>Government Spending</h3>
     {% if government_spending %}
+        <h3>Government Spending</h3>
         <p>{{ government_spending }}</p>
     {% endif %}
 

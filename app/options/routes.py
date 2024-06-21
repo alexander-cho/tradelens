@@ -27,27 +27,28 @@ def options(symbol):
 
 @bp_options.route('/options/<symbol>/<expiry_date>')
 def options_chain(symbol, expiry_date):
-    try:
-        stock = db.session.scalar(sa.select(Stocks).where(Stocks.ticker_symbol == symbol))
+    yfinance = YFinance(symbol)
+    expiry_list = yfinance.get_expiry_list()
 
-        yfinance = YFinance(symbol)
-
-        open_interest = yfinance._get_open_interest(expiry_date)
-        volume = yfinance._get_volume(expiry_date)
-        implied_volatility = yfinance._get_implied_volatility(expiry_date)
-        last_bid_ask = yfinance._get_last_price_bid_ask(expiry_date)
-
-        return render_template('options/options_chain.html',
-                               title=f'{symbol} {expiry_date}',
-                               stock=stock,
-                               expiry_date=expiry_date,
-                               open_interest=open_interest,
-                               volume=volume,
-                               implied_volatility=implied_volatility,
-                               last_bid_ask=last_bid_ask)
-    except ValueError:
-        flash("That is an invalid expiration date")
+    if expiry_date not in expiry_list:
+        flash("That expiry date does not exist")
         return redirect(url_for('options.options', symbol=symbol))
+
+    stock = db.session.scalar(sa.select(Stocks).where(Stocks.ticker_symbol == symbol))
+
+    open_interest = yfinance._get_open_interest(expiry_date)
+    volume = yfinance._get_volume(expiry_date)
+    implied_volatility = yfinance._get_implied_volatility(expiry_date)
+    last_bid_ask = yfinance._get_last_price_bid_ask(expiry_date)
+
+    return render_template('options/options_chain.html',
+                           title=f'{symbol} {expiry_date}',
+                           stock=stock,
+                           expiry_date=expiry_date,
+                           open_interest=open_interest,
+                           volume=volume,
+                           implied_volatility=implied_volatility,
+                           last_bid_ask=last_bid_ask)
 
 
 @bp_options.route('/options/<symbol>/<expiry_date>/greeks')

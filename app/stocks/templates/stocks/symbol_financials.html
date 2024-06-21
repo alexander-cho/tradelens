@@ -4,20 +4,20 @@
 
     <h1>Financials for {{ stock.ticker_symbol }}</h1>
 
-    <h3>Balance Sheet</h3>
     {% if balance_sheet %}
+        <h3>Balance Sheet</h3>
         <p>{{ balance_sheet }}</p>
     {% endif %}
 
 
-    <h3>Cashflow</h3>
     {% if cashflow %}
+        <h3>Cashflow</h3>
         <p>{{ cashflow }}</p>
     {% endif %}
 
 
-    <h3>Income Statement</h3>
     {% if income_statement %}
+        <h3>Income Statement</h3>
         <p>{{ income_statement }}</p>
     {% endif %}
 

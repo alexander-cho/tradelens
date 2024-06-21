@@ -4,27 +4,35 @@
 
     <h1>Holders and Insiders Activity for {{ stock.ticker_symbol }}</h1>
 
-    <h3>Top Institutional Holders</h3>
     {% if institutional_holders %}
+        <h3>Top Institutional Holders</h3>
         <p>{{ institutional_holders }}</p>
+    {% else %}
+        <h4>Institutional data not available</h4>
     {% endif %}
 
 
-    <h3>Recent Insider Activity</h3>
     {% if insider_transactions %}
+        <h3>Recent Insider Activity</h3>
         <p>{{ insider_transactions }}</p>
+    {% else %}
+        <h4>Insider Activity not available</h4>
     {% endif %}
 
 
-    <h3>Insider Sentiment</h3>
     {% if insider_sentiment %}
+        <h3>Insider Sentiment</h3>
         <p>{{ insider_sentiment }}</p>
+    {% else %}
+        <h4>Insider sentiment data not available</h4>
     {% endif %}
 
 
-    <h3>Analyst Ratings</h3>
     {% if analyst_ratings %}
+        <h3>Analyst Ratings</h3>
         <p>{{ analyst_ratings }}</p>
+    {% else %}
+        <h4>Analyst ratings not available</h4>
     {% endif %}
 
 {% endblock %}

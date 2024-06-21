@@ -8,12 +8,14 @@
         <a href="{{ url_for('stocks.symbol', symbol=stock.ticker_symbol) }}" class="btn btn-outline-dark">Symbol Home</a>
     </p>
 
-    <h3>Expiration Calendar</h3>
 
+    {% if expiry_list %}
+    <h3>Expiration Calendar</h3>
     <p>
         {% for expiry in expiry_list %}
             <a href="{{ url_for('options.options_chain', symbol=stock.ticker_symbol, expiry_date=expiry) }}">{{ expiry }}</a> <br>
         {% endfor %}
     </p>
+    {% endif %}
 
 {% endblock %}
