@@ -19,14 +19,14 @@ def options(symbol):
     yfinance = YFinance(symbol)
     expiry_list = yfinance.get_expiry_list()
 
-    return render_template('options/options.html',
+    return render_template('options/options_calendar.html',
                            title=f"{symbol} - Options Expiration Calendar",
                            stock=stock,
                            expiry_list=expiry_list)
 
 
 @bp_options.route('/options/<symbol>/<expiry_date>')
-def options_expiry(symbol, expiry_date):
+def options_chain(symbol, expiry_date):
     try:
         stock = db.session.scalar(sa.select(Stocks).where(Stocks.ticker_symbol == symbol))
 
@@ -37,7 +37,7 @@ def options_expiry(symbol, expiry_date):
         implied_volatility = yfinance._get_implied_volatility(expiry_date)
         last_bid_ask = yfinance._get_last_price_bid_ask(expiry_date)
 
-        return render_template('options/options_expiry.html',
+        return render_template('options/options_chain.html',
                                title=f'{symbol} {expiry_date}',
                                stock=stock,
                                expiry_date=expiry_date,
@@ -51,7 +51,7 @@ def options_expiry(symbol, expiry_date):
 
 
 @bp_options.route('/options/<symbol>/<expiry_date>/greeks')
-def options_greeks(symbol, expiry_date):
+def greeks(symbol, expiry_date):
     stock = db.session.scalar(sa.select(Stocks).where(Stocks.ticker_symbol == symbol))
 
     tradier = Tradier()
