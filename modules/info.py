@@ -24,10 +24,10 @@ polygon_ticker = Polygon(
         limit=50000
 )
 polygon_option = Polygon(
-        ticker='O:SOFI240719C00008000',
+        ticker='O:SOFI240705C00005000',
         multiplier=1,
         timespan='hour',
-        from_='2024-06-17',
+        from_='2024-05-23',
         to='2024-06-21',
         limit=50000
 )

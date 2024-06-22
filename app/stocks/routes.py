@@ -63,7 +63,7 @@ def symbol(symbol):
         to=f'{chart_today}',
         limit=50000
     )
-    symbol_chart = polygon.create_symbol_chart()
+    stock_chart = polygon.create_chart()
 
     # query the stock table to retrieve the corresponding symbol
     stock = db.session.query(Stocks).filter(Stocks.ticker_symbol == symbol).first()
@@ -89,7 +89,7 @@ def symbol(symbol):
     return render_template('stocks/symbol.html',
                            title=f'{stock.company_name} ({stock.ticker_symbol})',
                            stock=stock,
-                           symbol_chart=symbol_chart,
+                           stock_chart=stock_chart,
                            company_profile=company_profile,
                            main_info=main_info,
                            basic_info=basic_info,

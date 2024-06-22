@@ -21,8 +21,8 @@
     <a href="{{ url_for('stocks.symbol_main') }}" class="btn btn-link btn-lg">Symbol Directory</a>
 
 
-    {% if symbol_chart %}
-        <div id="plotly-div">{{ symbol_chart | safe }}</div>
+    {% if stock_chart %}
+        <div id="plotly-div">{{ stock_chart | safe }}</div>
     {% endif %}
 
 

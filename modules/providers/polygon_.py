@@ -27,7 +27,9 @@ class Polygon:
         Initialize the Polygon class with the provided parameters.
 
         Parameters:
-            ticker (str): The ticker symbol.
+            ticker (str): The ticker symbol. For an options contract, the ticker will begin with an 'O:' indicating
+                an option ticker. For example, '0:AAPL250620C00215000' reads as AAPL 2025-06-20 expiring Call for the
+                strike price of $215.
             multiplier (int): The multiplier for the timespan.
             timespan (str): The timespan (minute, hour, day, week, month, quarter, year).
             from_ (str): The start date.
@@ -122,7 +124,7 @@ class Polygon:
 
         return datetime_strings
 
-    def create_symbol_chart(self) -> str:
+    def create_chart(self) -> str:
         """
         Plot the candlestick chart of the ohlcv bars and volume chart with the volume bars. Create two rows (subplots)
 
@@ -170,7 +172,7 @@ class Polygon:
 
         # update layout
         fig.update_layout(
-            yaxis1_title='Share price',
+            yaxis1_title='Price',
             yaxis2_title='Volume (M)',
             xaxis1_title='Time',
             xaxis_rangeslider_visible=False,

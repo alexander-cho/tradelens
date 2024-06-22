@@ -30,16 +30,19 @@ def options_chain(symbol, expiry_date):
     yfinance = YFinance(symbol)
     expiry_list = yfinance.get_expiry_list()
 
+    # check if user enters or looks for invalid expiration date by checking if it is in the list of dates
     if expiry_date not in expiry_list:
         flash("That expiry date does not exist")
         return redirect(url_for('options.options', symbol=symbol))
 
     stock = db.session.scalar(sa.select(Stocks).where(Stocks.ticker_symbol == symbol))
 
-    open_interest = yfinance._get_open_interest(expiry_date)
-    volume = yfinance._get_volume(expiry_date)
-    implied_volatility = yfinance._get_implied_volatility(expiry_date)
-    last_bid_ask = yfinance._get_last_price_bid_ask(expiry_date)
+    tradier = Tradier(stock.ticker_symbol)
+
+    open_interest = tradier._get_open_interest(expiry_date)
+    volume = tradier._get_volume(expiry_date)
+    implied_volatility = tradier._get_implied_volatility(expiry_date)
+    last_bid_ask = tradier._get_last_bid_ask(expiry_date)
 
     return render_template('options/options_chain.html',
                            title=f'{symbol} {expiry_date}',
@@ -55,8 +58,8 @@ def options_chain(symbol, expiry_date):
 def greeks(symbol, expiry_date):
     stock = db.session.scalar(sa.select(Stocks).where(Stocks.ticker_symbol == symbol))
 
-    tradier = Tradier()
-    tradier_greeks = tradier.get_options_chain(symbol, expiry_date)
+    tradier = Tradier(stock.ticker_symbol)
+    tradier_greeks = tradier.get_options_chain(expiry_date)
     return render_template('options/greeks.html',
                            title=f"Greeks for {symbol} {expiry_date}",
                            stock=stock,
