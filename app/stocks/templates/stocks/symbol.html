@@ -6,7 +6,7 @@
     <h4>{{ stock.company_name }}</h4>
 
 
-    <a href="{{ url_for('options.options', symbol=stock.ticker_symbol) }}" class="btn btn-outline-primary btn-lg">Option Chain</a>
+    <a href="{{ url_for('options.options', symbol=stock.ticker_symbol) }}" class="btn btn-outline-success btn-lg">Option Chain</a>
 
     <a href="{{ url_for('stocks.symbol_news', symbol=stock.ticker_symbol) }}" class="btn btn-outline-dark btn-lg">News Stream</a>
 
@@ -14,14 +14,16 @@
 
     <a href="{{ url_for('stocks.symbol_holders', symbol=stock.ticker_symbol) }}" class="btn btn-outline-secondary btn-lg">Holders/Insiders/Analysts</a>
 
-    <a href="{{ url_for('stocks.symbol_federal', symbol=stock.ticker_symbol) }}" class="btn btn-outline-success btn-lg">Federal Activity</a>
+    <a href="{{ url_for('stocks.symbol_federal', symbol=stock.ticker_symbol) }}" class="btn btn-outline-primary btn-lg">Federal Activity</a>
 
     <a href="{{ url_for('stocks.symbol_dividends_splits', symbol=stock.ticker_symbol) }}" class="btn btn-outline-warning btn-lg">Dividends/Splits</a>
 
     <a href="{{ url_for('stocks.symbol_main') }}" class="btn btn-link btn-lg">Symbol Directory</a>
 
 
-    <div id="plotly-div">{{ symbol_chart | safe }}</div>
+    {% if symbol_chart %}
+        <div id="plotly-div">{{ symbol_chart | safe }}</div>
+    {% endif %}
 
 
     {% if company_profile %}

@@ -6,10 +6,26 @@
 
     <p>
         <a href="{{ url_for('options.options_chain', symbol=stock.ticker_symbol, expiry_date=expiry_date) }}" class="btn btn-outline-secondary">Back to chain</a>
+        <a href="{{ url_for('options.options', symbol=stock.ticker_symbol) }}" class="btn btn-outline-dark">Expiration Calendar</a>
     </p>
 
+{#    {% if tradier_greeks %}#}
+{#        {% for i in tradier_greeks %}#}
+{#            <p>#}
+{#                {{ i.get('greeks').get('delta') }}#}
+{#                {{ i.get('greeks').get('gamma') }}#}
+{#                {{ i.get('greeks').get('theta') }}#}
+{#                {{ i.get('greeks').get('vega') }}#}
+{#                {{ i.get('greeks').get('rho') }}#}
+{#                {{ i.get('greeks').get('phi') }}#}
+{#            </p>#}
+{#        {% endfor %}#}
+{#    {% endif %}#}
+
     {% if tradier_greeks %}
-        <p>{{ tradier_greeks }}</p>
+        {% for strike in tradier_greeks %}
+            <p>{{ strike }}</p>
+        {% endfor %}
     {% endif %}
 
 {% endblock %}
