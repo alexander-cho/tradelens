@@ -5,7 +5,9 @@
     <h1>Strikes for {{ stock.ticker_symbol }} contracts expiring on {{ expiry_date }}</h1>
 
     {% if strikes %}
-        {{ strikes }}
+        {% for strike, ticker in strikes.data.items() %}
+            <a href="{{ url_for('options.options_chart', symbol=stock.ticker_symbol, expiry_date=expiry_date, option_ticker=ticker) }}">{{ strike }} | {{ ticker }}</a><br>
+        {% endfor %}
     {% endif %}
 
 {% endblock %}

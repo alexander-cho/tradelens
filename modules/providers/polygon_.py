@@ -193,3 +193,15 @@ class Polygon:
         plot_html = pio.to_html(fig, full_html=False)
 
         return plot_html
+
+
+polygon = Polygon(
+        ticker=f'O:SOFI240628C00007000',
+        multiplier=1,
+        timespan='day',
+        from_='2024-06-09',
+        to='2024-06-21',
+        limit=50000
+    )
+
+print(polygon._get_ohlcv_bars())

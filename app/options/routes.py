@@ -8,6 +8,9 @@ from ..models import Stocks
 
 from modules.providers.yfinance_ import YFinance
 from modules.providers.tradier import Tradier
+from modules.providers.polygon_ import Polygon
+
+from modules.utils.date_ranges import get_date_range_past
 
 from . import bp_options
 
@@ -71,7 +74,23 @@ def options_strikes(symbol, expiry_date):
 
 @bp_options.route('/options/<symbol>/<expiry_date>/strikes/<option_ticker>')
 def options_chart(symbol, expiry_date, option_ticker):
-    pass
+    (chart_past_date, chart_today) = get_date_range_past(days_past=14)
+    polygon = Polygon(
+        ticker=f'O:{option_ticker}',
+        multiplier=1,
+        timespan='day',
+        from_=f'{chart_past_date}',
+        to=f'{chart_today}',
+        limit=50000
+    )
+    option_chart = polygon.create_chart()
+
+    return render_template('options/option_chart.html',
+                           title=f"{option_ticker}",
+                           symbol=symbol,
+                           expiry_date=expiry_date,
+                           option_ticker=option_ticker,
+                           option_chart=option_chart)
 
 
 @bp_options.route('/options/<symbol>/<expiry_date>/greeks')

@@ -1,0 +1,11 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
+
+    {% if option_chart %}
+        <div id="plotly-div">{{ option_chart | safe }}</div>
+    {% endif %}
+
+    {{ option_ticker }}
+
+{% endblock %}
