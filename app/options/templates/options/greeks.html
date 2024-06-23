@@ -9,23 +9,40 @@
         <a href="{{ url_for('options.options', symbol=stock.ticker_symbol) }}" class="btn btn-outline-dark">Expiration Calendar</a>
     </p>
 
-{#    {% if tradier_greeks %}#}
-{#        {% for i in tradier_greeks %}#}
-{#            <p>#}
-{#                {{ i.get('greeks').get('delta') }}#}
-{#                {{ i.get('greeks').get('gamma') }}#}
-{#                {{ i.get('greeks').get('theta') }}#}
-{#                {{ i.get('greeks').get('vega') }}#}
-{#                {{ i.get('greeks').get('rho') }}#}
-{#                {{ i.get('greeks').get('phi') }}#}
-{#            </p>#}
-{#        {% endfor %}#}
-{#    {% endif %}#}
 
-    {% if tradier_greeks %}
-        {% for strike in tradier_greeks %}
-            <p>{{ strike }}</p>
-        {% endfor %}
+    {% if delta %}
+        <h3>Delta</h3>
+        <p>{{ delta }}</p>
+    {% endif %}
+
+
+    {% if gamma %}
+        <h3>Gamma</h3>
+        <p>{{ gamma }}</p>
+    {% endif %}
+
+
+    {% if theta %}
+        <h3>Theta</h3>
+        <p>{{ theta }}</p>
+    {% endif %}
+
+
+    {% if vega %}
+        <h3>Vega</h3>
+        <p>{{ vega }}</p>
+    {% endif %}
+
+
+    {% if rho %}
+        <h3>Rho</h3>
+        <p>{{ rho }}</p>
+    {% endif %}
+
+
+    {% if phi %}
+        <h3>Phi</h3>
+        <p>{{ phi }}</p>
     {% endif %}
 
 {% endblock %}
