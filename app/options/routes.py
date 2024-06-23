@@ -56,6 +56,21 @@ def options_chain(symbol, expiry_date):
 
 @bp_options.route('/options/<symbol>/<expiry_date>/strikes')
 def options_strikes(symbol, expiry_date):
+    stock = db.session.scalar(sa.select(Stocks).where(Stocks.ticker_symbol == symbol))
+
+    tradier = Tradier(stock.ticker_symbol)
+
+    strikes = tradier.get_strikes(expiry_date)
+
+    return render_template('options/strikes.html',
+                           title=f"Strikes for {symbol} expiring on {expiry_date}",
+                           stock=stock,
+                           expiry_date=expiry_date,
+                           strikes=strikes)
+
+
+@bp_options.route('/options/<symbol>/<expiry_date>/strikes/<option_ticker>')
+def options_chart(symbol, expiry_date, option_ticker):
     pass
 
 

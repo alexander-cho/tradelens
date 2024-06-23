@@ -14,7 +14,7 @@ y = YFinance('SOFI')
 f = Finnhub()
 a = AlphaVantage()
 fred = FederalReserve()
-t = Tradier()
+# t = Tradier()
 polygon_ticker = Polygon(
         ticker='SOFI',
         multiplier=1,
@@ -32,7 +32,3 @@ polygon_option = Polygon(
         limit=50000
 )
 fmp = FMP()
-
-option_bars = polygon_option._get_ohlcv_bars()
-for bar in option_bars:
-    print(bar)

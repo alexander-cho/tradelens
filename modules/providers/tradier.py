@@ -19,14 +19,14 @@ class Tradier:
         Get options chain data for a specific expiration date of a particular underlying
 
         Parameters:
-            expiration_date (str): the expiration date of the options chain
+            expiration_date (str): the expiration date of the options chain formatted as YYYY-MM-DD
 
         Returns:
             dict: json response containing comprehensive options chain data including the greeks, for each contract
         """
         response = requests.get(f"{self.options_chain_url}",
                                 params={'symbol': f'{self.symbol}', 'expiration': f'{expiration_date}', 'greeks': 'true'},
-                                headers={'Authorization': 'Bearer JgHNiQ4kHjnloj3HxVLb63EDoevk',
+                                headers={'Authorization': f'Bearer {self.api_key}',
                                          'Accept': 'application/json'}
                                 )
         response_to_json = response.json()
@@ -34,6 +34,30 @@ class Tradier:
         # access nested dictionary and extract list of dictionaries containing the data
         options_chain = response_to_json.get('options', {}).get('option', [])
         return options_chain
+
+    def get_strikes(self, expiration_date: str) -> dict:
+        """
+        Get the options tickers for each strike price of a particular expiration date
+
+        Parameters:
+            expiration_date (str): the expiration date of the options chain formatted as YYYY-MM-DD
+
+        Returns:
+            dict: response containing keys such as 'data', which maps to a value which is a dictionary containing
+                key value pairs of the description and the option ticker
+        """
+        options_chain = self.get_options_chain(expiration_date)
+
+        strikes = {}
+
+        for strike in options_chain:
+            strikes[strike['description']] = strike['symbol']
+
+        return {
+            'root_symbol': self.symbol,
+            'expiration_date': expiration_date,
+            'data': strikes
+        }
 
     def _get_open_interest(self, expiration_date: str) -> dict:
         """
