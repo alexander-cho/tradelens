@@ -48,15 +48,21 @@ class Tradier:
         """
         options_chain = self.get_options_chain(expiration_date)
 
-        strikes = {}
+        call_strikes = {}
+        put_strikes = {}
 
+        # for each strike dictionary in the options chain list, if the value of mapping from the 'description' key
+        # contains 'Call' or 'Put'
         for strike in options_chain:
-            strikes[strike['description']] = strike['symbol']
+            if 'Call' in strike.get('description'):
+                call_strikes[strike['description']] = strike['symbol']
+            else:
+                put_strikes[strike['description']] = strike['symbol']
 
         return {
             'root_symbol': self.symbol,
             'expiration_date': expiration_date,
-            'data': strikes
+            'data': {'calls': call_strikes, 'puts': put_strikes}
         }
 
     def _get_open_interest(self, expiration_date: str) -> dict:

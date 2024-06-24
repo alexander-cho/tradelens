@@ -2,20 +2,17 @@
 
 {% block content %}
 
-    <h1>{{ stock.ticker_symbol }} options</h1>
+    <div style="display: flex; align-items: center;">
+        <h1 style="margin-right: 20px;">{{ stock.ticker_symbol }} Options Expiration Calendar</h1>
+        <a href="{{ url_for('stocks.symbol', symbol=stock.ticker_symbol) }}" class="btn btn-outline-secondary btn-lg">{{ stock.ticker_symbol }} Home</a>
+    </div>
 
-    <p>
-        <a href="{{ url_for('stocks.symbol', symbol=stock.ticker_symbol) }}" class="btn btn-outline-dark">Symbol Home</a>
-    </p>
-
+    <hr>
 
     {% if expiry_list %}
-    <h3>Expiration Calendar</h3>
-    <p>
         {% for expiry in expiry_list %}
-            <a href="{{ url_for('options.options_chain', symbol=stock.ticker_symbol, expiry_date=expiry) }}">{{ expiry }}</a> <br>
+            <a href="{{ url_for('options.options_chain', symbol=stock.ticker_symbol, expiry_date=expiry) }}" class="btn btn-outline-dark d-block w-100">{{ expiry }}</a><br>
         {% endfor %}
-    </p>
     {% endif %}
 
 {% endblock %}

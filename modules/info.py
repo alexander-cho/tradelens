@@ -14,7 +14,7 @@ y = YFinance('SOFI')
 f = Finnhub()
 a = AlphaVantage()
 fred = FederalReserve()
-# t = Tradier()
+t = Tradier('SOFI')
 polygon_ticker = Polygon(
         ticker='SOFI',
         multiplier=1,
@@ -32,3 +32,6 @@ polygon_option = Polygon(
         limit=50000
 )
 fmp = FMP()
+
+
+print(t.get_options_chain('2024-06-28'))

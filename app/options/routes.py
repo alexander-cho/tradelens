@@ -1,4 +1,4 @@
-from flask import render_template, redirect, url_for, flash
+from flask import render_template, redirect, url_for, flash, jsonify
 
 import sqlalchemy as sa
 
@@ -74,20 +74,23 @@ def options_strikes(symbol, expiry_date):
 
 @bp_options.route('/options/<symbol>/<expiry_date>/strikes/<option_ticker>')
 def options_chart(symbol, expiry_date, option_ticker):
+    stock = db.session.scalar(sa.select(Stocks).where(Stocks.ticker_symbol == symbol))
+
     (chart_past_date, chart_today) = get_date_range_past(days_past=14)
     polygon = Polygon(
         ticker=f'O:{option_ticker}',
         multiplier=1,
-        timespan='day',
+        timespan='hour',
         from_=f'{chart_past_date}',
         to=f'{chart_today}',
         limit=50000
     )
+
     option_chart = polygon.create_chart()
 
     return render_template('options/option_chart.html',
                            title=f"{option_ticker}",
-                           symbol=symbol,
+                           stock=stock,
                            expiry_date=expiry_date,
                            option_ticker=option_ticker,
                            option_chart=option_chart)
