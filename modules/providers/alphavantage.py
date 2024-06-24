@@ -25,5 +25,5 @@ class AlphaVantage:
                     ['ticker', 'price', 'change_amount', 'change_percentage', 'volume']
         """
         request = requests.get(self.TOP_GAINERS_LOSERS_URL)
-        data = request.json()
-        return data
+        top_gainers_losers = request.json()
+        return top_gainers_losers

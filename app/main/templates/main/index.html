@@ -9,22 +9,51 @@
         <h1>Welcome to TradeLens</h1>
     {% endif %}
 
+    <hr>
 
-    <h3>Current market status</h3>
     {% if market_status %}
-        <p>{{ market_status }}</p>
+    <div class="card" style="width: 20rem;">
+        <div class="card-body">
+            <h3 class="card-title">Current Market Status</h3>
+        </div>
+        <ul class="list-group list-group-flush">
+            {% for k, v in market_status.items() %}
+                <li class="list-group-item">{{ k }}: {{ v }}</li>
+            {% endfor %}
+        </ul>
+    </div>
     {% endif %}
 
 
-    <h3>Top Gainers, Losers, Most actively Traded Stocks</h3>
-    {% if top_gainers_losers %}
-        <p>{{ top_gainers_losers }}</p>
+    {% if top_gainers_losers|length > 1 %}
+        <h3>Top Gainers, Losers, Most actively Traded Stocks</h3>
+        <p>
+            {% for i in top_gainers_losers.top_gainers %}
+                {{ i }} <br>
+            {% endfor %}
+        </p>
+
+        <p>
+            {% for i in top_gainers_losers.top_losers %}
+                {{ i }} <br>
+            {% endfor %}
+        </p>
+
+        <p>
+            {% for i in top_gainers_losers.most_actively_traded %}
+                {{ i }} <br>
+            {% endfor %}
+        </p>
     {% endif %}
 
 
-    <h3>Market holidays</h3>
     {% if market_holidays %}
-        <p>{{ market_holidays }}</p>
+        <h3>Market holidays</h3>
+        <p>
+        {% for i in market_holidays.data %}
+            {{ i }} <br>
+        {% endfor %}
+        </p>
     {% endif %}
 
 {% endblock %}
