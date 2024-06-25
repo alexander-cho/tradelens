@@ -1,5 +1,6 @@
 import yfinance as yf
 from pandas import Timestamp
+from datetime import datetime
 
 from modules.providers.yfinance_ import YFinance
 from modules.providers.finnhub_ import Finnhub
@@ -34,4 +35,8 @@ polygon_option = Polygon(
 fmp = FMP()
 
 
-print(t.get_options_chain('2024-06-28'))
+# # print(a.get_top_gainers_losers())
+# current_year = datetime.now().year
+# print(type(str(current_year)))
+#
+# print(type(current_year))

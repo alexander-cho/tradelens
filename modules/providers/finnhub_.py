@@ -1,4 +1,6 @@
 import os
+from datetime import datetime
+
 from dotenv import load_dotenv
 
 import finnhub
@@ -26,10 +28,33 @@ class Finnhub:
         Get the current market holidays for US exchanges
 
         Returns:
-            dict: market holidays
+            dict: market holidays for the current year
         """
-        market_holidays = self.fc.market_holiday(exchange='US')
-        return market_holidays
+        response = self.fc.market_holiday(exchange='US')
+        holidays = response.get('data', [])
+
+        # reverse list in place
+        holidays.reverse()
+
+        # get the current year
+        current_year = str(datetime.now().year)
+
+        # for each holiday dictionary item in the list, remove the ones not within the current year
+        # among the ones that are, elaborate early or full closure
+        for holiday in holidays[:]:
+            if current_year not in holiday['atDate']:
+                holidays.remove(holiday)
+            else:
+                if holiday.get('tradingHour') == '':
+                    holiday['tradingHour'] = 'Market Closed'
+                else:
+                    holiday['tradingHour'] = holiday.get('tradingHour') + '(Early Close)'
+
+        return {
+            'description': 'Market Holidays',
+            'year': current_year,
+            'data': holidays
+        }
 
     def get_market_news(self, category: str) -> list[dict]:
         """

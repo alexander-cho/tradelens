@@ -10,50 +10,63 @@
     {% endif %}
 
     <hr>
-
-    {% if market_status %}
-    <div class="card" style="width: 20rem;">
-        <div class="card-body">
-            <h3 class="card-title">Current Market Status</h3>
+    <div class="row">
+        <div class="col">
+            {% if market_status %}
+            <div class="card" style="width: 25rem;">
+                <div class="card-header">
+                    <h3 class="card-title">Current Market Status</h3>
+                </div>
+                <div class="list-group list-group-flush">
+                    {% for k, v in market_status.items() %}
+                        <div class="list-group-item">
+                            <div class="row">
+                                <div class="col-6">
+                                    <strong>{{ k }}</strong>
+                                </div>
+                                <div class="col-6">
+                                    {{ v }}
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+        <br>
+            <div class="card" style="width: 25rem;">
+                <div class="card-header">
+                    <h3 class="card-title">{{ market_holidays.description }} for {{ market_holidays.year }}</h3>
+                </div>
+                <ul class="list-group list-group-flush">
+                    {% for holiday in market_holidays.data %}
+                        <li class="list-group-item">{{ holiday.eventName }} {{ holiday.atDate }} {{ holiday.tradingHour }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
         </div>
-        <ul class="list-group list-group-flush">
-            {% for k, v in market_status.items() %}
-                <li class="list-group-item">{{ k }}: {{ v }}</li>
-            {% endfor %}
-        </ul>
+        <div class="col">
+            {% if top_gainers_losers %}
+                <h3>Top Gainers, Losers, Most actively Traded Stocks</h3>
+                <p>
+                    {% for i in top_gainers_losers.top_gainers %}
+                        {{ i }} <br>
+                    {% endfor %}
+                </p>
+
+                <p>
+                    {% for i in top_gainers_losers.top_losers %}
+                        {{ i }} <br>
+                    {% endfor %}
+                </p>
+
+                <p>
+                    {% for i in top_gainers_losers.most_actively_traded %}
+                        {{ i }} <br>
+                    {% endfor %}
+                </p>
+            {% endif %}
+        </div>
     </div>
-    {% endif %}
-
-
-    {% if top_gainers_losers|length > 1 %}
-        <h3>Top Gainers, Losers, Most actively Traded Stocks</h3>
-        <p>
-            {% for i in top_gainers_losers.top_gainers %}
-                {{ i }} <br>
-            {% endfor %}
-        </p>
-
-        <p>
-            {% for i in top_gainers_losers.top_losers %}
-                {{ i }} <br>
-            {% endfor %}
-        </p>
-
-        <p>
-            {% for i in top_gainers_losers.most_actively_traded %}
-                {{ i }} <br>
-            {% endfor %}
-        </p>
-    {% endif %}
-
-
-    {% if market_holidays %}
-        <h3>Market holidays</h3>
-        <p>
-        {% for i in market_holidays.data %}
-            {{ i }} <br>
-        {% endfor %}
-        </p>
-    {% endif %}
 
 {% endblock %}
