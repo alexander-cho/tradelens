@@ -12,6 +12,7 @@ class Tradier:
     def __init__(self, symbol):
         self.api_key = os.getenv('TRADIER_API_KEY')
         self.options_chain_url = 'https://api.tradier.com/v1/markets/options/chains'
+        self.quote_url = 'https://api.tradier.com/v1/markets/quotes'
         self.symbol = symbol
 
     def get_options_chain(self, expiration_date: str) -> list[dict[str, any]]:
@@ -24,7 +25,7 @@ class Tradier:
         Returns:
             dict: json response containing comprehensive options chain data including the greeks, for each contract
         """
-        response = requests.get(f"{self.options_chain_url}",
+        response = requests.get(self.options_chain_url,
                                 params={'symbol': f'{self.symbol}', 'expiration': f'{expiration_date}', 'greeks': 'true'},
                                 headers={'Authorization': f'Bearer {self.api_key}',
                                          'Accept': 'application/json'}

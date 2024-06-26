@@ -63,7 +63,7 @@ def symbol(symbol):
         to=f'{chart_today}',
         limit=50000
     )
-    stock_chart = polygon.create_chart()
+    stock_chart = polygon._get_ohlcv_bars()
 
     # query the stock table to retrieve the corresponding symbol
     stock = db.session.query(Stocks).filter(Stocks.ticker_symbol == symbol).first()

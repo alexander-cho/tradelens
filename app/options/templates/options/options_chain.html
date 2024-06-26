@@ -9,12 +9,9 @@
     <p>
         <a href="{{ url_for('options.greeks', symbol=stock.ticker_symbol, expiry_date=expiry_date) }}" class="btn btn-outline-success btn-lg">View Greeks</a>
         <a href="{{ url_for('options.options_strikes', symbol=stock.ticker_symbol, expiry_date=expiry_date) }}" class="btn btn-outline-dark btn-lg">View Option Charts</a>
+        <a href="{{ url_for('options.maximum_pain', symbol=stock.ticker_symbol, expiry_date=expiry_date) }}" class="btn btn-outline-danger btn-lg">Maximum Pain</a>
         <a href="{{ url_for('options.options', symbol=stock.ticker_symbol) }}" class="btn btn-outline-info btn-lg">Back to Expiration Calendar</a>
     </p>
-
-
-    <h3>Full chain</h3>
-
 
     {% if open_interest %}
         <h3>Open Interest</h3>
@@ -38,8 +35,5 @@
         <h3>Last price, Bid, Ask</h3>
         <p>{{ last_bid_ask }}</p>
     {% endif %}
-
-
-    <h3>Cash</h3>
 
 {% endblock %}

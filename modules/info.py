@@ -33,10 +33,3 @@ polygon_option = Polygon(
         limit=50000
 )
 fmp = FMP()
-
-
-# # print(a.get_top_gainers_losers())
-# current_year = datetime.now().year
-# print(type(str(current_year)))
-#
-# print(type(current_year))

@@ -12,6 +12,8 @@ from modules.providers.polygon_ import Polygon
 
 from modules.utils.date_ranges import get_date_range_past
 
+from modules.max_pain import MaxPain
+
 from . import bp_options
 
 
@@ -42,19 +44,35 @@ def options_chain(symbol, expiry_date):
 
     tradier = Tradier(stock.ticker_symbol)
 
-    open_interest = tradier._get_open_interest(expiry_date)
-    volume = tradier._get_volume(expiry_date)
-    implied_volatility = tradier._get_implied_volatility(expiry_date)
-    last_bid_ask = tradier._get_last_bid_ask(expiry_date)
+    full_chain = tradier.get_options_chain(expiration_date=expiry_date)
+    open_interest = tradier._get_open_interest(expiration_date=expiry_date)
+    volume = tradier._get_volume(expiration_date=expiry_date)
+    implied_volatility = tradier._get_implied_volatility(expiration_date=expiry_date)
+    last_bid_ask = tradier._get_last_bid_ask(expiration_date=expiry_date)
 
     return render_template('options/options_chain.html',
                            title=f'{symbol} {expiry_date}',
                            stock=stock,
                            expiry_date=expiry_date,
+                           full_chain=full_chain,
                            open_interest=open_interest,
                            volume=volume,
                            implied_volatility=implied_volatility,
                            last_bid_ask=last_bid_ask)
+
+
+@bp_options.route('/options/<symbol>/<expiry_date>/maximum-pain')
+def maximum_pain(symbol, expiry_date):
+    stock = db.session.scalar(sa.select(Stocks).where(Stocks.ticker_symbol == symbol))
+
+    max_pain = MaxPain(stock.ticker_symbol)
+    cash_values = max_pain.calculate_cash_values(expiration_date=expiry_date)
+
+    return render_template('options/maximum_pain.html',
+                           title=f"Maximum Pain - {symbol} {expiry_date}",
+                           stock=stock,
+                           cash_values=cash_values,
+                           expiry_date=expiry_date)
 
 
 @bp_options.route('/options/<symbol>/<expiry_date>/strikes')
@@ -63,7 +81,7 @@ def options_strikes(symbol, expiry_date):
 
     tradier = Tradier(stock.ticker_symbol)
 
-    strikes = tradier.get_strikes(expiry_date)
+    strikes = tradier.get_strikes(expiration_date=expiry_date)
 
     return render_template('options/strikes.html',
                            title=f"Strikes for {symbol} expiring on {expiry_date}",
@@ -86,7 +104,7 @@ def options_chart(symbol, expiry_date, option_ticker):
         limit=50000
     )
 
-    option_chart = polygon.create_chart()
+    option_chart = polygon._get_ohlcv_bars()
 
     return render_template('options/option_chart.html',
                            title=f"{option_ticker}",

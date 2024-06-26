@@ -1,0 +1,11 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
+
+    <h1>Maximum pain calculation for {{ stock.ticker_symbol }} expiring on {{ expiry_date }}</h1>
+
+    <h3>Cash</h3>
+    {{ cash_values.Calls }} <br>
+    {{ cash_values.Puts }}
+
+{% endblock %}
