@@ -5,7 +5,22 @@
     <h1>Maximum pain calculation for {{ stock.ticker_symbol }} expiring on {{ expiry_date }}</h1>
 
     <h3>Cash</h3>
-    {{ cash_values.Calls }} <br>
-    {{ cash_values.Puts }}
+
+    {{ cash_values }}
+    <p>
+        {% for call in cash_values.calls %}
+            {{ call }} <br>
+        {% endfor %}
+    </p>
+    <p>
+        {% for put in cash_values.puts %}
+            {{ put }} <br>
+        {% endfor %}
+    </p>
+    <p>
+        {% for sum in cash_values.sums %}
+            {{ sum }} <br>
+        {% endfor %}
+    </p>
 
 {% endblock %}

@@ -45,7 +45,7 @@ def options_chain(symbol, expiry_date):
     tradier = Tradier(stock.ticker_symbol)
 
     full_chain = tradier.get_options_chain(expiration_date=expiry_date)
-    open_interest = tradier._get_open_interest(expiration_date=expiry_date)
+    open_interest = tradier.get_open_interest(expiration_date=expiry_date)
     volume = tradier._get_volume(expiration_date=expiry_date)
     implied_volatility = tradier._get_implied_volatility(expiration_date=expiry_date)
     last_bid_ask = tradier._get_last_bid_ask(expiration_date=expiry_date)

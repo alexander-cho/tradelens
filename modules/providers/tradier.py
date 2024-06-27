@@ -66,7 +66,7 @@ class Tradier:
             'data': {'calls': call_strikes, 'puts': put_strikes}
         }
 
-    def _get_open_interest(self, expiration_date: str) -> dict:
+    def get_open_interest(self, expiration_date: str) -> dict:
         """
         Get the open interest of each strike for a specific expiration date
 
