@@ -2,10 +2,27 @@ from modules.providers.tradier import Tradier
 
 
 class MaxPain:
-    def __init__(self, symbol):
+    """
+    Get call/put/sum cash values and max pain using the open interest data from the Tradier class option chain
+    """
+    def __init__(self, symbol: str):
+        self.symbol = symbol
         self.tradier = Tradier(symbol)
 
-    def calculate_cash_values(self, expiration_date):
+    def get_cash_values(self, expiration_date: str) -> dict or list:
+        """
+        Get the notional cash amount for the calls and puts in an options chain.
+        Using these, sum up the two and find the lowest value to obtain the maximum pain strike price.
+
+        Parameters:
+            expiration_date (str): The options expiration date in YYYY-MM-DD format.
+
+        Returns:
+            dict or list: data containing cash values for each strike for calls, puts, the sum of both, and max pain.
+                The first three are lists of dictionaries containing k, v of strike and combined cash value
+                for each strike.
+                The max pain is of a dictionary containing 2 key value pairs of strike and combined cash value.
+        """
         # get the open interest data for each strike price
         open_interest_for_chain = self.tradier.get_open_interest(expiration_date=expiration_date)
 
@@ -76,15 +93,23 @@ class MaxPain:
         sum_cash_values = []
         for i in range(len(call_cash_values)):
             sum_ = call_cash_values[i].get('cash') + put_cash_values[i].get('cash')
-            sum_cash_values.append({'strike': i, 'cash': sum_})
+            sum_cash_values.append({'strike': call_cash_values[i].get('strike'), 'cash': sum_})
 
-        calls_puts_sums = {
+        # get the strike where max pain occurs
+        max_pain_cash_value = min([i.get('cash') for i in sum_cash_values])
+        max_pain_strike = next(i.get('strike') for i in sum_cash_values if i.get('cash') == max_pain_cash_value)
+
+        max_pain = {'strike': max_pain_strike, 'cash': max_pain_cash_value}
+
+        data = {
             'calls': call_cash_values,
             'puts': put_cash_values,
-            'sums': sum_cash_values
+            'sums': sum_cash_values,
+            'max_pain': max_pain
         }
 
         return {
+            'ticker': self.symbol,
             'expiration_date': expiration_date,
-            'data': calls_puts_sums
+            'data': data
         }
