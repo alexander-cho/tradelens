@@ -33,3 +33,6 @@ polygon_option = Polygon(
         limit=50000
 )
 fmp = FMP()
+
+
+print(f.get_market_status())

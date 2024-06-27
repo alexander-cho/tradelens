@@ -48,11 +48,19 @@ def symbol_search():
 # display information for each company in the stocks table
 @bp_stocks.route('/symbol/<symbol>', methods=['GET', 'POST'])
 def symbol(symbol):
+    # query the stock table to retrieve the corresponding symbol
+    stock = db.session.query(Stocks).filter(Stocks.ticker_symbol == symbol).first()
+
     # if user manually enters the ticker in lowercase letters in the url
     symbol = symbol.upper()
     if request.path != f"/symbol/{symbol}":
         return redirect(url_for('stocks.symbol',
                                 symbol=symbol))
+
+    # if the stock does not exist
+    if not stock:
+        flash("That stock does not exist or is not in our database yet")
+        return redirect(url_for('stocks.symbol_main'))
 
     (chart_past_date, chart_today) = get_date_range_past(days_past=365)
     polygon = Polygon(
@@ -64,9 +72,6 @@ def symbol(symbol):
         limit=50000
     )
     stock_chart = polygon._get_ohlcv_bars()
-
-    # query the stock table to retrieve the corresponding symbol
-    stock = db.session.query(Stocks).filter(Stocks.ticker_symbol == symbol).first()
 
     # CONTEXT FROM SRC FOR SYMBOL DATA
     yfinance = YFinance(stock.ticker_symbol)

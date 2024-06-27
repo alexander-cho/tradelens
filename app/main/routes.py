@@ -3,11 +3,13 @@ from datetime import datetime, timezone
 from flask import render_template, redirect, url_for
 from flask_login import current_user
 
+import sqlalchemy as sa
+
 from app import db
 
 from .forms import SearchForm
 
-from ..models import Post
+from ..models import Post, Stocks
 
 from modules.providers.alphavantage import AlphaVantage
 from modules.providers.finnhub_ import Finnhub

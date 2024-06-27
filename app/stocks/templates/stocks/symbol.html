@@ -5,6 +5,7 @@
     <h1>{{ stock.ticker_symbol }}</h1>
     <h4>{{ stock.company_name }}</h4>
 
+    <hr>
 
     <a href="{{ url_for('options.options', symbol=stock.ticker_symbol) }}" class="btn btn-outline-success btn-lg">Option Chain</a>
 
@@ -20,6 +21,7 @@
 
     <a href="{{ url_for('stocks.symbol_main') }}" class="btn btn-link btn-lg">Symbol Directory</a>
 
+    <hr>
 
     <div id="plotly-div">{{ stock_chart | safe }}</div>
 

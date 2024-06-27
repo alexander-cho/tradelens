@@ -1,5 +1,6 @@
 import os
 from datetime import datetime
+import pytz
 
 from dotenv import load_dotenv
 
@@ -20,8 +21,17 @@ class Finnhub:
         Returns:
             dict: market status
         """
-        market_status = self.fc.market_status(exchange='US')
-        return market_status
+        response = self.fc.market_status(exchange='US')
+
+        # Get the current time in PST
+        pst_tz = pytz.timezone('America/Los_Angeles')
+        current_pst_time = datetime.now(pst_tz)
+
+        # Insert the current PST time and timezone into the market_status dictionary
+        response['t'] = current_pst_time.strftime('%Y-%m-%d %H:%M:%S')
+        response['timezone'] = 'America/Los_Angeles'
+
+        return response
 
     def get_market_holidays(self) -> dict:
         """

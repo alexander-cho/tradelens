@@ -11,9 +11,9 @@
 
     <hr>
     <div class="row">
-        <div class="col">
+        <div class="col-4">
             {% if market_status %}
-            <div class="card" style="width: 25rem;">
+            <div class="card" style="width: 24rem;">
                 <div class="card-header">
                     <h3 class="card-title">Current Market Status</h3>
                 </div>
@@ -34,37 +34,96 @@
             </div>
             {% endif %}
         <br>
-            <div class="card" style="width: 25rem;">
+            <div class="card" style="width: 24rem;">
                 <div class="card-header">
                     <h3 class="card-title">{{ market_holidays.description }} for {{ market_holidays.year }}</h3>
                 </div>
                 <ul class="list-group list-group-flush">
                     {% for holiday in market_holidays.data %}
-                        <li class="list-group-item">{{ holiday.eventName }} {{ holiday.atDate }} {{ holiday.tradingHour }}</li>
+                        <li class="list-group-item">
+                            {{ holiday.eventName }}
+                            {{ holiday.atDate }}
+                            {{ holiday.tradingHour }}
+                        </li>
                     {% endfor %}
                 </ul>
             </div>
         </div>
-        <div class="col">
+        <!-- TOP GAINERS AND LOSERS -->
+        <div class="col-8">
             {% if top_gainers_losers %}
-                <h3>Top Gainers, Losers, Most actively Traded Stocks</h3>
-                <p>
-                    {% for i in top_gainers_losers.top_gainers %}
-                        {{ i }} <br>
+                <!-- TOP GAINERS -->
+                <table class="table caption-top">
+                    <caption><h3>Top Gainers</h3></caption>
+                    <thead>
+                        <tr>
+                            <th scope="col">Ticker</th>
+                            <th scope="col">Price</th>
+                            <th scope="col">Change</th>
+                            <th scope="col">Percent Change</th>
+                            <th scope="col">Volume</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for gainer in top_gainers_losers.top_gainers %}
+                        <tr>
+                            <th scope="row"><a href="{{ url_for('stocks.symbol', symbol=gainer.ticker) }}">{{ gainer.ticker }}</a></th>
+                            <td><strong>{{ gainer.price }}</strong></td>
+                            <td><span style="color: green;">&#9650;</span> {{ gainer.change_amount }}</td>
+                            <td><span style="color: green;">&#9650;</span> {{ gainer.change_percentage }}</td>
+                            <td>{{ gainer.volume }}</td>
+                        </tr>
                     {% endfor %}
-                </p>
-
-                <p>
-                    {% for i in top_gainers_losers.top_losers %}
-                        {{ i }} <br>
+                    </tbody>
+                </table>
+                <!-- TOP LOSERS -->
+                <table class="table caption-top">
+                    <caption><h3>Top Losers</h3></caption>
+                    <thead>
+                        <tr>
+                            <th scope="col">Ticker</th>
+                            <th scope="col">Price</th>
+                            <th scope="col">Change</th>
+                            <th scope="col">Percent Change</th>
+                            <th scope="col">Volume</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for loser in top_gainers_losers.top_losers %}
+                        <tr>
+                            <th scope="row"><a href="{{ url_for('stocks.symbol', symbol=loser.ticker) }}">{{ loser.ticker }}</a></th>
+                            <td><strong>{{ loser.price }}</strong></td>
+                            <td><span style="color: green;">&#9650;</span> {{ loser.change_amount }}</td>
+                            <td><span style="color: green;">&#9650;</span> {{ loser.change_percentage }}</td>
+                            <td>{{ loser.volume }}</td>
+                        </tr>
                     {% endfor %}
-                </p>
-
-                <p>
-                    {% for i in top_gainers_losers.most_actively_traded %}
-                        {{ i }} <br>
+                    </tbody>
+                </table>
+                <!-- MOST ACTIVELY TRADED STOCKS -->
+                <table class="table caption-top">
+                    <caption><h3>Most Actively Traded Stocks</h3></caption>
+                    <thead>
+                        <tr>
+                            <th scope="col">Ticker</th>
+                            <th scope="col">Price</th>
+                            <th scope="col">Change</th>
+                            <th scope="col">Percent Change</th>
+                            <th scope="col">Volume</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for actively_traded_stock in top_gainers_losers.most_actively_traded %}
+                        <tr>
+                            <th scope="row"><a href="{{ url_for('stocks.symbol', symbol=actively_traded_stock.ticker) }}">{{ actively_traded_stock.ticker }}</a></th>
+                            <td><strong>{{ actively_traded_stock.price }}</strong></td>
+                            <td><span style="color: green;">&#9650;</span> {{ actively_traded_stock.change_amount }}</td>
+                            <td><span style="color: green;">&#9650;</span> {{ actively_traded_stock.change_percentage }}</td>
+                            <td>{{ actively_traded_stock.volume }}</td>
+                        </tr>
                     {% endfor %}
-                </p>
+                    </tbody>
+                </table>
             {% endif %}
         </div>
     </div>
