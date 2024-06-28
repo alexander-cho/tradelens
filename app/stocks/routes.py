@@ -21,9 +21,9 @@ from . import bp_stocks
 
 # symbol directory route
 @bp_stocks.route('/symbol')
-def symbol_main():
+def symbol_directory():
     stock_list = Stocks.query.all()
-    return render_template('stocks/symbol_main.html',
+    return render_template('stocks/symbol_directory.html',
                            title='Symbol Directory',
                            stock_list=stock_list)
 
@@ -40,9 +40,9 @@ def symbol_search():
                                     symbol=search_content))
         else:
             flash("That stock does not exist or is not in our database yet")
-            return redirect(url_for('stocks.symbol_main'))
+            return redirect(url_for('stocks.symbol_directory'))
     else:
-        return redirect(url_for('stocks.symbol_main'))
+        return redirect(url_for('stocks.symbol_directory'))
 
 
 # display information for each company in the stocks table
@@ -60,7 +60,7 @@ def symbol(symbol):
     # if the stock does not exist
     if not stock:
         flash("That stock does not exist or is not in our database yet")
-        return redirect(url_for('stocks.symbol_main'))
+        return redirect(url_for('stocks.symbol_directory'))
 
     (chart_past_date, chart_today) = get_date_range_past(days_past=365)
     polygon = Polygon(

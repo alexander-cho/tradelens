@@ -2,7 +2,7 @@
 
 {% block content %}
 
-<h1>Symbol Listing</h1>
+<h1>Symbol Directory</h1>
 
 <form method="POST" action="{{ url_for('stocks.symbol_search') }}" class="d-flex" role="search">
     {{ search_form.hidden_tag() }}
@@ -10,7 +10,7 @@
     <button class="btn btn-outline-success" type="submit">Search</button>
 </form>
 
-<br><hr>
+<hr>
 
 <h4>Symbol | Company Name</h4>
 
@@ -32,15 +32,15 @@
     }
 
     .btn-ticker {
-    display: inline-block;
-    padding: 2px 5px;
-    margin: 1px 0;
-    color: #fff;
-    background-color: #007bff;
-    border: 1px;
-    border-radius: 4px;
-    text-align: center;
-    text-decoration: none;
+        display: inline-block;
+        padding: 2px 5px;
+        margin: 1px 0;
+        color: #fff;
+        background-color: #007bff;
+        border: 1px;
+        border-radius: 4px;
+        text-align: center;
+        text-decoration: none;
     }
 
     .btn-ticker:hover {

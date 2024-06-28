@@ -25,11 +25,17 @@ class Tradier:
         Returns:
             dict: json response containing comprehensive options chain data including the greeks, for each contract
         """
-        response = requests.get(self.options_chain_url,
-                                params={'symbol': f'{self.symbol}', 'expiration': f'{expiration_date}', 'greeks': 'true'},
-                                headers={'Authorization': f'Bearer {self.api_key}',
-                                         'Accept': 'application/json'}
-                                )
+        response = requests.get(
+            self.options_chain_url,
+            params={
+                'symbol': f'{self.symbol}',
+                'expiration': f'{expiration_date}',
+                'greeks': 'true'
+            },
+            headers={
+                'Authorization': f'Bearer {self.api_key}',
+                'Accept': 'application/json'
+            })
         response_to_json = response.json()
 
         # access nested dictionary and extract list of dictionaries containing the data
@@ -63,7 +69,10 @@ class Tradier:
         return {
             'root_symbol': self.symbol,
             'expiration_date': expiration_date,
-            'data': {'calls': call_strikes, 'puts': put_strikes}
+            'data': {
+                'calls': call_strikes,
+                'puts': put_strikes
+            }
         }
 
     def get_open_interest(self, expiration_date: str) -> dict:
@@ -95,11 +104,29 @@ class Tradier:
         call_list = [{'strike': strike, 'open_interest': open_interest} for strike, open_interest in call_data.items()]
         put_list = [{'strike': strike, 'open_interest': open_interest} for strike, open_interest in put_data.items()]
 
+        # calculate the total open interest for calls and puts for a chain
+        total_call_oi = 0
+        total_put_oi = 0
+
+        for call, put in zip(call_list, put_list):
+            call_oi = call.get('open_interest', 0)
+            put_oi = put.get('open_interest', 0)
+            total_call_oi += call_oi
+            total_put_oi += put_oi
+
+        put_call_ratio = total_put_oi / total_call_oi
+
         # return the response
         return {
             'root_symbol': self.symbol,
             'expiration_date': expiration_date,
-            'data': {"Calls": call_list, "Puts": put_list}
+            'data': {
+                "Calls": call_list,
+                "Puts": put_list,
+                "total_call_oi": total_call_oi,
+                "total_put_oi": total_put_oi,
+                "put_call_ratio": put_call_ratio
+            }
         }
 
     def _get_volume(self, expiration_date: str):
@@ -128,7 +155,10 @@ class Tradier:
         return {
             'root_symbol': self.symbol,
             'expiration_date': expiration_date,
-            'data': {"Calls": call_list, "Puts": put_list}
+            'data': {
+                "Calls": call_list,
+                "Puts": put_list
+            }
         }
 
     def _get_implied_volatility(self, expiration_date: str):
@@ -157,7 +187,10 @@ class Tradier:
         return {
             'root_symbol': self.symbol,
             'expiration_date': expiration_date,
-            'data': {"Calls": call_list, "Puts": put_list}
+            'data': {
+                "Calls": call_list,
+                "Puts": put_list
+            }
         }
 
     def _get_last_bid_ask(self, expiration_date: str):
@@ -186,7 +219,10 @@ class Tradier:
         return {
             'root_symbol': self.symbol,
             'expiration_date': expiration_date,
-            'data': {"Calls": call_list, "Puts": put_list}
+            'data': {
+                "Calls": call_list,
+                "Puts": put_list
+            }
         }
 
     def _get_greeks(self, expiration_date: str, greek_letter: str) -> dict:
@@ -219,7 +255,10 @@ class Tradier:
         return {
             'root_symbol': self.symbol,
             'expiration_date': expiration_date,
-            'data': {"Calls": call_list, "Puts": put_list}
+            'data': {
+                "Calls": call_list,
+                "Puts": put_list
+            }
         }
 
     def get_delta(self, expiration_date: str) -> dict:
