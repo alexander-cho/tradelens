@@ -104,7 +104,7 @@ def options_chart(symbol, expiry_date, option_ticker):
         limit=50000
     )
 
-    option_chart = polygon._get_ohlcv_bars()
+    option_chart = polygon._get_bar_aggregates()
 
     return render_template('options/option_chart.html',
                            title=f"{option_ticker}",
@@ -119,21 +119,10 @@ def greeks(symbol, expiry_date):
     stock = db.session.scalar(sa.select(Stocks).where(Stocks.ticker_symbol == symbol))
 
     tradier = Tradier(stock.ticker_symbol)
-
-    delta = tradier.get_delta(expiration_date=expiry_date)
-    gamma = tradier.get_gamma(expiration_date=expiry_date)
-    theta = tradier.get_theta(expiration_date=expiry_date)
-    vega = tradier.get_vega(expiration_date=expiry_date)
-    rho = tradier.get_rho(expiration_date=expiry_date)
-    phi = tradier.get_phi(expiration_date=expiry_date)
+    greeks_ = tradier._get_greeks(expiration_date=expiry_date)
 
     return render_template('options/greeks.html',
                            title=f"Greeks for {symbol} {expiry_date}",
                            stock=stock,
                            expiry_date=expiry_date,
-                           delta=delta,
-                           gamma=gamma,
-                           theta=theta,
-                           vega=vega,
-                           rho=rho,
-                           phi=phi)
+                           greeks_=greeks_)

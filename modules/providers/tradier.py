@@ -114,6 +114,7 @@ class Tradier:
             total_call_oi += call_oi
             total_put_oi += put_oi
 
+        # get the put call ratio
         put_call_ratio = total_put_oi / total_call_oi
 
         # return the response
@@ -225,62 +226,31 @@ class Tradier:
             }
         }
 
-    def _get_greeks(self, expiration_date: str, greek_letter: str) -> dict:
+    def _get_greeks(self, expiration_date: str) -> dict:
         """
         Get the desired greeks data for a specific expiration date for both calls and puts
 
         Parameters:
             expiration_date (str): expiration date of format 'YYYY-MM-DD'
-            greek_letter (str): greek letter
 
         Returns:
             dict: response containing keys including 'data', which contains the specific greeks data
         """
-        call_data = {}
-        put_data = {}
-
-        # store name of greek before data manipulation
-        get_greek_letter_name = greek_letter
+        call_greeks = []
+        put_greeks = []
 
         option_chain = self.get_options_chain(expiration_date)
         for strike in option_chain:
             if strike['option_type'] == 'call':
-                call_data[strike['strike']] = strike['greeks'].get(greek_letter)
+                call_greeks.append({'strike': strike['strike'], 'greeks': strike.get('greeks')})
             elif strike['option_type'] == 'put':
-                put_data[strike['strike']] = strike['greeks'].get(greek_letter)
-
-        call_list = [{'strike': strike, get_greek_letter_name: greek_letter} for strike, greek_letter in call_data.items()]
-        put_list = [{'strike': strike, get_greek_letter_name: greek_letter} for strike, greek_letter in put_data.items()]
+                put_greeks.append({'strike': strike['strike'], 'greeks': strike.get('greeks')})
 
         return {
             'root_symbol': self.symbol,
             'expiration_date': expiration_date,
             'data': {
-                "Calls": call_list,
-                "Puts": put_list
+                "Calls": call_greeks,
+                "Puts": put_greeks
             }
         }
-
-    def get_delta(self, expiration_date: str) -> dict:
-        deltas = self._get_greeks(expiration_date, greek_letter='delta')
-        return deltas
-
-    def get_gamma(self, expiration_date: str) -> dict:
-        gammas = self._get_greeks(expiration_date, greek_letter='gamma')
-        return gammas
-
-    def get_theta(self, expiration_date: str) -> dict:
-        thetas = self._get_greeks(expiration_date, greek_letter='theta')
-        return thetas
-
-    def get_vega(self, expiration_date: str) -> dict:
-        vegas = self._get_greeks(expiration_date, greek_letter='vega')
-        return vegas
-
-    def get_rho(self, expiration_date: str) -> dict:
-        rhos = self._get_greeks(expiration_date, greek_letter='rho')
-        return rhos
-
-    def get_phi(self, expiration_date: str) -> dict:
-        phis = self._get_greeks(expiration_date, greek_letter='phi')
-        return phis

@@ -71,7 +71,7 @@ def symbol(symbol):
         to=f'{chart_today}',
         limit=50000
     )
-    stock_chart = polygon._get_ohlcv_bars()
+    stock_chart = polygon._get_bar_aggregates()
 
     # CONTEXT FROM SRC FOR SYMBOL DATA
     yfinance = YFinance(stock.ticker_symbol)
