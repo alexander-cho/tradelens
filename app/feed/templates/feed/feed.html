@@ -9,14 +9,8 @@
     {% endif %}
 
     {% for post in posts %}
-        <p>
-            <img src="{{ post.author.avatar(36) }}" alt="">
-            <a href="{{ url_for('users.user', username=post.author.username)}}">{{ post.author.username }}</a> <br>
-            <a href="{{ url_for('stocks.symbol', symbol=post.title) }}">{{ post.title }}</a> <br>
-            Posted on: {{ post.timestamp }} <br>
-            {{ post.content | safe }} <br>
-            <a href="{{ url_for('feed.post', id=post.id) }}" class="btn btn-outline-primary btn-sm">Click to View</a>
-        </p>
+        {% include 'feed/_post.html' %}
+        <br>
     {% endfor %}
 
 {% endblock %}

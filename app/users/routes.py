@@ -38,7 +38,7 @@ def edit_profile():
         current_user.about_me = form.about_me.data
         db.session.commit()
         flash("Your information has been updated")
-        return redirect(url_for('user',
+        return redirect(url_for('users.user',
                                 username=current_user.username))
     elif request.method == 'GET':
         form.username.data = current_user.username
@@ -60,19 +60,19 @@ def follow(username):
         # if they don't exist in the database
         if user is None:
             flash("User not found")
-            return redirect(url_for('index'))
+            return redirect(url_for('main.index'))
         # if it is yourself
         if user == current_user:
             flash("You can't follow yourself")
-            return redirect(url_for('user',
+            return redirect(url_for('users.user',
                                     username=username))
         current_user.follow(user)
         db.session.commit()
         flash(f"You are now following {username}")
-        return redirect(url_for('user',
+        return redirect(url_for('users.user',
                                 username=username))
     else:
-        return redirect(url_for('index'))
+        return redirect(url_for('main.index'))
 
 
 # unfollow a user
@@ -84,15 +84,15 @@ def unfollow(username):
         user = db.session.scalar(sa.select(User).where(User.username == username))
         if user is None:
             flash("User not found")
-            return redirect(url_for('index'))
+            return redirect(url_for('main.index'))
         if user == current_user:
             flash("You can't unfollow yourself")
-            return redirect(url_for('user',
+            return redirect(url_for('users.user',
                                     username=username))
         current_user.unfollow(user)
         db.session.commit()
         flash(f"You have unfollowed {username}")
-        return redirect(url_for('user',
+        return redirect(url_for('users.user',
                                 username=username))
     else:
-        return redirect(url_for('index'))
+        return redirect(url_for('main.index'))
