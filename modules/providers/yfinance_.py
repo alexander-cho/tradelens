@@ -21,7 +21,11 @@ class YFinance:
         """
         try:
             basic_info = self.ticker.info
-            return basic_info
+            return {
+                'description': 'ticker basic information',
+                'symbol': self.symbol,
+                "data": basic_info
+            }
         except Exception as e:
             print(f"Error fetching implied shares outstanding for {self.symbol}: {e}")
 
@@ -53,7 +57,11 @@ class YFinance:
             for key in keys_to_keep:
                 if key in underlying_info:
                     price_info[key] = underlying_info[key]
-            return price_info
+            return {
+                'description': 'ticker symbol data about current price, bid, ask',
+                'symbol': self.symbol,
+                "data": price_info
+            }
         except Exception as e:
             print(f"Error fetching underlying info for {self.symbol}: {e}")
             return {}
@@ -71,7 +79,11 @@ class YFinance:
 
             for key in fast_info.keys():
                 fast_info_as_dict[key] = fast_info[key]
-            return fast_info_as_dict
+            return {
+                'description': 'ticker fast info',
+                'symbol': self.symbol,
+                "data": fast_info_as_dict
+            }
         except Exception as e:
             print(f"Error fetching fast info for {self.symbol}: {e}")
 
@@ -84,7 +96,11 @@ class YFinance:
         """
         try:
             div_eps_rev_calendar = self.ticker.get_calendar()
-            return div_eps_rev_calendar
+            return {
+                'description': 'earnings/dividends calendar, earnings/revenue estimates',
+                'symbol': self.symbol,
+                "data": div_eps_rev_calendar
+            }
         except Exception as e:
             print(f"Error fetching calendar info for {self.symbol}: {e}")
 
@@ -98,11 +114,15 @@ class YFinance:
         """
         try:
             balance_sheet = self.ticker.get_balance_sheet(freq='quarterly').to_dict()
-            return {'ticker': self.symbol, 'balance_sheet': balance_sheet}
+            return {
+                'description': 'quarterly balance sheet',
+                'ticker': self.symbol,
+                'data': balance_sheet
+            }
         except Exception as e:
             print(f"Error fetching balance sheet for {self.symbol}: {e}")
 
-    def get_cashflow(self) -> dict:
+    def get_cashflow_statement(self) -> dict:
         """
         Get the quarterly cashflow statement for a ticker
 
@@ -110,8 +130,12 @@ class YFinance:
             dict: keys 'ticker' and 'cashflow', latter containing k, v pairs of Timestamp and cashflow attributes
         """
         try:
-            cashflow = self.ticker.get_cashflow(freq='quarterly').to_dict()
-            return {'ticker': self.symbol, 'cashflow': cashflow}
+            cashflow_statement = self.ticker.get_cashflow(freq='quarterly').to_dict()
+            return {
+                'description': 'quarterly cashflow statement',
+                'ticker': self.symbol,
+                'data': cashflow_statement
+            }
         except Exception as e:
             print(f"Error fetching cashflow for {self.symbol}: {e}")
 
@@ -125,7 +149,11 @@ class YFinance:
         """
         try:
             income_statement = self.ticker.get_incomestmt(freq='quarterly').to_dict()
-            return {'ticker': self.symbol, 'income_statement': income_statement}
+            return {
+                'description': 'quarterly income statement',
+                'ticker': self.symbol,
+                'data': income_statement
+            }
         except Exception as e:
             print(f"Error fetching income statement for {self.symbol}: {e}")
 
@@ -140,7 +168,11 @@ class YFinance:
             institutions = self.ticker.get_institutional_holders().to_dict(orient='records')
             if institutions == '[]':
                 return None
-            return institutions
+            return {
+                'description': 'top ten institutional holders',
+                'ticker': self.symbol,
+                'data': institutions
+            }
         except Exception as e:
             print(f"Error fetching institutional holders for {self.symbol}: {e}")
 
@@ -155,7 +187,11 @@ class YFinance:
             insider_transactions = self.ticker.get_insider_transactions().to_dict(orient='records')
             if insider_transactions == '[]':
                 return None
-            return insider_transactions
+            return {
+                'description': 'recent insider transactions',
+                'ticker': self.symbol,
+                'data': insider_transactions
+            }
         except Exception as e:
             print(f"Error fetching insider transactions for {self.symbol}: {e}")
 
@@ -180,13 +216,17 @@ class YFinance:
                     # If the firm is not already seen, add it to the unique_ratings dictionary
                     ratings_by_unique_firms[firm_name] = rating
 
-            return ratings_by_unique_firms
+            return {
+                'description': 'analyst ratings',
+                'ticker': self.symbol,
+                'data': ratings_by_unique_firms
+            }
         except Exception as e:
             print(f"Error fetching analyst ratings for {self.symbol}: {e}")
 
-    def get_expiry_list(self) -> tuple:
+    def get_options_expiry_list(self) -> dict:
         """
-        Get the expiry list for the ticker.
+        Get the options expiry date list for the ticker.
         Each element of the tuple is a string representing an expiry date formatted as YYYY-MM-DD.
 
         Returns:
@@ -194,6 +234,10 @@ class YFinance:
         """
         try:
             expiry_dates = self.ticker.options
-            return expiry_dates
+            return {
+                'description': 'options expiry dates',
+                'ticker': self.symbol,
+                'data': expiry_dates
+            }
         except Exception as e:
             print(f"Error fetching expiry list for {self.symbol}: {e}")

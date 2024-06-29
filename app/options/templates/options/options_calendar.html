@@ -10,7 +10,7 @@
     <hr>
 
     {% if expiry_list %}
-        {% for expiry in expiry_list %}
+        {% for expiry in expiry_list.data %}
             <a href="{{ url_for('options.options_chain', symbol=stock.ticker_symbol, expiry_date=expiry) }}" class="btn btn-outline-dark d-block w-100">{{ expiry }}</a><br>
         {% endfor %}
     {% endif %}

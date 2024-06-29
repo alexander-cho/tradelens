@@ -29,7 +29,10 @@ class FederalReserve:
             if pd.notna(v):
                 filtered_quarterly_gdp[k] = v
 
-        return filtered_quarterly_gdp
+        return {
+            'description': 'Quarterly GDP',
+            'data': filtered_quarterly_gdp
+        }
 
     def get_debt_as_pct_of_gdp(self) -> dict:
         """
@@ -39,7 +42,11 @@ class FederalReserve:
             dict: response of key value pairs of Timestamp and float, expressed in percentage points
         """
         percentages = self.fred.get_series('GFDEGDQ188S').to_dict()
-        return percentages
+
+        return {
+            'description': 'Debt as Percentage of GDP',
+            'data': percentages
+        }
 
     def get_total_debt(self) -> dict:
         """
@@ -49,7 +56,11 @@ class FederalReserve:
             dict: response of key value pairs of Timestamp and float, expressed in billions of dollars
         """
         debt = self.fred.get_series('GFDEBTN').to_dict()
-        return debt
+
+        return {
+            'description': 'Total Public Debt, Quarterly',
+            'data': debt
+        }
 
     def get_interest_payments(self) -> dict:
         """
@@ -59,7 +70,11 @@ class FederalReserve:
             dict: quarterly interest payments of key value pairs of type Timestamp and float, in billions of dollars
         """
         interest_payments = self.fred.get_series('A091RC1Q027SBEA').to_dict()
-        return interest_payments
+
+        return {
+            'description': 'Quarterly Interest Payments',
+            'data': interest_payments
+        }
 
     def get_cpi(self) -> dict:
         """
@@ -69,7 +84,11 @@ class FederalReserve:
             dict: Monthly CPI of key value pairs of type Timestamp and float, which represents percentage change
         """
         monthly_cpi = self.fred.get_series('CPALTT01USM659N').to_dict()
-        return monthly_cpi
+
+        return {
+            'description': 'Monthly CPI',
+            'data': monthly_cpi
+        }
 
     def get_ppi(self) -> dict:
         """
@@ -79,7 +98,11 @@ class FederalReserve:
             dict Monthly ppi of key value pairs of type Timestamp and float, expressed as a float
         """
         monthly_ppi = self.fred.get_series('PPIACO').to_dict()
-        return monthly_ppi
+
+        return {
+            'description': 'Monthly ppi',
+            'data': monthly_ppi
+        }
 
     def get_pce(self) -> dict:
         """
@@ -90,7 +113,11 @@ class FederalReserve:
                 billions of dollars
         """
         monthly_pce = self.fred.get_series('PCE').to_dict()
-        return monthly_pce
+
+        return {
+            'description': 'Monthly personal consumption expenditure',
+            'data': monthly_pce
+        }
 
     def get_disposable_income(self) -> dict:
         """
@@ -100,7 +127,11 @@ class FederalReserve:
             dict: Monthly real disposable income per capita of key value pairs of type Timestamp and float, in dollars
         """
         real_personal_disposable_income = self.fred.get_series('A229RX0').to_dict()
-        return real_personal_disposable_income
+
+        return {
+            'description': 'Disposable personal income',
+            'data': real_personal_disposable_income
+        }
 
     def get_unemployment_rate(self) -> dict:
         """
@@ -110,7 +141,11 @@ class FederalReserve:
             dict: Monthly unemployment rate of key value pairs of type Timestamp and float, expressed as a percentage
         """
         monthly_unemployment_rate = self.fred.get_series('UNRATE').to_dict()
-        return monthly_unemployment_rate
+
+        return {
+            'description': 'Monthly unemployment rate',
+            'data': monthly_unemployment_rate
+        }
 
     def get_payroll(self) -> dict:
         """
@@ -121,7 +156,11 @@ class FederalReserve:
                 in thousands of employees
         """
         total_nonfarm_payroll = self.fred.get_series('PAYEMS').to_dict()
-        return total_nonfarm_payroll
+
+        return {
+            'description': 'Monthly series of nonfarm payroll',
+            'data': total_nonfarm_payroll
+        }
 
     def get_interest_rates(self):
         """
@@ -132,7 +171,11 @@ class FederalReserve:
                 percentage
         """
         monthly_interest_rates = self.fred.get_series('FEDFUNDS').to_dict()
-        return monthly_interest_rates
+
+        return {
+            'description': 'Monthly interest rates',
+            'data': monthly_interest_rates
+        }
 
     def get_10yr(self) -> dict:
         """
@@ -147,7 +190,11 @@ class FederalReserve:
         for k, v in ten_year_yield.items():
             if pd.notna(v):
                 filtered_ten_year_yield[k] = v
-        return filtered_ten_year_yield
+
+        return {
+            'description': 'Ten Year Yield, daily',
+            'data': filtered_ten_year_yield
+        }
 
     def get_trade_balance(self) -> dict:
         """
@@ -158,7 +205,11 @@ class FederalReserve:
                 expressed in millions of dollars
         """
         trade_balance = self.fred.get_series('BOPGSTB').to_dict()
-        return trade_balance
+
+        return {
+            'description': 'Trade balance (deficit)',
+            'data': trade_balance
+        }
 
     def get_fdi(self) -> dict:
         """
@@ -168,7 +219,10 @@ class FederalReserve:
             dict: FDI of key value pairs of type Timestamp and float, expressed in millions of dollars
         """
         fdi = self.fred.get_series('ROWFDIQ027S').to_dict()
-        return fdi
+        return {
+            'description': 'foreign direct investment to the USA',
+            'data': fdi
+        }
 
     def get_ipi(self) -> dict:
         """
@@ -178,7 +232,11 @@ class FederalReserve:
             dict Monthly ipi of key value pairs of type Timestamp and float, expressed as a float
         """
         monthly_ipi = self.fred.get_series('INDPRO').to_dict()
-        return monthly_ipi
+
+        return {
+            'description': 'Industrial production',
+            'data': monthly_ipi
+        }
 
     def get_capacity_utilization(self) -> dict:
         """
@@ -190,7 +248,11 @@ class FederalReserve:
                 a percentage
         """
         capacity_utilization = self.fred.get_series('TCU').to_dict()
-        return capacity_utilization
+
+        return {
+            'description': 'Capacity utilization',
+            'data': capacity_utilization
+        }
 
     def get_housing_units_started(self) -> dict:
         """
@@ -200,7 +262,11 @@ class FederalReserve:
             dict: housing units as key value pairs of type Timestamp and float, expressed in thousands of units
         """
         units_started = self.fred.get_series('HOUST').to_dict()
-        return units_started
+
+        return {
+            'description': 'Housing units started',
+            'data': units_started
+        }
 
     def get_median_home_sale_price(self) -> dict:
         """
@@ -210,7 +276,11 @@ class FederalReserve:
             dict: median home sale price of key value pairs of type Timestamp and float, expressed as units of dollars
         """
         median_sales_price = self.fred.get_series('MSPUS').to_dict()
-        return median_sales_price
+
+        return {
+            'description': 'Median home sale price',
+            'data': median_sales_price
+        }
 
     def get_oil_prices(self) -> dict:
         """
@@ -221,7 +291,11 @@ class FederalReserve:
                 expressed in dollars per barrel
         """
         oil_prices = self.fred.get_series('MCOILWTICO').to_dict()
-        return oil_prices
+
+        return {
+            'description': 'Oil prices',
+            'data': oil_prices
+        }
 
     def get_natural_gas_prices(self) -> dict:
         """
@@ -232,7 +306,11 @@ class FederalReserve:
                 expressed in dollars per million BTU
         """
         natural_gas_prices = self.fred.get_series('MHHNGSP').to_dict()
-        return natural_gas_prices
+
+        return {
+            'description': 'Natural gas prices',
+            'data': natural_gas_prices
+        }
 
     def get_sugar_prices(self) -> dict:
         """
@@ -248,7 +326,11 @@ class FederalReserve:
         for k, v in sugar_prices.items():
             if pd.notna(v):
                 filtered_sugar_prices[k] = v
-        return filtered_sugar_prices
+
+        return {
+            'description': 'Global sugar prices',
+            'data': filtered_sugar_prices
+        }
 
     def get_corn_prices(self) -> dict:
         """
@@ -264,4 +346,8 @@ class FederalReserve:
         for k, v in corn_prices.items():
             if pd.notna(v):
                 filtered_corn_prices[k] = v
-        return filtered_corn_prices
+
+        return {
+            'description': 'Global corn prices',
+            'data': filtered_corn_prices
+        }

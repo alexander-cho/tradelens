@@ -22,7 +22,7 @@ def options(symbol):
     stock = db.session.scalar(sa.select(Stocks).where(Stocks.ticker_symbol == symbol))
 
     yfinance = YFinance(symbol)
-    expiry_list = yfinance.get_expiry_list()
+    expiry_list = yfinance.get_options_expiry_list()
 
     return render_template('options/options_calendar.html',
                            title=f"{symbol} - Options Expiration Calendar",
@@ -33,10 +33,10 @@ def options(symbol):
 @bp_options.route('/options/<symbol>/<expiry_date>')
 def options_chain(symbol, expiry_date):
     yfinance = YFinance(symbol)
-    expiry_list = yfinance.get_expiry_list()
+    expiry_list = yfinance.get_options_expiry_list()
 
     # check if user enters or looks for invalid expiration date by checking if it is in the list of dates
-    if expiry_date not in expiry_list:
+    if expiry_date not in expiry_list.get('data'):
         flash("That expiry date does not exist")
         return redirect(url_for('options.options', symbol=symbol))
 
@@ -104,7 +104,7 @@ def options_chart(symbol, expiry_date, option_ticker):
         limit=50000
     )
 
-    option_chart = polygon._get_bar_aggregates()
+    option_chart = polygon.get_bar_aggregates()
 
     return render_template('options/option_chart.html',
                            title=f"{option_ticker}",

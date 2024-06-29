@@ -21,17 +21,20 @@ class Finnhub:
         Returns:
             dict: market status
         """
-        response = self.fc.market_status(exchange='US')
+        market_status = self.fc.market_status(exchange='US')
 
         # Get the current time in PST
         pst_tz = pytz.timezone('America/Los_Angeles')
         current_pst_time = datetime.now(pst_tz)
 
         # Insert the current PST time and timezone into the market_status dictionary
-        response['t'] = current_pst_time.strftime('%Y-%m-%d %H:%M:%S')
-        response['timezone'] = 'America/Los_Angeles'
+        market_status['t'] = current_pst_time.strftime('%Y-%m-%d %H:%M:%S')
+        market_status['timezone'] = 'America/Los_Angeles'
 
-        return response
+        return {
+            'description': 'market_status',
+            'data': market_status
+        }
 
     def get_market_holidays(self) -> dict:
         """
@@ -66,7 +69,7 @@ class Finnhub:
             'data': holidays
         }
 
-    def get_market_news(self, category: str) -> list[dict]:
+    def get_market_news(self, category: str) -> dict:
         """
         Get overall market news
 
@@ -74,9 +77,14 @@ class Finnhub:
             list: List of dictionaries each containing info for news article
         """
         market_news = self.fc.general_news(category=category, min_id=0)
-        return market_news
 
-    def get_stock_news(self, ticker: str, _from: str, to: str) -> list[dict]:
+        return {
+            'description': 'market_news',
+            'category': category,
+            'data': market_news
+        }
+
+    def get_stock_news(self, ticker: str, _from: str, to: str) -> dict:
         """
         Get recent news for a specific stock
 
@@ -90,7 +98,14 @@ class Finnhub:
             keys: ['category', 'datetime', 'headline', 'id', 'image', 'related', 'source', 'summary', 'url']
         """
         ticker_news = self.fc.company_news(symbol=ticker, _from=_from, to=to)
-        return ticker_news
+        date_range = {'from': _from, 'to': to}
+
+        return {
+            'description': 'stock_news',
+            'ticker': ticker,
+            'date_range': date_range,
+            'data': ticker_news
+        }
 
     def get_company_profile(self, ticker: str) -> dict:
         """
@@ -110,7 +125,10 @@ class Finnhub:
             if key in company_profile:
                 condensed_profile[key] = company_profile[key]
 
-        return condensed_profile
+        return {
+            'description': 'company_profile',
+            'data': condensed_profile
+        }
 
     def get_insider_sentiment(self, ticker: str, _from: str, to: str) -> dict:
         """
@@ -130,8 +148,15 @@ class Finnhub:
             dict containing keys such as "change" which refers to the net buying/selling of insiders in number of shares
             "mspr": monthly share purchase ratio
         """
-        insider_sentiment = self.fc.stock_insider_sentiment(symbol=ticker, _from=_from, to=to)
-        return insider_sentiment
+        insider_sentiment = self.fc.stock_insider_sentiment(symbol=ticker, _from=_from, to=to).get('data')
+        date_range = {'from': _from, 'to': to}
+
+        return {
+            'description': 'insider_sentiment',
+            'ticker': ticker,
+            'date_range': date_range,
+            'data': insider_sentiment
+        }
 
     def get_lobbying_activities(self, ticker: str, _from: str, to: str) -> dict:
         """
@@ -162,9 +187,14 @@ class Finnhub:
             }
             filtered_data.append(filtered_activity)
 
-        # return as dict
-        return {"data": filtered_data,
-                "symbol": lobbying_activities["symbol"]}
+        date_range = {'from': _from, 'to': to}
+
+        return {
+            'description': 'lobbying_activities',
+            'symbol': ticker,
+            'date_range': date_range,
+            'data': filtered_data
+        }
 
     def get_government_spending(self, ticker: str, _from: str, to: str) -> dict:
         """
@@ -197,9 +227,14 @@ class Finnhub:
             }
             filtered_data.append(filtered_activity)
 
-        # return as dict
-        return {"data": filtered_data,
-                "symbol": government_spending["symbol"]}
+        date_range = {'from': _from, 'to': to}
+
+        return {
+            'description': 'government_spending',
+            'symbol': ticker,
+            'date_range': date_range,
+            'data': filtered_data
+        }
 
     def get_earnings_calendar(self, _from: str, to: str) -> dict:
         """
@@ -214,14 +249,19 @@ class Finnhub:
             'date', 'epsActual', 'epsEstimate', 'hour', 'quarter', 'revenueActual', 'revenueEstimate', 'symbol', 'year'
         """
         response = self.fc.earnings_calendar(_from=_from, to=to, symbol=None)
+        date_range = {'from': _from, 'to': to}
         earnings_calendar = response.get('earningsCalendar')
 
         # return list elements in reverse order since response returns nearest earnings at the end
         reversed_earnings_calendar = earnings_calendar[::-1]
 
-        return {"earnings_calendar": reversed_earnings_calendar}
+        return {
+            'description': 'market_wide_earnings_calendar',
+            'date_range': date_range,
+            'data': reversed_earnings_calendar
+        }
 
-    def get_upcoming_ipos(self, _from: str, to: str) -> dict[str, list]:
+    def get_upcoming_ipos(self, _from: str, to: str) -> dict:
         """
         Get the anticipated IPOs (Initial Public Offering) for a specified date range.
 
@@ -234,9 +274,14 @@ class Finnhub:
             'date', 'exchange', 'name', 'numberOfShares', 'price', 'status', 'symbol', 'totalSharesValue'
         """
         response = self.fc.ipo_calendar(_from=_from, to=to)
+        date_range = {'from': _from, 'to': to}
         anticipated_ipos = response.get('ipoCalendar')
 
         # return list elements in reverse order since response returns nearest ipos at the end
         reversed_anticipated_ipos = anticipated_ipos[::-1]
 
-        return reversed_anticipated_ipos
+        return {
+            'description': 'market_wide_ipos',
+            'date_range': date_range,
+            'data': reversed_anticipated_ipos
+        }

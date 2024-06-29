@@ -15,7 +15,7 @@ class Tradier:
         self.quote_url = 'https://api.tradier.com/v1/markets/quotes'
         self.symbol = symbol
 
-    def get_options_chain(self, expiration_date: str) -> list[dict[str, any]]:
+    def get_options_chain(self, expiration_date: str) -> dict:
         """
         Get options chain data for a specific expiration date of a particular underlying
 
@@ -40,7 +40,13 @@ class Tradier:
 
         # access nested dictionary and extract list of dictionaries containing the data
         options_chain = response_to_json.get('options', {}).get('option', [])
-        return options_chain
+
+        return {
+            'description': 'full option chain for a given expiration date',
+            'ticker': self.symbol,
+            'expiration_date': expiration_date,
+            'data': options_chain
+        }
 
     def get_strikes(self, expiration_date: str) -> dict:
         """
@@ -53,7 +59,7 @@ class Tradier:
             dict: response containing keys such as 'data', which maps to a value which is a dictionary containing
                 key value pairs of the description and the option ticker
         """
-        options_chain = self.get_options_chain(expiration_date)
+        options_chain = self.get_options_chain(expiration_date).get('data')
 
         call_strikes = {}
         put_strikes = {}
@@ -67,6 +73,7 @@ class Tradier:
                 put_strikes[strike['description']] = strike['symbol']
 
         return {
+            'description': 'list of strike prices for a chain',
             'root_symbol': self.symbol,
             'expiration_date': expiration_date,
             'data': {
@@ -90,7 +97,7 @@ class Tradier:
         put_data = {}
 
         # get the option chain for the desired expiration date
-        options_chain = self.get_options_chain(expiration_date)
+        options_chain = self.get_options_chain(expiration_date).get('data')
 
         # within the defined option chain response data, if the key 'option_type' has a value of 'call', get the
         # value of the 'open_interest' key and populate the call_data dictionary defined earlier. Same for the puts.
@@ -119,6 +126,7 @@ class Tradier:
 
         # return the response
         return {
+            'description': 'open_interest',
             'root_symbol': self.symbol,
             'expiration_date': expiration_date,
             'data': {
@@ -143,7 +151,7 @@ class Tradier:
         call_data = {}
         put_data = {}
 
-        options_chain = self.get_options_chain(expiration_date)
+        options_chain = self.get_options_chain(expiration_date).get('data')
         for strike in options_chain:
             if strike['option_type'] == 'call':
                 call_data[strike['strike']] = strike['volume']
@@ -154,6 +162,7 @@ class Tradier:
         put_list = [{'strike': strike, 'volume': volume} for strike, volume in put_data.items()]
 
         return {
+            'description': 'volume',
             'root_symbol': self.symbol,
             'expiration_date': expiration_date,
             'data': {
@@ -175,7 +184,7 @@ class Tradier:
         call_data = {}
         put_data = {}
 
-        options_chain = self.get_options_chain(expiration_date)
+        options_chain = self.get_options_chain(expiration_date).get('data')
         for strike in options_chain:
             if strike['option_type'] == 'call':
                 call_data[strike['strike']] = strike['greeks'].get('mid_iv')
@@ -186,6 +195,7 @@ class Tradier:
         put_list = [{'strike': strike, 'iv': iv} for strike, iv in put_data.items()]
 
         return {
+            'description': 'implied volatility',
             'root_symbol': self.symbol,
             'expiration_date': expiration_date,
             'data': {
@@ -207,7 +217,7 @@ class Tradier:
         call_data = {}
         put_data = {}
 
-        options_chain = self.get_options_chain(expiration_date)
+        options_chain = self.get_options_chain(expiration_date).get('data')
         for strike in options_chain:
             if strike['option_type'] == 'call':
                 call_data[strike['strike']] = {'last': strike['last'], 'bid': strike['bid'], 'ask': strike['ask']}
@@ -218,6 +228,7 @@ class Tradier:
         put_list = [{'strike': strike, 'last_bid_ask': last_bid_ask} for strike, last_bid_ask in put_data.items()]
 
         return {
+            'description': 'last, bid, ask prices',
             'root_symbol': self.symbol,
             'expiration_date': expiration_date,
             'data': {
@@ -239,7 +250,7 @@ class Tradier:
         call_greeks = []
         put_greeks = []
 
-        option_chain = self.get_options_chain(expiration_date)
+        option_chain = self.get_options_chain(expiration_date).get('data')
         for strike in option_chain:
             if strike['option_type'] == 'call':
                 call_greeks.append({'strike': strike['strike'], 'greeks': strike.get('greeks')})
@@ -247,6 +258,7 @@ class Tradier:
                 put_greeks.append({'strike': strike['strike'], 'greeks': strike.get('greeks')})
 
         return {
+            'description': 'greeks',
             'root_symbol': self.symbol,
             'expiration_date': expiration_date,
             'data': {

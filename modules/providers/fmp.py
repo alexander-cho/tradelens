@@ -14,7 +14,7 @@ class FMP:
         self.context = ssl.create_default_context(cafile=certifi.where())
         self.api_key = os.getenv('FMP_API_KEY')
 
-    def get_upcoming_dividends(self, _from: str, to: str ) -> dict:
+    def get_upcoming_dividends(self, _from: str, to: str) -> dict:
         dividends_url = f"https://financialmodelingprep.com/api/v3/stock_dividend_calendar?from={_from}&to={to}&apikey={self.api_key}"
         response = urlopen(url=dividends_url, context=self.context)
         data = response.read().decode("utf-8")
@@ -38,8 +38,14 @@ class FMP:
         ticker_dividends_url = f"https://financialmodelingprep.com/api/v3/historical-price-full/stock_dividend/{ticker}?apikey={self.api_key}"
         response = urlopen(url=ticker_dividends_url, context=self.context)
         data = response.read().decode("utf-8")
-        ticker_dividends = json.loads(data)
-        return ticker_dividends
+        full_response = json.loads(data)
+        ticker_dividends = full_response.get('historical')
+
+        return {
+            'description': 'ticker_historical_dividends',
+            'ticker': ticker,
+            'data': ticker_dividends
+        }
 
     def get_ticker_splits(self, ticker: str) -> dict:
         """
@@ -51,5 +57,11 @@ class FMP:
         ticker_splits_url = f"https://financialmodelingprep.com/api/v3/historical-price-full/stock_split/{ticker}?apikey={self.api_key}"
         response = urlopen(url=ticker_splits_url, context=self.context)
         data = response.read().decode("utf-8")
-        ticker_splits = json.loads(data)
-        return ticker_splits
+        full_response = json.loads(data)
+        ticker_splits = full_response.get('historical')
+
+        return {
+            'description': 'ticker_historical_splits',
+            'ticker': ticker,
+            'data': ticker_splits
+        }

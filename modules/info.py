@@ -35,4 +35,4 @@ polygon_option = Polygon(
 fmp = FMP()
 
 
-print(f.get_market_status())
+print(fmp.get_ticker_dividends('AAPL'))

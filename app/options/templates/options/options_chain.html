@@ -13,6 +13,8 @@
         <a href="{{ url_for('options.options', symbol=stock.ticker_symbol) }}" class="btn btn-outline-info btn-lg">Back to Expiration Calendar</a>
     </p>
 
+    {{ full_chain }}
+
     {% if open_interest %}
         <h3>Open Interest</h3>
         <p>{{ open_interest }}</p>

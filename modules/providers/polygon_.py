@@ -45,7 +45,7 @@ class Polygon:
         self.to = to
         self.limit = limit
 
-    def _get_bar_aggregates(self) -> list:
+    def get_bar_aggregates(self) -> dict:
         """
         Get OHLCV bars for a given ticker. Along with OHLCV, get timestamp,
         number of transactions during that (multiplier*timespan) period, and volume weighted average price (vwap)
@@ -66,7 +66,15 @@ class Polygon:
         ):
             bars.append(agg)
 
-        return bars
+        return {
+            "ticker": self.ticker,
+            "multiplier": self.multiplier,
+            "timespan": self.timespan,
+            "from": self.from_,
+            "to": self.to,
+            "limit": self.limit,
+            "data": bars
+        }
 
     def _bars_to_df_(self) -> pd.DataFrame:
         """
@@ -75,7 +83,7 @@ class Polygon:
         Returns:
             pd.DataFrame: OHLCV+ aggregate information as a dataframe.
         """
-        ohlcv_bars_df = pd.DataFrame(self._get_bar_aggregates()).set_index('timestamp')
+        ohlcv_bars_df = pd.DataFrame(self.get_bar_aggregates()).set_index('timestamp')
         return ohlcv_bars_df
 
     def _extract_attributes(self) -> tuple:
@@ -85,7 +93,7 @@ class Polygon:
         Returns:
             tuple: containing lists for each attribute (data points per timestamp)
         """
-        bars_to_extract = self._get_bar_aggregates()
+        bars_to_extract = self.get_bar_aggregates()
 
         # extract each attribute from aggregate bars
         timestamps = [bar.timestamp for bar in bars_to_extract]
