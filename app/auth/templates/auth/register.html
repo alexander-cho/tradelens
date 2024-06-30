@@ -6,7 +6,7 @@
 
 <div class="shadow p-3 mb-5 bg-body rounded">
     <form action="" method="POST">
-        {{ form.hidden_tag()}}
+        {{ form.hidden_tag() }}
         {{ form.username.label(class="form-label") }}
         {{ form.username(class="form-control") }}
         {% for error in form.username.errors %}

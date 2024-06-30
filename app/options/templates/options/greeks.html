@@ -11,9 +11,10 @@
         <a href="{{ url_for('options.options', symbol=stock.ticker_symbol) }}" class="btn btn-outline-dark btn-lg">Expiration Calendar</a>
     </p>
 
-
-    {% if greeks_ %}
-        {{ greeks_ }}
-    {% endif %}
+    <div id="plotly-div">{{ delta | safe }}</div>
+    <div id="plotly-div">{{ gamma | safe }}</div>
+    <div id="plotly-div">{{ theta | safe }}</div>
+    <div id="plotly-div">{{ vega | safe }}</div>
+    <div id="plotly-div">{{ rho | safe }}</div>
 
 {% endblock %}

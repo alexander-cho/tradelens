@@ -44,10 +44,10 @@ def login():
 
 
 # logout
-@bp_auth.route('/logout', methods=['GET', 'POST'])
+@bp_auth.route('/logout', methods=['GET'])
 @login_required
 def logout():
-    if request.method == "POST":
+    if request.method == "GET":
         logout_user()
         flash("You have been logged out")
         return redirect(url_for('main.index'))

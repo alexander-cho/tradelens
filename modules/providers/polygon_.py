@@ -93,7 +93,7 @@ class Polygon:
         Returns:
             tuple: containing lists for each attribute (data points per timestamp)
         """
-        bars_to_extract = self.get_bar_aggregates()
+        bars_to_extract = self.get_bar_aggregates().get('data')
 
         # extract each attribute from aggregate bars
         timestamps = [bar.timestamp for bar in bars_to_extract]
@@ -117,17 +117,17 @@ class Polygon:
         # list of timestamps is the first element in the attributes tuple
         timestamps = self._extract_attributes()[0]
 
-        # Define timezones
+        # define timezones
         utc_zone = pytz.utc
         pst_zone = pytz.timezone('US/Pacific')
 
-        # Convert timestamps to datetime objects in UTC
+        # convert timestamps to datetime objects in UTC
         datetime_utc = [datetime.utcfromtimestamp(ts / 1000).replace(tzinfo=utc_zone) for ts in timestamps]
 
-        # Convert UTC datetime to PST
+        # convert UTC datetime to PST
         datetime_pst = [dt_utc.astimezone(pst_zone) for dt_utc in datetime_utc]
 
-        # Extract datetime strings for plotting
+        # extract datetime strings for plotting
         datetime_strings = [dt_pst.strftime('%Y-%m-%d %H:%M:%S') for dt_pst in datetime_pst]
 
         return datetime_strings
@@ -152,7 +152,7 @@ class Polygon:
             row_heights=[0.7, 0.3]
         )
 
-        # Add candlestick trace to row one of subplot
+        # add candlestick trace to row one of subplot
         fig.add_trace(
             go.Candlestick(
                 x=datetime_strings,
@@ -166,7 +166,7 @@ class Polygon:
             col=1
         )
 
-        # Add volume bar trace to row two of subplot
+        # add volume bar trace to row two of subplot
         fig.add_trace(
             go.Bar(
                 x=datetime_strings,
@@ -197,7 +197,7 @@ class Polygon:
         # get rid of gaps from weekend/holiday closures and non-market hours
         fig.update_xaxes(type='category')
 
-        # Convert plot to HTML string
+        # convert plot to HTML string
         plot_html = pio.to_html(fig, full_html=False)
 
         return plot_html

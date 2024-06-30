@@ -119,10 +119,18 @@ def greeks(symbol, expiry_date):
     stock = db.session.scalar(sa.select(Stocks).where(Stocks.ticker_symbol == symbol))
 
     tradier = Tradier(stock.ticker_symbol)
-    greeks_ = tradier._get_greeks(expiration_date=expiry_date)
+    delta = tradier.plot_greeks(expiration_date=expiry_date, greek_letter='delta')
+    gamma = tradier.plot_greeks(expiration_date=expiry_date, greek_letter='gamma')
+    theta = tradier.plot_greeks(expiration_date=expiry_date, greek_letter='theta')
+    vega = tradier.plot_greeks(expiration_date=expiry_date, greek_letter='vega')
+    rho = tradier.plot_greeks(expiration_date=expiry_date, greek_letter='rho')
 
     return render_template('options/greeks.html',
                            title=f"Greeks for {symbol} {expiry_date}",
                            stock=stock,
                            expiry_date=expiry_date,
-                           greeks_=greeks_)
+                           delta=delta,
+                           gamma=gamma,
+                           theta=theta,
+                           vega=vega,
+                           rho=rho)

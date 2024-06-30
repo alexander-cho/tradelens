@@ -33,6 +33,3 @@ polygon_option = Polygon(
         limit=50000
 )
 fmp = FMP()
-
-
-print(fmp.get_ticker_dividends('AAPL'))

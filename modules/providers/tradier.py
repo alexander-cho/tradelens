@@ -2,6 +2,9 @@ import os
 from dotenv import load_dotenv
 import requests
 
+import plotly.graph_objects as go
+import plotly.io as pio
+
 load_dotenv()
 
 
@@ -38,7 +41,7 @@ class Tradier:
             })
         response_to_json = response.json()
 
-        # access nested dictionary and extract list of dictionaries containing the data
+        # access nested dictionary and extract list of dictionaries containing the options chain
         options_chain = response_to_json.get('options', {}).get('option', [])
 
         return {
@@ -266,3 +269,54 @@ class Tradier:
                 "Puts": put_greeks
             }
         }
+
+    def plot_greeks(self, expiration_date: str, greek_letter: str):
+        greeks_ = self._get_greeks(expiration_date).get('data')
+        calls = {}
+        puts = {}
+
+        for strike in greeks_.get('Calls'):
+            calls[strike['strike']] = strike['greeks'].get(greek_letter)
+        for strike in greeks_.get('Puts'):
+            puts[strike['strike']] = strike['greeks'].get(greek_letter)
+
+        # Create data for plotting
+        call_strikes = list(calls.keys())
+        call_values = list(calls.values())
+        put_strikes = list(puts.keys())
+        put_values = list(puts.values())
+
+        fig = go.Figure()
+
+        # calls line
+        fig.add_trace(go.Scatter(
+            x=call_strikes,
+            y=call_values,
+            mode='lines+markers',
+            name='Calls',
+            line=dict(color='green'),
+            marker=dict(size=5),
+            text=[f'Strike={strike}, {greek_letter}={value}' for strike, value in zip(call_strikes, call_values)],
+            hovertemplate='%{text}<extra></extra>'
+        ))
+
+        # puts line
+        fig.add_trace(go.Scatter(
+            x=put_strikes,
+            y=put_values,
+            mode='lines+markers',
+            name='Puts',
+            line=dict(color='red'),
+            marker=dict(size=5),
+            text=[f'Strike={strike}, {greek_letter}={value}' for strike, value in zip(put_strikes, put_values)],
+            hovertemplate='%{text}<extra></extra>'
+        ))
+
+        fig.update_layout(
+            title=f'{greek_letter}',
+            xaxis_title='Strike Price',
+            yaxis_title=f'{greek_letter} Value'
+        )
+
+        plot_html = pio.to_html(fig, full_html=False)
+        return plot_html
