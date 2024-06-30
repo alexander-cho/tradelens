@@ -1,8 +1,10 @@
 import os
 from dotenv import load_dotenv
 import requests
+import pandas as pd
 
 import plotly.graph_objects as go
+import plotly.express as px
 import plotly.io as pio
 
 load_dotenv()
@@ -140,6 +142,25 @@ class Tradier:
                 "put_call_ratio": put_call_ratio
             }
         }
+
+    def plot_open_interest(self, expiration_date: str):
+        open_interest = self.get_open_interest(expiration_date)
+        calls = open_interest.get('data', {}).get('Calls', [])
+        puts = open_interest.get('data', {}).get('Puts', [])
+
+        # convert lists to DataFrames
+        df_calls = pd.DataFrame(calls)
+        df_puts = pd.DataFrame(puts)
+
+        df = pd.concat([df_calls, df_puts])
+
+        # Create a stacked bar chart
+        fig = px.bar(df, x='strike', y='open_interest', barmode='stack',
+                     title='Open Interest for Calls and Puts',
+                     labels={'strike': 'Strike Price', 'open_interest': 'Open Interest', 'type': 'Option Type'})
+
+        plot_html = pio.to_html(fig, full_html=False)
+        return plot_html
 
     def _get_volume(self, expiration_date: str):
         """
