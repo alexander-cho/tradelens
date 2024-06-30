@@ -6,28 +6,30 @@
 
     <h3>Cash</h3>
 
-    <h4>Calls</h4>
-    <p>
-        {% for call in cash_values.data.calls %}
-            {{ call }} <br>
-        {% endfor %}
-    </p>
-
-    <h4>Puts</h4>
-    <p>
-        {% for put in cash_values.data.puts %}
-            {{ put }} <br>
-        {% endfor %}
-    </p>
-
-    <h4>Combined</h4>
-    <p>
-        {% for sum in cash_values.data.sums %}
-            {{ sum }} <br>
-        {% endfor %}
-    </p>
-
-    <h4>Max Pain</h4>
-    <p>{{ cash_values.data.max_pain }}</p>
+    {{ cash_values }}
+{##}
+{#    <h4>Calls</h4>#}
+{#    <p>#}
+{#        {% for call in cash_values.data.calls %}#}
+{#            {{ call }} <br>#}
+{#        {% endfor %}#}
+{#    </p>#}
+{##}
+{#    <h4>Puts</h4>#}
+{#    <p>#}
+{#        {% for put in cash_values.data.puts %}#}
+{#            {{ put }} <br>#}
+{#        {% endfor %}#}
+{#    </p>#}
+{##}
+{#    <h4>Combined</h4>#}
+{#    <p>#}
+{#        {% for sum in cash_values.data.sums %}#}
+{#            {{ sum }} <br>#}
+{#        {% endfor %}#}
+{#    </p>#}
+{##}
+{#    <h4>Max Pain</h4>#}
+{#    <p>{{ cash_values.data.max_pain }}</p>#}
 
 {% endblock %}

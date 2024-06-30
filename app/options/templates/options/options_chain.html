@@ -14,24 +14,8 @@
     </p>
 
     <div id="plotly-div">{{ open_interest | safe }}</div>
-
-    {{ oi_totals_ratio }}
-
-{#    {% if volume %}#}
-{#        <h3>Volume</h3>#}
-{#        <p>{{ volume }}</p>#}
-{#    {% endif %}#}
-{##}
-{##}
-{#    {% if implied_volatility %}#}
-{#        <h3>Implied Volatility</h3>#}
-{#        <p>{{ implied_volatility }}</p>#}
-{#    {% endif %}#}
-{##}
-{##}
-{#    {% if last_bid_ask %}#}
-{#        <h3>Last price, Bid, Ask</h3>#}
-{#        <p>{{ last_bid_ask }}</p>#}
-{#    {% endif %}#}
+    <div id="plotly-div">{{ volume | safe }}</div>
+    <div id="plotly-div">{{ implied_volatility | safe }}</div>
+    <div id="plotly-div">{{ last_bid_ask | safe }}</div>
 
 {% endblock %}

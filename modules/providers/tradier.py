@@ -4,7 +4,7 @@ import requests
 import pandas as pd
 
 import plotly.graph_objects as go
-import plotly.express as px
+import plotly.subplots as subplots
 import plotly.io as pio
 
 load_dotenv()
@@ -148,16 +148,40 @@ class Tradier:
         calls = open_interest.get('data', {}).get('Calls', [])
         puts = open_interest.get('data', {}).get('Puts', [])
 
+        total_call_oi = open_interest.get('data', {}).get('total_call_oi', 0)
+        total_put_oi = open_interest.get('data', {}).get('total_put_oi', 0)
+        put_call_ratio = open_interest.get('data', {}).get('put_call_ratio', 0)
+
         # convert lists to DataFrames
         df_calls = pd.DataFrame(calls)
         df_puts = pd.DataFrame(puts)
 
-        df = pd.concat([df_calls, df_puts])
+        trace_calls = go.Bar(
+            x=df_calls['strike'],
+            y=df_calls['open_interest'],
+            name='Calls',
+            marker={
+                'color': 'green'
+            }
+        )
+        trace_puts = go.Bar(
+            x=df_puts['strike'],
+            y=df_puts['open_interest'],
+            name='Puts',
+            marker={
+                'color': 'red'
+            }
+        )
 
-        # Create a stacked bar chart
-        fig = px.bar(df, x='strike', y='open_interest', barmode='stack',
-                     title='Open Interest for Calls and Puts',
-                     labels={'strike': 'Strike Price', 'open_interest': 'Open Interest', 'type': 'Option Type'})
+        fig = go.Figure(data=[trace_calls, trace_puts])
+
+        # update layout for stacked bar mode
+        fig.update_layout(
+            barmode='stack',
+            title=f'Open Interest | Total Call OI: {total_call_oi} | Total Put OI: {total_put_oi} | Put/Call Ratio: {put_call_ratio}',
+            xaxis_title='Strike Price',
+            yaxis_title='Open Interest'
+        )
 
         plot_html = pio.to_html(fig, full_html=False)
         return plot_html
@@ -195,6 +219,45 @@ class Tradier:
             }
         }
 
+    def plot_volume(self, expiration_date: str):
+        volume = self._get_volume(expiration_date)
+        calls = volume.get('data', {}).get('Calls', [])
+        puts = volume.get('data', {}).get('Puts', [])
+
+        # convert lists to DataFrames
+        df_calls = pd.DataFrame(calls)
+        df_puts = pd.DataFrame(puts)
+
+        trace_calls = go.Bar(
+            x=df_calls['strike'],
+            y=df_calls['volume'],
+            name='Calls',
+            marker={
+                'color': 'green'
+            }
+        )
+        trace_puts = go.Bar(
+            x=df_puts['strike'],
+            y=df_puts['volume'],
+            name='Puts',
+            marker={
+                'color': 'red'
+            }
+        )
+
+        fig = go.Figure(data=[trace_calls, trace_puts])
+
+        # update layout for stacked bar mode
+        fig.update_layout(
+            barmode='stack',
+            title='Volume',
+            xaxis_title='Strike Price',
+            yaxis_title='Volume'
+        )
+
+        plot_html = pio.to_html(fig, full_html=False)
+        return plot_html
+
     def _get_implied_volatility(self, expiration_date: str):
         """
         Get the implied volatility measurement of each strike for a specific expiration date
@@ -228,6 +291,42 @@ class Tradier:
             }
         }
 
+    def plot_iv(self, expiration_date: str):
+        volume = self._get_implied_volatility(expiration_date)
+        calls = volume.get('data', {}).get('Calls', [])
+        puts = volume.get('data', {}).get('Puts', [])
+
+        # convert lists to DataFrames
+        df_calls = pd.DataFrame(calls)
+        df_puts = pd.DataFrame(puts)
+
+        trace_calls = go.Scatter(
+            x=df_calls['strike'],
+            y=df_calls['iv'],
+            mode='lines+markers',
+            name='Calls',
+            line=dict(color='green')
+        )
+        trace_puts = go.Scatter(
+            x=df_puts['strike'],
+            y=df_puts['iv'],
+            mode='lines+markers',
+            name='Puts',
+            line=dict(color='red')
+        )
+
+        fig = go.Figure(data=[trace_calls, trace_puts])
+
+        # update layout
+        fig.update_layout(
+            title='Implied Volatility (multiply by 100%)',
+            xaxis_title='Strike Price',
+            yaxis_title='Implied Volatility'
+        )
+
+        plot_html = pio.to_html(fig, full_html=False)
+        return plot_html
+
     def _get_last_bid_ask(self, expiration_date: str):
         """
         Get the last, bid, ask prices of each strike for a specific expiration date
@@ -260,6 +359,114 @@ class Tradier:
                 "Puts": put_list
             }
         }
+
+    def plot_last_bid_ask(self, expiration_date: str):
+        last_bid_ask = self._get_last_bid_ask(expiration_date)
+        calls = last_bid_ask.get('data', {}).get('Calls', [])
+        puts = last_bid_ask.get('data', {}).get('Puts', [])
+
+        # for each strike in both calls and puts there is a last, bid, ask price
+        calls_strike = [strike.get('strike') for strike in calls]
+        calls_last = [strike.get('last_bid_ask').get('last') for strike in calls]
+        calls_bid = [strike.get('last_bid_ask').get('bid') for strike in calls]
+        calls_ask = [strike.get('last_bid_ask').get('ask') for strike in calls]
+
+        puts_strike = [strike.get('strike') for strike in puts]
+        puts_last = [strike.get('last_bid_ask').get('last') for strike in puts]
+        puts_bid = [strike.get('last_bid_ask').get('bid') for strike in puts]
+        puts_ask = [strike.get('last_bid_ask').get('ask') for strike in puts]
+
+        # # make subplot of two rows to plot two graphs sharing an x-axis, the timestamps.
+        fig = subplots.make_subplots(
+            rows=2,
+            cols=1,
+            shared_xaxes=False,
+            vertical_spacing=0.1,
+            row_heights=[0.5, 0.5]
+        )
+
+        # calls
+        fig.add_trace(
+            go.Scatter(
+                x=calls_strike,
+                y=calls_last,
+                mode='lines+markers',
+                name='Calls Last',
+                line=dict(color='green')
+            ),
+            row=1,
+            col=1
+        )
+        fig.add_trace(
+            go.Scatter(
+                x=calls_strike,
+                y=calls_bid,
+                mode='lines+markers',
+                name='Calls Bid',
+                line=dict(color='purple')
+            ),
+            row=1,
+            col=1
+        )
+        fig.add_trace(
+            go.Scatter(
+                x=calls_strike,
+                y=calls_ask,
+                mode='lines+markers',
+                name='Calls Ask',
+                line=dict(color='blue')
+            ),
+            row=1,
+            col=1
+        )
+
+        # puts
+        fig.add_trace(
+            go.Scatter(
+                x=puts_strike,
+                y=puts_last,
+                mode='lines+markers',
+                name='Puts Last',
+                line=dict(color='red')
+            ),
+            row=2,
+            col=1
+        )
+        fig.add_trace(
+            go.Scatter(
+                x=puts_strike,
+                y=puts_bid,
+                mode='lines+markers',
+                name='Puts Bid',
+                line=dict(color='orange')
+            ),
+            row=2,
+            col=1
+        )
+        fig.add_trace(
+            go.Scatter(
+                x=puts_strike,
+                y=puts_ask,
+                mode='lines+markers',
+                name='Puts Ask',
+                line=dict(color='yellow')
+            ),
+            row=2,
+            col=1
+        )
+
+        fig.update_layout(
+            title='Last, Bid, Ask Prices',
+            yaxis1_title='Price',
+            yaxis2_title='Price',
+            xaxis1_title='Strike',
+            xaxis2_title='Strike',
+            height=800
+        )
+
+        plot_html = pio.to_html(fig, full_html=False)
+
+        return plot_html
 
     def _get_greeks(self, expiration_date: str) -> dict:
         """
