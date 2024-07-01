@@ -1,3 +1,8 @@
+import pandas as pd
+
+import plotly.graph_objects as go
+import plotly.io as pio
+
 from modules.providers.tradier import Tradier
 
 
@@ -102,9 +107,9 @@ class MaxPain:
         max_pain = {'strike': max_pain_strike, 'cash': max_pain_cash_value}
 
         data = {
-            'calls': call_cash_values,
-            'puts': put_cash_values,
-            'sums': sum_cash_values,
+            'Calls': call_cash_values,
+            'Puts': put_cash_values,
+            'Sums': sum_cash_values,
             'max_pain': max_pain
         }
 
@@ -113,3 +118,47 @@ class MaxPain:
             'expiration_date': expiration_date,
             'data': data
         }
+
+    def plot_cash_values(self, expiration_date: str):
+        """
+        Plot cash values and max pain as a stacked bar chart with calls and puts sharing a similar x-axis of the strike
+        """
+        cash_values = self.get_cash_values(expiration_date=expiration_date)
+        calls = cash_values.get('data', {}).get('Calls', [])
+        puts = cash_values.get('data', {}).get('Puts', [])
+        max_pain = cash_values.get('data', {}).get('max_pain', {}).get('strike', 0)
+
+        # convert lists to DataFrames
+        df_calls = pd.DataFrame(calls)
+        df_puts = pd.DataFrame(puts)
+
+        trace_calls = go.Bar(
+            x=df_calls['strike'],
+            y=df_calls['cash'],
+            name='Calls',
+            marker={
+                'color': 'green'
+            }
+        )
+        trace_puts = go.Bar(
+            x=df_puts['strike'],
+            y=df_puts['cash'],
+            name='Puts',
+            marker={
+                'color': 'red'
+            }
+        )
+
+        fig = go.Figure(data=[trace_calls, trace_puts])
+
+        # update layout for stacked bar mode
+        fig.update_layout(
+            barmode='stack',
+            title=f'Cash | Max Pain lies at {max_pain}',
+            xaxis_title='Strike Price',
+            yaxis_title='Cash (USD)',
+            height=500
+        )
+
+        plot_html = pio.to_html(fig, full_html=False)
+        return plot_html

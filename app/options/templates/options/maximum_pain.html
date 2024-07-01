@@ -2,34 +2,56 @@
 
 {% block content %}
 
-    <h1>Maximum pain calculation for {{ stock.ticker_symbol }} expiring on {{ expiry_date }}</h1>
+    <h1>Cash and Maximum pain calculation for {{ stock.ticker_symbol }} expiring on {{ expiry_date }}</h1>
 
-    <h3>Cash</h3>
+    <div id="plotly-div">{{ cash_values_chart | safe }}</div>
 
-    {{ cash_values }}
-{##}
-{#    <h4>Calls</h4>#}
-{#    <p>#}
-{#        {% for call in cash_values.data.calls %}#}
-{#            {{ call }} <br>#}
-{#        {% endfor %}#}
-{#    </p>#}
-{##}
-{#    <h4>Puts</h4>#}
-{#    <p>#}
-{#        {% for put in cash_values.data.puts %}#}
-{#            {{ put }} <br>#}
-{#        {% endfor %}#}
-{#    </p>#}
-{##}
-{#    <h4>Combined</h4>#}
-{#    <p>#}
-{#        {% for sum in cash_values.data.sums %}#}
-{#            {{ sum }} <br>#}
-{#        {% endfor %}#}
-{#    </p>#}
-{##}
-{#    <h4>Max Pain</h4>#}
-{#    <p>{{ cash_values.data.max_pain }}</p>#}
+    <div class="container">
+    <h2>Cash</h2>
+    <table class="styled-table">
+        <thead>
+            <tr>
+                <th>Strikes</th>
+                <th>Calls</th>
+                <th>Puts</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for i in range(cash_values.data.Calls|length) %}
+            <tr>
+                <td>{{ cash_values.data.Calls[i].strike }}</td>
+                <td>{{ cash_values.data.Calls[i].cash }}</td>
+                <td>{{ cash_values.data.Puts[i].cash }}</td>
+                <td>{{ cash_values.data.Sums[i].cash }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    </div>
+
+    <style>
+        .styled-table {
+            width: 100%;
+            margin: auto;
+            border-collapse: collapse;
+            border-radius: 5px;
+        }
+
+        .styled-table th {
+            border: 1px solid black;
+            padding: 5px;
+            text-align: center;
+            background-color: #f2f2f2;
+            border-radius: 5px;
+        }
+
+        .styled-table td {
+            border: 1px solid black;
+            padding: 5px;
+            text-align: center;
+            border-radius: 5px;
+        }
+    </style>
 
 {% endblock %}

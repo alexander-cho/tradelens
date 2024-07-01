@@ -64,11 +64,13 @@ def maximum_pain(symbol, expiry_date):
     stock = db.session.scalar(sa.select(Stocks).where(Stocks.ticker_symbol == symbol))
 
     max_pain = MaxPain(stock.ticker_symbol)
+    cash_values_chart = max_pain.plot_cash_values(expiration_date=expiry_date)
     cash_values = max_pain.get_cash_values(expiration_date=expiry_date)
 
     return render_template('options/maximum_pain.html',
                            title=f"Maximum Pain - {symbol} {expiry_date}",
                            stock=stock,
+                           cash_values_chart=cash_values_chart,
                            cash_values=cash_values,
                            expiry_date=expiry_date)
 

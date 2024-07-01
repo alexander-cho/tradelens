@@ -102,7 +102,7 @@ class Tradier:
         put_data = {}
 
         # get the option chain for the desired expiration date
-        options_chain = self.get_options_chain(expiration_date).get('data')
+        options_chain = self.get_options_chain(expiration_date=expiration_date).get('data')
 
         # within the defined option chain response data, if the key 'option_type' has a value of 'call', get the
         # value of the 'open_interest' key and populate the call_data dictionary defined earlier. Same for the puts.
@@ -144,7 +144,7 @@ class Tradier:
         }
 
     def plot_open_interest(self, expiration_date: str):
-        open_interest = self.get_open_interest(expiration_date)
+        open_interest = self.get_open_interest(expiration_date=expiration_date)
         calls = open_interest.get('data', {}).get('Calls', [])
         puts = open_interest.get('data', {}).get('Puts', [])
 
@@ -199,7 +199,7 @@ class Tradier:
         call_data = {}
         put_data = {}
 
-        options_chain = self.get_options_chain(expiration_date).get('data')
+        options_chain = self.get_options_chain(expiration_date=expiration_date).get('data')
         for strike in options_chain:
             if strike['option_type'] == 'call':
                 call_data[strike['strike']] = strike['volume']
@@ -220,7 +220,7 @@ class Tradier:
         }
 
     def plot_volume(self, expiration_date: str):
-        volume = self._get_volume(expiration_date)
+        volume = self._get_volume(expiration_date=expiration_date)
         calls = volume.get('data', {}).get('Calls', [])
         puts = volume.get('data', {}).get('Puts', [])
 
@@ -271,7 +271,7 @@ class Tradier:
         call_data = {}
         put_data = {}
 
-        options_chain = self.get_options_chain(expiration_date).get('data')
+        options_chain = self.get_options_chain(expiration_date=expiration_date).get('data')
         for strike in options_chain:
             if strike['option_type'] == 'call':
                 call_data[strike['strike']] = strike['greeks'].get('mid_iv')
@@ -292,7 +292,7 @@ class Tradier:
         }
 
     def plot_iv(self, expiration_date: str):
-        volume = self._get_implied_volatility(expiration_date)
+        volume = self._get_implied_volatility(expiration_date=expiration_date)
         calls = volume.get('data', {}).get('Calls', [])
         puts = volume.get('data', {}).get('Puts', [])
 
@@ -340,7 +340,7 @@ class Tradier:
         call_data = {}
         put_data = {}
 
-        options_chain = self.get_options_chain(expiration_date).get('data')
+        options_chain = self.get_options_chain(expiration_date=expiration_date).get('data')
         for strike in options_chain:
             if strike['option_type'] == 'call':
                 call_data[strike['strike']] = {'last': strike['last'], 'bid': strike['bid'], 'ask': strike['ask']}
@@ -361,7 +361,7 @@ class Tradier:
         }
 
     def plot_last_bid_ask(self, expiration_date: str):
-        last_bid_ask = self._get_last_bid_ask(expiration_date)
+        last_bid_ask = self._get_last_bid_ask(expiration_date=expiration_date)
         calls = last_bid_ask.get('data', {}).get('Calls', [])
         puts = last_bid_ask.get('data', {}).get('Puts', [])
 
@@ -481,7 +481,7 @@ class Tradier:
         call_greeks = []
         put_greeks = []
 
-        option_chain = self.get_options_chain(expiration_date).get('data')
+        option_chain = self.get_options_chain(expiration_date=expiration_date).get('data')
         for strike in option_chain:
             if strike['option_type'] == 'call':
                 call_greeks.append({'strike': strike['strike'], 'greeks': strike.get('greeks')})
@@ -499,7 +499,7 @@ class Tradier:
         }
 
     def plot_greeks(self, expiration_date: str, greek_letter: str):
-        greeks_ = self._get_greeks(expiration_date).get('data')
+        greeks_ = self._get_greeks(expiration_date=expiration_date).get('data')
         calls = {}
         puts = {}
 

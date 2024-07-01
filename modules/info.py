@@ -10,6 +10,8 @@ from modules.providers.tradier import Tradier
 from modules.providers.polygon_ import Polygon
 from modules.providers.fmp import FMP
 
+from modules.max_pain import MaxPain
+
 
 y = YFinance('SOFI')
 f = Finnhub()
@@ -33,3 +35,4 @@ polygon_option = Polygon(
         limit=50000
 )
 fmp = FMP()
+max_pain = MaxPain('SOFI')
