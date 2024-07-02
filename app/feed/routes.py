@@ -5,7 +5,7 @@ from flask_login import current_user, login_required
 
 from app import db
 from .forms import PostForm
-from ..models import Post
+from ..models import Post, Stocks
 
 from . import bp_feed
 
@@ -16,19 +16,19 @@ from . import bp_feed
 def add_post():
     post_form = PostForm()
     if request.method == 'POST' and post_form.validate_on_submit():
-        post = Post(title=post_form.title.data.upper(),
-                    content=post_form.content.data,
-                    timestamp=datetime.now(timezone.utc),
-                    user_id=current_user.id)
+        post = Post(
+            title=post_form.title.data.upper(),
+            content=post_form.content.data,
+            timestamp=datetime.now(timezone.utc),
+            user_id=current_user.id
+        )
         db.session.add(post)
         db.session.commit()
         flash("Your idea has been submitted")
-        return render_template('feed/add_post.html', post_form=post_form)
-        # return redirect(url_for('symbol',
-        #                         symbol=form.title.data.upper()))
+        return redirect(url_for('stocks.symbol', symbol=post_form.title.data.upper()))
     else:
         flash("Invalid request")
-        return redirect(url_for('index'))
+        return redirect(url_for('main.index'))
 
 
 # read a specific post
@@ -36,8 +36,10 @@ def add_post():
 def post(id):
     post = Post.query.get_or_404(id)
 
-    return render_template("feed/post.html",
-                           post=post)
+    return render_template(
+        template_name_or_list="feed/post.html",
+        post=post
+    )
 
 
 # update/edit a post
@@ -58,8 +60,7 @@ def edit_post(id):
         db.session.commit()
         flash("Post has been updated")
         # redirect back to singular post page
-        return redirect(url_for('post',
-                                id=post.id))
+        return redirect(url_for('feed.post', id=post.id))
 
     # if id of logged-in user matches the id of the author of particular post
     if current_user.id == post.author.id:
@@ -69,13 +70,17 @@ def edit_post(id):
         # form.slug.data = post.slug
         post_form.content.data = post.content
         # goes back to newly edited singular post page
-        return render_template("feed/edit_post.html",
-                               post_form=post_form)
+        return render_template(
+            template_name_or_list="feed/edit_post.html",
+            post_form=post_form
+        )
     else:
         flash("You cannot edit this post")
         posts = Post.query.order_by(Post.date_posted)
-        return render_template("feed/feed.html",
-                               posts=posts)
+        return render_template(
+            template_name_or_list="feed/feed.html",
+            posts=posts
+        )
 
 
 # delete a post
@@ -88,18 +93,22 @@ def delete_post(id):
             db.session.delete(post_to_delete)
             db.session.commit()
             flash("Post has been deleted")
-            return redirect(url_for('feed'))
-        except:
+            return redirect(url_for('feed.feed'))
+        except ValueError:
             # return error message
             flash("Could not delete post")
             posts = Post.query.order_by(Post.timestamp.desc())
-            return render_template("feed/feed.html",
-                                   posts=posts)
+            return render_template(
+                template_name_or_list="feed/feed.html",
+                posts=posts
+            )
     else:
         flash("You cannot delete that post")
         posts = Post.query.order_by(Post.timestamp.desc())
-        return render_template("feed/feed.html",
-                               posts=posts)
+        return render_template(
+            template_name_or_list="feed/feed.html",
+            posts=posts
+        )
 
 
 # show the whole post feed
@@ -107,5 +116,7 @@ def delete_post(id):
 def feed():
     # grab all posts from the database, query by chronological order from the Posts model.
     posts = Post.query.order_by(Post.timestamp.desc())
-    return render_template('feed/feed.html',
-                           posts=posts)
+    return render_template(
+        template_name_or_list='feed/feed.html',
+        posts=posts
+    )

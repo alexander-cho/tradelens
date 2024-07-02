@@ -23,9 +23,11 @@ from . import bp_stocks
 @bp_stocks.route('/symbol')
 def symbol_directory():
     stock_list = Stocks.query.all()
-    return render_template('stocks/symbol_directory.html',
-                           title='Symbol Directory',
-                           stock_list=stock_list)
+    return render_template(
+        template_name_or_list='stocks/symbol_directory.html',
+        title='Symbol Directory',
+        stock_list=stock_list
+    )
 
 
 # search for a company
@@ -36,8 +38,7 @@ def symbol_search():
         search_content = symbol_search_form.searched.data.upper()
         searched_ticker_found = Stocks.query.filter_by(ticker_symbol=search_content).first()
         if searched_ticker_found:
-            return redirect(url_for('stocks.symbol',
-                                    symbol=search_content))
+            return redirect(url_for('stocks.symbol', symbol=search_content))
         else:
             flash("That stock does not exist or is not in our database yet")
             return redirect(url_for('stocks.symbol_directory'))
@@ -54,8 +55,7 @@ def symbol(symbol):
     # if user manually enters the ticker in lowercase letters in the url
     symbol = symbol.upper()
     if request.path != f"/symbol/{symbol}":
-        return redirect(url_for('stocks.symbol',
-                                symbol=symbol))
+        return redirect(url_for('stocks.symbol', symbol=symbol))
 
     # if the stock does not exist
     if not stock:
@@ -91,17 +91,19 @@ def symbol(symbol):
     # query the posts associated with the symbol
     symbol_posts = Post.query.order_by(Post.timestamp.desc()).where(Post.title == symbol)
 
-    return render_template('stocks/symbol.html',
-                           title=f'{stock.company_name} ({stock.ticker_symbol})',
-                           stock=stock,
-                           stock_chart=stock_chart,
-                           company_profile=company_profile,
-                           main_info=main_info,
-                           basic_info=basic_info,
-                           fast_info=fast_info,
-                           calendar=calendar,
-                           post_form=post_form,
-                           symbol_posts=symbol_posts)
+    return render_template(
+        template_name_or_list='stocks/symbol.html',
+        title=f'{stock.company_name} ({stock.ticker_symbol})',
+        stock=stock,
+        stock_chart=stock_chart,
+        company_profile=company_profile,
+        main_info=main_info,
+        basic_info=basic_info,
+        fast_info=fast_info,
+        calendar=calendar,
+        post_form=post_form,
+        symbol_posts=symbol_posts
+    )
 
 
 @bp_stocks.route('/symbol/<symbol>/news')
@@ -113,10 +115,12 @@ def symbol_news(symbol):
     (past_date, today) = get_date_range_past(days_past=7)
     ticker_news = finnhub.get_stock_news(ticker=stock.ticker_symbol, _from=past_date, to=today)
 
-    return render_template('stocks/symbol_news.html',
-                           title=f'News for {stock.ticker_symbol}',
-                           stock=stock,
-                           ticker_news=ticker_news)
+    return render_template(
+        template_name_or_list='stocks/symbol_news.html',
+        title=f'News for {stock.ticker_symbol}',
+        stock=stock,
+        ticker_news=ticker_news
+    )
 
 
 @bp_stocks.route('/symbol/<symbol>/financials')
@@ -129,12 +133,14 @@ def symbol_financials(symbol):
     cashflow = yfinance.get_cashflow_statement()
     income_statement = yfinance.get_income_statement()
 
-    return render_template('stocks/symbol_financials.html',
-                           title=f'{stock.ticker_symbol} Financials',
-                           stock=stock,
-                           balance_sheet=balance_sheet,
-                           cashflow=cashflow,
-                           income_statement=income_statement)
+    return render_template(
+        template_name_or_list='stocks/symbol_financials.html',
+        title=f'{stock.ticker_symbol} Financials',
+        ck=stock,
+        balance_sheet=balance_sheet,
+        cashflow=cashflow,
+        income_statement=income_statement
+    )
 
 
 @bp_stocks.route('/symbol/<symbol>/holders')
@@ -151,13 +157,15 @@ def symbol_holders(symbol):
     (past_date, today) = get_date_range_past(days_past=365)
     insider_sentiment = finnhub.get_insider_sentiment(ticker=stock.ticker_symbol, _from=past_date, to=today)
 
-    return render_template('stocks/symbol_holders.html',
-                           title=f'{stock.company_name} ({stock.ticker_symbol}) - Holders',
-                           stock=stock,
-                           institutional_holders=institutional_holders,
-                           insider_transactions=insider_transactions,
-                           analyst_ratings=analyst_ratings,
-                           insider_sentiment=insider_sentiment)
+    return render_template(
+        template_name_or_list='stocks/symbol_holders.html',
+        title=f'{stock.company_name} ({stock.ticker_symbol}) - Holders',
+        stock=stock,
+        institutional_holders=institutional_holders,
+        insider_transactions=insider_transactions,
+        analyst_ratings=analyst_ratings,
+        insider_sentiment=insider_sentiment
+    )
 
 
 @bp_stocks.route('/symbol/<symbol>/federal')
@@ -170,11 +178,13 @@ def symbol_federal(symbol):
     lobbying_activities = finnhub.get_lobbying_activities(ticker=symbol, _from=past_date, to=today)
     government_spending = finnhub.get_government_spending(ticker=symbol, _from=past_date, to=today)
 
-    return render_template('stocks/symbol_federal.html',
-                           title=f'{stock.company_name} ({stock.ticker_symbol}) - Federal',
-                           stock=stock,
-                           lobbying_activities=lobbying_activities,
-                           government_spending=government_spending)
+    return render_template(
+        template_name_or_list='stocks/symbol_federal.html',
+        title=f'{stock.company_name} ({stock.ticker_symbol}) - Federal',
+        stock=stock,
+        lobbying_activities=lobbying_activities,
+        government_spending=government_spending
+    )
 
 
 @bp_stocks.route('/symbol/<symbol>/dividends-splits')
@@ -186,8 +196,10 @@ def symbol_dividends_splits(symbol):
     ticker_dividends = fmp.get_ticker_dividends(ticker=stock.ticker_symbol)
     ticker_splits = fmp.get_ticker_splits(ticker=stock.ticker_symbol)
 
-    return render_template('stocks/symbol_dividends_splits.html',
-                           title=f'{stock.ticker_symbol} Dividends and Splits',
-                           stock=stock,
-                           ticker_dividends=ticker_dividends,
-                           ticker_splits=ticker_splits)
+    return render_template(
+        template_name_or_list='stocks/symbol_dividends_splits.html',
+        title=f'{stock.ticker_symbol} Dividends and Splits',
+        stock=stock,
+        ticker_dividends=ticker_dividends,
+        ticker_splits=ticker_splits
+    )

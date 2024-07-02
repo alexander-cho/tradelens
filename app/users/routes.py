@@ -20,11 +20,13 @@ def user(username):
     form = EmptyForm()
     posts = Post.query.order_by(Post.timestamp.desc()).where(Post.user_id == user.id)
 
-    return render_template('users/user.html',
-                           title=f'{user.username}',
-                           user=user,
-                           posts=posts,
-                           form=form)
+    return render_template(
+        template_name_or_list='users/user.html',
+        title=f'{user.username}',
+        user=user,
+        posts=posts,
+        form=form
+    )
 
 
 # edit your profile
@@ -38,15 +40,16 @@ def edit_profile():
         current_user.about_me = form.about_me.data
         db.session.commit()
         flash("Your information has been updated")
-        return redirect(url_for('users.user',
-                                username=current_user.username))
+        return redirect(url_for('users.user', username=current_user.username))
     elif request.method == 'GET':
         form.username.data = current_user.username
         form.about_me.data = current_user.about_me
 
-    return render_template('users/edit_profile.html',
-                           title='Edit Profile',
-                           form=form)
+    return render_template(
+        template_name_or_list='users/edit_profile.html',
+        title='Edit Profile',
+        form=form
+    )
 
 
 # follow a user
@@ -64,13 +67,11 @@ def follow(username):
         # if it is yourself
         if user == current_user:
             flash("You can't follow yourself")
-            return redirect(url_for('users.user',
-                                    username=username))
+            return redirect(url_for('users.user', username=username))
         current_user.follow(user)
         db.session.commit()
         flash(f"You are now following {username}")
-        return redirect(url_for('users.user',
-                                username=username))
+        return redirect(url_for('users.user', username=username))
     else:
         return redirect(url_for('main.index'))
 
@@ -87,12 +88,10 @@ def unfollow(username):
             return redirect(url_for('main.index'))
         if user == current_user:
             flash("You can't unfollow yourself")
-            return redirect(url_for('users.user',
-                                    username=username))
+            return redirect(url_for('users.user', username=username))
         current_user.unfollow(user)
         db.session.commit()
         flash(f"You have unfollowed {username}")
-        return redirect(url_for('users.user',
-                                username=username))
+        return redirect(url_for('users.user', username=username))
     else:
         return redirect(url_for('main.index'))

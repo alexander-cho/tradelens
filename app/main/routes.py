@@ -36,11 +36,13 @@ def index():
     top_gainers_losers = alphavantage.get_top_gainers_losers()
     market_holidays = finnhub.get_market_holidays()
 
-    return render_template('main/index.html',
-                           title='Home',
-                           market_status=market_status,
-                           top_gainers_losers=top_gainers_losers,
-                           market_holidays=market_holidays)
+    return render_template(
+        template_name_or_list='main/index.html',
+        title='Home',
+        market_status=market_status,
+        top_gainers_losers=top_gainers_losers,
+        market_holidays=market_holidays
+    )
 
 
 # search for post content
@@ -52,10 +54,12 @@ def search():
         search_content = form.searched.data
         posts = Post.query.filter(Post.content.like('%' + search_content + '%'))
         display_posts = posts.order_by(Post.title).all()
-        return render_template('main/search.html',
-                               form=form,
-                               searched=search_content,
-                               display_posts=display_posts)
+        return render_template(
+            template_name_or_list='main/search.html',
+            form=form,
+            searched=search_content,
+            display_posts=display_posts
+        )
     # if invalid or blank search is submitted
     else:
         return redirect(url_for('main.index'))

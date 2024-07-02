@@ -19,17 +19,17 @@ def login():
         # return to index page if already logged in
         return redirect(url_for('main.index'))
 
-    form = LoginForm()
-    if form.validate_on_submit():
+    login_form = LoginForm()
+    if login_form.validate_on_submit():
         # query table to look up username which was submitted in the form and see if it exists
-        user = User.query.filter_by(username=form.username.data).first()
+        user = User.query.filter_by(username=login_form.username.data).first()
         # if the user exists
         if user:
             # check the hash
             # compare what's already in the database with what the user just typed into the form
-            if user.check_password(form.password.data):
+            if user.check_password(login_form.password.data):
                 # log them in
-                login_user(user, remember=form.remember_me.data)
+                login_user(user, remember=login_form.remember_me.data)
                 flash("Login successful")
                 return redirect(url_for('main.index'))
             else:
@@ -38,9 +38,11 @@ def login():
         else:
             flash("That user does not exist")
 
-    return render_template('auth/login.html',
-                           title='Log In',
-                           form=form)
+    return render_template(
+        template_name_or_list='auth/login.html',
+        title='Log In',
+        login_form=login_form
+    )
 
 
 # logout
@@ -65,15 +67,19 @@ def register():
 
     form = RegistrationForm()
     if form.validate_on_submit():
-        user = User(username=form.username.data,
-                    email=form.email.data,
-                    date_joined=datetime.now(timezone.utc))
+        user = User(
+            username=form.username.data,
+            email=form.email.data,
+            date_joined=datetime.now(timezone.utc)
+        )
         user.set_password(form.password_hash.data)
         db.session.add(user)
         db.session.commit()
         flash("Your account has been created")
         return redirect(url_for('auth.login'))
 
-    return render_template('auth/register.html',
-                           title='Register',
-                           form=form)
+    return render_template(
+        template_name_or_list='auth/register.html',
+        title='Register',
+        form=form
+    )

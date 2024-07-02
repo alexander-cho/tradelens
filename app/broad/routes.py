@@ -16,10 +16,12 @@ def earnings_ipos():
     earnings_calendar = finnhub.get_earnings_calendar(_from=today, to=future_date)
     anticipated_ipos = finnhub.get_upcoming_ipos(_from=today, to=future_date)
 
-    return render_template('broad/earnings_ipos.html',
-                           title='IPOs',
-                           earnings_calendar=earnings_calendar,
-                           anticipated_ipos=anticipated_ipos)
+    return render_template(
+        template_name_or_list='broad/earnings_ipos.html',
+        title='IPOs',
+        earnings_calendar=earnings_calendar,
+        anticipated_ipos=anticipated_ipos
+    )
 
 
 @bp_broad.route('/market-news/<category>', methods=['GET'])
@@ -39,7 +41,9 @@ def market_news(category):
         flash(str(e))
         return redirect(url_for('broad.market_news', category='general'))
 
-    return render_template('broad/market_news.html',
-                           title=f"{category.capitalize()} News",
-                           category=category,
-                           news=news)
+    return render_template(
+        template_name_or_list='broad/market_news.html',
+        title=f"{category.capitalize()} News",
+        category=category,
+        news=news
+    )
