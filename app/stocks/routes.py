@@ -136,7 +136,7 @@ def symbol_financials(symbol):
     return render_template(
         template_name_or_list='stocks/symbol_financials.html',
         title=f'{stock.ticker_symbol} Financials',
-        ck=stock,
+        stock=stock,
         balance_sheet=balance_sheet,
         cashflow=cashflow,
         income_statement=income_statement

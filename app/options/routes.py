@@ -1,4 +1,4 @@
-from flask import render_template, redirect, url_for, flash
+from flask import render_template, redirect, url_for, flash, request
 
 import sqlalchemy as sa
 
@@ -20,6 +20,11 @@ from . import bp_options
 @bp_options.route('/options/<symbol>')
 def options(symbol):
     stock = db.session.scalar(sa.select(Stocks).where(Stocks.ticker_symbol == symbol))
+
+    # if user manually enters the ticker in lowercase letters in the url
+    symbol = symbol.upper()
+    if request.path != f"/options/{symbol}":
+        return redirect(url_for('options.options', symbol=symbol))
 
     yfinance = YFinance(symbol)
     expiry_list = yfinance.get_options_expiry_list()

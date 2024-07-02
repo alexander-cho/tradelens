@@ -1,20 +1,51 @@
 {% extends 'main/base.html' %}
 
 {% block content %}
+    <div class="row">
+    <!-- UPCOMING EARNINGS -->
+        <div class="col-7">
+            {% if earnings_calendar %}
+                <h1>Upcoming Earnings</h1>
+                {% for earning in earnings_calendar.data %}
+                    <div class="card" style="width: 40rem;">
+                        <div class="card-body">
+                            <h3 class="card-title"><a href="{{ url_for('stocks.symbol', symbol=earning.symbol) }}" class="btn btn-primary">{{ earning.symbol }}</a></h3>
+                            <h5 class="card-title">{{ earning.date }} | {{ earning.hour }}</h5>
+                            <h6 class="card-subtitle mb-2 text-body-secondary">{{ earning.quarter }} {{ earning.year }}</h6>
+                            <p class="card-text">
+                                EPS estimate: <strong>{{ earning.epsEstimate }}</strong> | EPS reported: <strong>{{ earning.epsActual }}</strong><br>
+                                Revenue estimate: <strong>{{ earning.revenueEstimate }}</strong> | Revenue reported: <strong>{{ earning.revenueActual }}</strong>
+                            </p>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <h5>No earnings data available</h5>
+            {% endif %}
+        </div>
 
-    {% if earnings_calendar %}
-        <h1>Upcoming Earnings</h1>
-        <p>{{ earnings_calendar }}</p>
-    {% else %}
-        <h5>No earnings data available</h5>
-    {% endif %}
-
-
-    {% if anticipated_ipos %}
-        <h1>Anticipated IPOs</h1>
-        <p>{{ anticipated_ipos }}</p>
-    {% else %}
-        <h5>No IPO data available</h5>
-    {% endif %}
+    <!-- ANTICIPATED IPOS -->
+        <div class="col-3">
+            {% if anticipated_ipos %}
+                <h1>Anticipated IPOs</h1>
+                {% for ipo in anticipated_ipos.data %}
+                    <div class="card" style="width: 30rem;">
+                        <div class="card-body">
+                            <h3 class="card-title">{{ ipo.symbol }}</h3>
+                            <h5 class="card-title">{{ ipo.name }}</h5>
+                            <h6 class="card-subtitle mb-2 text-body-secondary">{{ ipo.status }} | {{ ipo.date }} | {{ ipo.exchange }}</h6>
+                            <p class="card-text">
+                                Number of shares: <strong>{ ipo.numberOfShares }}</strong><br>
+                                List price: <strong>{{ ipo.price }}</strong><br>
+                                Total value: <strong>{{ ipo.totalSharesValue }}</strong>
+                            </p>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <h5>No IPO data available</h5>
+            {% endif %}
+        </div>
+    </div>
 
 {% endblock %}

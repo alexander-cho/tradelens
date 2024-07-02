@@ -65,14 +65,14 @@ def register():
         # return to index page if already logged in
         return redirect(url_for('main.index'))
 
-    form = RegistrationForm()
-    if form.validate_on_submit():
+    registration_form = RegistrationForm()
+    if registration_form.validate_on_submit():
         user = User(
-            username=form.username.data,
-            email=form.email.data,
+            username=registration_form.username.data,
+            email=registration_form.email.data,
             date_joined=datetime.now(timezone.utc)
         )
-        user.set_password(form.password_hash.data)
+        user.set_password(registration_form.password_hash.data)
         db.session.add(user)
         db.session.commit()
         flash("Your account has been created")
@@ -81,5 +81,5 @@ def register():
     return render_template(
         template_name_or_list='auth/register.html',
         title='Register',
-        form=form
+        registration_form=registration_form
     )

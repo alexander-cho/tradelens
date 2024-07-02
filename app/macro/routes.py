@@ -108,12 +108,14 @@ def housing_market():
     fed = FederalReserve()
 
     units_started = fed.plot_indicator(fed.get_housing_units_started())
+    homes_for_sale = fed.plot_indicator(fed.get_completed_homes_for_sale())
     median_price = fed.plot_indicator(fed.get_median_home_sale_price())
 
     return render_template(
         template_name_or_list='macro/housing_market.html',
         title='Macro - Housing Market',
         units_started=units_started,
+        homes_for_sale=homes_for_sale,
         median_price=median_price
     )
 

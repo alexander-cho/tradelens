@@ -261,10 +261,25 @@ class Finnhub:
         # return list elements in reverse order since response returns nearest earnings at the end
         reversed_earnings_calendar = earnings_calendar[::-1]
 
+        # remove the scheduled earnings if a reporting hour is not present
+        contains_hour = [earning for earning in reversed_earnings_calendar if earning['hour'] != '']
+
+        # change values amc and bmo to be more descriptive
+        for earning in contains_hour:
+            if earning['hour'] == 'bmo':
+                earning['hour'] = 'Before market open'
+            elif earning['hour'] == 'amc':
+                earning['hour'] = 'After market close'
+
+            # Add "Q" in front of the quarter value
+            earning['quarter'] = 'Q' + str(earning['quarter'])
+
+        final_calendar = contains_hour
+
         return {
             'description': 'market_wide_earnings_calendar',
             'date_range': date_range,
-            'data': reversed_earnings_calendar
+            'data': final_calendar
         }
 
     def get_upcoming_ipos(self, _from: str, to: str) -> dict:

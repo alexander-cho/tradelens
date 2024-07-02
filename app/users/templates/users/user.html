@@ -20,12 +20,12 @@
                     {% elif not current_user.is_following(user) %}
                         <form action="{{ url_for('users.follow', username=user.username) }}" method="post">
                             {{ form.hidden_tag() }}
-                            {{ form.submit(value='Follow')}}
+                            {{ form.submit(class="btn btn-outline-dark btn-sm", value="Follow")}}
                         </form>
                     {% else %}
                         <form action="{{ url_for('users.unfollow', username=user.username) }}" method="post">
                             {{ form.hidden_tag() }}
-                            {{ form.submit(value='Unfollow')}}
+                            {{ form.submit(class="btn btn-outline-dark btn-sm", value="Unfollow")}}
                         </form>
                     {% endif %}
                 </div>

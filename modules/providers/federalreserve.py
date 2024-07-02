@@ -32,7 +32,7 @@ class FederalReserve:
                 filtered_quarterly_gdp[k] = v
 
         return {
-            'description': 'Quarterly GDP',
+            'description': 'GDP, quarterly (in billions)',
             'data': filtered_quarterly_gdp
         }
 
@@ -60,7 +60,7 @@ class FederalReserve:
         debt = self.fred.get_series('GFDEBTN').to_dict()
 
         return {
-            'description': 'Total Public Debt, Quarterly',
+            'description': 'Total Public Debt, Quarterly (in billions)',
             'data': debt
         }
 
@@ -74,7 +74,7 @@ class FederalReserve:
         interest_payments = self.fred.get_series('A091RC1Q027SBEA').to_dict()
 
         return {
-            'description': 'Quarterly Interest Payments',
+            'description': 'Quarterly Interest Payments (in billions)',
             'data': interest_payments
         }
 
@@ -88,7 +88,7 @@ class FederalReserve:
         monthly_cpi = self.fred.get_series('CPALTT01USM659N').to_dict()
 
         return {
-            'description': 'Monthly CPI',
+            'description': 'Monthly CPI (YoY percent change)',
             'data': monthly_cpi
         }
 
@@ -102,7 +102,7 @@ class FederalReserve:
         monthly_ppi = self.fred.get_series('PPIACO').to_dict()
 
         return {
-            'description': 'Monthly ppi',
+            'description': 'Monthly ppi (index 1982=100)',
             'data': monthly_ppi
         }
 
@@ -117,7 +117,7 @@ class FederalReserve:
         monthly_pce = self.fred.get_series('PCE').to_dict()
 
         return {
-            'description': 'Monthly personal consumption expenditure',
+            'description': 'Total monthly personal consumption expenditure (billions of dollars)',
             'data': monthly_pce
         }
 
@@ -131,7 +131,7 @@ class FederalReserve:
         real_personal_disposable_income = self.fred.get_series('A229RX0').to_dict()
 
         return {
-            'description': 'Disposable personal income',
+            'description': 'Disposable personal income (dollars)',
             'data': real_personal_disposable_income
         }
 
@@ -145,7 +145,7 @@ class FederalReserve:
         monthly_unemployment_rate = self.fred.get_series('UNRATE').to_dict()
 
         return {
-            'description': 'Monthly unemployment rate',
+            'description': 'Monthly unemployment rate (percent)',
             'data': monthly_unemployment_rate
         }
 
@@ -160,7 +160,7 @@ class FederalReserve:
         total_nonfarm_payroll = self.fred.get_series('PAYEMS').to_dict()
 
         return {
-            'description': 'Monthly series of nonfarm payroll',
+            'description': 'Monthly series of nonfarm payroll (thousands of employees)',
             'data': total_nonfarm_payroll
         }
 
@@ -175,7 +175,7 @@ class FederalReserve:
         monthly_interest_rates = self.fred.get_series('FEDFUNDS').to_dict()
 
         return {
-            'description': 'Monthly interest rates',
+            'description': 'Interest rates, Monthly (percent)',
             'data': monthly_interest_rates
         }
 
@@ -194,7 +194,7 @@ class FederalReserve:
                 filtered_ten_year_yield[k] = v
 
         return {
-            'description': 'Ten Year Yield, daily',
+            'description': 'Ten Year Yield, daily (percent)',
             'data': filtered_ten_year_yield
         }
 
@@ -209,7 +209,7 @@ class FederalReserve:
         trade_balance = self.fred.get_series('BOPGSTB').to_dict()
 
         return {
-            'description': 'Trade balance (deficit)',
+            'description': 'Trade balance (deficit) (millions of dollars)',
             'data': trade_balance
         }
 
@@ -222,7 +222,7 @@ class FederalReserve:
         """
         fdi = self.fred.get_series('ROWFDIQ027S').to_dict()
         return {
-            'description': 'foreign direct investment to the USA',
+            'description': 'Foreign direct investment to the USA, every month (millions of dollars)',
             'data': fdi
         }
 
@@ -236,7 +236,7 @@ class FederalReserve:
         monthly_ipi = self.fred.get_series('INDPRO').to_dict()
 
         return {
-            'description': 'Industrial production',
+            'description': 'Industrial production (index 2017 = 100)',
             'data': monthly_ipi
         }
 
@@ -252,7 +252,7 @@ class FederalReserve:
         capacity_utilization = self.fred.get_series('TCU').to_dict()
 
         return {
-            'description': 'Capacity utilization',
+            'description': 'Capacity utilization (percent)',
             'data': capacity_utilization
         }
 
@@ -266,7 +266,21 @@ class FederalReserve:
         units_started = self.fred.get_series('HOUST').to_dict()
 
         return {
-            'description': 'Housing units started',
+            'description': 'New housing units started (thousands of units)',
+            'data': units_started
+        }
+
+    def get_completed_homes_for_sale(self) -> dict:
+        """
+        Get number of new homes fully completed construction, for sale each month (non-cumulative)
+
+        Returns:
+            dict: housing units as key value pairs of type Timestamp and float, expressed in thousands of units
+        """
+        units_started = self.fred.get_series('NHFSEPCS').to_dict()
+
+        return {
+            'description': 'Number of homes for sale that are completed (thousands of units)',
             'data': units_started
         }
 
@@ -280,7 +294,7 @@ class FederalReserve:
         median_sales_price = self.fred.get_series('MSPUS').to_dict()
 
         return {
-            'description': 'Median home sale price',
+            'description': 'Median home sale price (dollars)',
             'data': median_sales_price
         }
 
@@ -295,7 +309,7 @@ class FederalReserve:
         oil_prices = self.fred.get_series('MCOILWTICO').to_dict()
 
         return {
-            'description': 'Oil prices',
+            'description': 'Oil prices (dollars per barrel)',
             'data': oil_prices
         }
 
@@ -310,7 +324,7 @@ class FederalReserve:
         natural_gas_prices = self.fred.get_series('MHHNGSP').to_dict()
 
         return {
-            'description': 'Natural gas prices',
+            'description': 'Natural gas prices (dollars per million BTU, british thermal units)',
             'data': natural_gas_prices
         }
 
@@ -330,7 +344,7 @@ class FederalReserve:
                 filtered_sugar_prices[k] = v
 
         return {
-            'description': 'Global sugar prices',
+            'description': 'Global sugar prices (cents per pound)',
             'data': filtered_sugar_prices
         }
 
@@ -350,7 +364,7 @@ class FederalReserve:
                 filtered_corn_prices[k] = v
 
         return {
-            'description': 'Global corn prices',
+            'description': 'Global corn prices (dollars per metric ton)',
             'data': filtered_corn_prices
         }
 

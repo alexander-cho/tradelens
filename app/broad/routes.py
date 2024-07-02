@@ -12,9 +12,10 @@ from . import bp_broad
 def earnings_ipos():
     finnhub = Finnhub()
 
-    (today, future_date) = get_date_range_ahead(days_ahead=14)
-    earnings_calendar = finnhub.get_earnings_calendar(_from=today, to=future_date)
-    anticipated_ipos = finnhub.get_upcoming_ipos(_from=today, to=future_date)
+    (earnings_today, earnings_future_date) = get_date_range_ahead(days_ahead=7)
+    (ipos_today, ipos_future_date) = get_date_range_ahead(days_ahead=28)
+    earnings_calendar = finnhub.get_earnings_calendar(_from=earnings_today, to=earnings_future_date)
+    anticipated_ipos = finnhub.get_upcoming_ipos(_from=ipos_today, to=ipos_future_date)
 
     return render_template(
         template_name_or_list='broad/earnings_ipos.html',
