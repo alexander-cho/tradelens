@@ -4,27 +4,9 @@
 
     <h1>Inflation</h1>
 
-    <h3>CPI</h3>
-    {% if cpi %}
-        <p>{{ cpi }}</p>
-    {% endif %}
-
-
-    <h3>PPI</h3>
-    {% if ppi %}
-        {{ ppi }}
-    {% endif %}
-
-
-    <h3>PCE</h3>
-    {% if pce %}
-        <p>{{ pce }}</p>
-    {% endif %}
-
-
-    <h3>Personal Disposable Income</h3>
-    {% if disposable_income %}
-        {{ disposable_income }}
-    {% endif %}
+    <div id="plotly-div">{{ cpi | safe }}</div>
+    <div id="plotly-div">{{ ppi | safe }}</div>
+    <div id="plotly-div">{{ pce | safe }}</div>
+    <div id="plotly-div">{{ disposable_income | safe }}</div>
 
 {% endblock %}

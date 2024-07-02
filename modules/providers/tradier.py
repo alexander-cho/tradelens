@@ -143,7 +143,10 @@ class Tradier:
             }
         }
 
-    def plot_open_interest(self, expiration_date: str):
+    def plot_open_interest(self, expiration_date: str) -> str:
+        """
+        Plot open interest chart for calls and puts; 2 traces (bars)
+        """
         open_interest = self.get_open_interest(expiration_date=expiration_date)
         calls = open_interest.get('data', {}).get('Calls', [])
         puts = open_interest.get('data', {}).get('Puts', [])
@@ -179,14 +182,14 @@ class Tradier:
         fig.update_layout(
             barmode='stack',
             title=f'Open Interest | Total Call OI: {total_call_oi} | Total Put OI: {total_put_oi} | Put/Call Ratio: {put_call_ratio}',
-            xaxis_title='Strike Price',
+            xaxis_title='Strike',
             yaxis_title='Open Interest'
         )
 
         plot_html = pio.to_html(fig, full_html=False)
         return plot_html
 
-    def _get_volume(self, expiration_date: str):
+    def _get_volume(self, expiration_date: str) -> dict:
         """
         Get the volume of each strike for a specific expiration date
 
@@ -219,7 +222,10 @@ class Tradier:
             }
         }
 
-    def plot_volume(self, expiration_date: str):
+    def plot_volume(self, expiration_date: str) -> str:
+        """
+        Plot volume chart for calls and puts; 2 traces (bars)
+        """
         volume = self._get_volume(expiration_date=expiration_date)
         calls = volume.get('data', {}).get('Calls', [])
         puts = volume.get('data', {}).get('Puts', [])
@@ -251,14 +257,14 @@ class Tradier:
         fig.update_layout(
             barmode='stack',
             title='Volume',
-            xaxis_title='Strike Price',
+            xaxis_title='Strike',
             yaxis_title='Volume'
         )
 
         plot_html = pio.to_html(fig, full_html=False)
         return plot_html
 
-    def _get_implied_volatility(self, expiration_date: str):
+    def _get_implied_volatility(self, expiration_date: str) -> dict:
         """
         Get the implied volatility measurement of each strike for a specific expiration date
 
@@ -291,7 +297,10 @@ class Tradier:
             }
         }
 
-    def plot_iv(self, expiration_date: str):
+    def plot_iv(self, expiration_date: str) -> str:
+        """
+        Plot implied volatility chart for calls and puts; 2 traces
+        """
         volume = self._get_implied_volatility(expiration_date=expiration_date)
         calls = volume.get('data', {}).get('Calls', [])
         puts = volume.get('data', {}).get('Puts', [])
@@ -320,14 +329,14 @@ class Tradier:
         # update layout
         fig.update_layout(
             title='Implied Volatility (multiply by 100%)',
-            xaxis_title='Strike Price',
+            xaxis_title='Strike',
             yaxis_title='Implied Volatility'
         )
 
         plot_html = pio.to_html(fig, full_html=False)
         return plot_html
 
-    def _get_last_bid_ask(self, expiration_date: str):
+    def _get_last_bid_ask(self, expiration_date: str) -> dict:
         """
         Get the last, bid, ask prices of each strike for a specific expiration date
 
@@ -360,7 +369,10 @@ class Tradier:
             }
         }
 
-    def plot_last_bid_ask(self, expiration_date: str):
+    def plot_last_bid_ask(self, expiration_date: str) -> str:
+        """
+        Plot last/bid/ask prices chart for calls and puts; 6 traces total
+        """
         last_bid_ask = self._get_last_bid_ask(expiration_date=expiration_date)
         calls = last_bid_ask.get('data', {}).get('Calls', [])
         puts = last_bid_ask.get('data', {}).get('Puts', [])
@@ -457,8 +469,8 @@ class Tradier:
 
         fig.update_layout(
             title='Last, Bid, Ask Prices',
-            yaxis1_title='Price',
-            yaxis2_title='Price',
+            yaxis1_title='Price (Calls)',
+            yaxis2_title='Price (Puts)',
             xaxis1_title='Strike',
             xaxis2_title='Strike',
             height=800
@@ -498,7 +510,10 @@ class Tradier:
             }
         }
 
-    def plot_greeks(self, expiration_date: str, greek_letter: str):
+    def plot_greeks(self, expiration_date: str, greek_letter: str) -> str:
+        """
+        Plot the greeks data for a specific expiration date for a specific greek letter
+        """
         greeks_ = self._get_greeks(expiration_date=expiration_date).get('data')
         calls = {}
         puts = {}
@@ -517,28 +532,32 @@ class Tradier:
         fig = go.Figure()
 
         # calls line
-        fig.add_trace(go.Scatter(
-            x=call_strikes,
-            y=call_values,
-            mode='lines+markers',
-            name='Calls',
-            line=dict(color='green'),
-            marker=dict(size=5),
-            text=[f'Strike={strike}, {greek_letter}={value}' for strike, value in zip(call_strikes, call_values)],
-            hovertemplate='%{text}<extra></extra>'
-        ))
+        fig.add_trace(
+            go.Scatter(
+                x=call_strikes,
+                y=call_values,
+                mode='lines+markers',
+                name='Calls',
+                line=dict(color='green'),
+                marker=dict(size=5),
+                text=[f'Strike={strike}, {greek_letter}={value}' for strike, value in zip(call_strikes, call_values)],
+                hovertemplate='%{text}<extra></extra>'
+            )
+        )
 
         # puts line
-        fig.add_trace(go.Scatter(
-            x=put_strikes,
-            y=put_values,
-            mode='lines+markers',
-            name='Puts',
-            line=dict(color='red'),
-            marker=dict(size=5),
-            text=[f'Strike={strike}, {greek_letter}={value}' for strike, value in zip(put_strikes, put_values)],
-            hovertemplate='%{text}<extra></extra>'
-        ))
+        fig.add_trace(
+            go.Scatter(
+                x=put_strikes,
+                y=put_values,
+                mode='lines+markers',
+                name='Puts',
+                line=dict(color='red'),
+                marker=dict(size=5),
+                text=[f'Strike={strike}, {greek_letter}={value}' for strike, value in zip(put_strikes, put_values)],
+                hovertemplate='%{text}<extra></extra>'
+            )
+        )
 
         fig.update_layout(
             title=f'{greek_letter}',

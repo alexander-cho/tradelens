@@ -145,11 +145,11 @@ class Polygon:
 
         # make subplot of two rows to plot two graphs sharing an x-axis, the timestamps.
         fig = subplots.make_subplots(
-            rows=2,
+            rows=3,
             cols=1,
             shared_xaxes=True,
             vertical_spacing=0.02,
-            row_heights=[0.7, 0.3]
+            row_heights=[0.6, 0.25, 0.15]
         )
 
         # add candlestick trace to row one of subplot
@@ -178,10 +178,23 @@ class Polygon:
             col=1
         )
 
+        # add number of transactions bar trace to row three of subplot
+        fig.add_trace(
+            go.Bar(
+                x=datetime_strings,
+                y=number_of_transactions,
+                name='Number of transactions',
+                yaxis='y3'
+            ),
+            row=3,
+            col=1
+        )
+
         # update layout
         fig.update_layout(
             yaxis1_title='Price',
             yaxis2_title='Volume (M)',
+            yaxis3_title='Number of transactions',
             xaxis1_title='Time',
             xaxis_rangeslider_visible=False,
             width=1300,

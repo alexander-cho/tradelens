@@ -4,15 +4,7 @@
 
     <h1>Trade</h1>
 
-    <h3>Trade Deficit</h3>
-    {% if trade_deficit %}
-        <p>{{ trade_deficit }}</p>
-    {% endif %}
-
-
-    <h3>Federal Direct Investment</h3>
-    {% if fdi %}
-        {{ fdi }}
-    {% endif %}
+    <div id="plotly-div">{{ trade_deficit | safe }}</div>
+    <div id="plotly-div">{{ fdi | safe }}</div>
 
 {% endblock %}

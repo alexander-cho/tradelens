@@ -43,16 +43,18 @@ class YFinance:
 
             # new dict for keeping keys we want from the response
             price_info = {}
-            keys_to_keep = ['regularMarketPrice',
-                            'regularMarketChange',
-                            'regularMarketChangePercent',
-                            'postMarketPrice',
-                            'postMarketChange',
-                            'postMarketChangePercent',
-                            'bid',
-                            'ask',
-                            'bidSize',
-                            'askSize']
+            keys_to_keep = [
+                'regularMarketPrice',
+                'regularMarketChange',
+                'regularMarketChangePercent',
+                'postMarketPrice',
+                'postMarketChange',
+                'postMarketChangePercent',
+                'bid',
+                'ask',
+                'bidSize',
+                'askSize'
+            ]
 
             for key in keys_to_keep:
                 if key in underlying_info:

@@ -36,3 +36,5 @@ polygon_option = Polygon(
 )
 fmp = FMP()
 max_pain = MaxPain('SOFI')
+
+print(polygon_ticker.get_bar_aggregates())

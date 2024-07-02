@@ -4,15 +4,7 @@
 
     <h1>Industrial Activity</h1>
 
-    <h3>Industrial production</h3>
-    {% if industrial_production %}
-        {{ industrial_production }}
-    {% endif %}
-
-
-    <h3>Capacity utilization</h3>
-    {% if capacity_utilization %}
-        <p>{{ capacity_utilization }}</p>
-    {% endif %}
+    <div id="plotly-div">{{ industrial_production | safe }}</div>
+    <div id="plotly-div">{{ capacity_utilization | safe }}</div>
 
 {% endblock %}

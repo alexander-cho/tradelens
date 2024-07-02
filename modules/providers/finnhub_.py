@@ -118,7 +118,13 @@ class Finnhub:
             dict: basic profile data, which includes the web URL and company logo
         """
         company_profile = self.fc.company_profile2(symbol=ticker)
-        keys = ['ticker', 'ipo', 'weburl', 'logo', 'finnhubIndustry']
+        keys = [
+            'ticker',
+            'ipo',
+            'weburl',
+            'logo',
+            'finnhubIndustry'
+        ]
         condensed_profile = {}
 
         for key in keys:

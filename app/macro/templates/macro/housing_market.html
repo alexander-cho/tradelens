@@ -4,15 +4,7 @@
 
     <h1>Housing market</h1>
 
-    <h3>New Units started</h3>
-    {% if units_started %}
-        <p>{{ units_started }}</p>
-    {% endif %}
-
-
-    <h3>Median home price</h3>
-    {% if median_price %}
-        <p>{{ median_price }}</p>
-    {% endif %}
+    <div id="plotly-div">{{ units_started | safe }}</div>
+    <div id="plotly-div">{{ median_price | safe }}</div>
 
 {% endblock %}

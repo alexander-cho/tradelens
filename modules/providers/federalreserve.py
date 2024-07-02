@@ -1,6 +1,8 @@
 import os
 from dotenv import load_dotenv
 import pandas as pd
+import plotly.graph_objects as go
+import plotly.io as pio
 
 from fredapi import Fred
 
@@ -351,3 +353,41 @@ class FederalReserve:
             'description': 'Global corn prices',
             'data': filtered_corn_prices
         }
+
+    @staticmethod
+    def plot_indicator(indicator: dict) -> str:
+        """
+        Plot the chart given selected indicator above
+        """
+        timestamps = list(indicator.get('data').keys())
+        values = list(indicator.get('data').values())
+
+        fig = go.Figure()
+
+        fig.add_trace(
+            go.Scatter(
+                x=timestamps,
+                y=values,
+                mode='lines',
+                name=indicator.get('description')
+            )
+        )
+
+        fig.update_layout(
+            title=indicator.get('description'),
+            xaxis_title='Date',
+            yaxis_title='Value',
+            width=1200,
+            height=500,
+            margin=dict(
+                l=10,
+                r=10,
+                t=30,
+                b=10
+            )
+        )
+
+        # convert plot to HTML string
+        plot_html = pio.to_html(fig, full_html=False)
+
+        return plot_html

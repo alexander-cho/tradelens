@@ -4,15 +4,7 @@
 
     <h1>Financial markets</h1>
 
-    <h3>Interest Rate</h3>
-    {% if interest_rates %}
-        <p>{{ interest_rates }}</p>
-    {% endif %}
-
-
-    <h3>10 Year Yield</h3>
-    {% if ten_year_yield %}
-        <p>{{ ten_year_yield }}</p>
-    {% endif %}
+    <div id="plotly-div">{{ interest_rates | safe }}</div>
+    <div id="plotly-div">{{ ten_year_yield | safe }}</div>
 
 {% endblock %}
