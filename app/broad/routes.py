@@ -31,7 +31,7 @@ def market_news(category):
     # market news categories
     valid_categories = ['general', 'forex', 'crypto', 'merger']
     if category not in valid_categories:
-        flash(f"Invalid news category: {category}. Showing general news instead.")
+        flash(f"Invalid news category: '{category}'. Showing general news instead.")
         category = 'general'
         return redirect(url_for('broad.market_news', category=category))
 

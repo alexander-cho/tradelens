@@ -13,8 +13,8 @@
                             <h5 class="card-title">{{ earning.date }} | {{ earning.hour }}</h5>
                             <h6 class="card-subtitle mb-2 text-body-secondary">{{ earning.quarter }} {{ earning.year }}</h6>
                             <p class="card-text">
-                                EPS estimate: <strong>{{ earning.epsEstimate }}</strong> | EPS reported: <strong>{{ earning.epsActual }}</strong><br>
-                                Revenue estimate: <strong>{{ earning.revenueEstimate }}</strong> | Revenue reported: <strong>{{ earning.revenueActual }}</strong>
+                                EPS estimate: <strong>${{ earning.epsEstimate }}</strong> | EPS reported: <strong>${{ earning.epsActual }}</strong><br>
+                                Revenue estimate: <strong>${{ earning.revenueEstimate }}</strong> | Revenue reported: <strong>${{ earning.revenueActual }}</strong>
                             </p>
                         </div>
                     </div>
@@ -35,9 +35,9 @@
                             <h5 class="card-title">{{ ipo.name }}</h5>
                             <h6 class="card-subtitle mb-2 text-body-secondary">{{ ipo.status }} | {{ ipo.date }} | {{ ipo.exchange }}</h6>
                             <p class="card-text">
-                                Number of shares: <strong>{ ipo.numberOfShares }}</strong><br>
-                                List price: <strong>{{ ipo.price }}</strong><br>
-                                Total value: <strong>{{ ipo.totalSharesValue }}</strong>
+                                Number of shares: <strong>{{ ipo.numberOfShares }}</strong><br>
+                                List price: <strong>${{ ipo.price }}</strong><br>
+                                Total value: <strong>${{ ipo.totalSharesValue }}</strong>
                             </p>
                         </div>
                     </div>

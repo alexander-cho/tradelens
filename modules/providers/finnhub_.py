@@ -78,6 +78,14 @@ class Finnhub:
         """
         market_news = self.fc.general_news(category=category, min_id=0)
 
+        # convert unix timestamp to pst time
+        for article in market_news:
+            datetime_to_utc = datetime.utcfromtimestamp(article['datetime']).replace(tzinfo=pytz.utc)
+            pst_tz = pytz.timezone('America/Los_Angeles')
+            article_datetime_pst = datetime_to_utc.astimezone(pst_tz)
+            # replace with PST
+            article['datetime'] = article_datetime_pst.strftime('%Y-%m-%d %H:%M:%S')
+
         return {
             'description': 'market_news',
             'category': category,
@@ -99,6 +107,14 @@ class Finnhub:
         """
         ticker_news = self.fc.company_news(symbol=ticker, _from=_from, to=to)
         date_range = {'from': _from, 'to': to}
+
+        # convert unix timestamp to pst time
+        for article in ticker_news:
+            datetime_to_utc = datetime.utcfromtimestamp(article['datetime']).replace(tzinfo=pytz.utc)
+            pst_tz = pytz.timezone('America/Los_Angeles')
+            article_datetime_pst = datetime_to_utc.astimezone(pst_tz)
+            # replace with PST
+            article['datetime'] = article_datetime_pst.strftime('%Y-%m-%d %H:%M:%S')
 
         return {
             'description': 'stock_news',
