@@ -4,15 +4,50 @@
 
     <h1>Federal Activity for {{ stock.ticker_symbol }}</h1>
 
-    {% if lobbying_activities %}
-        <h3>Lobbying Activity</h3>
-        <p>{{ lobbying_activities }}</p>
-    {% endif %}
+    <div class="row">
+        <div class="col-md-6">
+            {% if lobbying_activities %}
+                <h3>Lobbying Activity</h3>
+                {% for activity in lobbying_activities.data %}
+                    <div class="card" style="width: 30rem;">
+                        <div class="card-body">
+                            <h5 class="card-title">Expense: ${{ activity.expenses }}</h5>
+                            <h6 class="card-subtitle mb-2 text-body-secondary">Income: ${{ activity.income }}</h6>
+                            <p class="card-text">
+                                {{ activity.period }} {{ activity.year }} <br>
+                                {{ activity.type }}
+                            </p>
+                            <a href="{{ activity.documentUrl }}" class="card-link">Link</a>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <h3>No lobbying activity</h3>
+            {% endif %}
+        </div>
 
-
-    {% if government_spending %}
-        <h3>Government Spending</h3>
-        <p>{{ government_spending }}</p>
-    {% endif %}
+        <div class="col-md-6">
+            {% if government_spending %}
+                <h3>Government Spending</h3>
+                {% for expense in government_spending.data %}
+                    <div class="card" style="width: 30rem;">
+                        <div class="card-body">
+                            <h5 class="card-title">Value: ${{ expense.totalValue }}</h5>
+                            <h6 class="card-subtitle mb-2 text-body-secondary">{{ expense.actionDate }}</h6>
+                            <h6 class="card-subtitle mb-2 text-body-secondary">
+                                {{ expense.awardingAgencyName }} <br>
+                                {{ expense.awardingSubAgencyName }} <br>
+                                {{ expense.awardingOfficeName }}
+                            </h6>
+                            <p class="card-text">{{ expense.awardDescription }}</p>
+                            <a href="{{ expense.permalink }}" class="card-link">Link</a>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <h3>No government spending</h3>
+            {% endif %}
+        </div>
+    </div>
 
 {% endblock %}

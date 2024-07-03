@@ -243,6 +243,7 @@ class Finnhub:
                 "totalValue": activity.get("totalValue"),
                 "actionDate": activity.get("actionDate"),
                 "awardingAgencyName": activity.get("awardingAgencyName"),
+                "awardingSubAgencyName": activity.get("awardingSubAgencyName"),
                 "awardingOfficeName": activity.get("awardingOfficeName"),
                 "awardDescription": activity.get("awardDescription"),
                 "permalink": activity.get("permalink")

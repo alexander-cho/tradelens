@@ -6,13 +6,44 @@
 
     {% if ticker_dividends %}
         <h3>Dividends</h3>
-        <p>{{ ticker_dividends }}</p>
+        {% for payout in ticker_dividends.data %}
+            <div class="card" style="width: 100%;">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item d-flex justify-content-between">
+                            <strong>Ex-dividend date:</strong>{{ payout.date }}
+                            <strong>payout:</strong>{{ payout.dividend }}
+                            <strong>adjusted:</strong>{{ payout.adjDividend }}
+                            <strong>record date:</strong>{{ payout.recordDate }}
+                            <strong>payout date:</strong>{{ payout.paymentDate }}
+                            <strong>declaration date:</strong>{{ payout.declarationDate }}
+                        </li>
+                    </ul>
+                </div>
+        {% endfor %}
+    {% else %}
+        <h3>No dividends</h3>
     {% endif %}
 
+    <br><br>
 
     {% if ticker_splits %}
-        <h3>Splits</h3>
-        <p>{{ ticker_splits }}</p>
+    <h3>Splits</h3>
+    <div class="row">
+        {% for split in ticker_splits.data %}
+            <div class="col-md-4 mb-4">
+                <div class="card" style="width: 100%;">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item d-flex justify-content-between">
+                            <span>{{ split.date }}</span>
+                            <span><strong>{{ split.numerator }} for {{ split.denominator }}</strong></span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    {% else %}
+        <h3>No splits</h3>
     {% endif %}
 
 {% endblock %}
