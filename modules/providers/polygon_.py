@@ -193,7 +193,7 @@ class Polygon:
         # update layout
         fig.update_layout(
             yaxis1_title='Price',
-            yaxis2_title='Volume (M)',
+            yaxis2_title='Volume',
             yaxis3_title='Number of transactions',
             xaxis1_title='Time',
             xaxis_rangeslider_visible=False,

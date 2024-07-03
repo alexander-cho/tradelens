@@ -71,7 +71,7 @@ def symbol(symbol):
         to=f'{chart_today}',
         limit=50000
     )
-    stock_chart = polygon.get_bar_aggregates()
+    # stock_chart = polygon.get_bar_aggregates()
 
     # CONTEXT FROM SRC FOR SYMBOL DATA
     yfinance = YFinance(stock.ticker_symbol)
@@ -95,7 +95,7 @@ def symbol(symbol):
         template_name_or_list='stocks/symbol.html',
         title=f'{stock.company_name} ({stock.ticker_symbol})',
         stock=stock,
-        stock_chart=stock_chart,
+        # stock_chart=stock_chart,
         company_profile=company_profile,
         main_info=main_info,
         basic_info=basic_info,

@@ -2,8 +2,24 @@
 
 {% block content %}
 
-    <h1>{{ stock.ticker_symbol }}</h1>
-    <h4>{{ stock.company_name }}</h4>
+    <div class="row">
+        <div class="col-md-6 d-flex align-items-center">
+            <div>
+                <h1>{{ stock.ticker_symbol }}</h1>
+                <h4>{{ stock.company_name }}</h4>
+                {% if company_profile.data %}
+                    <a href="{{ company_profile.data.weburl }}" class="btn btn-outline-primary btn-sm">Company Site</a>
+                {% endif %}
+            </div>
+        </div>
+        <div class="col-md-6 d-flex align-items-center">
+            <div class="d-flex justify-content-end align-items-center w-100">
+                {% if company_profile.data %}
+                    <img src="{{ company_profile.data.logo }}" class="img-fluid mr-3" style="max-width: 100px; height: auto;" alt="">
+                {% endif %}
+            </div>
+        </div>
+    </div>
 
     <hr>
 
@@ -20,33 +36,35 @@
     <div id="plotly-div">{{ stock_chart | safe }}</div>
 
 
-    {% if company_profile %}
-        <h3>Company logo, ipo date, sector</h3>
-        <p>{{ company_profile }}</p>
-    {% endif %}
-
-
     {% if basic_info %}
         <h3>basic_info</h3>
-        <p>{{ basic_info }}</p>
+        {% for k, v in basic_info.data.items() %}
+            <strong>{{ k }}</strong> | {{ v }}<br>
+        {% endfor %}
     {% endif %}
 
 
     {% if main_info %}
         <h3>Main info</h3>
-        <p>{{ main_info }}</p>
+        {% for k, v in main_info.data.items() %}
+            <strong>{{ k }}</strong> | {{ v }}<br>
+        {% endfor %}
     {% endif %}
 
 
     {% if fast_info %}
         <h3>fast_info</h3>
-        <p>{{ fast_info }}</p>
+        {% for k, v in fast_info.data.items() %}
+            <strong>{{ k }}</strong> | {{ v }}<br>
+        {% endfor %}
     {% endif %}
 
 
     {% if calendar %}
         <h3>Dividends, Earnings and Revenue Estimates</h3>
-        <p>{{ calendar }}</p>
+        {% for k, v in calendar.data.items() %}
+            <strong>{{ k }}</strong> | {{ v }}<br>
+        {% endfor %}
     {% endif %}
 
 
