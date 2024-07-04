@@ -183,7 +183,7 @@ class Polygon:
             go.Bar(
                 x=datetime_strings,
                 y=number_of_transactions,
-                name='Number of transactions',
+                name='Transactions',
                 yaxis='y3'
             ),
             row=3,
@@ -194,7 +194,7 @@ class Polygon:
         fig.update_layout(
             yaxis1_title='Price',
             yaxis2_title='Volume',
-            yaxis3_title='Number of transactions',
+            yaxis3_title='Transactions',
             xaxis1_title='Time',
             xaxis_rangeslider_visible=False,
             width=1300,

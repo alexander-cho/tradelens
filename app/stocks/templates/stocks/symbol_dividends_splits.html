@@ -6,8 +6,9 @@
 
     {% if ticker_dividends %}
         <h3>Dividends</h3>
+        <div class="scrollable-list">
         {% for payout in ticker_dividends.data %}
-            <div class="card" style="width: 100%;">
+                <div class="card" style="width: 100%;">
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item d-flex justify-content-between">
                             <strong>Ex-dividend date:</strong>{{ payout.date }}
@@ -20,6 +21,7 @@
                     </ul>
                 </div>
         {% endfor %}
+        </div>
     {% else %}
         <h3>No dividends</h3>
     {% endif %}
@@ -45,5 +47,16 @@
     {% else %}
         <h3>No splits</h3>
     {% endif %}
+
+
+    <style>
+        .scrollable-list {
+            max-height: 550px; /* Set the maximum height of the scrollable area */
+            overflow-y: auto; /* Enable vertical scrollbar if content overflows */
+            border: 1px solid darkblue; /* Add a 1px solid border with a light gray color */
+            border-radius: 10px; /* Add border-radius for smoother edges */
+            padding: 10px; /* Add padding to separate content from the border */
+        }
+    </style>
 
 {% endblock %}

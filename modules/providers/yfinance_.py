@@ -274,7 +274,7 @@ class YFinance:
             marker={'color': 'green'},
             hovertemplate='<b>%{x}</b><br>'
                           'Shares: %{y}<br>'
-                          'Pct Held: %{customdata[0]:.2%}<br>'
+                          'Percent Held: %{customdata[0]:.2%}<br>'
                           'Value: $%{customdata[1]:,}<extra></extra>',
             customdata=list(zip(pct_held, value))
         )
@@ -285,7 +285,8 @@ class YFinance:
         fig.update_layout(
             title='Institutional Ownership',
             xaxis_title='Holder',
-            yaxis_title='Shares'
+            yaxis_title='Shares',
+            height=700
         )
 
         plot_html = pio.to_html(fig, full_html=False)

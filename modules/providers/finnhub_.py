@@ -196,11 +196,13 @@ class Finnhub:
         insider_transactions = self.fc.stock_insider_transactions(symbol=ticker, _from=_from, to=to).get('data')
         date_range = {'from': _from, 'to': to}
 
+        insider_transactions_reversed = insider_transactions[::-1]
+
         return {
             'description': 'insider_transactions',
             'ticker': ticker,
             'date_range': date_range,
-            'data': insider_transactions
+            'data': insider_transactions_reversed
         }
 
     def get_lobbying_activities(self, ticker: str, _from: str, to: str) -> dict:
@@ -352,11 +354,11 @@ class Finnhub:
         timestamp = [sentiment['timestamp'] for sentiment in insider_sentiment]
         change = [sentiment['change'] for sentiment in insider_sentiment]
 
-        # hover popups
-        mspr = [sentiment['mspr'] for sentiment in insider_sentiment]
-
         # Set colors: green for positive change, red for negative change
         colors = ['green' if c > 0 else 'red' for c in change]
+
+        # hover popups
+        mspr = [sentiment['mspr'] for sentiment in insider_sentiment]
 
         trace = go.Bar(
             x=timestamp,
@@ -374,7 +376,50 @@ class Finnhub:
         fig.update_layout(
             title='Insider sentiment based on Monthly Share Purchase Ratio',
             xaxis_title='Month',
-            yaxis_title='Net buying/selling from all insider transactions.'
+            yaxis_title='Net buying/selling from all insider transactions.',
+            height=700
+        )
+
+        plot_html = pio.to_html(fig, full_html=False)
+        return plot_html
+
+    def plot_insider_transactions(self, ticker: str, _from: str, to: str) -> str:
+        insider_transactions = self.get_insider_transactions(ticker=ticker, _from=_from, to=to).get('data')
+        transaction_date = [transaction['transactionDate'] for transaction in insider_transactions]
+        change = [transaction['change'] for transaction in insider_transactions]
+
+        # Set colors: green for positive change, red for negative change
+        colors = ['green' if c > 0 else 'red' for c in change]
+
+        # hover popups
+        insider_name = [transaction['name'] for transaction in insider_transactions]
+        shares_remaining = [transaction['share'] for transaction in insider_transactions]
+        transaction_price = [transaction['transactionPrice'] for transaction in insider_transactions]
+        is_derivative = [transaction['isDerivative'] for transaction in insider_transactions]
+        transaction_code = [transaction['transactionCode'] for transaction in insider_transactions]
+
+        trace = go.Bar(
+            x=transaction_date,
+            y=change,
+            marker={'color': colors},
+            hovertemplate='<b>%{x}</b><br>'
+                          '<b>Name:</b> %{customdata[0]}<br>'
+                          '<b>Change in shares:</b> %{y}<br>'
+                          '<b>Shares remaining:</b> %{customdata[1]}<br>'
+                          '<b>Price per share:</b> %{customdata[2]}<br>'
+                          '<b>Options exercise?</b> %{customdata[3]}<br>'
+                          '<b>Transaction code:</b> %{customdata[4]}<extra></extra>',
+            customdata=list(zip(insider_name, shares_remaining, transaction_price, is_derivative, transaction_code))
+        )
+
+        fig = go.Figure(data=trace)
+
+        # update layout for bar chart
+        fig.update_layout(
+            title='Insider Transactions',
+            xaxis_title='Date',
+            yaxis_title='Shares',
+            height=700
         )
 
         plot_html = pio.to_html(fig, full_html=False)

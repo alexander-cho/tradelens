@@ -156,7 +156,7 @@ def symbol_holders(symbol):
     (sentiment_past_date, sentiment_today) = get_date_range_past(days_past=365)
     (transactions_past_date, transactions_today) = get_date_range_past(days_past=182)
     insider_sentiment = finnhub.plot_insider_sentiment(ticker=stock.ticker_symbol, _from=sentiment_past_date, to=sentiment_today)
-    insider_transactions = finnhub.get_insider_transactions(ticker=stock.ticker_symbol, _from=transactions_past_date, to=transactions_today)
+    insider_transactions = finnhub.plot_insider_transactions(ticker=stock.ticker_symbol, _from=transactions_past_date, to=transactions_today)
 
     return render_template(
         template_name_or_list='stocks/symbol_holders.html',
