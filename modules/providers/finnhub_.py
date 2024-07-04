@@ -4,6 +4,9 @@ import pytz
 
 from dotenv import load_dotenv
 
+import plotly.graph_objects as go
+import plotly.io as pio
+
 import finnhub
 
 load_dotenv()
@@ -173,11 +176,31 @@ class Finnhub:
         insider_sentiment = self.fc.stock_insider_sentiment(symbol=ticker, _from=_from, to=to).get('data')
         date_range = {'from': _from, 'to': to}
 
+        # original data has keys 'year' and 'month' as an integer; change to '<MONTH> <YEAR>'
+        for sentiment in insider_sentiment:
+            timestamp = datetime(year=sentiment['year'], month=sentiment['month'], day=1).strftime('%B %Y')
+            sentiment['timestamp'] = timestamp
+
+            # remove original k, v
+            del sentiment['year']
+            del sentiment['month']
+
         return {
             'description': 'insider_sentiment',
             'ticker': ticker,
             'date_range': date_range,
             'data': insider_sentiment
+        }
+
+    def get_insider_transactions(self, ticker: str, _from: str, to: str) -> dict:
+        insider_transactions = self.fc.stock_insider_transactions(symbol=ticker, _from=_from, to=to).get('data')
+        date_range = {'from': _from, 'to': to}
+
+        return {
+            'description': 'insider_transactions',
+            'ticker': ticker,
+            'date_range': date_range,
+            'data': insider_transactions
         }
 
     def get_lobbying_activities(self, ticker: str, _from: str, to: str) -> dict:
@@ -323,3 +346,36 @@ class Finnhub:
             'date_range': date_range,
             'data': reversed_anticipated_ipos
         }
+
+    def plot_insider_sentiment(self, ticker: str, _from: str, to: str) -> str:
+        insider_sentiment = self.get_insider_sentiment(ticker=ticker, _from=_from, to=to).get('data')
+        timestamp = [sentiment['timestamp'] for sentiment in insider_sentiment]
+        change = [sentiment['change'] for sentiment in insider_sentiment]
+
+        # hover popups
+        mspr = [sentiment['mspr'] for sentiment in insider_sentiment]
+
+        # Set colors: green for positive change, red for negative change
+        colors = ['green' if c > 0 else 'red' for c in change]
+
+        trace = go.Bar(
+            x=timestamp,
+            y=change,
+            marker={'color': colors},
+            hovertemplate='<b>%{x}</b><br>'
+                          'Shares: %{y}<br>'
+                          'MSPR: %{customdata}<extra></extra>',
+            customdata=list(mspr)
+        )
+
+        fig = go.Figure(data=trace)
+
+        # update layout for bar chart
+        fig.update_layout(
+            title='Insider sentiment based on Monthly Share Purchase Ratio',
+            xaxis_title='Month',
+            yaxis_title='Net buying/selling from all insider transactions.'
+        )
+
+        plot_html = pio.to_html(fig, full_html=False)
+        return plot_html

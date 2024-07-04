@@ -4,43 +4,15 @@
 
     <h1>Holders and Insiders Activity for {{ stock.ticker_symbol }}</h1>
 
-    {% if institutional_holders %}
-        <h3>Top Institutional Holders</h3>
-        {% for holder in institutional_holders.data %}
-            {{ holder }} <br>
-        {% endfor %}
-    {% else %}
-        <h4>Institutional data not available</h4>
-    {% endif %}
+    <div id="plotly-div">{{ institutional_holders | safe }}</div>
+    <div id="plotly-div">{{ insider_sentiment | safe }}</div>
 
+    <h3>Insider Transactions</h3>
+    {{ insider_transactions }}
 
-    {% if insider_transactions %}
-        <h3>Recent Insider Activity</h3>
-        {% for transaction in insider_transactions.data %}
-            {{ transaction }} <br>
-        {% endfor %}
-    {% else %}
-        <h4>Insider Activity not available</h4>
-    {% endif %}
+    <br><br><br><br>
 
-
-    {% if insider_sentiment %}
-        <h3>Insider Sentiment</h3>
-        {% for sentiment in insider_sentiment.data %}
-            {{ sentiment }} <br>
-        {% endfor %}
-    {% else %}
-        <h4>Insider sentiment data not available</h4>
-    {% endif %}
-
-
-    {% if analyst_ratings %}
-        <h3>Analyst Ratings</h3>
-        {% for firm, rating in analyst_ratings.data.items() %}
-            {{ firm }} | {{ rating }} <br>
-        {% endfor %}
-    {% else %}
-        <h4>Analyst ratings not available</h4>
-    {% endif %}
+    <h3>Analyst Ratings</h3>
+    {{ analyst_ratings }}
 
 {% endblock %}

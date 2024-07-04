@@ -71,7 +71,7 @@ def symbol(symbol):
         to=f'{chart_today}',
         limit=50000
     )
-    # stock_chart = polygon.get_bar_aggregates()
+    stock_chart = polygon.create_chart()
 
     # CONTEXT FROM SRC FOR SYMBOL DATA
     yfinance = YFinance(stock.ticker_symbol)
@@ -95,7 +95,7 @@ def symbol(symbol):
         template_name_or_list='stocks/symbol.html',
         title=f'{stock.company_name} ({stock.ticker_symbol})',
         stock=stock,
-        # stock_chart=stock_chart,
+        stock_chart=stock_chart,
         company_profile=company_profile,
         main_info=main_info,
         basic_info=basic_info,
@@ -150,12 +150,13 @@ def symbol_holders(symbol):
     yfinance = YFinance(stock.ticker_symbol)
     finnhub = Finnhub()
 
-    institutional_holders = yfinance.get_institutional_holders()
-    insider_transactions = yfinance.get_insider_transactions()
+    institutional_holders = yfinance.plot_institutional_holders()
     analyst_ratings = yfinance.get_analyst_ratings()
 
-    (past_date, today) = get_date_range_past(days_past=365)
-    insider_sentiment = finnhub.get_insider_sentiment(ticker=stock.ticker_symbol, _from=past_date, to=today)
+    (sentiment_past_date, sentiment_today) = get_date_range_past(days_past=365)
+    (transactions_past_date, transactions_today) = get_date_range_past(days_past=182)
+    insider_sentiment = finnhub.plot_insider_sentiment(ticker=stock.ticker_symbol, _from=sentiment_past_date, to=sentiment_today)
+    insider_transactions = finnhub.get_insider_transactions(ticker=stock.ticker_symbol, _from=transactions_past_date, to=transactions_today)
 
     return render_template(
         template_name_or_list='stocks/symbol_holders.html',

@@ -44,9 +44,9 @@
                 <ul class="list-group list-group-flush">
                     {% for holiday in market_holidays.data %}
                         <li class="list-group-item">
-                            {{ holiday.eventName }}
+                            <strong>{{ holiday.eventName }}</strong>
                             {{ holiday.atDate }}
-                            {{ holiday.tradingHour }}
+                            <em>{{ holiday.tradingHour }}</em>
                         </li>
                     {% endfor %}
                 </ul>

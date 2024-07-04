@@ -4,36 +4,15 @@
 
     <h1>Financials for {{ stock.ticker_symbol }}  ((yfinance_.py extract desired attributes inside of method))</h1>
 
-    {% if balance_sheet %}
-        <h3>Balance Sheet</h3>
-        {% for k, v in balance_sheet.data.items() %}
-            <strong>{{ k }}</strong> <br>
-            {% for attr, num in v.items() %}
-                {{ attr }} | {{ num }} <br>
-            {% endfor %}
-        {% endfor %}
-    {% endif %}
+    <h3>Balance Sheet</h3>
+    {{ balance_sheet }}
 
 
-    {% if cashflow %}
-        <h3>Cashflow</h3>
-        {% for k, v in cashflow.data.items() %}
-            <strong>{{ k }}</strong> <br>
-            {% for attr, num in v.items() %}
-                {{ attr }} | {{ num }} <br>
-            {% endfor %}
-        {% endfor %}
-    {% endif %}
+    <h3>Cashflow</h3>
+    {{ cashflow }}
 
 
-    {% if income_statement %}
-        <h3>Income Statement</h3>
-        {% for k, v in income_statement.data.items() %}
-            <strong>{{ k }}</strong> <br>
-            {% for attr, num in v.items() %}
-                {{ attr }} | {{ num }} <br>
-            {% endfor %}
-        {% endfor %}
-    {% endif %}
+    <h3>Income Statement</h3>
+    {{ income_statement }}
 
 {% endblock %}

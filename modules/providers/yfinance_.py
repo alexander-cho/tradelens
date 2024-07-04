@@ -1,6 +1,10 @@
 import yfinance as yf
 import warnings
 
+import plotly.graph_objects as go
+import plotly.io as pio
+
+
 warnings.filterwarnings("ignore", category=FutureWarning)
 
 
@@ -189,6 +193,11 @@ class YFinance:
             insider_transactions = self.ticker.get_insider_transactions().to_dict(orient='records')
             if insider_transactions == '[]':
                 return None
+
+            # change key 'Start Date' to 'startDate'
+            for transaction in insider_transactions:
+                transaction['startDate'] = transaction.pop('Start Date')
+
             return {
                 'description': 'recent insider transactions',
                 'ticker': self.symbol,
@@ -215,13 +224,16 @@ class YFinance:
             for rating in analyst_ratings_dict:
                 firm_name = rating['Firm']
                 if firm_name not in ratings_by_unique_firms:
-                    # If the firm is not already seen, add it to the unique_ratings dictionary
+                    # ff the firm is not already seen, add it to the unique_ratings dictionary
                     ratings_by_unique_firms[firm_name] = rating
+
+            # convert the dictionary to a list of dictionaries containing only the values, since the keys are firm name
+            ratings_list = list(ratings_by_unique_firms.values())
 
             return {
                 'description': 'analyst ratings',
                 'ticker': self.symbol,
-                'data': ratings_by_unique_firms
+                'data': ratings_list
             }
         except Exception as e:
             print(f"Error fetching analyst ratings for {self.symbol}: {e}")
@@ -243,3 +255,38 @@ class YFinance:
             }
         except Exception as e:
             print(f"Error fetching expiry list for {self.symbol}: {e}")
+
+    def plot_institutional_holders(self) -> str:
+        """
+        Bar chart for top 10 institutional holders of a stock
+        """
+        institutional_holders = self.get_institutional_holders().get('data')
+        firm = [holder['Holder'] for holder in institutional_holders]
+        num_shares = [holder['Shares'] for holder in institutional_holders]
+
+        # for hover popup
+        value = [holder['Value'] for holder in institutional_holders]
+        pct_held = [holder['pctHeld'] for holder in institutional_holders]
+
+        trace = go.Bar(
+            x=firm,
+            y=num_shares,
+            marker={'color': 'green'},
+            hovertemplate='<b>%{x}</b><br>'
+                          'Shares: %{y}<br>'
+                          'Pct Held: %{customdata[0]:.2%}<br>'
+                          'Value: $%{customdata[1]:,}<extra></extra>',
+            customdata=list(zip(pct_held, value))
+        )
+
+        fig = go.Figure(data=trace)
+
+        # update layout for bar chart
+        fig.update_layout(
+            title='Institutional Ownership',
+            xaxis_title='Holder',
+            yaxis_title='Shares'
+        )
+
+        plot_html = pio.to_html(fig, full_html=False)
+        return plot_html
