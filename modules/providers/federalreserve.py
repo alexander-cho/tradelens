@@ -392,7 +392,7 @@ class FederalReserve:
             xaxis_title='Date',
             yaxis_title='Value',
             width=1200,
-            height=500,
+            height=650,
             margin=dict(
                 l=10,
                 r=10,

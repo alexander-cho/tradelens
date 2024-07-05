@@ -4,7 +4,7 @@
 
     <h1>Dividends and Splits for {{ stock.ticker_symbol }}</h1>
 
-    {% if ticker_dividends %}
+    {% if not ticker_dividends.data == [] %}
         <h3>Dividends</h3>
         <div class="scrollable-list">
         {% for payout in ticker_dividends.data %}
@@ -28,7 +28,7 @@
 
     <br><br>
 
-    {% if ticker_splits %}
+    {% if not ticker_splits.data == [] %}
     <h3>Splits</h3>
     <div class="row">
         {% for split in ticker_splits.data %}

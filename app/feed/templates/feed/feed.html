@@ -8,9 +8,22 @@
         <h5><a href="{{ url_for('stocks.symbol_directory') }}">Search for a symbol to share an idea</a></h5>
     {% endif %}
 
-    {% for post in posts %}
-        {% include 'feed/_post.html' %}
-        <br>
-    {% endfor %}
+    <div class="scrollable-list">
+        {% for post in posts %}
+            {% include 'feed/_post.html' %}
+            <br>
+        {% endfor %}
+    </div>
+
+
+    <style>
+        .scrollable-list {
+            max-height: 650px; /* Set the maximum height of the scrollable area */
+            overflow-y: auto; /* Enable vertical scrollbar if content overflows */
+            border: 1px solid darkblue; /* Add a 1px solid border with a light gray color */
+            border-radius: 10px; /* Add border-radius for smoother edges */
+            padding: 10px; /* Add padding to separate content from the border */
+        }
+    </style>
 
 {% endblock %}
