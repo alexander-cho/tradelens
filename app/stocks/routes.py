@@ -129,20 +129,18 @@ def symbol_financials(symbol):
 
     yfinance = YFinance(stock.ticker_symbol)
 
-    balance_sheet = yfinance.get_balance_sheet()
-    cashflow = yfinance.get_cashflow_statement()
-    income_statement = yfinance.get_income_statement()
+    balance_sheet = yfinance.plot_balance_sheet()
+    cashflow_statement = yfinance.plot_cashflow_statement()
+    income_statement = yfinance.plot_income_statement()
 
-    # return render_template(
-    #     template_name_or_list='stocks/symbol_financials.html',
-    #     title=f'{stock.ticker_symbol} Financials',
-    #     stock=stock,
-    #     balance_sheet=balance_sheet,
-    #     cashflow=cashflow,
-    #     income_statement=income_statement
-    # )
-
-    return income_statement
+    return render_template(
+        template_name_or_list='stocks/symbol_financials.html',
+        title=f'{stock.ticker_symbol} Financials',
+        stock=stock,
+        balance_sheet=balance_sheet,
+        cashflow_statement=cashflow_statement,
+        income_statement=income_statement
+    )
 
 
 @bp_stocks.route('/symbol/<symbol>/holders')

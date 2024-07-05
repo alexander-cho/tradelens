@@ -2,17 +2,10 @@
 
 {% block content %}
 
-    <h1>Financials for {{ stock.ticker_symbol }}  ((yfinance_.py extract desired attributes inside of method))</h1>
+    <h1>Financials for {{ stock.ticker_symbol }}</h1>
 
-    <h3>Balance Sheet</h3>
-    {{ balance_sheet }}
-
-
-    <h3>Cashflow</h3>
-    {{ cashflow }}
-
-
-    <h3>Income Statement</h3>
-    {{ income_statement }}
+    <div id="plotly-div">{{ balance_sheet | safe }}</div>
+    <div id="plotly-div">{{ cashflow_statement | safe }}</div>
+    <div id="plotly-div">{{ income_statement | safe }}</div>
 
 {% endblock %}

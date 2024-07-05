@@ -1,5 +1,7 @@
-import yfinance as yf
 import warnings
+import pandas as pd
+
+import yfinance as yf
 
 import plotly.graph_objects as go
 import plotly.io as pio
@@ -119,11 +121,30 @@ class YFinance:
                 attributes
         """
         try:
-            balance_sheet = self.ticker.get_balance_sheet(freq='quarterly').to_dict()
+            balance_sheet = self.ticker.get_balance_sheet(freq='quarterly')
+
+            # transpose df to have timestamps as index and features as columns
+            balance_sheet_df = balance_sheet.transpose()
+
+            # store dictionaries for each quarter in new list
+            data_list = []
+
+            for date, values in balance_sheet_df.iterrows():
+                # rewrite timestamps
+                formatted_date = pd.to_datetime(date).strftime('%Y-%m-%d')
+                balance_sheet_dict = {
+                    'quarter': formatted_date,
+                    'balance_sheet': values.to_dict()
+                }
+                data_list.append(balance_sheet_dict)
+
+            # show the latest quarter at the end
+            final_balance_sheet = data_list[::-1]
+
             return {
                 'description': 'quarterly balance sheet',
-                'ticker': self.symbol,
-                'data': balance_sheet
+                'symbol': self.symbol,
+                "data": final_balance_sheet
             }
         except Exception as e:
             print(f"Error fetching balance sheet for {self.symbol}: {e}")
@@ -136,11 +157,30 @@ class YFinance:
             dict: keys 'ticker' and 'cashflow', latter containing k, v pairs of Timestamp and cashflow attributes
         """
         try:
-            cashflow_statement = self.ticker.get_cashflow(freq='quarterly').to_dict()
+            cashflow_statement = self.ticker.get_cashflow(freq='quarterly')
+
+            # transpose df to have timestamps as index and features as columns
+            cashflow_statement_df = cashflow_statement.transpose()
+
+            # store dictionaries for each quarter in new list
+            data_list = []
+
+            for date, values in cashflow_statement_df.iterrows():
+                # rewrite timestamps
+                formatted_date = pd.to_datetime(date).strftime('%Y-%m-%d')
+                cashflow_statement_dict = {
+                    'quarter': formatted_date,
+                    'cashflow_statement': values.to_dict()
+                }
+                data_list.append(cashflow_statement_dict)
+
+            # show the latest quarter at the end
+            final_cashflow_statement = data_list[::-1]
+
             return {
                 'description': 'quarterly cashflow statement',
-                'ticker': self.symbol,
-                'data': cashflow_statement
+                'symbol': self.symbol,
+                "data": final_cashflow_statement
             }
         except Exception as e:
             print(f"Error fetching cashflow for {self.symbol}: {e}")
@@ -154,11 +194,30 @@ class YFinance:
                 attributes
         """
         try:
-            income_statement = self.ticker.get_incomestmt(freq='quarterly').to_dict()
+            income_statement = self.ticker.get_incomestmt(freq='quarterly')
+
+            # transpose df to have timestamps as index and features as columns
+            income_statement_df = income_statement.transpose()
+
+            # store dictionaries for each quarter in new list
+            data_list = []
+
+            for date, values in income_statement_df.iterrows():
+                # rewrite timestamps
+                formatted_date = pd.to_datetime(date).strftime('%Y-%m-%d')
+                income_statement_dict = {
+                    'quarter': formatted_date,
+                    'income_statement': values.to_dict()
+                }
+                data_list.append(income_statement_dict)
+
+            # show the latest quarter at the end
+            final_income_statement = data_list[::-1]
+
             return {
                 'description': 'quarterly income statement',
-                'ticker': self.symbol,
-                'data': income_statement
+                'symbol': self.symbol,
+                "data": final_income_statement
             }
         except Exception as e:
             print(f"Error fetching income statement for {self.symbol}: {e}")
@@ -290,4 +349,151 @@ class YFinance:
         )
 
         plot_html = pio.to_html(fig, full_html=False)
+        return plot_html
+
+    def plot_balance_sheet(self) -> str:
+        balance_sheet = self.get_balance_sheet().get('data')
+        quarter = [quarter['quarter'] for quarter in balance_sheet]
+        keys_to_keep = [
+            'AccountsPayable',
+            'AccountsReceivable',
+            'CashAndCashEquivalents',
+            'CurrentAssets',
+            'LongTermDebt',
+            'NetPPE',
+            'InvestmentsAndAdvances',
+            'NetTangibleAssets',
+            'RetainedEarnings',
+            'TotalAssets'
+        ]
+
+        fig = go.Figure()
+
+        for key in keys_to_keep:
+            # create a list of the values of each metric
+            y_values = [quarter['balance_sheet'].get(key) for quarter in balance_sheet]
+            fig.add_trace(
+                go.Scatter(
+                    x=quarter,
+                    y=y_values,
+                    mode='lines',
+                    name=key,
+                )
+            )
+
+        fig.update_layout(
+            title='Quarterly Balance Sheet',
+            xaxis_title='Date',
+            yaxis_title='Value',
+            width=1200,
+            height=650,
+            margin=dict(
+                l=10,
+                r=10,
+                t=30,
+                b=10
+            )
+        )
+
+        # convert plot to HTML string
+        plot_html = pio.to_html(fig, full_html=False)
+
+        return plot_html
+
+    def plot_cashflow_statement(self) -> str:
+        cashflow_statement = self.get_cashflow_statement().get('data')
+        quarter = [quarter['quarter'] for quarter in cashflow_statement]
+        keys_to_keep = [
+            'CapitalExpenditure',
+            'FreeCashFlow',
+            'OperatingCashFlow',
+            'NetIncomeFromContinuingOperations',
+            'DepreciationAndAmortization',
+            'ChangeInWorkingCapital',
+            'InterestPaidSupplementalData',
+            'SaleOfInvestment',
+            'CashDividendsPaid',
+            'PurchaseOfPPE',
+        ]
+
+        fig = go.Figure()
+
+        for key in keys_to_keep:
+            # create a list of the values of each metric
+            y_values = [quarter['cashflow_statement'].get(key) for quarter in cashflow_statement]
+            fig.add_trace(
+                go.Scatter(
+                    x=quarter,
+                    y=y_values,
+                    mode='lines',
+                    name=key,
+                )
+            )
+
+        fig.update_layout(
+            title='Quarterly Cashflow Statement',
+            xaxis_title='Date',
+            yaxis_title='Value',
+            width=1270,
+            height=650,
+            margin=dict(
+                l=10,
+                r=10,
+                t=30,
+                b=10
+            )
+        )
+
+        # convert plot to HTML string
+        plot_html = pio.to_html(fig, full_html=False)
+
+        return plot_html
+
+    def plot_income_statement(self) -> str:
+        income_statement = self.get_income_statement().get('data')
+        quarter = [quarter['quarter'] for quarter in income_statement]
+        keys_to_keep = [
+            'TotalRevenue',
+            'GrossProfit',
+            'EBIT',
+            'EBITDA',
+            'OperatingIncome',
+            'NetIncome',
+            'BasicEPS',
+            'DilutedEPS',
+            'OperatingExpense',
+            'ResearchAndDevelopment'
+        ]
+
+        fig = go.Figure()
+
+        for key in keys_to_keep:
+            # create a list of the values of each metric
+            y_values = [quarter['income_statement'].get(key) for quarter in income_statement]
+            fig.add_trace(
+                go.Scatter(
+                    x=quarter,
+                    y=y_values,
+                    mode='lines',
+                    name=key,
+                )
+            )
+
+        fig.update_layout(
+            title='Quarterly Income Statement',
+            xaxis_title='Date',
+            yaxis_title='Value',
+            width=1200,
+            height=650,
+            margin=dict(
+                l=10,
+                r=10,
+                t=30,
+                b=10
+            )
+        )
+
+        # convert plot to HTML string
+        plot_html = pio.to_html(fig, full_html=False)
+
         return plot_html
