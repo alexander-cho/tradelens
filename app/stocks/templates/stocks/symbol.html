@@ -3,7 +3,7 @@
 {% block content %}
 
     <div class="row">
-        <div class="col-md-6 d-flex align-items-center">
+        <div class="col-md-3 d-flex align-items-center">
             <div>
                 <h1>{{ stock.ticker_symbol }}</h1>
                 <h4>{{ stock.company_name }}</h4>
@@ -12,11 +12,39 @@
                 {% endif %}
             </div>
         </div>
-        <div class="col-md-6 d-flex align-items-center">
-            <div class="d-flex justify-content-end align-items-center w-100">
+        <div class="col-md-2 d-flex align-items-center">
+            <div>
                 {% if company_profile.data %}
                     <img src="{{ company_profile.data.logo }}" class="img-fluid mr-3" style="max-width: 100px; height: auto;" alt="">
                 {% endif %}
+            </div>
+        </div>
+        <div class="col-md-3 d-flex align-items-center">
+            <div>
+                <span style="font-size: 3em; font-weight: bold;">${{ main_info.data.regularMarketPrice | round(2) }}</span>
+                <br>
+                <span style="color: {% if main_info.data.regularMarketChange < 0 %}red{% elif main_info.data.regularMarketChange == 0 %}gray{% else %}green{% endif %};">
+                    ${{ main_info.data.regularMarketChange | round(2) }} ({{ main_info.data.regularMarketChangePercent | round(2) }}%)
+                </span>
+                Today
+                <br>
+                ${{ main_info.data.postMarketPrice | round(2) }}
+                <span style="color: {% if main_info.data.postMarketChange < 0 %}red{% elif main_info.data.postMarketChange == 0 %}gray{% else %}green{% endif %};">
+                    ${{ main_info.data.postMarketChange | round(2) }} ({{ main_info.data.postMarketChangePercent | round(2) }}%)
+                </span>
+                After Hours
+            </div>
+        </div>
+        <div class="col-md-2 d-flex align-items-center">
+            <div>
+                <h4>Bid: ${{ main_info.data.bid | round(2) }}</h4>
+                Size: {{ main_info.data.bidSize }}
+            </div>
+        </div>
+        <div class="col-md-2 d-flex align-items-center">
+            <div>
+                <h4>Ask: ${{ main_info.data.ask | round(2) }}</h4>
+                Size: {{ main_info.data.askSize }}
             </div>
         </div>
     </div>
@@ -29,27 +57,38 @@
     <a href="{{ url_for('stocks.symbol_holders', symbol=stock.ticker_symbol) }}" class="btn btn-outline-secondary btn-lg">Holders/Insiders/Analysts</a>
     <a href="{{ url_for('stocks.symbol_federal', symbol=stock.ticker_symbol) }}" class="btn btn-outline-primary btn-lg">Federal Activity</a>
     <a href="{{ url_for('stocks.symbol_dividends_splits', symbol=stock.ticker_symbol) }}" class="btn btn-outline-warning btn-lg">Dividends/Splits</a>
-    <a href="{{ url_for('stocks.symbol_directory') }}" class="btn btn-link btn-lg">Symbol Directory</a>
+    <a href="{{ url_for('stocks.symbol_directory') }}" class="btn btn-outline-danger btn-lg">Symbol Directory</a>
 
     <hr>
 
     <div id="plotly-div">{{ stock_chart | safe }}</div>
 
-    <h3>basic_info</h3>
-    {{ basic_info }}
-
-
-    <h3>Main info</h3>
-    {{ main_info }}
-
-
-    <h3>fast_info</h3>
-    {{ fast_info }}
-
-
-    <h3>Dividends, Earnings and Revenue Estimates</h3>
-    {{ calendar }}
-
+    <div class="row">
+        <div class="col-md-4">
+            <h3>basic_info</h3>
+            <div class="card">
+                <div class="card-body">
+                    {{ basic_info }}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <h3>fast_info</h3>
+            <div class="card">
+                <div class="card-body">
+                    {{ fast_info }}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <h3>Dividends, Earnings and Revenue Estimates</h3>
+            <div class="card">
+                <div class="card-body">
+                    {{ calendar }}
+                </div>
+            </div>
+        </div>
+    </div>
 
     {% include 'feed/add_post.html' %}
 
