@@ -89,7 +89,7 @@ def symbol(symbol):
         add_post()
 
     # query the posts associated with the symbol
-    symbol_posts = Post.query.order_by(Post.timestamp.desc()).where(Post.title == symbol)
+    symbol_posts = Post.query.order_by(Post.timestamp.desc()).where(Post.title == symbol).all()
 
     return render_template(
         template_name_or_list='stocks/symbol.html',

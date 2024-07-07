@@ -2,98 +2,151 @@
 
 {% block content %}
 
-    <div class="row">
+<div class="row">
+    <div class="col-md-1 d-flex align-items-center">
+        <div>
+            {% if company_profile.data %}
+                <img src="{{ company_profile.data.logo }}" class="img-fluid mr-3" style="max-width: 100px; height: auto;" alt="">
+            {% endif %}
+        </div>
+    </div>
+    <div class="col-md-3 d-flex align-items-center">
+        <div>
+            <h1>{{ stock.ticker_symbol }}</h1>
+            <h4>{{ stock.company_name }}</h4>
+            {% if company_profile.data %}
+                <a href="{{ company_profile.data.weburl }}" class="btn btn-outline-primary btn-sm">Company Site</a>
+            {% endif %}
+        </div>
+    </div>
+    {% if main_info.data %}
         <div class="col-md-3 d-flex align-items-center">
             <div>
-                <h1>{{ stock.ticker_symbol }}</h1>
-                <h4>{{ stock.company_name }}</h4>
-                {% if company_profile.data %}
-                    <a href="{{ company_profile.data.weburl }}" class="btn btn-outline-primary btn-sm">Company Site</a>
-                {% endif %}
-            </div>
-        </div>
-        <div class="col-md-2 d-flex align-items-center">
-            <div>
-                {% if company_profile.data %}
-                    <img src="{{ company_profile.data.logo }}" class="img-fluid mr-3" style="max-width: 100px; height: auto;" alt="">
-                {% endif %}
-            </div>
-        </div>
-        <div class="col-md-3 d-flex align-items-center">
-            <div>
-                <span style="font-size: 3em; font-weight: bold;">${{ main_info.data.regularMarketPrice | round(2) }}</span>
+                <span style="font-size: 3em; font-weight: bold;">${{ "{:,.2f}".format(main_info.data.regularMarketPrice) }}</span>
                 <br>
                 <span style="color: {% if main_info.data.regularMarketChange < 0 %}red{% elif main_info.data.regularMarketChange == 0 %}gray{% else %}green{% endif %};">
-                    ${{ main_info.data.regularMarketChange | round(2) }} ({{ main_info.data.regularMarketChangePercent | round(2) }}%)
+                    ${{ "{:,.2f}".format(main_info.data.regularMarketChange) }} ({{ "{:,.2f}".format(main_info.data.regularMarketChangePercent) }}%)
                 </span>
                 Today
                 <br>
-                ${{ main_info.data.postMarketPrice | round(2) }}
+                ${{ "{:,.2f}".format(main_info.data.postMarketPrice) }}
                 <span style="color: {% if main_info.data.postMarketChange < 0 %}red{% elif main_info.data.postMarketChange == 0 %}gray{% else %}green{% endif %};">
-                    ${{ main_info.data.postMarketChange | round(2) }} ({{ main_info.data.postMarketChangePercent | round(2) }}%)
+                    ${{ "{:,.2f}".format(main_info.data.postMarketChange) }} ({{ "{:,.2f}".format(main_info.data.postMarketChangePercent) }}%)
                 </span>
                 After Hours
             </div>
         </div>
-        <div class="col-md-2 d-flex align-items-center">
+        <div class="col-md-1 d-flex align-items-center">
             <div>
-                <h4>Bid: ${{ main_info.data.bid | round(2) }}</h4>
+                <h4>Bid: ${{ "{:,.2f}".format(main_info.data.bid) }}</h4>
                 Size: {{ main_info.data.bidSize }}
             </div>
         </div>
-        <div class="col-md-2 d-flex align-items-center">
+        <div class="col-md-1 d-flex align-items-center">
             <div>
-                <h4>Ask: ${{ main_info.data.ask | round(2) }}</h4>
+                <h4>Ask: ${{ "{:,.2f}".format(main_info.data.ask) }}</h4>
                 Size: {{ main_info.data.askSize }}
             </div>
         </div>
-    </div>
-
-    <hr>
-
-    <a href="{{ url_for('options.options', symbol=stock.ticker_symbol) }}" class="btn btn-outline-success btn-lg">Option Chain</a>
-    <a href="{{ url_for('stocks.symbol_news', symbol=stock.ticker_symbol) }}" class="btn btn-outline-dark btn-lg">News Stream</a>
-    <a href="{{ url_for('stocks.symbol_financials', symbol=stock.ticker_symbol) }}" class="btn btn-outline-info btn-lg">Financials</a>
-    <a href="{{ url_for('stocks.symbol_holders', symbol=stock.ticker_symbol) }}" class="btn btn-outline-secondary btn-lg">Holders/Insiders/Analysts</a>
-    <a href="{{ url_for('stocks.symbol_federal', symbol=stock.ticker_symbol) }}" class="btn btn-outline-primary btn-lg">Federal Activity</a>
-    <a href="{{ url_for('stocks.symbol_dividends_splits', symbol=stock.ticker_symbol) }}" class="btn btn-outline-warning btn-lg">Dividends/Splits</a>
-    <a href="{{ url_for('stocks.symbol_directory') }}" class="btn btn-outline-danger btn-lg">Symbol Directory</a>
-
-    <hr>
-
-    <div id="plotly-div">{{ stock_chart | safe }}</div>
-
-    <div class="row">
-        <div class="col-md-4">
-            <h3>basic_info</h3>
-            <div class="card">
-                <div class="card-body">
-                    {{ basic_info }}
-                </div>
+        <div class="col-md-3 d-flex align-items-center">
+            <div>
+                Market cap: {{ basic_info.data.marketCap }} <br>
+                52-week Low: {{ basic_info.data.fiftyTwoWeekLow }} <br>
+                52-week High: {{ basic_info.data.fiftyTwoWeekHigh }} <br>
+                Volume: {{ fast_info.data.lastVolume }}
             </div>
         </div>
-        <div class="col-md-4">
-            <h3>fast_info</h3>
-            <div class="card">
-                <div class="card-body">
-                    {{ fast_info }}
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <h3>Dividends, Earnings and Revenue Estimates</h3>
-            <div class="card">
-                <div class="card-body">
-                    {{ calendar }}
-                </div>
-            </div>
+    {% endif %}
+</div>
+
+<hr>
+
+<a href="{{ url_for('options.options', symbol=stock.ticker_symbol) }}" class="btn btn-outline-success btn-lg">Option Chain</a>
+<a href="{{ url_for('stocks.symbol_news', symbol=stock.ticker_symbol) }}" class="btn btn-outline-dark btn-lg">News Stream</a>
+<a href="{{ url_for('stocks.symbol_financials', symbol=stock.ticker_symbol) }}" class="btn btn-outline-info btn-lg">Financials</a>
+<a href="{{ url_for('stocks.symbol_holders', symbol=stock.ticker_symbol) }}" class="btn btn-outline-secondary btn-lg">Holders/Insiders/Analysts</a>
+<a href="{{ url_for('stocks.symbol_federal', symbol=stock.ticker_symbol) }}" class="btn btn-outline-primary btn-lg">Federal Activity</a>
+<a href="{{ url_for('stocks.symbol_dividends_splits', symbol=stock.ticker_symbol) }}" class="btn btn-outline-warning btn-lg">Dividends/Splits</a>
+<a href="{{ url_for('stocks.symbol_directory') }}" class="btn btn-outline-danger btn-lg">Symbol Directory</a>
+
+<hr>
+
+<div id="plotly-div" style="margin-bottom: 30px;">{{ stock_chart | safe }}</div>
+
+{% if basic_info.data %}
+    <div class="card" style="margin-bottom: 25px;">
+        <div class="card-body">
+            {{ basic_info.data.longBusinessSummary }}
         </div>
     </div>
+{% endif %}
 
-    {% include 'feed/add_post.html' %}
+<div class="row">
+    <div class="col-md-6" style="margin-bottom: 40px;">
+        <h3>Quick Facts</h3>
+        {% if basic_info.data %}
+            <div class="card">
+                <div class="card-body">
+                    {{ basic_info.data.address1 }}
+                    {{ basic_info.data.city }}
+                    {{ basic_info.data.state }}
+                    {{ basic_info.data.country }}
+                    {{ basic_info.data.zip }} <br>
+                    {{ basic_info.data.industry }} <br>
+                    {{ basic_info.data.sector }} <br>
+                    {{ basic_info.data.fullTimeEmployees }} <br>
+                    {{ basic_info.data.companyOfficers }} <br>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+    <div class="col-md-6" style="margin-bottom: 40px;">
+        <h3>Dividends, Earnings, and Revenue</h3>
+        {% if calendar.data %}
+            <div class="card">
+                <div class="card-body">
+                    {% for k, v in calendar.data.items() %}
+                        {% if k == 'Dividend Date' or k == 'Ex-Dividend Date' %}
+                            {{ k }} : <strong>{{ v }}</strong> <br>
+                        {% elif k == 'Earnings Date' and v|length > 1 %}
+                            Earnings between <strong>{{ v[0] }} and {{ v[1] }}</strong> <br>
+                        {% elif k == 'Earnings Date' and v|length == 1 %}
+                            Earnings on <strong>{{ v[0] }}</strong> <br>
+                        {% else %}
+                            {{ k }} :
+                            {% if v == v|int %}
+                                <strong>${{ "{:,.0f}".format(v) }}</strong>
+                            {% else %}
+                                <strong>${{ "{:,.2f}".format(v) }}</strong>
+                            {% endif %}
+                            <br>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        {% endif %}
+    </div>
+</div>
 
-    {% for post in symbol_posts %}
-        {% include 'feed/_post.html' %}
-    {% endfor %}
+{% include 'feed/add_post.html' %}
+
+{% if symbol_posts %}
+    <div class="scrollable-list">
+        {% for post in symbol_posts %}
+            {% include 'feed/_post.html' %}
+        {% endfor %}
+    </div>
+{% endif %}
+
+
+<style>
+    .scrollable-list {
+        max-height: 650px; /* Set the maximum height of the scrollable area */
+        overflow-y: auto; /* Enable vertical scrollbar if content overflows */
+        border: 1px solid darkblue; /* Add a 1px solid border with a light gray color */
+        border-radius: 10px; /* Add border-radius for smoother edges */
+        padding: 10px; /* Add padding to separate content from the border */
+    }
+</style>
 
 {% endblock %}

@@ -204,7 +204,7 @@ class Polygon:
                 r=10,
                 t=10,
                 b=10
-            )
+            ),
         )
 
         # get rid of gaps from weekend/holiday closures and non-market hours

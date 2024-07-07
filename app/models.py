@@ -42,8 +42,7 @@ class User(db.Model, UserMixin):
     password_hash: so.Mapped[Optional[str]] = so.mapped_column(sa.String(256))
     about_me: so.Mapped[Optional[str]] = so.mapped_column(sa.String(200))
     last_seen: so.Mapped[Optional[datetime]] = so.mapped_column(default=lambda: datetime.now(timezone.utc))
-    date_joined: so.Mapped[Optional[datetime]] = so.mapped_column(index=True,
-                                                                  default=lambda: datetime.now(timezone.utc))
+    date_joined: so.Mapped[Optional[datetime]] = so.mapped_column(index=True, default=lambda: datetime.now(timezone.utc))
     # profile_pic = db.Column(db.String(), nullable=True)
     # User can have many posts
     posts: so.WriteOnlyMapped['Post'] = so.relationship(back_populates='author')

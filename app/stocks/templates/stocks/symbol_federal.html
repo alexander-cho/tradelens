@@ -15,11 +15,11 @@
                         {% for activity in lobbying_activities.data %}
                             <div class="card mb-3" style="width: 100%;"> <!-- Card width inline -->
                                 <div class="card-body">
-                                    <h5 class="card-title text-center">Expense: ${{ activity.expenses }}</h5>
-                                    <h6 class="card-subtitle mb-2 text-body-secondary text-center">Income: ${{ activity.income }}</h6>
+                                    <h5 class="card-title text-center">Company Expense: ${{ activity.expenses }}</h5>
+                                    <h6 class="card-subtitle mb-2 text-body-secondary text-center">Income reported by Lobbying Firms: ${{ activity.income }}</h6>
                                     <p class="card-text text-center">
                                         {{ activity.period }} {{ activity.year }} <br>
-                                        {{ activity.type }}
+                                        Activity Type: {{ activity.type }}
                                     </p>
                                     <h6 class="card-title text-center">
                                         <a href="{{ activity.documentUrl }}" class="card-link">Link</a>
