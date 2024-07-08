@@ -235,12 +235,13 @@ class Finnhub:
             filtered_data.append(filtered_activity)
 
         date_range = {'from': _from, 'to': to}
+        lobbying_activities_reversed = filtered_data[::-1]
 
         return {
             'description': 'lobbying_activities',
             'symbol': ticker,
             'date_range': date_range,
-            'data': filtered_data
+            'data': lobbying_activities_reversed
         }
 
     def get_government_spending(self, ticker: str, _from: str, to: str) -> dict:

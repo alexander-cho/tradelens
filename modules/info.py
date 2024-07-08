@@ -13,7 +13,7 @@ from modules.providers.fmp import FMP
 from modules.max_pain import MaxPain
 
 
-y = YFinance('SOFI')
+y = YFinance('EMYB')
 f = Finnhub()
 a = AlphaVantage()
 fred = FederalReserve()
@@ -36,3 +36,7 @@ polygon_option = Polygon(
 )
 fmp = FMP()
 max_pain = MaxPain('SOFI')
+
+for k, v in y.get_calendar().get('data').items():
+    print(type(v))
+

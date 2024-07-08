@@ -27,10 +27,22 @@ class YFinance:
         """
         try:
             basic_info = self.ticker.info
+            keys_to_keep = [
+                'address1', 'city', 'state', 'country', 'zip',
+                'industry', 'sector', 'fullTimeEmployees', 'companyOfficers',
+                'forwardPE', 'forwardEps', 'fiftyDayAverage', 'twoHundredDayAverage',
+                'floatShares', 'sharesOutstanding', 'sharesShort', 'longBusinessSummary',
+                'shortPercentOfFloat', 'heldPercentInsiders', 'heldPercentInstitutions',
+                'targetHighPrice', 'targetLowPrice', 'targetMeanPrice', 'targetMedianPrice',
+                'numberOfAnalystOpinions', 'marketCap', 'fiftyTwoWeekHigh', 'fiftyTwoWeekLow'
+            ]
+
+            # new dictionary with keys to keep and values corresponding to it
+            filtered_info = {key: basic_info.get(key) for key in keys_to_keep}
             return {
                 'description': 'ticker basic information',
                 'symbol': self.symbol,
-                "data": basic_info
+                "data": filtered_info
             }
         except Exception as e:
             print(f"Error fetching implied shares outstanding for {self.symbol}: {e}")
