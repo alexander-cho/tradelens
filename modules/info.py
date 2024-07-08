@@ -37,6 +37,5 @@ polygon_option = Polygon(
 fmp = FMP()
 max_pain = MaxPain('SOFI')
 
-for k, v in y.get_calendar().get('data').items():
-    print(type(v))
-
+# for k, v in y.get_calendar().get('data').items():
+#     print(type(v))

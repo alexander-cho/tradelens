@@ -29,11 +29,13 @@
                 </span>
                 Today
                 <br>
-                ${{ "{:,.2f}".format(main_info.data.postMarketPrice) }}
-                <span style="color: {% if main_info.data.postMarketChange < 0 %}red{% elif main_info.data.postMarketChange == 0 %}gray{% else %}green{% endif %};">
-                    ${{ "{:,.2f}".format(main_info.data.postMarketChange) }} ({{ "{:,.2f}".format(main_info.data.postMarketChangePercent) }}%)
-                </span>
-                After Hours
+                {% if main_info.data.postMarketPrice is number %}
+                    ${{ "{:,.2f}".format(main_info.data.postMarketPrice) }}
+                    <span style="color: {% if main_info.data.postMarketChange < 0 %}red{% elif main_info.data.postMarketChange == 0 %}gray{% else %}green{% endif %};">
+                        ${{ "{:,.2f}".format(main_info.data.postMarketChange) }} ({{ "{:,.2f}".format(main_info.data.postMarketChangePercent) }}%)
+                    </span>
+                    After Hours
+                {% endif %}
             </div>
         </div>
         <div class="col-md-1 d-flex align-items-center">
@@ -77,7 +79,13 @@
 
 <hr>
 
-{#<div id="plotly-div" style="margin-bottom: 30px;">{{ stock_chart | safe }}</div>#}
+{% if stock_chart.success %}
+    <div id="plotly-div" style="margin-bottom: 30px;">{{ stock_chart.data | safe }}</div>
+{% else %}
+    <div style="text-align: center">
+        <h1>{{ stock_chart.data }}</h1>
+    </div>
+{% endif %}
 
 {% if basic_info.data %}
     <div class="card" style="margin-bottom: 25px;">

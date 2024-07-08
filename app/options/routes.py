@@ -117,7 +117,7 @@ def options_chart(symbol, expiry_date, option_ticker):
         limit=50000
     )
 
-    option_chart = polygon.create_chart()
+    option_chart = polygon.make_chart()
 
     return render_template(
         template_name_or_list='options/option_chart.html',

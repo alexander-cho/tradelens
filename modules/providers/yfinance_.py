@@ -42,7 +42,7 @@ class YFinance:
             return {
                 'description': 'ticker basic information',
                 'symbol': self.symbol,
-                "data": filtered_info
+                'data': filtered_info
             }
         except Exception as e:
             print(f"Error fetching implied shares outstanding for {self.symbol}: {e}")
@@ -80,7 +80,7 @@ class YFinance:
             return {
                 'description': 'ticker symbol data about current price, bid, ask',
                 'symbol': self.symbol,
-                "data": price_info
+                'data': price_info
             }
         except Exception as e:
             print(f"Error fetching underlying info for {self.symbol}: {e}")
@@ -102,7 +102,7 @@ class YFinance:
             return {
                 'description': 'ticker fast info',
                 'symbol': self.symbol,
-                "data": fast_info_as_dict
+                'data': fast_info_as_dict
             }
         except Exception as e:
             print(f"Error fetching fast info for {self.symbol}: {e}")
@@ -119,7 +119,7 @@ class YFinance:
             return {
                 'description': 'earnings/dividends calendar, earnings/revenue estimates',
                 'symbol': self.symbol,
-                "data": div_eps_rev_calendar
+                'data': div_eps_rev_calendar
             }
         except Exception as e:
             print(f"Error fetching calendar info for {self.symbol}: {e}")
@@ -156,7 +156,7 @@ class YFinance:
             return {
                 'description': 'quarterly balance sheet',
                 'symbol': self.symbol,
-                "data": final_balance_sheet
+                'data': final_balance_sheet
             }
         except Exception as e:
             print(f"Error fetching balance sheet for {self.symbol}: {e}")
@@ -192,7 +192,7 @@ class YFinance:
             return {
                 'description': 'quarterly cashflow statement',
                 'symbol': self.symbol,
-                "data": final_cashflow_statement
+                'data': final_cashflow_statement
             }
         except Exception as e:
             print(f"Error fetching cashflow for {self.symbol}: {e}")
@@ -229,7 +229,7 @@ class YFinance:
             return {
                 'description': 'quarterly income statement',
                 'symbol': self.symbol,
-                "data": final_income_statement
+                'data': final_income_statement
             }
         except Exception as e:
             print(f"Error fetching income statement for {self.symbol}: {e}")
