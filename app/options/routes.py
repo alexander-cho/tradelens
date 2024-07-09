@@ -26,6 +26,11 @@ def options(symbol):
     if request.path != f"/options/{symbol}":
         return redirect(url_for('options.options', symbol=symbol))
 
+    # if the stock does not exist
+    if not stock:
+        flash("That stock does not exist or is not in our database yet. No option chain available.")
+        return redirect(url_for('stocks.symbol_directory'))
+
     yfinance = YFinance(symbol)
     expiry_list = yfinance.get_options_expiry_list()
 
@@ -49,6 +54,8 @@ def options_chain(symbol, expiry_date):
 
     stock = db.session.scalar(sa.select(Stocks).where(Stocks.ticker_symbol == symbol))
 
+    current_price = yfinance.get_underlying_for_price_info().get('data').get('regularMarketPrice')
+
     tradier = Tradier(stock.ticker_symbol)
 
     open_interest = tradier.plot_open_interest(expiration_date=expiry_date)
@@ -61,6 +68,7 @@ def options_chain(symbol, expiry_date):
         title=f'{symbol} {expiry_date}',
         stock=stock,
         expiry_date=expiry_date,
+        current_price=current_price,
         open_interest=open_interest,
         volume=volume,
         implied_volatility=implied_volatility,
@@ -72,6 +80,9 @@ def options_chain(symbol, expiry_date):
 def maximum_pain(symbol, expiry_date):
     stock = db.session.scalar(sa.select(Stocks).where(Stocks.ticker_symbol == symbol))
 
+    yfinance = YFinance(symbol=stock.ticker_symbol)
+    current_price = yfinance.get_underlying_for_price_info().get('data').get('regularMarketPrice')
+
     max_pain = MaxPain(stock.ticker_symbol)
     cash_values_chart = max_pain.plot_cash_values(expiration_date=expiry_date)
     cash_values = max_pain.get_cash_values(expiration_date=expiry_date)
@@ -80,6 +91,7 @@ def maximum_pain(symbol, expiry_date):
         template_name_or_list='options/maximum_pain.html',
         title=f"Maximum Pain - {symbol} {expiry_date}",
         stock=stock,
+        current_price=current_price,
         cash_values_chart=cash_values_chart,
         cash_values=cash_values,
         expiry_date=expiry_date
@@ -90,6 +102,9 @@ def maximum_pain(symbol, expiry_date):
 def options_strikes(symbol, expiry_date):
     stock = db.session.scalar(sa.select(Stocks).where(Stocks.ticker_symbol == symbol))
 
+    yfinance = YFinance(symbol)
+    current_price = yfinance.get_underlying_for_price_info().get('data').get('regularMarketPrice')
+
     tradier = Tradier(stock.ticker_symbol)
 
     strikes = tradier.get_strikes(expiration_date=expiry_date)
@@ -98,6 +113,7 @@ def options_strikes(symbol, expiry_date):
         template_name_or_list='options/strikes.html',
         title=f"Strikes for {symbol} expiring on {expiry_date}",
         stock=stock,
+        current_price=current_price,
         expiry_date=expiry_date,
         strikes=strikes
     )
@@ -106,6 +122,9 @@ def options_strikes(symbol, expiry_date):
 @bp_options.route('/options/<symbol>/<expiry_date>/strikes/<option_ticker>')
 def options_chart(symbol, expiry_date, option_ticker):
     stock = db.session.scalar(sa.select(Stocks).where(Stocks.ticker_symbol == symbol))
+
+    yfinance = YFinance(symbol=stock.ticker_symbol)
+    current_price = yfinance.get_underlying_for_price_info().get('data').get('regularMarketPrice')
 
     (chart_past_date, chart_today) = get_date_range_past(days_past=14)
     polygon = Polygon(
@@ -123,6 +142,7 @@ def options_chart(symbol, expiry_date, option_ticker):
         template_name_or_list='options/option_chart.html',
         title=f"{option_ticker}",
         stock=stock,
+        current_price=current_price,
         expiry_date=expiry_date,
         option_ticker=option_ticker,
         option_chart=option_chart
@@ -132,6 +152,9 @@ def options_chart(symbol, expiry_date, option_ticker):
 @bp_options.route('/options/<symbol>/<expiry_date>/greeks')
 def greeks(symbol, expiry_date):
     stock = db.session.scalar(sa.select(Stocks).where(Stocks.ticker_symbol == symbol))
+
+    yfinance = YFinance(symbol=stock.ticker_symbol)
+    current_price = yfinance.get_underlying_for_price_info().get('data').get('regularMarketPrice')
 
     tradier = Tradier(stock.ticker_symbol)
     delta = tradier.plot_greeks(expiration_date=expiry_date, greek_letter='delta')
@@ -144,6 +167,7 @@ def greeks(symbol, expiry_date):
         template_name_or_list='options/greeks.html',
         title=f"Greeks for {symbol} {expiry_date}",
         stock=stock,
+        current_price=current_price,
         expiry_date=expiry_date,
         delta=delta,
         gamma=gamma,

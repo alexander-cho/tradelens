@@ -4,7 +4,11 @@
 
     <h1>Holders and Insiders Activity for {{ stock.ticker_symbol }}</h1>
 
-    <div id="plotly-div">{{ institutional_holders | safe }}</div>
+    {% if institutional_holders.success %}
+        <div id="plotly-div">{{ institutional_holders.data | safe }}</div>
+    {% else %}
+        <h3>{{ institutional_holders.data }}</h3>
+    {% endif %}
     <div id="plotly-div">{{ insider_sentiment | safe }}</div>
     <div id="plotly-div">{{ insider_transactions | safe }}</div>
 

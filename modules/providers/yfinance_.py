@@ -327,41 +327,50 @@ class YFinance:
         except Exception as e:
             print(f"Error fetching expiry list for {self.symbol}: {e}")
 
-    def plot_institutional_holders(self) -> str:
+    def plot_institutional_holders(self) -> dict:
         """
         Bar chart for top 10 institutional holders of a stock
         """
-        institutional_holders = self.get_institutional_holders().get('data')
-        firm = [holder['Holder'] for holder in institutional_holders]
-        num_shares = [holder['Shares'] for holder in institutional_holders]
+        try:
+            institutional_holders = self.get_institutional_holders().get('data')
+            firm = [holder['Holder'] for holder in institutional_holders]
+            num_shares = [holder['Shares'] for holder in institutional_holders]
 
-        # for hover popup
-        value = [holder['Value'] for holder in institutional_holders]
-        pct_held = [holder['pctHeld'] for holder in institutional_holders]
+            # for hover popup
+            value = [holder['Value'] for holder in institutional_holders]
+            pct_held = [holder['pctHeld'] for holder in institutional_holders]
 
-        trace = go.Bar(
-            x=firm,
-            y=num_shares,
-            marker={'color': 'green'},
-            hovertemplate='<b>%{x}</b><br>'
-                          'Shares: %{y}<br>'
-                          'Percent Held: %{customdata[0]:.2%}<br>'
-                          'Value: $%{customdata[1]:,}<extra></extra>',
-            customdata=list(zip(pct_held, value))
-        )
+            trace = go.Bar(
+                x=firm,
+                y=num_shares,
+                marker={'color': 'green'},
+                hovertemplate='<b>%{x}</b><br>'
+                              'Shares: %{y}<br>'
+                              'Percent Held: %{customdata[0]:.2%}<br>'
+                              'Value: $%{customdata[1]:,}<extra></extra>',
+                customdata=list(zip(pct_held, value))
+            )
 
-        fig = go.Figure(data=trace)
+            fig = go.Figure(data=trace)
 
-        # update layout for bar chart
-        fig.update_layout(
-            title='Institutional Ownership',
-            xaxis_title='Holder',
-            yaxis_title='Shares',
-            height=700
-        )
+            # update layout for bar chart
+            fig.update_layout(
+                title='Institutional Ownership',
+                xaxis_title='Holder',
+                yaxis_title='Shares',
+                height=700
+            )
 
-        plot_html = pio.to_html(fig, full_html=False)
-        return plot_html
+            plot_html = pio.to_html(fig, full_html=False)
+            return {
+                'success': True,
+                'data': plot_html
+            }
+        except AttributeError:
+            return {
+                'success': False,
+                'data': 'Institutional ownership not available.'
+            }
 
     def plot_balance_sheet(self) -> str:
         balance_sheet = self.get_balance_sheet().get('data')

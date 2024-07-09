@@ -110,6 +110,11 @@ def symbol(symbol):
 def symbol_news(symbol):
     stock = db.session.query(Stocks).filter(Stocks.ticker_symbol == symbol).first()
 
+    # if user manually enters the ticker in lowercase letters in the url
+    symbol = symbol.upper()
+    if request.path != f"/symbol/{symbol}/news":
+        return redirect(url_for('stocks.symbol_news', symbol=symbol))
+
     finnhub = Finnhub()
 
     (past_date, today) = get_date_range_past(days_past=7)
@@ -126,6 +131,11 @@ def symbol_news(symbol):
 @bp_stocks.route('/symbol/<symbol>/financials')
 def symbol_financials(symbol):
     stock = db.session.query(Stocks).filter(Stocks.ticker_symbol == symbol).first()
+
+    # if user manually enters the ticker in lowercase letters in the url
+    symbol = symbol.upper()
+    if request.path != f"/symbol/{symbol}/financials":
+        return redirect(url_for('stocks.symbol_financials', symbol=symbol))
 
     yfinance = YFinance(stock.ticker_symbol)
 
@@ -146,6 +156,11 @@ def symbol_financials(symbol):
 @bp_stocks.route('/symbol/<symbol>/holders')
 def symbol_holders(symbol):
     stock = db.session.query(Stocks).filter(Stocks.ticker_symbol == symbol).first()
+
+    # if user manually enters the ticker in lowercase letters in the url
+    symbol = symbol.upper()
+    if request.path != f"/symbol/{symbol}/holders":
+        return redirect(url_for('stocks.symbol_holders', symbol=symbol))
 
     yfinance = YFinance(stock.ticker_symbol)
     finnhub = Finnhub()
@@ -173,6 +188,11 @@ def symbol_holders(symbol):
 def symbol_federal(symbol):
     stock = db.session.query(Stocks).filter(Stocks.ticker_symbol == symbol).first()
 
+    # if user manually enters the ticker in lowercase letters in the url
+    symbol = symbol.upper()
+    if request.path != f"/symbol/{symbol}/federal":
+        return redirect(url_for('stocks.symbol_federal', symbol=symbol))
+
     finnhub = Finnhub()
 
     (past_date, today) = get_date_range_past(days_past=365)
@@ -191,6 +211,11 @@ def symbol_federal(symbol):
 @bp_stocks.route('/symbol/<symbol>/dividends-splits')
 def symbol_dividends_splits(symbol):
     stock = db.session.query(Stocks).filter(Stocks.ticker_symbol == symbol).first()
+
+    # if user manually enters the ticker in lowercase letters in the url
+    symbol = symbol.upper()
+    if request.path != f"/symbol/{symbol}/dividends-splits":
+        return redirect(url_for('stocks.symbol_dividends_splits', symbol=symbol))
 
     fmp = FMP()
 

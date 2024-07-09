@@ -140,7 +140,11 @@
                         {% endif %}
                         {% if basic_info.data.shortPercentOfFloat is number %}
                             Percent of Float Shorted: <strong>{{ "{:.2f}%".format(basic_info.data.shortPercentOfFloat * 100) }}</strong> <br>
+                        {% endif %}
+                        {% if basic_info.data.heldPercentInsiders is number %}
                             Percent held by Insiders: <strong>{{ "{:.2f}%".format(basic_info.data.heldPercentInsiders * 100) }}</strong> <br>
+                        {% endif %}
+                        {% if basic_info.data.heldPercentInstitutions is number %}
                             Percent held by Institutions: <strong>{{ "{:.2f}%".format(basic_info.data.heldPercentInstitutions * 100) }}</strong> <br>
                         {% endif %}
                         {% if basic_info.data.targetHighPrice is number %}

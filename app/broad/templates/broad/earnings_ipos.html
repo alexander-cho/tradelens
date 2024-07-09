@@ -18,8 +18,18 @@
                                     <h5 class="card-title text-center">{{ earning.date }} | {{ earning.hour }}</h5>
                                     <h6 class="card-subtitle mb-2 text-body-secondary text-center">{{ earning.quarter }} {{ earning.year }}</h6>
                                     <p class="card-text text-center">
-                                        EPS estimate: <strong>${{ earning.epsEstimate }}</strong> | EPS reported: <strong>${{ earning.epsActual }}</strong><br>
-                                        Revenue estimate: <strong>${{ earning.revenueEstimate }}</strong> | Revenue reported: <strong>${{ earning.revenueActual }}</strong>
+                                        {% if earning.epsEstimate is number %}
+                                            EPS estimate: <strong>${{ earning.epsEstimate }}</strong>
+                                        {% endif %}
+                                        {% if earning.epsActual is number %}
+                                            | EPS reported: <strong>${{ earning.epsActual }}</strong><br>
+                                        {% endif %}
+                                        {% if earning.revenueEstimate is number %}
+                                            Revenue estimate: <strong>${{ "{:,.0f}".format(earning.revenueEstimate) }}</strong>
+                                        {% endif %}
+                                        {% if earning.revenueActual is number %}
+                                            | Revenue reported: <strong>${{ "{:,.0f}".format(earning.revenueActual) }}</strong>
+                                        {% endif %}
                                     </p>
                                 </div>
                             </div>
@@ -43,9 +53,13 @@
                                     <h5 class="card-title text-center">{{ ipo.name }}</h5>
                                     <h6 class="card-subtitle mb-2 text-body-secondary text-center">{{ ipo.status }} | {{ ipo.date }} | {{ ipo.exchange }}</h6>
                                     <p class="card-text text-center">
-                                        Number of shares: <strong>{{ ipo.numberOfShares }}</strong><br>
+                                        {% if ipo.numberOfShares is number %}
+                                            Number of shares: <strong>{{ "{:,.0f}".format(ipo.numberOfShares) }}</strong><br>
+                                        {% endif %}
                                         List price: <strong>${{ ipo.price }}</strong><br>
-                                        Total value: <strong>${{ ipo.totalSharesValue }}</strong>
+                                        {% if ipo.totalSharesValue is number %}
+                                            Total value: <strong>${{ "{:,.0f}".format(ipo.totalSharesValue) }}</strong>
+                                        {% endif %}
                                     </p>
                                 </div>
                             </div>
