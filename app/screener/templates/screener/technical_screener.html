@@ -2,50 +2,39 @@
 
 {% block content %}
 
-    <h1>Search for a symbol to screen</h1>
+    <h1>Technical screening and analysis</h1>
 
-    <form method="POST" action="{{ url_for('screener.screener_symbol_search') }}" class="d-flex" role="search">
-        {{ search_form.hidden_tag() }}
-        <input class="form-control me-2" type="search" placeholder="Search for a ticker to screen" aria-label="Search" name="searched">
-        <button class="btn btn-outline-success" type="submit">Search</button>
+    <form>
+        <select name="pattern" class="form-select" aria-label="Default select example" style="width: 500px; display: inline-block; vertical-align: middle;">
+            {% for pattern, full_name in patterns.items() %}
+                <option value="{{ pattern }}" {% if pattern == current_pattern %}selected="selected"{% endif %}>{{ full_name }}</option>
+            {% endfor %}
+        </select>
+
+        <input class="btn btn-outline-primary" type="submit" value="Scan" style="display: inline-block; vertical-align: middle;">
     </form>
 
-    <hr>
+    <table>
+        <tr>
+            <th>
+                symbol
+            </th>
+            <th>
+                signal
+            </th>
+        </tr>
 
-    <h4>Symbol | Company Name</h4>
+        {% for symbol, signal in screen.data.items() %}
+            <tr>
+                <td>
+                    <a href="{{ url_for('stocks.symbol', symbol=symbol) }}">{{ symbol }}</a>
+                </td>
+                <td>
+                    {{ signal }}
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
 
-    <div class="scrollable-list">
-        <p>
-            {% for stock in stock_list %}
-                <a href="{{ url_for('screener.symbol_screen', symbol=stock.ticker_symbol) }}" class="btn-ticker">{{ stock.ticker_symbol }}</a> | {{ stock.company_name }} <br>
-            {% endfor %}
-        </p>
-    </div>
-
-    <style>
-        .scrollable-list {
-            max-height: 550px; /* Set the maximum height of the scrollable area */
-            overflow-y: auto; /* Enable vertical scrollbar if content overflows */
-            border: 1px solid darkblue; /* Add a 1px solid border with a light gray color */
-            border-radius: 10px; /* Add border-radius for smoother edges */
-            padding: 10px; /* Add padding to separate content from the border */
-        }
-
-        .btn-ticker {
-            display: inline-block;
-            padding: 2px 5px;
-            margin: 1px 0;
-            color: #fff;
-            background-color: green;
-            border: 1px;
-            border-radius: 4px;
-            text-align: center;
-            text-decoration: none;
-        }
-
-        .btn-ticker:hover {
-            background-color: #0056b3;
-        }
-    </style>
 
 {% endblock %}
