@@ -19,7 +19,7 @@ def earnings_ipos():
 
     return render_template(
         template_name_or_list='broad/earnings_ipos.html',
-        title='IPOs',
+        title='Earnings/IPOs',
         earnings_calendar=earnings_calendar,
         anticipated_ipos=anticipated_ipos
     )

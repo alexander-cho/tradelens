@@ -183,7 +183,8 @@ class Tradier:
             barmode='stack',
             title=f'Open Interest | Total Call OI: {total_call_oi} | Total Put OI: {total_put_oi} | Put/Call Ratio: {put_call_ratio}',
             xaxis_title='Strike',
-            yaxis_title='Open Interest'
+            yaxis_title='Open Interest',
+            height=600,
         )
 
         plot_html = pio.to_html(fig, full_html=False)
@@ -258,7 +259,8 @@ class Tradier:
             barmode='stack',
             title='Volume',
             xaxis_title='Strike',
-            yaxis_title='Volume'
+            yaxis_title='Volume',
+            height=600,
         )
 
         plot_html = pio.to_html(fig, full_html=False)
@@ -330,7 +332,8 @@ class Tradier:
         fig.update_layout(
             title='Implied Volatility (multiply by 100%)',
             xaxis_title='Strike',
-            yaxis_title='Implied Volatility'
+            yaxis_title='Implied Volatility',
+            height=600,
         )
 
         plot_html = pio.to_html(fig, full_html=False)

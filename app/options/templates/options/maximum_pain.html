@@ -3,7 +3,7 @@
 {% block content %}
 
     <h1>Cash and Maximum pain calculation for {{ stock.ticker_symbol }} expiring on {{ expiry_date }}</h1>
-    <h4>Current price: ${{ current_price }}</h4>
+    <h4>Current price of underlying: ${{ current_price }}</h4>
 
     <div id="plotly-div">{{ cash_values_chart | safe }}</div>
 

@@ -7,7 +7,7 @@
         <a href="{{ url_for('options.options_strikes', symbol=stock.ticker_symbol, expiry_date=expiry_date) }}" class="btn btn-outline-dark btn-lg">Back to Strikes</a>
     </div>
 
-    <h3>Current price: ${{ current_price }}</h3>
+    <h3>Current price of underlying: ${{ current_price }}</h3>
 
     {% if option_chart.success %}
         <div id="plotly-div">{{ option_chart.data | safe }}</div>
