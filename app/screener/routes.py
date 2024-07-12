@@ -11,7 +11,7 @@ from modules.utils.date_ranges import get_date_range_past
 
 from . import bp_screener
 
-from .patterns import candlestick_patterns
+from app.screener.patterns import candlestick_patterns
 
 
 @bp_screener.route('/technical-screener')

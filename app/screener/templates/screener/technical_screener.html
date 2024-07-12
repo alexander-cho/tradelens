@@ -27,14 +27,30 @@
         {% for symbol, signal in screen.data.items() %}
             <tr>
                 <td>
-                    <a href="{{ url_for('stocks.symbol', symbol=symbol) }}">{{ symbol }}</a>
+                    <a href="{{ url_for('stocks.symbol', symbol=symbol) }}" class="btn btn-primary">{{ symbol }}</a>
                 </td>
-                <td>
+                <td class="{{ signal }}">
                     {{ signal }}
                 </td>
             </tr>
         {% endfor %}
     </table>
 
+
+    <style>
+        td {
+           padding: 5px;
+        }
+
+        .bullish {
+            background: green;
+            color: white;
+        }
+
+        .bearish {
+            background: red;
+            color: white;
+        }
+    </style>
 
 {% endblock %}

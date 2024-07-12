@@ -14,8 +14,8 @@ class UpdateStockUniverse:
     """
     Add or remove tickers from the db stocks table
     """
-    def __init__(self, db_session):
-        self.db_session = db_session
+    def __init__(self):
+        self.db_session = db.session
 
     @staticmethod
     def _stock_exists(ticker: str) -> bool:
@@ -31,7 +31,7 @@ class UpdateStockUniverse:
         existing_stock = Stocks.query.filter_by(ticker_symbol=ticker).first()
         return existing_stock is not None
 
-    def add_stock(self, ticker: str, company: str):
+    def add_stock(self, ticker: str, company: str) -> None:
         """
         Add a stock to the stock universe
 
@@ -49,7 +49,7 @@ class UpdateStockUniverse:
 
         return
 
-    def remove_stock(self, ticker: str):
+    def remove_stock(self, ticker: str) -> None:
         """
         Remove a stock from the stock universe
 
@@ -68,4 +68,4 @@ class UpdateStockUniverse:
 
 if __name__ == '__main__':
     with current_app.app_context():
-        update1 = UpdateStockUniverse(db.session)
+        update1 = UpdateStockUniverse()
