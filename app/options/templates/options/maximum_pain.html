@@ -13,18 +13,18 @@
         <thead>
             <tr>
                 <th>Strikes</th>
-                <th>Calls ($)</th>
-                <th>Puts ($)</th>
-                <th>Total ($)</th>
+                <th>Calls</th>
+                <th>Puts</th>
+                <th>Total</th>
             </tr>
         </thead>
         <tbody>
             {% for i in range(cash_values.data.Calls|length) %}
             <tr>
                 <td>{{ cash_values.data.Calls[i].strike }}</td>
-                <td>{{ cash_values.data.Calls[i].cash }}</td>
-                <td>{{ cash_values.data.Puts[i].cash }}</td>
-                <td>{{ cash_values.data.Sums[i].cash }}</td>
+                <td>{{ "${:,.0f}".format(cash_values.data.Calls[i].cash) }}</td>
+                <td>{{ "${:,.0f}".format(cash_values.data.Puts[i].cash) }}</td>
+                <td>{{ "${:,.0f}".format(cash_values.data.Sums[i].cash) }}</td>
             </tr>
             {% endfor %}
         </tbody>

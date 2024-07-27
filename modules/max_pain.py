@@ -14,7 +14,7 @@ class MaxPain:
         self.symbol = symbol
         self.tradier = Tradier(symbol)
 
-    def get_cash_values(self, expiration_date: str) -> dict or list:
+    def get_cash_values(self, expiration_date: str) -> dict:
         """
         Get the notional cash amount for the calls and puts in an options chain.
         Using these, sum up the two and find the lowest value to obtain the maximum pain strike price.
@@ -23,7 +23,7 @@ class MaxPain:
             expiration_date (str): The options expiration date in YYYY-MM-DD format.
 
         Returns:
-            dict or list: data containing cash values for each strike for calls, puts, the sum of both, and max pain.
+            dict: data containing cash values for each strike for calls, puts, the sum of both, and max pain.
                 The first three are lists of dictionaries containing k, v of strike and combined cash value
                 for each strike.
                 The max pain is of a dictionary containing 2 key value pairs of strike and combined cash value.
@@ -119,7 +119,7 @@ class MaxPain:
             'data': data
         }
 
-    def plot_cash_values(self, expiration_date: str):
+    def plot_cash_values(self, expiration_date: str) -> str:
         """
         Plot cash values and max pain as a stacked bar chart with calls and puts sharing a similar x-axis of the strike
         """

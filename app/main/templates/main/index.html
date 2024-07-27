@@ -1,5 +1,4 @@
 {% extends 'main/base.html' %}
-
 {% block content %}
 
     {% if current_user.is_authenticated %}
@@ -76,7 +75,7 @@
                                 <td><strong>{{ gainer.price }}</strong></td>
                                 <td><span style="color: green;">&#9650;</span> {{ gainer.change_amount }}</td>
                                 <td><span style="color: green;">&#9650;</span> {{ gainer.change_percentage }}</td>
-                                <td>{{ gainer.volume }}</td>
+                                <td>{{ "{:,.0f}".format(gainer.volume|float) }}</td>
                             </tr>
                         {% endfor %}
                         </tbody>
@@ -100,7 +99,7 @@
                                 <td><strong>{{ loser.price }}</strong></td>
                                 <td><span style="color: red;">&#9660;</span> {{ loser.change_amount }}</td>
                                 <td><span style="color: red;">&#9660;</span> {{ loser.change_percentage }}</td>
-                                <td>{{ loser.volume }}</td>
+                                <td>{{ "{:,.0f}".format(loser.volume|float) }}</td>
                             </tr>
                         {% endfor %}
                         </tbody>
@@ -132,7 +131,7 @@
                                     <td><span style="color: green;">&#9650;</span> {{ actively_traded_stock.change_amount }}</td>
                                     <td><span style="color: green;">&#9650;</span> {{ actively_traded_stock.change_percentage }}</td>
                                 {% endif %}
-                                <td>{{ actively_traded_stock.volume }}</td>
+                                <td>{{ "{:,.0f}".format(actively_traded_stock.volume|float) }}</td>
                             </tr>
                         {% endfor %}
                         </tbody>
