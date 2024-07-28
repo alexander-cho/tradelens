@@ -28,5 +28,4 @@ class AlphaVantage:
         """
         request = requests.get(self.TOP_GAINERS_LOSERS_URL)
         top_gainers_losers = request.json()
-        print(top_gainers_losers)
         return top_gainers_losers
