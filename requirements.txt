@@ -7,9 +7,9 @@ python-dotenv==1.0.1
 pandas==2.2.2
 requests==2.32.3
 pytest==8.2.2
-yfinance==0.2.40
-finnhub-python==2.4.19
+yfinance==0.2.41
+finnhub-python==2.4.20
 fredapi==0.5.2
-plotly==5.22.0
+plotly==5.23.0
 polygon-api-client==1.14.2
 ta-lib==0.4.32

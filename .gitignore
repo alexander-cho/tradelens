@@ -171,3 +171,4 @@ static/images/
 .flaskenv
 git.txt
 ideas.txt
+app.db

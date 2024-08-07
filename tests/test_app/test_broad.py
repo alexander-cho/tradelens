@@ -37,13 +37,15 @@ from pandas import Timestamp
 ])
 @patch('modules.providers.finnhub_.Finnhub.get_earnings_calendar')
 @patch('modules.providers.alphavantage.AlphaVantage.get_ipos_data')
-def test_earnings_ipos(mock_get_ipos_data,
-                       mock_get_earnings_calendar,
-                       client,
-                       ipo_data,
-                       earnings_calendar,
-                       expected_status,
-                       expected_content):
+def test_earnings_ipos(
+    mock_get_ipos_data,
+    mock_get_earnings_calendar,
+    client,
+    ipo_data,
+    earnings_calendar,
+    expected_status,
+    expected_content
+) -> None:
     # Mock the API responses
     mock_get_ipos_data.return_value = ipo_data
     mock_get_earnings_calendar.return_value = earnings_calendar
@@ -79,13 +81,15 @@ def test_earnings_ipos(mock_get_ipos_data,
 ])
 @patch('modules.providers.federalreserve.FederalReserve.get_quarterly_gdp')
 @patch('modules.providers.federalreserve.FederalReserve.get_cpi')
-def test_macro(mock_cpi_data,
-               mock_quarterly_gdp_data,
-               client,
-               cpi_data,
-               quarterly_gdp_data,
-               expected_status,
-               expected_content):
+def test_macro(
+    mock_cpi_data,
+    mock_quarterly_gdp_data,
+    client,
+    cpi_data,
+    quarterly_gdp_data,
+    expected_status,
+    expected_content
+) -> None:
     mock_cpi_data.return_value = cpi_data
     mock_quarterly_gdp_data.return_value = quarterly_gdp_data
 

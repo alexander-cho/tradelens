@@ -73,7 +73,7 @@ def symbol(symbol):
     )
     stock_chart = polygon.make_chart()
 
-    # CONTEXT FROM SRC FOR SYMBOL DATA
+    # CONTEXT FROM MODULES FOR SYMBOL DATA
     yfinance = YFinance(stock.ticker_symbol)
     finnhub = Finnhub()
 

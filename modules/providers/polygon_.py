@@ -59,8 +59,7 @@ class Polygon:
         Plot the candlestick chart of the ohlcv bars and volume chart with the volume bars. Create three rows (subplots)
 
         Returns:
-            str: symbol plot as a string to render as a html div
-            dict: information containing error message if rate limit is hit and the except clause is executed
+            dict: success/failure message, information containing error message if rate limit is hit and the except clause is executed
         """
         # if rate limit has not been hit yet
         try:
@@ -180,5 +179,5 @@ class Polygon:
         except urllib3.exceptions.MaxRetryError:
             return {
                 'success': False,
-                'data': "Chart not available. The overall rate limit for now is 5 per minute, I am working to fix this!"
+                'data': "Chart not available. The overall rate limit for now is 5 charts per minute, I am working to fix this!"
             }

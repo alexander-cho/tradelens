@@ -234,7 +234,7 @@ class YFinance:
         except Exception as e:
             print(f"Error fetching income statement for {self.symbol}: {e}")
 
-    def get_institutional_holders(self) -> any or list[dict]:
+    def get_institutional_holders(self) -> dict:
         """
         Get the institutional holders for a ticker.
 
@@ -253,7 +253,7 @@ class YFinance:
         except Exception as e:
             print(f"Error fetching institutional holders for {self.symbol}: {e}")
 
-    def get_insider_transactions(self) -> any or list[dict]:
+    def get_insider_transactions(self) -> dict:
         """
         Get the insider transactions data for the symbol.
 
