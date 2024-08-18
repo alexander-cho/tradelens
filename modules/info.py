@@ -2,18 +2,18 @@ import yfinance as yf
 from pandas import Timestamp
 from datetime import datetime
 
-from modules.providers.yfinance_ import YFinance
-from modules.providers.finnhub_ import Finnhub
-from modules.providers.alphavantage import AlphaVantage
-from modules.providers.federalreserve import FederalReserve
-from modules.providers.tradier import Tradier
-from modules.providers.polygon_ import Polygon
-from modules.providers.fmp import FMP
+from providers.yfinance_ import YFinance
+from providers.finnhub_ import Finnhub
+from providers.alphavantage import AlphaVantage
+from providers.federalreserve import FederalReserve
+from providers.tradier import Tradier
+from providers.polygon_ import Polygon
+from providers.fmp import FMP
 
-from modules.max_pain import MaxPain
+from max_pain import MaxPain
 
 
-y = YFinance('EMYB')
+y = YFinance('SOFI')
 f = Finnhub()
 a = AlphaVantage()
 fred = FederalReserve()
@@ -39,3 +39,5 @@ max_pain = MaxPain('SOFI')
 
 # for k, v in y.get_calendar().get('data').items():
 #     print(type(v))
+
+# print(y.get_options_expiry_list())

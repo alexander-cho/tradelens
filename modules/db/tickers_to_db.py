@@ -10,16 +10,16 @@ from tradelens import current_app, db
 tickers_file_path = os.path.join('../..', 'resources', 'company_tickers.json')
 
 
-def populate_stocks_from_sec(json_file):
+def populate_stocks_from_sec(ticker_file):
     """
     db model columns: ticker_symbol, company_name
     json values: ticker, title
     """
-    if not os.path.exists(json_file):
-        print(f"Error: The file {json_file} does not exist.")
+    if not os.path.exists(ticker_file):
+        print(f"Error: The file {ticker_file} does not exist.")
         return
 
-    with open(json_file, 'r') as file:
+    with open(ticker_file, 'r') as file:
         data = json.load(file)
 
     for item in data.values():

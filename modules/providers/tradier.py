@@ -276,68 +276,74 @@ class Tradier:
         Returns:
             dict: response containing keys including 'data', containing the open interest information:
         """
-        call_data = {}
-        put_data = {}
+        try:
+            call_data = {}
+            put_data = {}
 
-        options_chain = self.get_options_chain(expiration_date=expiration_date).get('data')
-        for strike in options_chain:
-            if strike['option_type'] == 'call':
-                call_data[strike['strike']] = strike['greeks'].get('mid_iv')
-            elif strike['option_type'] == 'put':
-                put_data[strike['strike']] = strike['greeks'].get('mid_iv')
+            options_chain = self.get_options_chain(expiration_date=expiration_date).get('data')
+            for strike in options_chain:
+                if strike['option_type'] == 'call':
+                    call_data[strike['strike']] = strike['greeks'].get('mid_iv')
+                elif strike['option_type'] == 'put':
+                    put_data[strike['strike']] = strike['greeks'].get('mid_iv')
 
-        call_list = [{'strike': strike, 'iv': iv} for strike, iv in call_data.items()]
-        put_list = [{'strike': strike, 'iv': iv} for strike, iv in put_data.items()]
+            call_list = [{'strike': strike, 'iv': iv} for strike, iv in call_data.items()]
+            put_list = [{'strike': strike, 'iv': iv} for strike, iv in put_data.items()]
 
-        return {
-            'description': 'implied volatility',
-            'root_symbol': self.symbol,
-            'expiration_date': expiration_date,
-            'data': {
-                "Calls": call_list,
-                "Puts": put_list
+            return {
+                'description': 'implied volatility',
+                'root_symbol': self.symbol,
+                'expiration_date': expiration_date,
+                'data': {
+                    "Calls": call_list,
+                    "Puts": put_list
+                }
             }
-        }
+        except:
+            return {}
 
     def plot_iv(self, expiration_date: str) -> str:
         """
         Plot implied volatility chart for calls and puts; 2 traces
         """
-        volume = self._get_implied_volatility(expiration_date=expiration_date)
-        calls = volume.get('data', {}).get('Calls', [])
-        puts = volume.get('data', {}).get('Puts', [])
+        try:
+            volume = self._get_implied_volatility(expiration_date=expiration_date)
+            calls = volume.get('data', {}).get('Calls', [])
+            puts = volume.get('data', {}).get('Puts', [])
 
-        # convert lists to DataFrames
-        df_calls = pd.DataFrame(calls)
-        df_puts = pd.DataFrame(puts)
+            # convert lists to DataFrames
+            df_calls = pd.DataFrame(calls)
+            df_puts = pd.DataFrame(puts)
 
-        trace_calls = go.Scatter(
-            x=df_calls['strike'],
-            y=df_calls['iv'],
-            mode='lines+markers',
-            name='Calls',
-            line=dict(color='green')
-        )
-        trace_puts = go.Scatter(
-            x=df_puts['strike'],
-            y=df_puts['iv'],
-            mode='lines+markers',
-            name='Puts',
-            line=dict(color='red')
-        )
+            trace_calls = go.Scatter(
+                x=df_calls['strike'],
+                y=df_calls['iv'],
+                mode='lines+markers',
+                name='Calls',
+                line=dict(color='green')
+            )
+            trace_puts = go.Scatter(
+                x=df_puts['strike'],
+                y=df_puts['iv'],
+                mode='lines+markers',
+                name='Puts',
+                line=dict(color='red')
+            )
 
-        fig = go.Figure(data=[trace_calls, trace_puts])
+            fig = go.Figure(data=[trace_calls, trace_puts])
 
-        # update layout
-        fig.update_layout(
-            title='Implied Volatility (multiply by 100%)',
-            xaxis_title='Strike',
-            yaxis_title='Implied Volatility',
-            height=600,
-        )
+            # update layout
+            fig.update_layout(
+                title='Implied Volatility (multiply by 100%)',
+                xaxis_title='Strike',
+                yaxis_title='Implied Volatility',
+                height=600,
+            )
 
-        plot_html = pio.to_html(fig, full_html=False)
-        return plot_html
+            plot_html = pio.to_html(fig, full_html=False)
+            return plot_html
+        except:
+            return {}
 
     def _get_last_bid_ask(self, expiration_date: str) -> dict:
         """
