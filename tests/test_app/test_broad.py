@@ -36,7 +36,6 @@ from pandas import Timestamp
     )
 ])
 @patch('modules.providers.finnhub_.Finnhub.get_earnings_calendar')
-@patch('modules.providers.alphavantage.AlphaVantage.get_ipos_data')
 def test_earnings_ipos(
     mock_get_ipos_data,
     mock_get_earnings_calendar,

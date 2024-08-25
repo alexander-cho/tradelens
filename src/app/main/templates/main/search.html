@@ -1,0 +1,15 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
+
+    <h2>You searched for: <em>{{ searched }}</em></h2>
+
+    {% if display_posts %}
+        {% for post in display_posts %}
+            {% include 'feed/../../../feed/templates/feed/_post.html' %}
+        {% endfor %}
+    {% else %}
+        <strong>{{ searched }}</strong> was not found
+    {% endif %}
+
+{% endblock %}

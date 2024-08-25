@@ -1,7 +1,7 @@
 import pytest
 
-from app.models import User
-from app import db
+from src.app.models import User
+from src.app import db
 
 
 def test_login_title(client):
