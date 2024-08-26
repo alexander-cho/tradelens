@@ -1,0 +1,85 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
+    <div class="container d-flex justify-content-center">
+        <div class="row" style="width: 100%;"> <!-- Custom width inline -->
+            <!-- UPCOMING EARNINGS -->
+            <div class="col-md-6" style="padding: 0 15px;"> <!-- Custom column padding inline -->
+                {% if earnings_calendar %}
+                    <h1 class="text-center">Upcoming Earnings</h1>
+                    <br>
+                    <div class="scrollable-list">
+                        {% for earning in earnings_calendar.data %}
+                            <div class="card mb-3" style="width: 100%;"> <!-- Card width inline -->
+                                <div class="card-body">
+                                    <h3 class="card-title text-center">
+                                        <a href="{{ url_for('stocks.symbol', symbol=earning.symbol) }}" class="btn btn-primary">{{ earning.symbol }}</a>
+                                    </h3>
+                                    <h5 class="card-title text-center">{{ earning.date }} | {{ earning.hour }}</h5>
+                                    <h6 class="card-subtitle mb-2 text-body-secondary text-center">{{ earning.quarter }} {{ earning.year }}</h6>
+                                    <p class="card-text text-center">
+                                        {% if earning.epsEstimate is number %}
+                                            EPS estimate: <strong>${{ earning.epsEstimate }}</strong>
+                                        {% endif %}
+                                        {% if earning.epsActual is number %}
+                                            | EPS reported: <strong>${{ earning.epsActual }}</strong><br>
+                                        {% endif %}
+                                        {% if earning.revenueEstimate is number %}
+                                            Revenue estimate: <strong>${{ "{:,.0f}".format(earning.revenueEstimate) }}</strong>
+                                        {% endif %}
+                                        {% if earning.revenueActual is number %}
+                                            | Revenue reported: <strong>${{ "{:,.0f}".format(earning.revenueActual) }}</strong>
+                                        {% endif %}
+                                    </p>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <h5 class="text-center">No earnings data available</h5>
+                {% endif %}
+            </div>
+
+            <!-- ANTICIPATED IPOS -->
+            <div class="col-md-6" style="padding: 0 15px;"> <!-- Custom column padding inline -->
+                {% if anticipated_ipos %}
+                    <h1 class="text-center">Anticipated IPOs</h1>
+                    <br>
+                    <div class="scrollable-list">
+                        {% for ipo in anticipated_ipos.data %}
+                            <div class="card mb-3" style="width: 100%;"> <!-- Card width inline -->
+                                <div class="card-body">
+                                    <h3 class="card-title text-center">{{ ipo.symbol }}</h3>
+                                    <h5 class="card-title text-center">{{ ipo.name }}</h5>
+                                    <h6 class="card-subtitle mb-2 text-body-secondary text-center">{{ ipo.status }} | {{ ipo.date }} | {{ ipo.exchange }}</h6>
+                                    <p class="card-text text-center">
+                                        {% if ipo.numberOfShares is number %}
+                                            Number of shares: <strong>{{ "{:,.0f}".format(ipo.numberOfShares) }}</strong><br>
+                                        {% endif %}
+                                        List price: <strong>${{ ipo.price }}</strong><br>
+                                        {% if ipo.totalSharesValue is number %}
+                                            Total value: <strong>${{ "{:,.0f}".format(ipo.totalSharesValue) }}</strong>
+                                        {% endif %}
+                                    </p>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <h5 class="text-center">No IPO data available</h5>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <style>
+        .scrollable-list {
+            max-height: 650px; /* Set the maximum height of the scrollable area */
+            overflow-y: auto; /* Enable vertical scrollbar if content overflows */
+            border: 1px solid darkblue; /* Add a 1px solid border with a light gray color */
+            border-radius: 10px; /* Add border-radius for smoother edges */
+            padding: 10px; /* Add padding to separate content from the border */
+        }
+    </style>
+
+{% endblock %}

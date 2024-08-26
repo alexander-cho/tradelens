@@ -1,0 +1,46 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
+
+    <h1>Holders and Insiders Activity for {{ stock.ticker_symbol }}</h1>
+
+    {% if institutional_holders.success %}
+        <div id="plotly-div">{{ institutional_holders.data | safe }}</div>
+    {% else %}
+        <h3>{{ institutional_holders.data }}</h3>
+    {% endif %}
+    <div id="plotly-div">{{ insider_sentiment | safe }}</div>
+    <div id="plotly-div">{{ insider_transactions | safe }}</div>
+
+
+    {% if analyst_ratings %}
+        <h3>Analyst Ratings</h3>
+        <div class="scrollable-list">
+            {% for rating in analyst_ratings.data %}
+                <div class="card mb-3" style="width: 100%;">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item d-flex justify-content-between">
+                            <span><strong>Firm:</strong> {{ rating.Firm }}</span>
+                            <span><strong>Date:</strong> {{ rating.GradeDate }}</span>
+                            <span><strong>To:</strong> {{ rating.ToGrade }}</span>
+                            <span><strong>From:</strong> {{ rating.FromGrade }}</span>
+                            <span><strong>Action:</strong> {{ rating.Action }}</span>
+                        </li>
+                    </ul>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+
+    <style>
+    .scrollable-list {
+        max-height: 550px; /* Set the maximum height of the scrollable area */
+        overflow-y: auto; /* Enable vertical scrollbar if content overflows */
+        border: 1px solid darkblue; /* Add a 1px solid border with a light gray color */
+        border-radius: 10px; /* Add border-radius for smoother edges */
+        padding: 10px; /* Add padding to separate content from the border */
+    }
+    </style>
+
+{% endblock %}

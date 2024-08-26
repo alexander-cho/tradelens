@@ -1,0 +1,22 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
+
+    <h1>{{ stock.ticker_symbol }} {{ expiry_date }}</h1>
+    <h4> Current Price of underlying: ${{ current_price }}</h4>
+
+    <hr>
+
+    <p>
+        <a href="{{ url_for('options.greeks', symbol=stock.ticker_symbol, expiry_date=expiry_date) }}" class="btn btn-outline-success btn-lg">View Greeks</a>
+        <a href="{{ url_for('options.options_strikes', symbol=stock.ticker_symbol, expiry_date=expiry_date) }}" class="btn btn-outline-dark btn-lg">View Option Charts</a>
+        <a href="{{ url_for('options.maximum_pain', symbol=stock.ticker_symbol, expiry_date=expiry_date) }}" class="btn btn-outline-danger btn-lg">Maximum Pain</a>
+        <a href="{{ url_for('options.options', symbol=stock.ticker_symbol) }}" class="btn btn-outline-info btn-lg">Back to Expiration Calendar</a>
+    </p>
+
+    <div id="plotly-div">{{ open_interest | safe }}</div>
+    <div id="plotly-div">{{ volume | safe }}</div>
+    <div id="plotly-div">{{ implied_volatility | safe }}</div>
+    <div id="plotly-div">{{ last_bid_ask | safe }}</div>
+
+{% endblock %}

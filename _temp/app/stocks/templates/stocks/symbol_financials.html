@@ -1,0 +1,11 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
+
+    <h1>Financials for {{ stock.ticker_symbol }}</h1>
+
+    <div id="plotly-div">{{ balance_sheet | safe }}</div>
+    <div id="plotly-div">{{ cashflow_statement | safe }}</div>
+    <div id="plotly-div">{{ income_statement | safe }}</div>
+
+{% endblock %}

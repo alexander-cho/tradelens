@@ -1,0 +1,10 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
+
+    <h1>Labor market</h1>
+
+    <div id="plotly-div">{{ unemployment_rate | safe }}</div>
+    <div id="plotly-div">{{ total_nonfarm_payroll | safe }}</div>
+
+{% endblock %}

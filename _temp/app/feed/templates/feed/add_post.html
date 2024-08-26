@@ -1,0 +1,26 @@
+{% block content %}
+
+{% if current_user.is_authenticated %}
+
+    {% if stock %}
+        <h2>Share an idea about {{ stock.ticker_symbol }}:</h2>
+    {% else %}
+        <h2>Share an idea:</h2>
+    {% endif %}
+
+    <div class="shadow p-3 mb-5 bg-body rounded">
+        <form method="POST">
+            {{ post_form.hidden_tag() }}
+            {{ post_form.title.label(class="form-label") }}
+            {{ post_form.title(value=stock.ticker_symbol, class="form-control") }}  <!-- pre-populate title with ticker -->
+            <br>
+            {{ post_form.content.label(class="form-label") }}
+            {{ post_form.content(class="form-control", rows="10") }}
+            <br>
+            {{ post_form.submit(class="btn btn-secondary") }}
+        </form>
+    </div>
+
+{% endif %}
+
+{% endblock %}

@@ -1,0 +1,12 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
+
+    <br>
+    <div style="text-align: center">
+        <h1>Error 500</h1>
+        <p>An unexpected error has occurred.</p>
+        <p><a href="{{ url_for('main.index') }}">Go Back</a></p>
+    </div>
+
+{% endblock %}

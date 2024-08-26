@@ -1,0 +1,51 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
+
+<h1>Symbol Directory</h1>
+
+<form method="POST" action="{{ url_for('stocks.symbol_search') }}" class="d-flex" role="search">
+    {{ search_form.hidden_tag() }}
+    <input class="form-control me-2" type="search" placeholder="Search for a ticker" aria-label="Search" name="searched">
+    <button class="btn btn-outline-success" type="submit">Search</button>
+</form>
+
+<hr>
+
+<h4>Symbol | Company Name</h4>
+
+<div class="scrollable-list">
+    <p>
+        {% for stock in stock_list %}
+            <a href="{{ url_for('stocks.symbol', symbol=stock.ticker_symbol) }}" class="btn-ticker">{{ stock.ticker_symbol }}</a> | {{ stock.company_name }} <br>
+        {% endfor %}
+    </p>
+</div>
+
+<style>
+    .scrollable-list {
+        max-height: 550px; /* Set the maximum height of the scrollable area */
+        overflow-y: auto; /* Enable vertical scrollbar if content overflows */
+        border: 1px solid darkblue; /* Add a 1px solid border with a light gray color */
+        border-radius: 10px; /* Add border-radius for smoother edges */
+        padding: 10px; /* Add padding to separate content from the border */
+    }
+
+    .btn-ticker {
+        display: inline-block;
+        padding: 2px 5px;
+        margin: 1px 0;
+        color: #fff;
+        background-color: #007bff;
+        border: 1px;
+        border-radius: 4px;
+        text-align: center;
+        text-decoration: none;
+    }
+
+    .btn-ticker:hover {
+        background-color: #0056b3;
+    }
+</style>
+
+{% endblock %}

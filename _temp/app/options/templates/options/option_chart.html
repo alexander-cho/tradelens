@@ -1,0 +1,20 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
+
+    <div style="display: flex; align-items: center;">
+        <h1 style="margin-right: 20px;">{{ option_ticker }}</h1>
+        <a href="{{ url_for('options.options_strikes', symbol=stock.ticker_symbol, expiry_date=expiry_date) }}" class="btn btn-outline-dark btn-lg">Back to Strikes</a>
+    </div>
+
+    <h3>Current price of underlying: ${{ current_price }}</h3>
+
+    {% if option_chart.success %}
+        <div id="plotly-div">{{ option_chart.data | safe }}</div>
+    {% else %}
+        <div style="text-align: center">
+            <h1>{{ option_chart.data }}</h1>
+        </div>
+    {% endif %}
+
+{% endblock %}

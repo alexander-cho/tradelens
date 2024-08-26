@@ -1,0 +1,58 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
+
+    <h1>Cash and Maximum pain calculation for {{ stock.ticker_symbol }} expiring on {{ expiry_date }}</h1>
+    <h4>Current price of underlying: ${{ current_price }}</h4>
+
+    <div id="plotly-div">{{ cash_values_chart | safe }}</div>
+
+    <div class="container">
+    <h2>Cash</h2>
+    <table class="styled-table">
+        <thead>
+            <tr>
+                <th>Strikes</th>
+                <th>Calls</th>
+                <th>Puts</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for i in range(cash_values.data.Calls|length) %}
+            <tr>
+                <td>{{ cash_values.data.Calls[i].strike }}</td>
+                <td>{{ "${:,.0f}".format(cash_values.data.Calls[i].cash) }}</td>
+                <td>{{ "${:,.0f}".format(cash_values.data.Puts[i].cash) }}</td>
+                <td>{{ "${:,.0f}".format(cash_values.data.Sums[i].cash) }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    </div>
+
+    <style>
+        .styled-table {
+            width: 100%;
+            margin: auto;
+            border-collapse: collapse;
+            border-radius: 5px;
+        }
+
+        .styled-table th {
+            border: 1px solid black;
+            padding: 5px;
+            text-align: center;
+            background-color: #f2f2f2;
+            border-radius: 5px;
+        }
+
+        .styled-table td {
+            border: 1px solid black;
+            padding: 5px;
+            text-align: center;
+            border-radius: 5px;
+        }
+    </style>
+
+{% endblock %}

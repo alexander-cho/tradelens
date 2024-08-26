@@ -1,0 +1,81 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
+
+    <h1>{{ stock.ticker_symbol }}</h1>
+
+    <div class="container d-flex justify-content-center">
+        <div class="row" style="width: 100%;"> <!-- Custom width inline -->
+            <!-- LOBBYING ACTIVITY -->
+            <div class="col-md-6" style="padding: 0 15px;"> <!-- Custom column padding inline -->
+                {% if not lobbying_activities.data == [] %}
+                    <h1 class="text-center">Lobbying Activity</h1>
+                    <br>
+                    <div class="scrollable-list">
+                        {% for activity in lobbying_activities.data %}
+                            <div class="card mb-3" style="width: 100%;"> <!-- Card width inline -->
+                                <div class="card-body">
+                                    <h5 class="card-title text-center">Company Expense: ${{ activity.expenses }}</h5>
+                                    <h6 class="card-subtitle mb-2 text-body-secondary text-center">Income reported by Lobbying Firms: ${{ activity.income }}</h6>
+                                    <p class="card-text text-center">
+                                        {{ activity.period }} {{ activity.year }} <br>
+                                        Activity Type: {{ activity.type }}
+                                    </p>
+                                    <h6 class="card-title text-center">
+                                        <a href="{{ activity.documentUrl }}" class="card-link">Link</a>
+                                    </h6>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <h3 class="text-center">Lobbying Activity not available</h3>
+                {% endif %}
+            </div>
+
+            <!-- GOVERNMENT SPENDING -->
+            <div class="col-md-6" style="padding: 0 15px;"> <!-- Custom column padding inline -->
+                {% if not government_spending.data == [] %}
+                    <h1 class="text-center">Government Spending</h1>
+                    <br>
+                    <div class="scrollable-list">
+                        {% for expense in government_spending.data %}
+                            <div class="card mb-3" style="width: 100%;"> <!-- Card width inline -->
+                                <div class="card-body">
+                                    <h5 class="card-title text-center">Value: ${{ expense.totalValue }}</h5>
+                                    <h6 class="card-subtitle mb-2 text-body-secondary text-center">{{ expense.actionDate }}</h6>
+                                    <h6 class="card-subtitle mb-2 text-body-secondary text-center">
+                                        {{ expense.awardingAgencyName }} <br>
+                                        {{ expense.awardingSubAgencyName }} <br>
+                                        {{ expense.awardingOfficeName }}
+                                    </h6>
+                                    <p class="card-text text-center">
+                                        <strong>Description:</strong>
+                                        {{ expense.awardDescription }}
+                                    </p>
+                                    <h6 class="card-title text-center">
+                                        <a href="{{ expense.permalink }}" class="card-link">Link</a>
+                                    </h6>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <h3 class="text-center">Government Spending Data not available</h3>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+
+    <style>
+        .scrollable-list {
+            max-height: 650px; /* Set the maximum height of the scrollable area */
+            overflow-y: auto; /* Enable vertical scrollbar if content overflows */
+            border: 1px solid darkblue; /* Add a 1px solid border with a light gray color */
+            border-radius: 10px; /* Add border-radius for smoother edges */
+            padding: 10px; /* Add padding to separate content from the border */
+        }
+    </style>
+
+{% endblock %}

@@ -1,0 +1,26 @@
+<!-- This sub template will take care of rendering the layout of each post. -->
+
+<div class="container d-flex justify-content-center">
+    <div class="row">
+        <div class="col-12 mx-auto">
+            <div class="card" style="width: 60rem;">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <img src="{{ post.author.avatar(36) }}" alt="">
+                        <a href="{{ url_for('users.user', username=post.author.username)}}">{{ post.author.username }}</a>
+                    </h5>
+                    <p>Posted on: {{ post.timestamp }}</p>
+                    <h6 class="card-subtitle mb-2 text-body-secondary">
+                        <a href="{{ url_for('stocks.symbol', symbol=post.title) }}" class="btn btn-outline-primary btn-sm">{{ post.title }}</a>
+                    </h6>
+                    <p class="card-text">{{ post.content | safe }}</p>
+                    <a href="{{ url_for('feed.post', id=post.id) }}" class="btn btn-outline-secondary btn-sm">Click to View</a>
+                    {% if current_user.id == post.author.id %}
+                        <a href="{{ url_for('feed.edit_post', id=post.id) }}" class="btn btn-outline-warning btn-sm">Edit Post</a>
+                        <a href="{{ url_for('feed.delete_post', id=post.id) }}" class="btn btn-outline-danger btn-sm">Delete Post</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

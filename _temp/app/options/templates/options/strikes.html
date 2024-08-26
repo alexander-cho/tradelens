@@ -1,0 +1,37 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
+
+    <div style="display: flex; align-items: center;">
+        <h1 style="margin-right: 20px;">Strikes for {{ stock.ticker_symbol }} contracts expiring on {{ expiry_date }}</h1>
+        <a href="{{ url_for('options.options_chain', symbol=stock.ticker_symbol, expiry_date=expiry_date) }}" class="btn btn-info btn-lg">Back to Option chain</a>
+        <a href="{{ url_for('options.options', symbol=stock.ticker_symbol) }}" class="btn btn-outline-dark btn-lg">Expiration Calendar</a>
+    </div>
+
+    <hr>
+
+    <h4>Current price of underlying: <span style="font-size: 2em;">${{ current_price }}</span></h4>
+    <h5>Click on a strike price to view the chart</h5>
+
+    {% if strikes %}
+        <div class="row">
+            <div class="col-md-6">
+                <h3>Calls</h3>
+                <p>
+                {% for strike, ticker in strikes.data.calls.items() %}
+                    <a href="{{ url_for('options.options_chart', symbol=stock.ticker_symbol, expiry_date=expiry_date, option_ticker=ticker) }}" class="btn btn-outline-success d-block w-100">{{ strike }}</a><br>
+                {% endfor %}
+                </p>
+            </div>
+            <div class="col-md-6">
+                <h3>Puts</h3>
+                <p>
+                {% for strike, ticker in strikes.data.puts.items() %}
+                    <a href="{{ url_for('options.options_chart', symbol=stock.ticker_symbol, expiry_date=expiry_date, option_ticker=ticker) }}" class="btn btn-outline-danger d-block w-100">{{ strike }}</a><br>
+                {% endfor %}
+                </p>
+            </div>
+        </div>
+    {% endif %}
+
+{% endblock %}

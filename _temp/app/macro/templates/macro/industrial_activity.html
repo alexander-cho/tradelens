@@ -1,0 +1,10 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
+
+    <h1>Industrial Activity</h1>
+
+    <div id="plotly-div">{{ industrial_production | safe }}</div>
+    <div id="plotly-div">{{ capacity_utilization | safe }}</div>
+
+{% endblock %}

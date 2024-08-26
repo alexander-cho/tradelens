@@ -1,0 +1,155 @@
+{% extends 'main/base.html' %}
+{% block content %}
+
+    {% if current_user.is_authenticated %}
+        <h1>Hello, {{ current_user.username }}!</h1>
+        <h1>Welcome to TradeLens</h1>
+    {% else %}
+        <h1>Welcome to TradeLens</h1>
+    {% endif %}
+
+    <hr>
+    <div class="row">
+        <div class="col-4">
+            <!-- Current Market Status -->
+            {% if market_status %}
+            <div class="card" style="width: 24rem;">
+                <div class="card-header">
+                    <h3 class="card-title">Current Market Status</h3>
+                </div>
+                <div class="list-group list-group-flush">
+                    {% for k, v in market_status.data.items() %}
+                        <div class="list-group-item">
+                            <div class="row">
+                                <div class="col-6">
+                                    <strong>{{ k }}</strong>
+                                </div>
+                                <div class="col-6">
+                                    {{ v }}
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+        <br>
+        <!-- Market Holidays -->
+        {% if market_holidays %}
+        <div class="card" style="width: 24rem;">
+            <div class="card-header">
+                <h3 class="card-title">{{ market_holidays.description }} for {{ market_holidays.year }}</h3>
+            </div>
+            <ul class="list-group list-group-flush">
+                {% for holiday in market_holidays.data %}
+                    <li class="list-group-item">
+                        <strong>{{ holiday.eventName }}</strong>
+                        {{ holiday.atDate }}
+                        <em>{{ holiday.tradingHour }}</em>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+        </div>
+        <!-- TOP GAINERS AND LOSERS -->
+        <div class="col-8">
+            <div class="scrollable-list">
+                {% if top_gainers_losers %}
+                    <!-- TOP GAINERS -->
+                    <table class="table caption-top">
+                        <caption><h3>Top Gainers</h3></caption>
+                        <thead>
+                            <tr>
+                                <th scope="col">Ticker</th>
+                                <th scope="col">Price</th>
+                                <th scope="col">Change</th>
+                                <th scope="col">Percent Change</th>
+                                <th scope="col">Volume</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% for gainer in top_gainers_losers.top_gainers %}
+                            <tr>
+                                <th scope="row"><a href="{{ url_for('stocks.symbol', symbol=gainer.ticker) }}" class="btn btn-primary btn-sm">{{ gainer.ticker }}</a></th>
+                                <td><strong>{{ gainer.price }}</strong></td>
+                                <td><span style="color: green;">&#9650;</span> {{ gainer.change_amount }}</td>
+                                <td><span style="color: green;">&#9650;</span> {{ gainer.change_percentage }}</td>
+                                <td>{{ "{:,.0f}".format(gainer.volume|float) }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                    <!-- TOP LOSERS -->
+                    <table class="table caption-top">
+                        <caption><h3>Top Losers</h3></caption>
+                        <thead>
+                            <tr>
+                                <th scope="col">Ticker</th>
+                                <th scope="col">Price</th>
+                                <th scope="col">Change</th>
+                                <th scope="col">Percent Change</th>
+                                <th scope="col">Volume</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% for loser in top_gainers_losers.top_losers %}
+                            <tr>
+                                <th scope="row"><a href="{{ url_for('stocks.symbol', symbol=loser.ticker) }}" class="btn btn-primary btn-sm">{{ loser.ticker }}</a></th>
+                                <td><strong>{{ loser.price }}</strong></td>
+                                <td><span style="color: red;">&#9660;</span> {{ loser.change_amount }}</td>
+                                <td><span style="color: red;">&#9660;</span> {{ loser.change_percentage }}</td>
+                                <td>{{ "{:,.0f}".format(loser.volume|float) }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                    <!-- MOST ACTIVELY TRADED STOCKS -->
+                    <table class="table caption-top">
+                        <caption><h3>Most Actively Traded Stocks</h3></caption>
+                        <thead>
+                            <tr>
+                                <th scope="col">Ticker</th>
+                                <th scope="col">Price</th>
+                                <th scope="col">Change</th>
+                                <th scope="col">Percent Change</th>
+                                <th scope="col">Volume</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% for actively_traded_stock in top_gainers_losers.most_actively_traded %}
+                            <tr>
+                                <th scope="row"><a href="{{ url_for('stocks.symbol', symbol=actively_traded_stock.ticker) }}" class="btn btn-primary btn-sm">{{ actively_traded_stock.ticker }}</a></th>
+                                <td><strong>{{ actively_traded_stock.price }}</strong></td>
+                                {% if actively_traded_stock.change_amount|float == 0 %}
+                                    <td><span style="color: gray;">&#9679;</span> {{ actively_traded_stock.change_amount }}</td>
+                                    <td><span style="color: gray;">&#9679;</span> {{ actively_traded_stock.change_percentage }}</td>
+                                {% elif actively_traded_stock.change_amount|float < 0 %}
+                                    <td><span style="color: red;">&#9660;</span> {{ actively_traded_stock.change_amount }}</td>
+                                    <td><span style="color: red;">&#9660;</span> {{ actively_traded_stock.change_percentage }}</td>
+                                {% else %}
+                                    <td><span style="color: green;">&#9650;</span> {{ actively_traded_stock.change_amount }}</td>
+                                    <td><span style="color: green;">&#9650;</span> {{ actively_traded_stock.change_percentage }}</td>
+                                {% endif %}
+                                <td>{{ "{:,.0f}".format(actively_traded_stock.volume|float) }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+
+    <style>
+        .scrollable-list {
+            max-height: 1040px; /* Set the maximum height of the scrollable area */
+            overflow-y: auto; /* Enable vertical scrollbar if content overflows */
+            border: 1px solid darkblue; /* Add a 1px solid border with a light gray color */
+            border-radius: 10px; /* Add border-radius for smoother edges */
+            padding: 10px; /* Add padding to separate content from the border */
+        }
+    </style>
+
+{% endblock %}

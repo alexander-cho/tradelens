@@ -1,35 +1,20 @@
-# set the python version as a build-time argument with Python 3.12 as the default
-ARG PYTHON_VERSION=3.12-slim-bullseye
-FROM python:${PYTHON_VERSION}
+FROM python:3.12-slim-bullseye
 
-# create a virtual environment
-RUN python -m venv /opt/venv
-
-# set the virtual environment as the current location
-ENV PATH=/opt/venv/bin:$PATH
-
-# upgrade pip
-RUN pip install --upgrade pip
-
-# set Python-related environment variables
-ENV PYTHONDONTWRITEBYTECODE=1
-ENV PYTHONUNBUFFERED=1
+# Set the working directory to where app.py is located
+WORKDIR /src/app
 
 # Copy the requirements file and install dependencies
-COPY requirements.txt /requirements.txt
-RUN pip install -r /requirements.txt
+COPY requirements.txt /src/
+RUN pip install --no-cache-dir -r /src/requirements.txt
 
 # Copy the entire src directory to the container
 COPY src /src
 
-# Set the working directory to /src
-WORKDIR /src
+# Set the FLASK_APP environment variable to the filename without the .py extension
+ENV FLASK_APP=app
 
-# Set Flask app environment variable
-ENV FLASK_APP=tradelens.py
-
-# Expose port 5000
+# Expose the port Flask will run on
 EXPOSE 5000
 
-# Set the entrypoint to the boot.sh script with an absolute path
-ENTRYPOINT ["/boot.sh"]
+# Run the Flask application
+CMD ["flask", "run", "--host=0.0.0.0"]

@@ -1,0 +1,12 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
+
+    <h1>General Economy</h1>
+
+    <div id="plotly-div">{{ gdp | safe }}</div>
+    <div id="plotly-div">{{ debt_as_pct_of_gdp | safe }}</div>
+    <div id="plotly-div">{{ total_debt | safe }}</div>
+    <div id="plotly-div">{{ interest_payments | safe }}</div>
+
+{% endblock %}

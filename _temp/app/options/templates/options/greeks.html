@@ -1,0 +1,22 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
+
+    <h1>Greeks for {{ stock.ticker_symbol }} contracts expiring on {{ expiry_date }}</h1>
+
+    <hr>
+
+    <p>
+        <a href="{{ url_for('options.options_chain', symbol=stock.ticker_symbol, expiry_date=expiry_date) }}" class="btn btn-outline-warning btn-lg">Back to chain</a>
+        <a href="{{ url_for('options.options', symbol=stock.ticker_symbol) }}" class="btn btn-outline-dark btn-lg">Expiration Calendar</a>
+    </p>
+
+    <h3>Current Price of underlying: ${{ current_price }}</h3>
+
+    <div id="plotly-div">{{ delta | safe }}</div>
+    <div id="plotly-div">{{ gamma | safe }}</div>
+    <div id="plotly-div">{{ theta | safe }}</div>
+    <div id="plotly-div">{{ vega | safe }}</div>
+    <div id="plotly-div">{{ rho | safe }}</div>
+
+{% endblock %}

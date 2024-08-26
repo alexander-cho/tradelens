@@ -1,0 +1,10 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
+
+    <h1>Trade</h1>
+
+    <div id="plotly-div">{{ trade_deficit | safe }}</div>
+    <div id="plotly-div">{{ fdi | safe }}</div>
+
+{% endblock %}

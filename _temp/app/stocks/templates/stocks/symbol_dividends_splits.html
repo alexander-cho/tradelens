@@ -1,0 +1,62 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
+
+    <h1>Dividends and Splits for {{ stock.ticker_symbol }}</h1>
+
+    {% if not ticker_dividends.data == [] %}
+        <h3>Dividends</h3>
+        <div class="scrollable-list">
+        {% for payout in ticker_dividends.data %}
+                <div class="card" style="width: 100%;">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item d-flex justify-content-between">
+                            <strong>Ex-dividend date:</strong>{{ payout.date }}
+                            <strong>payout:</strong>{{ payout.dividend }}
+                            <strong>adjusted:</strong>{{ payout.adjDividend }}
+                            <strong>record date:</strong>{{ payout.recordDate }}
+                            <strong>payout date:</strong>{{ payout.paymentDate }}
+                            <strong>declaration date:</strong>{{ payout.declarationDate }}
+                        </li>
+                    </ul>
+                </div>
+        {% endfor %}
+        </div>
+    {% else %}
+        <h3>No dividends</h3>
+    {% endif %}
+
+    <br><br>
+
+    {% if not ticker_splits.data == [] %}
+    <h3>Splits</h3>
+    <div class="row">
+        {% for split in ticker_splits.data %}
+            <div class="col-md-4 mb-4">
+                <div class="card" style="width: 100%;">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item d-flex justify-content-between">
+                            <span>{{ split.date }}</span>
+                            <span><strong>{{ split.numerator }} for {{ split.denominator }}</strong></span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    {% else %}
+        <h3>No splits</h3>
+    {% endif %}
+
+
+    <style>
+        .scrollable-list {
+            max-height: 550px; /* Set the maximum height of the scrollable area */
+            overflow-y: auto; /* Enable vertical scrollbar if content overflows */
+            border: 1px solid darkblue; /* Add a 1px solid border with a light gray color */
+            border-radius: 10px; /* Add border-radius for smoother edges */
+            padding: 10px; /* Add padding to separate content from the border */
+        }
+    </style>
+
+{% endblock %}

@@ -1,0 +1,11 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
+
+    <h1>Housing market</h1>
+
+    <div id="plotly-div">{{ units_started | safe }}</div>
+    <div id="plotly-div">{{ homes_for_sale | safe }}</div>
+    <div id="plotly-div">{{ median_price | safe }}</div>
+
+{% endblock %}

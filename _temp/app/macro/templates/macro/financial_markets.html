@@ -1,0 +1,10 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
+
+    <h1>Financial markets</h1>
+
+    <div id="plotly-div">{{ interest_rates | safe }}</div>
+    <div id="plotly-div">{{ ten_year_yield | safe }}</div>
+
+{% endblock %}

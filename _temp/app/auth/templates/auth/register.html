@@ -1,0 +1,38 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
+
+<h1>Register</h1>
+
+<div class="shadow p-3 mb-5 bg-body rounded">
+    <form action="" method="POST">
+        {{ registration_form.hidden_tag() }}
+        {{ registration_form.username.label(class="form-label") }}
+        {{ registration_form.username(class="form-control") }}
+        {% for error in registration_form.username.errors %}
+            <span style="color: red">[{{ error }}]</span>
+        {% endfor %}
+        <br>
+        {{ registration_form.email.label(class="form-label") }}
+        {{ registration_form.email(class="form-control") }}
+        {% for error in registration_form.email.errors %}
+            <span style="color: red">[{{ error }}]</span>
+        {% endfor %}
+        <br>
+        {{ registration_form.password_hash.label(class="form-label") }}
+        {{ registration_form.password_hash(class="form-control") }}
+        {% for error in registration_form.password_hash.errors %}
+            <span style="color: red">[{{ error }}]</span>
+        {% endfor %}
+        <br>
+        {{ registration_form.password_hash2.label(class="form-label") }}
+        {{ registration_form.password_hash2(class="form-control") }}
+        {% for error in registration_form.password_hash2.errors %}
+            <span style="color: red">[{{ error }}]</span>
+        {% endfor %}
+        <br>
+        {{ registration_form.submit(class="btn btn-secondary") }}
+    </form>
+</div>
+
+{% endblock %}

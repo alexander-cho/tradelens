@@ -1,0 +1,18 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
+
+    <div style="display: flex; align-items: center;">
+        <h1 style="margin-right: 20px;">{{ stock.ticker_symbol }} Options Expiration Calendar</h1>
+        <a href="{{ url_for('stocks.symbol', symbol=stock.ticker_symbol) }}" class="btn btn-outline-dark btn-lg">{{ stock.ticker_symbol }} Home</a>
+    </div>
+
+    <hr>
+
+    {% if expiry_list %}
+        {% for expiry in expiry_list.data %}
+            <a href="{{ url_for('options.options_chain', symbol=stock.ticker_symbol, expiry_date=expiry) }}" class="btn btn-outline-dark d-block w-100">{{ expiry }}</a><br>
+        {% endfor %}
+    {% endif %}
+
+{% endblock %}

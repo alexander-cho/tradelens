@@ -1,0 +1,12 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
+
+    <h1>Inflation</h1>
+
+    <div id="plotly-div">{{ cpi | safe }}</div>
+    <div id="plotly-div">{{ ppi | safe }}</div>
+    <div id="plotly-div">{{ pce | safe }}</div>
+    <div id="plotly-div">{{ disposable_income | safe }}</div>
+
+{% endblock %}

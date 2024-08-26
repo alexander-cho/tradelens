@@ -1,0 +1,12 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
+
+    <h1>Commodities</h1>
+
+    <div id="plotly-div">{{ oil_prices | safe }}</div>
+    <div id="plotly-div">{{ natural_gas_prices | safe }}</div>
+    <div id="plotly-div">{{ sugar_prices | safe }}</div>
+    <div id="plotly-div">{{ corn_prices | safe }}</div>
+
+{% endblock %}

@@ -1,0 +1,33 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
+
+<h1>Login</h1>
+
+<div class="shadow p-3 mb-5 bg-body rounded">
+    <form action="" method="POST" nonvalidate>
+        {{ login_form.hidden_tag() }} <!-- generates a hidden field that includes a token that is used to protect the form against CSRF attacks-->
+        <p>
+            {{ login_form.username.label(class="form-label") }} <br>
+            {{ login_form.username(class="form-control") }}
+            {% for error in login_form.username.errors %}
+                <span style="color: red">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>
+            {{ login_form.password.label(class="form-label") }} <br>
+            {{ login_form.password(class="form-control") }}
+            {% for error in login_form.password.errors %}
+                <span style="color: red">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>{{ login_form.remember_me() }} {{ login_form.remember_me.label }}</p>
+        <p>{{ login_form.submit(class="btn btn-secondary") }}</p>
+    </form>
+</div>
+
+<p>
+    Don't have an account? Click <a href="{{ url_for('auth.register') }}">here</a> to register
+</p>
+
+{% endblock %}

@@ -1,0 +1,18 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
+
+    <h1>Edit Post</h1>
+
+    <form method="POST">
+        {{ post_form.hidden_tag() }}
+        {{ post_form.title.label(class="form-label") }}
+        {{ post_form.title(class="form-control") }}
+        <br>
+        {{ post_form.content.label(class="form-label") }}
+        {{ post_form.content(class="form-control", rows="10") }}
+        <br>
+        {{ post_form.submit(class="btn btn-secondary") }}
+    </form>
+
+{% endblock %}
