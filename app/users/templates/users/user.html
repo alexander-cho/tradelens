@@ -1,0 +1,56 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
+
+    <div class="card mb-3" style="width: 40rem;">
+        <div class="row g-0">
+            <div class="col-md-4">
+                <img src="{{ user.avatar(256) }}" class="img-fluid rounded-start" alt="">
+            </div>
+            <div class="col-md-8">
+                <div class="card-body">
+                    <h5 class="card-title">{{ user.username }}</h5>
+                    <p class="card-text">{% if user.about_me %} {{ user.about_me }} {% endif %}</p>
+                    <p class="card-text"><small class="text-body-secondary">{% if user.last_seen %} Last seen on: {{ user.last_seen }} {% endif %}</small></p>
+                    <p class="card-text"><small class="text-body-secondary">{% if user.date_joined %} Date joined: {{ user.date_joined }} {% endif %}</small></p>
+                    <p class="card-text"><small class="text-body-secondary">Following: {{ user.following_count() }}, Followers: {{ user.followers_count() }}</small></p>
+                    <!-- Option to edit only if it is your own profile-->
+                    {% if user == current_user %}
+                        <a href="{{ url_for('users.edit_profile') }}">Edit Profile</a>
+                    {% elif not current_user.is_following(user) %}
+                        <form action="{{ url_for('users.follow', username=user.username) }}" method="post">
+                            {{ form.hidden_tag() }}
+                            {{ form.submit(class="btn btn-outline-dark btn-sm", value="Follow")}}
+                        </form>
+                    {% else %}
+                        <form action="{{ url_for('users.unfollow', username=user.username) }}" method="post">
+                            {{ form.hidden_tag() }}
+                            {{ form.submit(class="btn btn-outline-dark btn-sm", value="Unfollow")}}
+                        </form>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <hr>
+
+    <div class="scrollable-list">
+        {% for post in posts %}
+            {% include 'feed/_post.html' %}
+            <br>
+        {% endfor %}
+    </div>
+
+
+    <style>
+        .scrollable-list {
+            max-height: 650px; /* Set the maximum height of the scrollable area */
+            overflow-y: auto; /* Enable vertical scrollbar if content overflows */
+            border: 1px solid darkblue; /* Add a 1px solid border with a light gray color */
+            border-radius: 10px; /* Add border-radius for smoother edges */
+            padding: 10px; /* Add padding to separate content from the border */
+        }
+    </style>
+
+{% endblock %}
