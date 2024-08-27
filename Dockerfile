@@ -13,7 +13,7 @@ COPY migrations migrations
 COPY modules modules
 COPY static static
 COPY resources resources
-COPY config.py .flaskenv tradelens.py .env ./
+COPY config.py .flaskenv tradelens.py ./
 
 # Run database migrations and populate the stocks table
 # Use a script to perform these actions in the container

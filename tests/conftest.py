@@ -1,6 +1,6 @@
 import pytest
-from src.app import create_app, db
-from src.config import TestConfig
+from app import create_app, db
+from config import TestConfig
 
 
 @pytest.fixture()
