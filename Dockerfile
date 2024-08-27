@@ -1,7 +1,7 @@
 FROM python:3.12-slim-bullseye
 
 # Set the working directory to where app.py is located
-WORKDIR /src/app
+WORKDIR /src
 
 # Copy the requirements file and install dependencies
 COPY requirements.txt /src/
