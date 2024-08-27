@@ -1,0 +1,215 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
+
+<div class="row">
+    <div class="col-md-1 d-flex align-items-center">
+        <div>
+            {% if company_profile.data %}
+                <img src="{{ company_profile.data.logo }}" class="img-fluid mr-3" style="max-width: 100px; height: auto;" alt="">
+            {% endif %}
+        </div>
+    </div>
+    <div class="col-md-3 d-flex align-items-center">
+        <div>
+            <h1>{{ stock.ticker_symbol }}</h1>
+            <h4>{{ stock.company_name }}</h4>
+            {% if company_profile.data %}
+                <a href="{{ company_profile.data.weburl }}" class="btn btn-outline-primary btn-sm">Company Site</a>
+            {% endif %}
+        </div>
+    </div>
+    {% if main_info.data %}
+        <div class="col-md-3 d-flex align-items-center">
+            <div>
+                <span style="font-size: 3em; font-weight: bold;">${{ "{:,.2f}".format(main_info.data.regularMarketPrice) }}</span>
+                <br>
+                <span style="color: {% if main_info.data.regularMarketChange < 0 %}red{% elif main_info.data.regularMarketChange == 0 %}gray{% else %}green{% endif %};">
+                    ${{ "{:,.2f}".format(main_info.data.regularMarketChange) }} ({{ "{:,.2f}".format(main_info.data.regularMarketChangePercent) }}%)
+                </span>
+                Today
+                <br>
+                {% if main_info.data.postMarketPrice is number %}
+                    ${{ "{:,.2f}".format(main_info.data.postMarketPrice) }}
+                    <span style="color: {% if main_info.data.postMarketChange < 0 %}red{% elif main_info.data.postMarketChange == 0 %}gray{% else %}green{% endif %};">
+                        ${{ "{:,.2f}".format(main_info.data.postMarketChange) }} ({{ "{:,.2f}".format(main_info.data.postMarketChangePercent) }}%)
+                    </span>
+                    After Hours
+                {% endif %}
+            </div>
+        </div>
+        <div class="col-md-1 d-flex align-items-center">
+            <div>
+                <h4>Bid: ${{ "{:,.2f}".format(main_info.data.bid) }}</h4>
+                Size: {{ main_info.data.bidSize }}
+            </div>
+        </div>
+        <div class="col-md-1 d-flex align-items-center">
+            <div>
+                <h4>Ask: ${{ "{:,.2f}".format(main_info.data.ask) }}</h4>
+                Size: {{ main_info.data.askSize }}
+            </div>
+        </div>
+        <div class="col-md-3 d-flex align-items-center">
+            <div>
+                {% if basic_info.data.marketCap is number %}
+                    <span class="text-muted" style="display: inline-block; width: 130px; text-align: right;">Market cap:</span>
+                    <strong>${{ "{:,.0f}".format(basic_info.data.marketCap) }}</strong> <br>
+                    <span class="text-muted" style="display: inline-block; width: 130px; text-align: right;">52-week High:</span>
+                    <strong>${{ "{:,.2f}".format(basic_info.data.fiftyTwoWeekHigh) }}</strong> <br>
+                    <span class="text-muted" style="display: inline-block; width: 130px; text-align: right; ">52-week Low:</span>
+                    <strong>${{ "{:,.2f}".format(basic_info.data.fiftyTwoWeekLow) }}</strong> <br>
+                    <span class="text-muted" style="display: inline-block; width: 130px; text-align: right;">Volume:</span>
+                    <strong>{{ "{:,.0f}".format(fast_info.data.lastVolume) }}</strong>
+                {% endif %}
+            </div>
+        </div>
+    {% endif %}
+</div>
+
+<hr>
+
+<a href="{{ url_for('options.options', symbol=stock.ticker_symbol) }}" class="btn btn-outline-success btn-lg">Option Chain</a>
+<a href="{{ url_for('stocks.symbol_news', symbol=stock.ticker_symbol) }}" class="btn btn-outline-dark btn-lg">News Stream</a>
+<a href="{{ url_for('stocks.symbol_financials', symbol=stock.ticker_symbol) }}" class="btn btn-outline-info btn-lg">Financials</a>
+<a href="{{ url_for('stocks.symbol_holders', symbol=stock.ticker_symbol) }}" class="btn btn-outline-secondary btn-lg">Holders/Insiders/Analysts</a>
+<a href="{{ url_for('stocks.symbol_federal', symbol=stock.ticker_symbol) }}" class="btn btn-outline-primary btn-lg">Federal Activity</a>
+<a href="{{ url_for('stocks.symbol_dividends_splits', symbol=stock.ticker_symbol) }}" class="btn btn-outline-warning btn-lg">Dividends/Splits</a>
+<a href="{{ url_for('stocks.symbol_directory') }}" class="btn btn-outline-danger btn-lg">Symbol Directory</a>
+
+<hr>
+
+{% if stock_chart.success %}
+    <div id="plotly-div" style="margin-bottom: 30px;">{{ stock_chart.data | safe }}</div>
+{% else %}
+    <div style="text-align: center">
+        <h1>{{ stock_chart.data }}</h1>
+    </div>
+{% endif %}
+
+{% if basic_info.data %}
+    <div class="card" style="margin-bottom: 25px;">
+        <div class="card-body">
+            {{ basic_info.data.longBusinessSummary }}
+        </div>
+    </div>
+{% endif %}
+
+<div class="row">
+    <div class="col-md-6" style="margin-bottom: 40px;">
+        <h3>Quick Facts</h3>
+        {% if basic_info.data %}
+            <div class="scrollable-list" style="max-height: 250px;">
+                <div class="card">
+                    <div class="card-body">
+                        <strong>Address: </strong>{{ basic_info.data.address1 }}
+                        {{ basic_info.data.city }}
+                        {{ basic_info.data.state }}
+                        {{ basic_info.data.country }}
+                        {{ basic_info.data.zip }} <br>
+                        <strong>Industry: </strong>{{ basic_info.data.industry }} <br>
+                        <strong>Sector: </strong>{{ basic_info.data.sector }} <br>
+                        {% if basic_info.data.fullTimeEmployees is not none %}
+                            <strong>Number of employees: </strong>{{ "{:,.0f}".format(basic_info.data.fullTimeEmployees) }} <br>
+                            <strong>Officers: </strong>
+                            {% for officer in basic_info.data.companyOfficers %}
+                                <p>
+                                    {{ officer.name }} <br>
+                                    {% if officer.totalPay %}
+                                        Total Pay: ${{ "{:,.0f}".format(officer.totalPay) }}
+                                    {% endif %}
+                                </p>
+                            {% endfor %}
+                        {% endif %}
+                        Forward PE: <strong>{{ basic_info.data.forwardPE }}</strong> <br>
+                        {% if basic_info.data.forwardEps is number %}
+                            Forward EPS: <strong>{{ "${:,.2f}".format(basic_info.data.forwardEps) }}</strong> <br>
+                        {% endif %}
+                        {% if basic_info.data.fiftyDayAverage is number %}
+                            50-day Average: <strong>{{ "${:,.2f}".format(basic_info.data.fiftyDayAverage) }}</strong> <br>
+                            200-day Average: <strong>{{ "${:,.2f}".format(basic_info.data.twoHundredDayAverage) }}</strong> <br>
+                        {% endif %}
+                        {% if basic_info.data.floatShares is number %}
+                            Shares Float: <strong>{{ "{:,.0f}".format(basic_info.data.floatShares) }}</strong> <br>
+                        {% endif %}
+                        {% if basic_info.data.sharesOutstanding is number %}
+                            Shares Outstanding: <strong>{{ "{:,.0f}".format(basic_info.data.sharesOutstanding) }}</strong> <br>
+                        {% endif %}
+                        {% if basic_info.data.sharesShort is number %}
+                            Shares Shorted: <strong>{{ "{:,.0f}".format(basic_info.data.sharesShort) }}</strong> <br>
+                        {% endif %}
+                        {% if basic_info.data.shortPercentOfFloat is number %}
+                            Percent of Float Shorted: <strong>{{ "{:.2f}%".format(basic_info.data.shortPercentOfFloat * 100) }}</strong> <br>
+                        {% endif %}
+                        {% if basic_info.data.heldPercentInsiders is number %}
+                            Percent held by Insiders: <strong>{{ "{:.2f}%".format(basic_info.data.heldPercentInsiders * 100) }}</strong> <br>
+                        {% endif %}
+                        {% if basic_info.data.heldPercentInstitutions is number %}
+                            Percent held by Institutions: <strong>{{ "{:.2f}%".format(basic_info.data.heldPercentInstitutions * 100) }}</strong> <br>
+                        {% endif %}
+                        {% if basic_info.data.targetHighPrice is number %}
+                            High Price Target: <strong>{{ "${:,.2f}".format(basic_info.data.targetHighPrice) }}</strong> <br>
+                            Low Price Target: <strong>{{ "${:,.2f}".format(basic_info.data.targetLowPrice) }}</strong> <br>
+                            Mean Price Target: <strong>{{ "${:,.2f}".format(basic_info.data.targetMeanPrice) }}</strong> <br>
+                            Median Price Target: <strong>{{ "${:,.2f}".format(basic_info.data.targetMedianPrice) }}</strong> <br>
+                        {% endif %}
+                        {% if basic_info.data.numberOfAnalystOpinions is not none %}
+                            Number of ratings: <strong>{{ basic_info.data.numberOfAnalystOpinions }}</strong> <br>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+    <div class="col-md-6" style="margin-bottom: 40px;">
+        <h3>Dividends, Earnings, and Revenue Estimates</h3>
+        {% if calendar.data %}
+            <div class="card">
+                <div class="card-body">
+                    {% for k, v in calendar.data.items() %}
+                        {% if k == 'Dividend Date' or k == 'Ex-Dividend Date' %}
+                            {{ k }} : <strong>{{ v }}</strong> <br>
+                        {% elif k == 'Earnings Date' and v|length > 1 %}
+                            Earnings between <strong>{{ v[0] }} and {{ v[1] }}</strong> <br>
+                        {% elif k == 'Earnings Date' and v|length == 1 %}
+                            Earnings on <strong>{{ v[0] }}</strong> <br>
+                        {% else %}
+                            {% if v is number %}
+                                {{ k }} :
+                                {% if v == v|int %}
+                                    <strong>${{ "{:,.0f}".format(v) }}</strong>
+                                {% else %}
+                                    <strong>${{ "{:,.2f}".format(v) }}</strong>
+                                {% endif %}
+                                <br>
+                            {% endif %}
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+{% include 'feed/add_post.html' %}
+
+{% if symbol_posts %}
+    <div class="scrollable-list">
+        {% for post in symbol_posts %}
+            {% include 'feed/_post.html' %}
+        {% endfor %}
+    </div>
+{% endif %}
+
+
+<style>
+    .scrollable-list {
+        max-height: 650px; /* Set the maximum height of the scrollable area */
+        overflow-y: auto; /* Enable vertical scrollbar if content overflows */
+        border: 1px solid darkblue; /* Add a 1px solid border with a light gray color */
+        border-radius: 10px; /* Add border-radius for smoother edges */
+        padding: 10px; /* Add padding to separate content from the border */
+    }
+</style>
+
+{% endblock %}
