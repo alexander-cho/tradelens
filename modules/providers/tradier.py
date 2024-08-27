@@ -1,5 +1,5 @@
 import os
-from dotenv import load_dotenv
+# from dotenv import load_dotenv
 import requests
 import pandas as pd
 
@@ -7,7 +7,7 @@ import plotly.graph_objects as go
 import plotly.subplots as subplots
 import plotly.io as pio
 
-load_dotenv()
+# load_dotenv()
 
 
 class Tradier:

@@ -2,14 +2,14 @@ import os
 from datetime import datetime
 import pytz
 
-from dotenv import load_dotenv
+# from dotenv import load_dotenv
 
 import plotly.graph_objects as go
 import plotly.io as pio
 
 import finnhub
 
-load_dotenv()
+# load_dotenv()
 
 
 class Finnhub:

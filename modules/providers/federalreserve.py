@@ -1,13 +1,13 @@
 import os
 import ssl
-from dotenv import load_dotenv
+# from dotenv import load_dotenv
 import pandas as pd
 import plotly.graph_objects as go
 import plotly.io as pio
 
 from fredapi import Fred
 
-load_dotenv()
+# load_dotenv()
 
 
 class FederalReserve:
