@@ -2,7 +2,7 @@ import os
 from datetime import datetime
 
 import urllib3
-# from dotenv import load_dotenv
+from dotenv import load_dotenv
 import pytz
 
 import plotly.graph_objects as go
@@ -11,7 +11,7 @@ import plotly.subplots as subplots
 
 from polygon import RESTClient
 
-# load_dotenv()
+load_dotenv()
 
 
 class Polygon:

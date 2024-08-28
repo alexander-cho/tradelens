@@ -9,9 +9,10 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 class Config:
     UPLOAD_FOLDER = 'static/images'
     SECRET_KEY = os.environ.get('SECRET_KEY') or 'you_will_never_guess'
-    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL', '').replace(
-        'postgres://', 'postgresql://') or \
-        'sqlite:///' + os.path.join(basedir, 'app.db')
+    # SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL', '').replace(
+    #     'postgres://', 'postgresql://') or \
+    #     'sqlite:///' + os.path.join(basedir, 'app.db')
+    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL')
 
 
 class TestConfig(Config):

@@ -13,6 +13,4 @@ fredapi==0.5.2
 plotly==5.23.0
 polygon-api-client==1.14.2
 email-validator
-# ta-lib==0.4.32
-
-# psycopg2-binary
+psycopg2

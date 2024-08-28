@@ -12,7 +12,6 @@ COPY app app
 COPY migrations migrations
 COPY modules modules
 COPY static static
-COPY resources resources
 
 # copy as well the .flaskenv and .env for regular docker deployment
 COPY config.py tradelens.py ./
@@ -25,4 +24,4 @@ COPY tickers_to_db.py ./
 EXPOSE 5000
 
 # Set up the entrypoint to run database migrations, populate data, and start the application
-CMD ["sh", "-c", "flask db upgrade && python tickers_to_db.py && flask run --host=0.0.0.0"]
+CMD ["sh", "-c", "flask db upgrade && flask run --host=0.0.0.0"]

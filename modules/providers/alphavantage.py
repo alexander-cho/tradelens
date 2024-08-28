@@ -1,11 +1,11 @@
 import os
-# from dotenv import load_dotenv
+from dotenv import load_dotenv
 import requests
 import warnings
 
 warnings.filterwarnings(action="ignore", category=FutureWarning)
 
-# load_dotenv()
+load_dotenv()
 
 
 class AlphaVantage:
