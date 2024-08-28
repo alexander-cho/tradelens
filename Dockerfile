@@ -1,5 +1,11 @@
 FROM python:3.12-slim-bullseye
 
+# install os dependencies
+RUN apt-get update && apt-get install -y \
+    # for postgres
+    libpq-dev \
+    gcc
+
 # Set the working directory
 WORKDIR /app
 
@@ -13,8 +19,10 @@ COPY migrations migrations
 COPY modules modules
 COPY static static
 
-# copy as well the .flaskenv and .env for regular docker deployment
 COPY config.py tradelens.py ./
+
+# copy as well the .flaskenv and .env for regular docker deployment
+# COPY .flaskenv .env ./
 
 # Run database migrations and populate the stocks table
 # Use a script to perform these actions in the container
