@@ -7,6 +7,7 @@ import os
 from app.models import Stock
 from tradelens import app, db
 
+
 tickers_file_path = os.path.join('resources', 'company_tickers.json')
 
 def populate_stocks_from_sec(ticker_file):
@@ -34,6 +35,7 @@ def populate_stocks_from_sec(ticker_file):
         print("Stock data populated successfully.")
     else:
         print("Stocks table already contains data. Skipping population.")
+
 
 if __name__ == '__main__':
     with app.app_context():
