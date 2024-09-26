@@ -5,11 +5,12 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+
 using TradeLens.Models;
 
 namespace TradeLens.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/v1/[controller]")]
     [ApiController]
     public class PostsController : ControllerBase
     {
@@ -20,14 +21,14 @@ namespace TradeLens.Controllers
             _context = context;
         }
 
-        // GET: api/Posts
+        // GET: api/v1/Posts
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Post>>> GetPosts()
         {
             return await _context.Posts.ToListAsync();
         }
 
-        // POST: api/Posts
+        // POST: api/v1/Posts
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         public async Task<ActionResult<Post>> PostPost(Post post)
@@ -40,7 +41,7 @@ namespace TradeLens.Controllers
             return CreatedAtAction(nameof(GetPost), new { id = post.Id }, post);
         }
 
-        // GET: api/Posts/5
+        // GET: api/v1/Posts/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Post>> GetPost(int id)
         {
