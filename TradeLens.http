@@ -1,6 +1,0 @@
-@TradeLens_HostAddress = http://localhost:5237
-
-GET {{TradeLens_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###

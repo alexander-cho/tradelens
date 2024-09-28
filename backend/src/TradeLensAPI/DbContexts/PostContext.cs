@@ -1,6 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 
-namespace TradeLens.Models;
+using TradeLensApi.Models;
+
+namespace TradeLensApi.DbContexts;
 
 public class PostContext : DbContext
 {
