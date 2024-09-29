@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 
 using TradeLensApi.Models;
 using TradeLensApi.DbContexts;
+using Microsoft.AspNetCore.Cors;
 
 namespace TradeLensApi.Controllers
 {
@@ -25,6 +26,7 @@ namespace TradeLensApi.Controllers
 
         // GET: api/v1/Posts
         [HttpGet]
+        [EnableCors]
         public async Task<ActionResult<IEnumerable<Post>>> GetPosts()
         {
             return await _context.Posts.ToListAsync();
