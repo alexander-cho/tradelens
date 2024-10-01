@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import './App.css';
+import  PostForm  from './Components/PostForm';
 
 
 const POSTS_API_URL = "http://localhost:5138/api/v1/Posts";
@@ -30,6 +31,7 @@ export default function App() {
             <>
                 <h1>TradeLens</h1>
                 <button onClick={handleShowPostsClick}>Click here to retrieve all the posts.</button>
+                <PostForm />
             </>
         )
     }
@@ -41,6 +43,7 @@ export default function App() {
                 <li key={index}>{index+1}: {post.ticker}, {post.body}, {post.sentiment}</li>
             ))}</ul>
             <button>Click here to revert.</button>
+            <PostForm />
         </>
     )
 }

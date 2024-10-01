@@ -17,9 +17,9 @@ namespace TradeLensApi.Controllers
     [ApiController]
     public class PostsController : ControllerBase
     {
-        private readonly PostContext _context;
+        private readonly AppDbContext _context;
 
-        public PostsController(PostContext context)
+        public PostsController(AppDbContext context)
         {
             _context = context;
         }
