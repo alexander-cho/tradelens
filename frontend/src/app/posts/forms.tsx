@@ -3,62 +3,64 @@ import { useState } from "react";
 const POSTS_URL = "/api/posts/";
 
 const PostForm = () => {
-//   const [formData, setFormData] = useState({
-//     ticker: "",
-//     body: "",
-//     sentiment: "",
-//   });
-//   async function handleSubmit(event: Event) {
-//     event.preventDefault();
-//     console.log(event, event.target);
 
-//     const requestOptions = {
-//       method: "GET",
-//       headers: {
-//         "Content-Type": "application/json",
-//       },
-//       body: JSON.stringify(formData),
-//     };
+  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    console.log(event, event.currentTarget);
 
-//     // turn submitted raw form data into json.
-//     const response = await fetch(POSTS_URL, requestOptions);
-//     const data = response.json();
-//     console.log(data);
-//   }
+    const formData = new FormData(event.currentTarget);
+
+    // list of form input key-value pairs into object
+    const formAsObject = Object.fromEntries(formData);
+
+    const formAsJson = JSON.stringify(formAsObject);
+
+    const requestOptions = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: formAsJson
+    };
+
+    const response = await fetch(POSTS_URL, requestOptions);
+    const data = response.json();
+    console.log(data);
+  }
 
   return (
     <>
       <div>Share an idea.</div>
-      {/* <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit}>
         <div>
-          <label htmlFor="username">Username</label>
+          <label htmlFor="ticker">Ticker</label>
           <input
-            type="text"
-            name="username"
-            id="username"
-            value={formData.ticker}
+            type="ticker"
+            name="ticker"
+            id="ticker"
+            required
           />
         </div>
         <div>
-          <label htmlFor="password">Password</label>
+          <label htmlFor="body">Message</label>
           <input
-            type="password"
-            name="password"
-            id="password"
-            value={formData.body}
+            type="body"
+            name="body"
+            id="body"
+            required
           />
         </div>
         <div>
-          <label htmlFor="password">Password</label>
+          <label htmlFor="sentiment">Sentiment</label>
           <input
-            type="password"
-            name="password"
-            id="password"
-            value={formData.sentiment}
+            type="sentiment"
+            name="sentiment"
+            id="sentiment"
+            required
           />
         </div>
         <button type="submit">Submit</button>
-      </form> */}
+      </form>
     </>
   );
 };

@@ -35,6 +35,7 @@ namespace TradeLensApi.Controllers
         // POST: api/v1/Posts
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [EnableCors]
         public async Task<ActionResult<Post>> PostPost(Post post)
         {
             _context.Posts.Add(post);
@@ -45,7 +46,7 @@ namespace TradeLensApi.Controllers
             return CreatedAtAction(nameof(GetPost), new { id = post.Id }, post);
         }
 
-        // GET: api/v1/Posts/5
+        // GET: api/v1/Posts/1
         [HttpGet("{id}")]
         public async Task<ActionResult<Post>> GetPost(int id)
         {
