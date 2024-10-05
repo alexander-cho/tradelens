@@ -41,7 +41,7 @@ namespace TradeLensApi.Controllers
             _context.Posts.Add(post);
             await _context.SaveChangesAsync();
 
-            Console.WriteLine($"Your post about the ticker {post.Ticker} has been created: ");
+            Console.WriteLine($"Your post about the ticker '{post.Ticker}' has been created.");
 
             return CreatedAtAction(nameof(GetPost), new { id = post.Id }, post);
         }
@@ -60,7 +60,7 @@ namespace TradeLensApi.Controllers
             return post;
         }
 
-        // PUT: api/Posts/5
+        // PUT: api/v1/Posts/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
         public async Task<IActionResult> PutPost(int id, Post post)
@@ -91,7 +91,7 @@ namespace TradeLensApi.Controllers
             return NoContent();
         }
 
-        // DELETE: api/Posts/5
+        // DELETE: api/v1/Posts/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeletePost(int id)
         {

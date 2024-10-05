@@ -1,8 +1,8 @@
 import { NextResponse } from "next/server";
 
-const API_POST_URL = "http://localhost:5138/api/v1/Posts/1";
+const API_POST_URL = (id: number) => `http://localhost:5138/api/v1/Posts/${id}`;
 
-export async function GET(request: Request) {
+export async function GET(request: Request, id: number) {
   const requestOptions = {
     method: "GET",
     headers: {
@@ -10,7 +10,7 @@ export async function GET(request: Request) {
     },
   };
 
-  const response = await fetch(API_POST_URL, requestOptions);
+  const response = await fetch(API_POST_URL(id), requestOptions);
   const responseData = await response.json();
 
   return NextResponse.json({ ...responseData }, { status: 200 });

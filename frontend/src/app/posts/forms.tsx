@@ -1,5 +1,3 @@
-import { useState } from "react";
-
 const POSTS_URL = "/api/posts/";
 
 const PostForm = () => {

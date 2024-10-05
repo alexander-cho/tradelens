@@ -1,12 +1,9 @@
 import React from 'react';
-
-const POST_URL = "/api/posts/[id]/";
+import Post from '@/components/PostDetail';
 
 const GetOnePost = () => {
   return (
-    <>
-        <div>Page</div>
-    </>
+    <Post/>
   )
 }
 
