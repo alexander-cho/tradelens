@@ -1,15 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Cors;
 
 using TradeLensApi.Models;
 using TradeLensApi.DbContexts;
-using Microsoft.AspNetCore.Cors;
+
 
 namespace TradeLensApi.Controllers
 {
@@ -17,9 +12,9 @@ namespace TradeLensApi.Controllers
     [ApiController]
     public class PostsController : ControllerBase
     {
-        private readonly AppDbContext _context;
+        private readonly ApiDbContext _context;
 
-        public PostsController(AppDbContext context)
+        public PostsController(ApiDbContext context)
         {
             _context = context;
         }

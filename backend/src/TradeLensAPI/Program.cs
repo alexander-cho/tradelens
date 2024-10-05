@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using TradeLensApi.DbContexts;
+using TradeLensAPI.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,14 +16,14 @@ var baseConnectionString = builder.Configuration.GetConnectionString("DefaultCon
 // append postgres passowrd stored in 
 var connectionStringWithPassword = $"{baseConnectionString}; Password={dbPassword}";
 // Register the DbContext with the modified connection string
-builder.Services.AddDbContext<AppDbContext>(options =>
+builder.Services.AddDbContext<ApiDbContext>(options =>
     options.UseNpgsql(connectionStringWithPassword));
 
-var  MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 builder.Services.AddCors(options =>
 {
     options.AddPolicy(name: MyAllowSpecificOrigins,
-                      policy  =>
+                      policy =>
                       {
                           policy.WithOrigins("http://localhost:5173")
                           .AllowAnyHeader()
@@ -31,11 +32,15 @@ builder.Services.AddCors(options =>
 });
 
 builder.Services.AddControllers();
-builder.Services.AddDbContext<AppDbContext>(opt =>
+builder.Services.AddDbContext<ApiDbContext>(opt =>
     opt.UseInMemoryDatabase("Posts"));
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddHttpClient();
+
+// register data fetching services
+builder.Services.AddTransient<PolygonService>();
+builder.Services.AddTransient<AlphaVantageService>();
 
 var app = builder.Build();
 

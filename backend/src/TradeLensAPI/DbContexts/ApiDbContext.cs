@@ -4,10 +4,10 @@ using TradeLensApi.Models;
 
 namespace TradeLensApi.DbContexts;
 
-public class AppDbContext : DbContext
+public class ApiDbContext : DbContext
 {
     protected readonly IConfiguration Configuration;
-    public AppDbContext(DbContextOptions<AppDbContext> options, IConfiguration configuration)
+    public ApiDbContext(DbContextOptions<ApiDbContext> options, IConfiguration configuration)
         : base(options)
     {
         Configuration = configuration;

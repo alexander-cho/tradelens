@@ -11,7 +11,7 @@ using TradeLensApi.DbContexts;
 
 namespace TradeLensAPI.Migrations
 {
-    [DbContext(typeof(AppDbContext))]
+    [DbContext(typeof(ApiDbContext))]
     [Migration("20240930233943_Initial-Migration")]
     partial class InitialMigration
     {
