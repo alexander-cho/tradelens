@@ -39,7 +39,8 @@ namespace TradeLensApi.Controllers
             {
                 string data = await _polygonService.GetRelatedCompaniesAsync();
                 return Content(data, "application/json");
-            } catch (Exception exception)
+            } 
+            catch (Exception exception)
             {
                 return StatusCode(500, $"Internal server error: {exception.Message}");
             }

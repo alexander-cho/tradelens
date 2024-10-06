@@ -7,6 +7,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{2B222A1B-B94
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TradeLensAPI", "src\TradeLensAPI\TradeLensAPI.csproj", "{9E049892-32C8-454F-AD48-75930C7BB240}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TradeLensCLI", "..\cli\TradeLensCLI\TradeLensCLI.csproj", "{A3B8C08E-2F02-48F0-A49D-40BC9045FBE0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TradeLensCLI", "..\cli\src\TradeLensCLI\TradeLensCLI.csproj", "{5058A277-A53F-4DB8-A113-7DF34CED616B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -20,6 +24,14 @@ Global
 		{9E049892-32C8-454F-AD48-75930C7BB240}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9E049892-32C8-454F-AD48-75930C7BB240}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9E049892-32C8-454F-AD48-75930C7BB240}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A3B8C08E-2F02-48F0-A49D-40BC9045FBE0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A3B8C08E-2F02-48F0-A49D-40BC9045FBE0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A3B8C08E-2F02-48F0-A49D-40BC9045FBE0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A3B8C08E-2F02-48F0-A49D-40BC9045FBE0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5058A277-A53F-4DB8-A113-7DF34CED616B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5058A277-A53F-4DB8-A113-7DF34CED616B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5058A277-A53F-4DB8-A113-7DF34CED616B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5058A277-A53F-4DB8-A113-7DF34CED616B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{9E049892-32C8-454F-AD48-75930C7BB240} = {2B222A1B-B948-4341-A651-172C96A2C8F2}
