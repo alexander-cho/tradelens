@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using TradeLensApi.DbContexts;
+using TradeLensAPI.DbContexts;
 using TradeLensAPI.Services;
 
 var builder = WebApplication.CreateBuilder(args);

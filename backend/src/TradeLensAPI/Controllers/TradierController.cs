@@ -6,11 +6,11 @@
 // using System.Text.Json;
 // using DotNetEnv;
 
-// namespace TradeLensApi.Controllers
+// namespace TradeLensAPI.Controllers
 // {
 //     [Route("api/v1/[controller]")]
 //     [ApiController]
-//     public class TradierController: ControllerBase
+//     public class TradierController : ControllerBase
 //     {
 //         public static readonly HttpClient _httpClient;
 //         public string ticker = "SOFI";

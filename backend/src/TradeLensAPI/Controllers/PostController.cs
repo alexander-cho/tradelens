@@ -2,11 +2,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Cors;
 
-using TradeLensApi.Models;
-using TradeLensApi.DbContexts;
+using TradeLensAPI.Models;
+using TradeLensAPI.DbContexts;
 
 
-namespace TradeLensApi.Controllers
+namespace TradeLensAPI.Controllers
 {
     [Route("api/v1/[controller]")]
     [ApiController]

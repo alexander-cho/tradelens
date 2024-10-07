@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace TradeLensApi.Models
+namespace TradeLensAPI.Models
 {
     public class Post
     {

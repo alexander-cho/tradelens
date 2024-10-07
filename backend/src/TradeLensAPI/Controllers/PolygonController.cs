@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using TradeLensAPI.Services;
 
 
-namespace TradeLensApi.Controllers
+namespace TradeLensAPI.Controllers
 {
     [Route("api/v1/[controller]")]
     [ApiController]
