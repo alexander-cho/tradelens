@@ -1,4 +1,4 @@
-﻿namespace TradeLensCLI;
+﻿namespace TradeLensCli;
 
 class Program
 {
