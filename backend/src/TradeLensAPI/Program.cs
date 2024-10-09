@@ -19,21 +19,22 @@ var connectionStringWithPassword = $"{baseConnectionString}; Password={dbPasswor
 builder.Services.AddDbContext<ApiDbContext>(options =>
     options.UseNpgsql(connectionStringWithPassword));
 
+// enable CORS
 var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 builder.Services.AddCors(options =>
 {
     options.AddPolicy(name: MyAllowSpecificOrigins,
                       policy =>
                       {
-                          policy.WithOrigins("http://localhost:5173")
+                          policy.WithOrigins("http://localhost:3000")
                           .AllowAnyHeader()
                           .AllowAnyMethod();
                       });
 });
 
 builder.Services.AddControllers();
-builder.Services.AddDbContext<ApiDbContext>(opt =>
-    opt.UseInMemoryDatabase("Posts"));
+builder.Services.AddDbContext<ApiDbContext>(options =>
+    options.UseInMemoryDatabase("Posts"));
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddHttpClient();

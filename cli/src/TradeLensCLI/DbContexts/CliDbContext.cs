@@ -2,24 +2,20 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 
-using TradeLensCli.Models;
+using TradeLensCLI.Models;
 
-namespace TradeLensCli.DbContexts
+namespace TradeLensCLI.DbContexts
 {
     public class CliDbContext : DbContext
     {
-        public DbSet<Post> Posts { get; set; }
         public string DbPath { get; }
+        public DbSet<Post> Posts { get; set; }
 
         public CliDbContext()
         {
-            var folder = Environment.SpecialFolder.LocalApplicationData;
-            var path = Environment.GetFolderPath(folder);
-            DbPath = System.IO.Path.Join(path, "sqlite3.db");
+            DbPath = "TradeLensCLI.db";
         }
 
-        // The following configures EF to create a Sqlite database file in the
-        // special "local" folder for your platform.
         protected override void OnConfiguring(DbContextOptionsBuilder options)
             => options.UseSqlite($"Data Source={DbPath}");
     }

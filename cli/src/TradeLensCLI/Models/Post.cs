@@ -4,13 +4,13 @@ namespace TradeLensCLI.Models
 {
     public class Post
     {
-        public int Id { get; }
+        public int Id { get; set; }
         [Required]
-        public string? Ticker { get; set; }
+        public string Ticker { get; set; }
         [Required]
-        public string? Body { get; set; }
+        public string Body { get; set; }
         [Required]
-        public string? Sentiment { get; set; }
+        public string Sentiment { get; set; }
         public DateTime CreatedOn { get; set; } = DateTime.Now;
     }
 }

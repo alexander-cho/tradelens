@@ -1,12 +1,21 @@
-﻿namespace TradeLensCli;
+﻿using System;
+using System.Linq;
+using TradeLensCLI.DbContexts;
+using TradeLensCLI.Controllers;
+using Microsoft.EntityFrameworkCore;
 
-class Program
+namespace TradeLensCLI
 {
-    static void Main(string[] args)
+    class Program
     {
-        Console.WriteLine("Hello there. Press 't' to start.");
-        Account yourAccount = new Account();
-        yourAccount.SetAccountType(new string("RothIRA"));
-        yourAccount.GetAccountType();
+        public static void Main(string[] args)
+        {
+            using (CliDbContext dbContext = new CliDbContext())
+            {
+                Console.WriteLine("Hello");
+                PostController postController = new PostController(dbContext);
+                postController.LoadAllPosts();
+            }
+        }
     }
 }
