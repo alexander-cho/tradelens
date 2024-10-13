@@ -14,7 +14,8 @@ namespace TradeLensCLI
             {
                 Console.WriteLine("Hello");
                 PostController postController = new PostController(dbContext);
-                postController.LoadAllPosts();
+                // postController.GetAllPosts();
+                postController.AddPost();
             }
         }
     }
