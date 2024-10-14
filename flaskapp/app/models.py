@@ -7,7 +7,6 @@ import sqlalchemy.orm as so
 from app import db
 from datetime import datetime, timezone
 from hashlib import md5
-# from sqlalchemy.orm import backref
 
 
 # allow Flask-Login to manage user sessions and authentication
@@ -35,7 +34,6 @@ class User(db.Model, UserMixin):
     about_me: so.Mapped[Optional[str]] = so.mapped_column(sa.String(200))
     last_seen: so.Mapped[Optional[datetime]] = so.mapped_column(default=lambda: datetime.now(timezone.utc))
     date_joined: so.Mapped[Optional[datetime]] = so.mapped_column(index=True, default=lambda: datetime.now(timezone.utc))
-    # profile_pic = db.Column(db.String(), nullable=True)
     # User can have many posts
     posts: so.WriteOnlyMapped['Post'] = so.relationship(back_populates='author')
 
@@ -73,7 +71,8 @@ class User(db.Model, UserMixin):
         return db.session.scalar(query) is not None
 
     def follow(self, user):
-        if not self.is_following(user):  # if they aren't following yet
+        # if they aren't following yet
+        if not self.is_following(user):
             self.following.add(user)
 
     def unfollow(self, user):
@@ -109,7 +108,6 @@ class Post(db.Model):
     id: so.Mapped[int] = so.mapped_column(primary_key=True)
     title: so.Mapped[str] = so.mapped_column(sa.String(10), index=True)
     content: so.Mapped[str] = so.mapped_column(sa.Text())
-    # slug = db.Column(db.String(255))
     timestamp: so.Mapped[datetime] = so.mapped_column(index=True, default=lambda: datetime.now(timezone.utc))
 
     # foreign key to link user_id which refers to the primary key id from the User model

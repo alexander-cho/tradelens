@@ -7,7 +7,7 @@ from modules.utils.date_ranges import get_date_range_ahead
 from . import bp_broad
 
 
-# return IPOs anticipated in the next 3 months, upcoming earnings calendar
+# anticipated IPOs, upcoming earnings calendar
 @bp_broad.route('/earnings-ipos', methods=['GET'])
 def earnings_ipos():
     finnhub = Finnhub()
@@ -25,6 +25,7 @@ def earnings_ipos():
     )
 
 
+# news
 @bp_broad.route('/market-news/<category>', methods=['GET'])
 def market_news(category):
     category = category.lower()

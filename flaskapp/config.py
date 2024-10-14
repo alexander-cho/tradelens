@@ -2,7 +2,6 @@ import os
 from dotenv import load_dotenv
 
 basedir = os.path.abspath(os.path.dirname(__file__))
-# load_dotenv(os.path.join(basedir, '.env'))
 
 
 # configuration variables for app
@@ -23,4 +22,5 @@ class TestConfig(Config):
     TESTING = True
     SQLALCHEMY_DATABASE_URI = 'sqlite:///:memory:'
     SQLALCHEMY_TRACK_MODIFICATIONS = False
-    WTF_CSRF_ENABLED = False  # Disable CSRF for testing
+    # Disable CSRF for testing
+    WTF_CSRF_ENABLED = False

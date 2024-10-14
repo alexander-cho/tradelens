@@ -5,6 +5,8 @@ from modules.providers.federalreserve import FederalReserve
 from . import bp_macro
 
 
+# Macroeconomic indicators
+
 @bp_macro.route('/macro/general', methods=['GET'])
 def general():
     fed = FederalReserve()

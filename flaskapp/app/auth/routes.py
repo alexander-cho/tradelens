@@ -25,10 +25,8 @@ def login():
         user = User.query.filter_by(username=login_form.username.data).first()
         # if the user exists
         if user:
-            # check the hash
-            # compare what's already in the database with what the user just typed into the form
+            # check the hash, compare what's already in the database with what the user just typed into the form
             if user.check_password(login_form.password.data):
-                # log them in
                 login_user(user, remember=login_form.remember_me.data)
                 flash("Login successful")
                 return redirect(url_for('main.index'))
@@ -58,7 +56,7 @@ def logout():
         return redirect(url_for('main.index'))
 
 
-# register an account
+# register
 @bp_auth.route('/register', methods=['GET', 'POST'])
 def register():
     if current_user.is_authenticated:
