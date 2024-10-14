@@ -4,8 +4,6 @@ from app import db
 from . import errors
 
 
-# custom error pages
-
 # invalid URL
 @errors.app_errorhandler(404)
 def page_not_found():

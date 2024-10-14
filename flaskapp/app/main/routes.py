@@ -27,7 +27,6 @@ def before_request():
 # front page
 @bp_main.route('/')
 @bp_main.route('/index')
-# @login_required
 def index():
     finnhub = Finnhub()
     alphavantage = AlphaVantage()

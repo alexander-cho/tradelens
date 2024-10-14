@@ -50,12 +50,9 @@ def edit_post(id):
     post_form = PostForm()
 
     if post_form.validate_on_submit():
-        # Update the post attributes with the new data once edit submission is validated
+        # Update the post attributes with the new data once edit submission is validated, commit to db
         post.title = post_form.title.data.upper()
-        # post.author = form.author.data
-        # post.slug = form.slug.data
         post.content = post_form.content.data
-        # update database with modifications
         db.session.add(post)
         db.session.commit()
         flash("Post has been updated")
@@ -66,8 +63,6 @@ def edit_post(id):
     if current_user.id == post.author.id:
         # Populate the form fields with current values of the post
         post_form.title.data = post.title
-        # form.author.data = post.author
-        # form.slug.data = post.slug
         post_form.content.data = post.content
         # goes back to newly edited singular post page
         return render_template(

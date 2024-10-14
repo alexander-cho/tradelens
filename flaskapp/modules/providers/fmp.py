@@ -14,20 +14,6 @@ class FMP:
         self.context = ssl.create_default_context(cafile=certifi.where())
         self.api_key = os.getenv('FMP_API_KEY')
 
-    def get_upcoming_dividends(self, _from: str, to: str) -> dict:
-        dividends_url = f"https://financialmodelingprep.com/api/v3/stock_dividend_calendar?from={_from}&to={to}&apikey={self.api_key}"
-        response = urlopen(url=dividends_url, context=self.context)
-        data = response.read().decode("utf-8")
-        upcoming_dividends = json.loads(data)
-        return upcoming_dividends
-
-    def get_upcoming_splits(self, _from: str, to: str) -> dict:
-        splits_url = f"https://financialmodelingprep.com/api/v3/stock_split_calendar?from={_from}&to={to}&apikey={self.api_key}"
-        response = urlopen(url=splits_url, context=self.context)
-        data = response.read().decode("utf-8")
-        ticker_dividends = json.loads(data)
-        return ticker_dividends
-
     def get_ticker_dividends(self, ticker: str) -> dict:
         """
         Get the historical dividend dates, payouts, etc. of a ticker.

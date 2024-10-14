@@ -29,7 +29,7 @@ def user(username):
     )
 
 
-# edit your profile
+# edit profile
 @bp_users.route('/edit_profile', methods=['GET', 'POST'])
 @login_required
 def edit_profile():
