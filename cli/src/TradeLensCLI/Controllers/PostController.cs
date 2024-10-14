@@ -14,7 +14,7 @@ namespace TradeLensCLI.Controllers
             dbContext = _dbContext;
         }
 
-        public void LoadAllPosts()
+        public void GetAllPosts()
         {
             using (dbContext)
             {
@@ -26,11 +26,38 @@ namespace TradeLensCLI.Controllers
             }
         }
 
+        public void GetPost()
+        {
+            using (dbContext)
+            {
+                // getting one post logic
+            }
+        }
+
         public void AddPost()
         {
             using (dbContext)
             {
                 // adding one post logic
+                // get user input for each field.
+                Post post = new Post {Ticker="SOFI", Body="Great company.", Sentiment="Bullish"};
+                // dbContext.Posts.Add(post);
+            }
+        }
+
+        public void UpdatePost()
+        {
+            using (dbContext)
+            {
+                // updating one post logic
+            }
+        }
+
+        public void DeletePost()
+        {
+            using (dbContext)
+            {
+                // deleting one post logic
             }
         }
     }
