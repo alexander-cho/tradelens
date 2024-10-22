@@ -30,7 +30,16 @@ namespace TradeLensCLI.Controllers
         {
             using (dbContext)
             {
-                // getting one post logic
+                // getting one post logic, retrieve by (id)?
+            }
+        }
+
+        public void GetTickerPosts()
+        {
+            using (dbContext)
+            {
+                // logic to retrieve all posts associated with a particular ticker
+                // prompt user for a valid ticker
             }
         }
 
@@ -41,7 +50,8 @@ namespace TradeLensCLI.Controllers
                 // adding one post logic
                 // get user input for each field.
                 Post post = new Post {Ticker="SOFI", Body="Great company.", Sentiment="Bullish"};
-                // dbContext.Posts.Add(post);
+                dbContext.Add(post);
+                dbContext.SaveChanges();
             }
         }
 
