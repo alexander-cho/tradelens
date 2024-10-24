@@ -1,6 +1,9 @@
+import { useState } from "react";
+
 const POSTS_URL = "/api/posts/";
 
 const PostForm = () => {
+  const [formIsFetched, setFormIsFetched] = useState(false);
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -18,7 +21,7 @@ const PostForm = () => {
       headers: {
         "Content-Type": "application/json",
       },
-      body: formAsJson
+      body: formAsJson,
     };
 
     const response = await fetch(POSTS_URL, requestOptions);
@@ -26,41 +29,45 @@ const PostForm = () => {
     console.log(data);
   }
 
-  return (
-    <>
-      <div>Share an idea.</div>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="ticker">Ticker</label>
-          <input
-            type="ticker"
-            name="ticker"
-            id="ticker"
-            required
-          />
-        </div>
-        <div>
-          <label htmlFor="body">Message</label>
-          <input
-            type="body"
-            name="body"
-            id="body"
-            required
-          />
-        </div>
-        <div>
-          <label htmlFor="sentiment">Sentiment</label>
-          <input
-            type="sentiment"
-            name="sentiment"
-            id="sentiment"
-            required
-          />
-        </div>
-        <button type="submit">Submit</button>
-      </form>
-    </>
-  );
+  function handleShowPostFormClick() {
+    setFormIsFetched(true);
+  }
+
+  function handleHidePostFormClick() {
+    setFormIsFetched(false);
+  }
+
+  if (!formIsFetched) {
+    return (
+      <button onClick={handleShowPostFormClick}>
+        Click here to share an idea.
+      </button>
+    );
+  } else {
+    return (
+      <>
+        Share an idea.
+        <form onSubmit={handleSubmit}>
+          <div>
+            <label htmlFor="ticker">Ticker</label>
+            <input type="ticker" name="ticker" id="ticker" required />
+          </div>
+          <div>
+            <label htmlFor="body">Message</label>
+            <input type="body" name="body" id="body" required />
+          </div>
+          <div>
+            <label htmlFor="sentiment">Sentiment</label>
+            <input type="sentiment" name="sentiment" id="sentiment" required />
+          </div>
+          <button type="submit">Submit</button>
+        </form>
+        <button onClick={handleHidePostFormClick}>
+          Click here to revert.
+        </button>
+      </>
+    );
+  }
 };
 
 export default PostForm;
