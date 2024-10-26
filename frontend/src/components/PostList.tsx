@@ -4,13 +4,12 @@ import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "./ui/card";
 
 const POSTS_URL = "/api/posts/";
-let POST_URL = (id: number) => `/api/posts/${id}`;
+// let POST_URL = (id: number) => `/api/posts/${id}`;
 
 interface Post {
   id: number;
@@ -21,9 +20,7 @@ interface Post {
 
 const PostList = () => {
   const [isPostListFetched, setIsPostListFetched] = useState(false);
-  const [isPostFetched, setIsPostFetched] = useState(false);
   const [posts, setPosts] = useState<Post[] | undefined>([]);
-  const [post, setPost] = useState<Post | undefined>();
 
   async function getAllPosts() {
     try {
@@ -31,16 +28,7 @@ const PostList = () => {
       const postsObject = await res.json();
       const posts: Post[] = Object.values(postsObject);
       setPosts(posts);
-    } catch (err) {
-      console.error(err);
-    }
-  }
-
-  async function getOnePost(id: number) {
-    try {
-      const res = await fetch(POST_URL(id));
-      const post = await res.json();
-      setPost(post);
+      console.log(posts);
     } catch (err) {
       console.error(err);
     }
@@ -55,12 +43,6 @@ const PostList = () => {
     setIsPostListFetched(false);
   }
 
-  function handleSinglePostClick(id: number) {
-    setIsPostListFetched(false);
-    setIsPostFetched(true);
-    getOnePost(id);
-  }
-
   if (!isPostListFetched) {
     return (
       <>
@@ -70,34 +52,36 @@ const PostList = () => {
       </>
     );
   } else {
+    // return (
+    //   <>
+    //     {posts?.map((post) => (
+    //       <div key={post.id}>
+    //         <Card>
+    //           <CardHeader>
+    //             <CardTitle>{post.ticker}</CardTitle>
+    //             <CardDescription>{post.body}</CardDescription>
+    //           </CardHeader>
+    //           <CardContent className="grid gap-4">
+    //             <div className=" flex items-center space-x-4 rounded-md border p-4">
+    //               <div className="flex-1 space-y-1">
+    //                 <p className="text-sm font-medium leading-none">
+    //                   {post.sentiment}
+    //                 </p>
+    //               </div>
+    //             </div>
+    //           </CardContent>
+    //         </Card>
+    //         <br />
+    //         <br />
+    //         <br />
+    //         <br />
+    //       </div>
+    //     ))}
+    //     <button onClick={handleHidePostsClick}>Click here to revert.</button>
+    //   </>
+    // );
     return (
       <>
-        {posts?.map((post) => (
-          <div key={post.id}>
-            <Card>
-              <CardHeader>
-                <CardTitle>{post.ticker}</CardTitle>
-                <CardDescription>{post.body}</CardDescription>
-              </CardHeader>
-              <CardContent className="grid gap-4">
-                <div className=" flex items-center space-x-4 rounded-md border p-4">
-                  <div className="flex-1 space-y-1">
-                    <p className="text-sm font-medium leading-none">
-                      {post.sentiment}
-                    </p>
-                  </div>
-                </div>
-              </CardContent>
-              <CardFooter>
-                <button onClick={() => handleSinglePostClick(post.id)}>{post.id}</button>
-              </CardFooter>
-            </Card>
-            <br />
-            <br />
-            <br />
-            <br />
-          </div>
-        ))}
         <button onClick={handleHidePostsClick}>Click here to revert.</button>
       </>
     );
