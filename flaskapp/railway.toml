@@ -1,8 +1,8 @@
 [build]
 builder = "DOCKERFILE"
-dockerfilePath = "./Dockerfile"
+dockerfilePath = "./flaskapp/Dockerfile"
 watchPatterns = [
-    "requirements.txt",
-    "railway.toml",
-    "Dockerfile",
+    "flaskapp/requirements.txt",
+    "flaskapp/railway.toml",
+    "flaskapp/Dockerfile",
 ]
