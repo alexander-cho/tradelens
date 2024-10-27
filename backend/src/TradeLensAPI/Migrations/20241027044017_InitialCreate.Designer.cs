@@ -12,8 +12,8 @@ using TradeLensAPI.DbContexts;
 namespace TradeLensAPI.Migrations
 {
     [DbContext(typeof(ApiDbContext))]
-    [Migration("20240930233943_Initial-Migration")]
-    partial class InitialMigration
+    [Migration("20241027044017_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,7 +25,7 @@ namespace TradeLensAPI.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("TradeLensApi.Models.Post", b =>
+            modelBuilder.Entity("TradeLensAPI.Models.Post", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
