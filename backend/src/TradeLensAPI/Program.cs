@@ -11,13 +11,14 @@ AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 
 // register db context with DI
-var dbPassword = builder.Configuration["ConnectionStrings:DefaultConnection:POSTGRESPASSWORD"];
-var baseConnectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-// append postgres passowrd stored in 
-var connectionStringWithPassword = $"{baseConnectionString}; Password={dbPassword}";
+// var dbPassword = builder.Configuration["ConnectionStrings:DefaultConnection:POSTGRESPASSWORD"];
+// var baseConnectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+// // append postgres passowrd stored in 
+// var connectionStringWithPassword = $"{baseConnectionString}; Password={dbPassword}";
 // Register the DbContext with the modified connection string
-builder.Services.AddDbContext<ApiDbContext>(options =>
-    options.UseNpgsql(connectionStringWithPassword));
+// builder.Services.AddDbContext<ApiDbContext>(options =>
+//     options.UseNpgsql(connectionStringWithPassword));
+builder.Services.AddDbContext<ApiDbContext>();
 
 // enable CORS
 var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";

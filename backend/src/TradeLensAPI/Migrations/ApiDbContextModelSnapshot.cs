@@ -11,7 +11,7 @@ using TradeLensAPI.DbContexts;
 namespace TradeLensAPI.Migrations
 {
     [DbContext(typeof(ApiDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    partial class ApiDbContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
@@ -22,7 +22,7 @@ namespace TradeLensAPI.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("TradeLensApi.Models.Post", b =>
+            modelBuilder.Entity("TradeLensAPI.Models.Post", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
