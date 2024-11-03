@@ -151,31 +151,27 @@ def options_chart(symbol, expiry_date, option_ticker):
 
 @bp_options.route('/options/<symbol>/<expiry_date>/greeks')
 def greeks(symbol, expiry_date):
-    # stock = db.session.scalar(sa.select(Stocks).where(Stocks.ticker_symbol == symbol))
-
-    # yfinance = YFinance(symbol=stock.ticker_symbol)
-    # current_price = yfinance.get_underlying_for_price_info().get('data').get('regularMarketPrice')
-
-    # tradier = Tradier(stock.ticker_symbol)
-    # delta = tradier.plot_greeks(expiration_date=expiry_date, greek_letter='delta')
-    # gamma = tradier.plot_greeks(expiration_date=expiry_date, greek_letter='gamma')
-    # theta = tradier.plot_greeks(expiration_date=expiry_date, greek_letter='theta')
-    # vega = tradier.plot_greeks(expiration_date=expiry_date, greek_letter='vega')
-    # rho = tradier.plot_greeks(expiration_date=expiry_date, greek_letter='rho')
-
-    # return render_template(
-    #     template_name_or_list='options/greeks.html',
-    #     title=f"Greeks for {symbol} {expiry_date}",
-    #     stock=stock,
-    #     current_price=current_price,
-    #     expiry_date=expiry_date,
-    #     delta=delta,
-    #     gamma=gamma,
-    #     theta=theta,
-    #     vega=vega,
-    #     rho=rho
-    # )
     stock = db.session.scalar(sa.select(Stock).where(Stock.ticker_symbol == symbol))
+
+    yfinance = YFinance(symbol=stock.ticker_symbol)
+    current_price = yfinance.get_underlying_for_price_info().get('data').get('regularMarketPrice')
+
     tradier = Tradier(stock.ticker_symbol)
-    chain = tradier.get_options_chain('2024-08-30')
-    return chain
+    delta = tradier.plot_greeks(expiration_date=expiry_date, greek_letter='delta')
+    gamma = tradier.plot_greeks(expiration_date=expiry_date, greek_letter='gamma')
+    theta = tradier.plot_greeks(expiration_date=expiry_date, greek_letter='theta')
+    vega = tradier.plot_greeks(expiration_date=expiry_date, greek_letter='vega')
+    rho = tradier.plot_greeks(expiration_date=expiry_date, greek_letter='rho')
+
+    return render_template(
+        template_name_or_list='options/greeks.html',
+        title=f"Greeks for {symbol} {expiry_date}",
+        stock=stock,
+        current_price=current_price,
+        expiry_date=expiry_date,
+        delta=delta,
+        gamma=gamma,
+        theta=theta,
+        vega=vega,
+        rho=rho
+    )
