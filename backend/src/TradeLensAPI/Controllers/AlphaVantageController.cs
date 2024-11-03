@@ -22,7 +22,8 @@ namespace TradeLensAPI.Controllers
             {
                 string data = await _alphaVantageService.GetTopGainersLosersMostActiveAsync();
                 return Content(data, "application/json");
-            } catch (Exception exception)
+            }
+            catch (Exception exception)
             {
                 return StatusCode(500, $"Internal server error: {exception.Message}");
             }
