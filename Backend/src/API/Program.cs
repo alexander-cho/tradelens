@@ -1,3 +1,4 @@
+using API.Middleware;
 using Core.Interfaces;
 using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
@@ -20,6 +21,9 @@ builder.Services.AddScoped<IPostRepository, PostRepository>();
 // type of entity to be used with generic repositories is unknown at this point- typeof()
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 
+// CORS
+builder.Services.AddCors();
+
 var app = builder.Build();
 
 // // Configure the HTTP request pipeline.
@@ -32,6 +36,8 @@ var app = builder.Build();
 
 // app.UseAuthorization();
 
+app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:4200", "https://localhost:4200"));
+app.UseMiddleware<ExceptionMiddleware>();
 app.MapControllers();
 
 // re-seeding the db with data when restarting the application server
