@@ -20,4 +20,7 @@ public interface IGenericRepository<T> where T : BaseEntity
     // method overload
     Task<TResult?> GetEntityWithSpec<TResult>(ISpecification<T, TResult> specification);
     Task<IReadOnlyList<TResult>> ListWithSpecAsync<TResult>(ISpecification<T, TResult> specification);
+
+    // count number of items for pagination
+    Task<int> CountAsync(ISpecification<T> specification);
 }

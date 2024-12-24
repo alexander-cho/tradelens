@@ -1,4 +1,5 @@
 using System.Linq.Expressions;
+using API.RequestHelpers;
 using Core.Entities;
 using Core.Interfaces;
 using Core.Specifications;
@@ -11,12 +12,12 @@ namespace API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class PostsController(IGenericRepository<Post> repository) : ControllerBase
+    public class PostsController(IGenericRepository<Post> repository) : BaseApiController
     {
         // get all posts
         // TODO: Get all posts for ex, of a specific ticker, that are bullish -> specificiations
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Post>>> GetPosts(string? ticker, string? sentiment, string? sort)
+        public async Task<ActionResult<IEnumerable<Post>>> GetPosts([FromQuery]PostSpecParams postSpecParams)
         {
             // var posts = await _context.Posts
             //     .Where(x => x.Ticker == ticker)
@@ -24,11 +25,13 @@ namespace API.Controllers
             //     .ToListAsync();
             // return posts;
 
-            var spec = new PostSpecification(ticker, sentiment, sort);
-            var posts = await repository.ListWithSpecAsync(spec);
+            var spec = new PostSpecification(postSpecParams);
+            // var posts = await repository.ListWithSpecAsync(spec);
+            // var count = await repository.CountAsync(spec);
 
-            // return Ok(await repository.ListAllAsync());
-            return Ok(posts);
+            // var pagination = new Pagination<Post>(postSpecParams.PageIndex, postSpecParams.PageSize, count, posts);
+            var posts = CreatePagedResult(repository, spec, postSpecParams.PageIndex, postSpecParams.PageSize);
+            return await posts;
         }
 
         // get one post

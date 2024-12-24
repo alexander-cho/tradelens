@@ -15,6 +15,13 @@ public interface ISpecification<T>
     Expression<Func<T, object>>? OrderByDescending { get; }
     
     bool IsDistinct { get; }
+
+    // pagination: for example, to get page 3 while setting items per page to 5, Skip(10) and Take(5)
+    int Take { get; }
+    int Skip { get; }
+    bool IsPagingEnabled { get; }
+
+    IQueryable<T> ApplyCriteria(IQueryable<T> query);
 }
 
 
