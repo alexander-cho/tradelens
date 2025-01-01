@@ -1,9 +1,10 @@
 using System;
 using Core.Entities;
 using Core.Interfaces;
+using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 
-namespace Infrastructure.Data;
+namespace Infrastructure.Repositories;
 
 public class PostRepository(TradeLensDbContext context) : IPostRepository
 {

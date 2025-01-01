@@ -1,9 +1,10 @@
 using System;
 using Core.Entities;
 using Core.Interfaces;
+using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 
-namespace Infrastructure.Data;
+namespace Infrastructure.Repositories;
 
 // generic repo for crud. compiler cannot infer type <T> of entity to be passed in as a parameter,
 // so Set<T> the type
