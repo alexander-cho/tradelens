@@ -1,0 +1,16 @@
+@if (post) {
+  <p-card header="{{ post.ticker }}">
+    <ng-template #title>{{post.ticker}}</ng-template>
+    <ng-template #subtitle>{{ post.sentiment }}</ng-template>
+    <p class="m-0">
+      {{ post.content }}
+    </p>
+    <ng-template #footer>
+      <div class="flex gap-4 mt-1">
+        View detail button <br>
+        User <br>
+        Company Logo
+      </div>
+    </ng-template>
+  </p-card>
+}

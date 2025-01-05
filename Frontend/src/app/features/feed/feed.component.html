@@ -1,0 +1,6 @@
+<div class="grid grid-cols-5 gap-4">
+  @for (post of posts; track post.id) {
+<!--    pass post down to child component using directive-->
+    <app-post [post]="post"></app-post>
+  }
+</div>

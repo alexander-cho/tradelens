@@ -5,6 +5,7 @@ import { providePrimeNG } from 'primeng/config';
 import MyPreset from './mypreset';
 
 import { routes } from './app.routes';
+import { provideHttpClient } from '@angular/common/http';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -13,8 +14,13 @@ export const appConfig: ApplicationConfig = {
     provideAnimationsAsync(),
     providePrimeNG({
       theme: {
-        preset: MyPreset
+        preset: MyPreset,
+        options: {
+          darkModeSelector: '.dark-mode'
+        }
       }
-    })
+    }),
+    // inject http client into components
+    provideHttpClient()
   ]
 };
