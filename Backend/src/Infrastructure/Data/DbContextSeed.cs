@@ -25,8 +25,21 @@ public class DbContextSeed
         }
     }
 
-    // public static async Task SeedCompanyData(StoreContext context)
-    // {
+    public static async Task SeedCompanyData(TradeLensDbContext context)
+    {
+        if (!context.Stocks.Any())
+        {
+            var stocksData = await File.ReadAllTextAsync("../Infrastructure/Data/SeedData/tickers.json");
+            var stocks = JsonSerializer.Deserialize<List<Stock>>(stocksData);
 
-    // }
+            // if there is no data
+            if (stocks == null)
+            {
+                return;
+            }
+
+            context.Stocks.AddRange(stocks);
+            await context.SaveChangesAsync();
+        }
+    }
 }

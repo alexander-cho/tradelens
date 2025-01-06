@@ -49,6 +49,7 @@ try
     var context = services.GetRequiredService<TradeLensDbContext>();
     await context.Database.MigrateAsync();
     await DbContextSeed.SeedPostsAsync(context);
+    await DbContextSeed.SeedCompanyData(context);
 }
 catch (Exception exception)
 {
