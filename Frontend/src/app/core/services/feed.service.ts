@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Pagination } from '../../shared/models/pagination';
 import { Post } from '../../shared/models/post';
 
@@ -17,8 +17,17 @@ export class FeedService {
   tickers: string[] = [];
   sentiments: string[] = [];
 
-  public getPosts() {
-    return this.http.get<Pagination<Post>>(this.baseUrl + 'posts?pageSize=52');
+  public getPosts(tickers?: string[], sentiments?: string[]) {
+    // build query string as parameter object
+    let params = new HttpParams();
+    if (tickers && tickers.length > 0) {
+      params = params.append('tickers', tickers.join(','));
+    }
+    if (sentiments && sentiments.length > 0) {
+      params = params.append('sentiments', sentiments.join(','));
+    }
+    params = params.append('pageSize', 57);
+    return this.http.get<Pagination<Post>>(this.baseUrl + 'posts', { params });
   }
 
   public getTickers() {

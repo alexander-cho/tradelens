@@ -12,7 +12,7 @@ namespace API.Controllers;
 public class PostsController(IGenericRepository<Post> repository) : BaseApiController
 {
     // get all posts
-    // TODO: Get all posts for ex, of a specific ticker, that are bullish -> specificiations
+    // TODO: Get all posts for ex, of a specific ticker, that are bullish -> specifications
     [HttpGet]
     public async Task<ActionResult<IEnumerable<Post>>> GetPosts([FromQuery] PostSpecParams postSpecParams)
     {

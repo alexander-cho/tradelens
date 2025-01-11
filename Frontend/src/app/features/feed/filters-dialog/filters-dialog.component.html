@@ -1,0 +1,30 @@
+<div>
+  <h3 class="text-3xl text-center pt-6 mb-3">Filters</h3>
+  <p-divider/>
+  <div class="flex p-4">
+    <div class="w-1/2">
+      <h4 class="font-semibold text-xl text-primary">Tickers</h4>
+      <p-listbox [options]="feedService.tickers" [(ngModel)]="userSelectedTickers" [multiple]="true"
+                 [checkmark]="true"/>
+
+      <!--      @for (ticker of feedService.tickers; track $index) {-->
+      <!--        {{ ticker }} <br>-->
+      <!--      }-->
+
+    </div>
+
+    <div class="w-1/2">
+      <h4 class="font-semibold text-xl text-primary">Sentiments</h4>
+      <p-listbox [options]="feedService.sentiments" [(ngModel)]="userSelectedSentiments" [multiple]="true"
+                 [checkmark]="true"/>
+
+      <!--      @for (sentiment of feedService.sentiments; track $index) {-->
+      <!--        {{ sentiment }} <br>-->
+      <!--      }-->
+
+    </div>
+  </div>
+  <div class="flex justify-end p-4">
+    <p-button (click)="applyFilters()">Apply</p-button>
+  </div>
+</div>
