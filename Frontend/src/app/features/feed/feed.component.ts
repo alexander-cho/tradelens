@@ -1,12 +1,11 @@
-import { Component, inject, model, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { FeedService } from '../../core/services/feed.service';
 import { Post } from '../../shared/models/post';
 import { CardModule } from 'primeng/card';
 import { PostComponent } from './post/post.component';
 import { DynamicDialogModule, DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { FiltersDialogComponent } from './filters-dialog/filters-dialog.component';
-import { Button, ButtonModule } from 'primeng/button';
-import { MenuItem } from 'primeng/api';
+import { Button } from 'primeng/button';
 
 @Component({
   selector: 'app-feed',
@@ -23,8 +22,6 @@ export class FeedComponent implements OnInit {
   // properties to see which tickers/sentiments have been selected, pass to the filters dialog below
   selectedTickers: string[] = [];
   selectedSentiments: string[] = [];
-  selectedSort: string = 'id';
-  sortOptions: MenuItem[] = [];
 
   posts: Post[] = [];
 
@@ -34,11 +31,6 @@ export class FeedComponent implements OnInit {
     //   error: error => console.log(error)
     // });
     this.initializeFeed();
-    this.sortOptions = [
-      {name: 'id', value: 'id'},
-      {name: 'Oldest', value: 'earliest'},
-      {name: 'Latest', value: 'latest'}
-    ]
   }
 
   initializeFeed() {
@@ -75,6 +67,4 @@ export class FeedComponent implements OnInit {
       }
     });
   }
-
-  protected readonly model = model;
 }
