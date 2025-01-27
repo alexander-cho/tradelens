@@ -1,8 +1,8 @@
-using Azure;
+using Core.Interfaces;
 
 namespace Infrastructure.Services;
 
-public class PolygonService
+public class PolygonService : IPolygonService
 {
     private readonly IHttpClientFactory _httpClientFactory;
     private readonly string _polygonApiKey = "UQE0AfiLy65mtQuTOX9mpQZqWV_Qb8iP";

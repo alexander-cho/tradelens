@@ -1,5 +1,6 @@
 using API.Middleware;
 using Core.Interfaces;
+using Core.Entities;
 using Infrastructure.Data;
 using Infrastructure.Repositories;
 using Infrastructure.Services;
@@ -20,10 +21,14 @@ builder.Services.AddDbContext<TradeLensDbContext>(opt => {
 
 builder.Services.AddScoped<IPostRepository, PostRepository>();
 
-builder.Services.AddScoped<PolygonService>();
+builder.Services.AddScoped<IPolygonService, PolygonService>();
 
 // type of entity to be used with generic repositories is unknown at this point- typeof()
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+
+// authentication with Identity
+builder.Services.AddAuthorization();
+builder.Services.AddIdentityApiEndpoints<User>().AddEntityFrameworkStores<TradeLensDbContext>();
 
 // CORS
 builder.Services.AddCors();
@@ -50,6 +55,10 @@ var app = builder.Build();
 app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:4200", "https://localhost:4200"));
 app.UseMiddleware<ExceptionMiddleware>();
 app.MapControllers();
+
+// get access to provided Identity endpoints
+// overwrite url so it's not {{url}}/login, but api is there
+app.MapGroup("api").MapIdentityApi<User>();
 
 // re-seeding the db with data when restarting the application server
 try

@@ -1,4 +1,4 @@
-using Infrastructure.Services;
+using Core.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
@@ -7,23 +7,23 @@ namespace API.Controllers;
 [ApiController]
 public class PolygonController : ControllerBase
 {
-    private readonly PolygonService _polygonService;
+    private readonly IPolygonService _service;
     
-    public PolygonController(PolygonService polygonService)
+    public PolygonController(IPolygonService service)
     {
-        this._polygonService = polygonService;
+        this._service = service;
     }
 
     // GET: api/Polygon/BarAggs
     [HttpGet("BarAggs")]
     public async Task<ActionResult<string>> GetBarAggregates()
     {
-        return await this._polygonService.GetBarAggregatesAsync();
+        return await this._service.GetBarAggregatesAsync();
     }
 
     [HttpGet("RelatedCompanies")]
     public async Task<ActionResult<string>> GetRelatedCompanies()
     {
-        return await this._polygonService.GetRelatedCompaniesAsync();
+        return await this._service.GetRelatedCompaniesAsync();
     }
 }
