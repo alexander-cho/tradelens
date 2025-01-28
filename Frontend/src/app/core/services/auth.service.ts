@@ -17,7 +17,7 @@ export class AuthService {
     let params = new HttpParams();
     params = params.append('useCookies', true);
     console.log(this.baseUrl);
-    return this.http.post<User>(this.baseUrl + 'login', values, {params, withCredentials: true});
+    return this.http.post<User>(this.baseUrl + 'login', values, { params });
   }
 
   register(values: any) {
@@ -25,7 +25,7 @@ export class AuthService {
   }
 
   getUserInfo() {
-    return this.http.get<User>(this.baseUrl + 'auth/user-info', {withCredentials: true}).pipe(
+    return this.http.get<User>(this.baseUrl + 'auth/user-info').pipe(
       map(user => {
         this.currentUser.set(user);
         return user;
@@ -34,6 +34,6 @@ export class AuthService {
   }
 
   logout() {
-    return this.http.post(this.baseUrl + 'auth/logout', {}, {withCredentials: true});
+    return this.http.post(this.baseUrl + 'auth/logout', {});
   }
 }

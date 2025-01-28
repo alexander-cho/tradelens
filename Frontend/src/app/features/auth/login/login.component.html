@@ -1,14 +1,14 @@
-<p-card class="max-w-lg mx-auto mt-32 p-8" [style]="{width: '500px'}">
+<p-card class="max-w-lg mx-auto mt-32 p-8" [style]="{width: '500px', backgroundColor: '#f0f0f0'}">
   <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
     <div class="text-center mb-6">
       <h1 class="text-3xl font-semibold text-primary">Login</h1>
     </div>
     <p-iconfield>
-      <p-inputicon styleClass="pi pi-user" />
+      <p-inputicon styleClass="pi pi-search" />
       <input formControlName="email" type="email" pInputText placeholder="Email" />
     </p-iconfield>
     <p-iconfield>
-      <p-inputicon styleClass="pi pi-lock" />
+      <p-inputicon styleClass="pi pi-search" />
       <input formControlName="password" type="password" pInputText placeholder="Password" />
     </p-iconfield>
 
