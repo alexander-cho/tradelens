@@ -52,7 +52,7 @@ var app = builder.Build();
 
 // app.UseAuthorization();
 
-app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:4200", "https://localhost:4200"));
+app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().AllowCredentials().WithOrigins("http://localhost:4200", "https://localhost:4200"));
 app.UseMiddleware<ExceptionMiddleware>();
 app.MapControllers();
 

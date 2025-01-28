@@ -1,17 +1,25 @@
-<header class="p-3 w-full">
-  <div class="flex align-middle items-center justify-between max-w-screen-2xl mx-auto px-4">
-<!--    <img routerLink="/landing" src="/images/tradelens.png" alt="app logo" class="max-h-16">-->
+<nav class="bg-white dark:bg-gray-900 fixed w-full z-20 top-0 start-0 border-b border-gray-200 dark:border-gray-600">
+  <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-6">
     <a routerLink="/landing" routerLinkActive="active">LOGO</a>
-    <nav class="flex gap-3 my-2 uppercase text-xl">
-      <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">Home</a>
-      <a routerLink="/feed" routerLinkActive="active">Feed</a>
-      <a>Stocks</a>
-    </nav>
-    <div class="flex gap-5 align-middle ">
-<!--      <p-overlay-badge value="5" badgeSize="small">-->
-<!--        <i class="pi pi-chart-line" style="font-size: 2rem"></i>-->
-<!--      </p-overlay-badge>-->
-      <a>Login</a>
+    <div class="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
+      @if (authService.currentUser()) {
+        <button (click)="logout()">Logout</button>
+      } @else {
+        <a routerLink="/auth/login">Login</a>
+      }
+    </div>
+    <div class="items-center justify-between hidden w-full md:flex md:w-auto md:order-1" id="navbar-sticky">
+      <ul class="flex flex-col p-4 md:p-0 mt-4 font-medium border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
+        <li>
+          <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">Home</a>
+        </li>
+        <li>
+          <a routerLink="/feed" routerLinkActive="active">Feed</a>
+        </li>
+        <li>
+          <a>Stocks</a>
+        </li>
+      </ul>
     </div>
   </div>
-</header>
+</nav>

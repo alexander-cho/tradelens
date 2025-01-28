@@ -1,0 +1,17 @@
+<p-card class="max-w-lg mx-auto mt-32 p-8" [style]="{width: '500px'}">
+  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+    <div class="text-center mb-6">
+      <h1 class="text-3xl font-semibold text-primary">Login</h1>
+    </div>
+    <p-iconfield>
+      <p-inputicon styleClass="pi pi-user" />
+      <input formControlName="email" type="email" pInputText placeholder="Email" />
+    </p-iconfield>
+    <p-iconfield>
+      <p-inputicon styleClass="pi pi-lock" />
+      <input formControlName="password" type="password" pInputText placeholder="Password" />
+    </p-iconfield>
+
+    <p-button class="w-full py-2" type="submit" label="Login" icon="pi pi-check" iconPos="right" />
+  </form>
+</p-card>
