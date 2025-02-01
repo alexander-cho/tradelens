@@ -25,8 +25,8 @@ COPY config.py tradelens.py ./
 # populate the stocks table
 COPY modules/db/tickers_to_db.py ./
 
-# copy as well the .flaskenv and .env for regular docker deployment
-# COPY .flaskenv .env ./
+# copy environmental variables for local docker deployment
+COPY .flaskenv .env ./
 
 EXPOSE 5000
 

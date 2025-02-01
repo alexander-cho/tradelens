@@ -5,6 +5,7 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 
 load_dotenv()
 
+
 # configuration variables for app
 class Config:
     UPLOAD_FOLDER = 'static/images'
