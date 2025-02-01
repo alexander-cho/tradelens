@@ -401,3 +401,4 @@ FodyWeavers.xsd
 .idea/
 .vscode/
 .env
+appsettings.json

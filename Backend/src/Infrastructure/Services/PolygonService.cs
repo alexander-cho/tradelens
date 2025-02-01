@@ -1,15 +1,17 @@
 using Core.Interfaces;
+using Microsoft.Extensions.Configuration;
 
 namespace Infrastructure.Services;
 
 public class PolygonService : IPolygonService
 {
     private readonly IHttpClientFactory _httpClientFactory;
-    private readonly string _polygonApiKey = "UQE0AfiLy65mtQuTOX9mpQZqWV_Qb8iP";
+    private readonly string? _polygonApiKey;
 
-    public PolygonService(IHttpClientFactory httpClientFactory)
+    public PolygonService(IHttpClientFactory httpClientFactory, IConfiguration configuration)
     {
         this._httpClientFactory = httpClientFactory;
+        this._polygonApiKey = configuration["DataApiKeys:PolygonApiKey"];
     }
 
     // PASS PARAMS LATER

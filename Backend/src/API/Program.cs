@@ -54,11 +54,18 @@ var app = builder.Build();
 
 app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().AllowCredentials().WithOrigins("http://localhost:4200", "https://localhost:4200"));
 app.UseMiddleware<ExceptionMiddleware>();
+
+app.UseDefaultFiles();
+app.UseStaticFiles();
+
 app.MapControllers();
 
 // get access to provided Identity endpoints
 // overwrite url so it's not {{url}}/login, but api is there
 app.MapGroup("api").MapIdentityApi<User>();
+
+// if API server cannot handle request, gets passed to client app
+app.MapFallbackToController("Index", "Fallback");
 
 // re-seeding the db with data when restarting the application server
 try

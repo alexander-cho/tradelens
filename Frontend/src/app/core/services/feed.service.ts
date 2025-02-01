@@ -2,6 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Pagination } from '../../shared/models/pagination';
 import { Post } from '../../shared/models/post';
+import { environment } from '../../../environments/environment';
 
 
 // services are initialized when application starts (singleton)
@@ -9,7 +10,7 @@ import { Post } from '../../shared/models/post';
   providedIn: 'root'
 })
 export class FeedService {
-  private baseUrl = 'https://localhost:6001/api/';
+  private baseUrl = environment.apiUrl;
   private http = inject(HttpClient);
 
   // tickers, sentiments, etc. are returned as static lists from the api server, which means

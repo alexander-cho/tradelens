@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
 using Core.Entities;
-using Core.Interfaces;
 using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 
@@ -20,24 +19,24 @@ public class StocksController : BaseApiController
     [HttpGet]
     public async Task<ActionResult<IEnumerable<Stock>>> GetCompanies()
     {
-        // var posts = repository.ListAllAsync();
-        // return Ok(await posts);
+        var posts = context.Stocks.ToListAsync();
+        return Ok(await posts);
 
-        var posts = context.Stocks
-            .Where(x => x.IpoYear == 2007)
-            .Where(x => x.Sector == "Finance")
-            .Where(x => x.Industry == "Savings Institutions")
-            .Where(x => x.Country == "United States")
-            .ToListAsync();
-        return await posts;
+        // var posts = context.Stocks
+        //     .Where(x => x.IpoYear == 2007)
+        //     .Where(x => x.Sector == "Finance")
+        //     .Where(x => x.Industry == "Savings Institutions")
+        //     .Where(x => x.Country == "United States")
+        //     .ToListAsync();
+        // return await posts;
     }
 
-    // [HttpGet("{id:int}")]
-    // public async Task<ActionResult<Stock?>> GetCompany(int id)
-    // {
-    //     var stock = await repository.GetByIdAsync(id);
-    //     return stock;
-    // }
+    [HttpGet("{ticker}")]
+    public async Task<ActionResult<Stock?>> GetCompany(string ticker)
+    {
+        var stock = await context.Stocks.FirstOrDefaultAsync(x => x.Ticker == ticker);
+        return stock;
+    }
     
     // possible admin role: add, update, delete companies based on delistings, new ipos, changes, etc.
     
