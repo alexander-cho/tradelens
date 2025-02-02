@@ -13,7 +13,7 @@ class Config:
 
 
 class ProdConfig(Config):
-    SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URL')
+    SQLALCHEMY_DATABASE_URI = os.getenv('HEROKU_POSTGRESQL_CYAN_URL')
 
 
 class DevConfig(Config):

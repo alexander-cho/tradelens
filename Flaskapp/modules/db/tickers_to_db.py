@@ -4,11 +4,11 @@ the stock db table with the ticker symbol and company name.
 """
 import json
 import os
-from ...app.models import Stock
+from app.models import Stock
 from tradelens import app, db
 
 
-tickers_file_path = os.path.join('resources', 'company_tickers.json')
+tickers_file_path = os.path.join(os.getcwd(), 'resources', 'company_tickers.json')
 
 
 def populate_stocks_from_sec(ticker_file):
