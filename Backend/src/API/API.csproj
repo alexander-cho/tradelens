@@ -21,4 +21,22 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="wwwroot\3rdpartylicenses.txt" />
+    <_ContentIncludedByDefault Remove="wwwroot\chunk-5YYKPG3Y.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\chunk-DRXEFWQE.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\favicon.ico" />
+    <_ContentIncludedByDefault Remove="wwwroot\images\tradelens.png" />
+    <_ContentIncludedByDefault Remove="wwwroot\index.html" />
+    <_ContentIncludedByDefault Remove="wwwroot\main-ZXWVKLXI.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\media\primeicons-4GST5W3O.woff2" />
+    <_ContentIncludedByDefault Remove="wwwroot\media\primeicons-DHQU4SEP.svg" />
+    <_ContentIncludedByDefault Remove="wwwroot\media\primeicons-GEFHGEHP.ttf" />
+    <_ContentIncludedByDefault Remove="wwwroot\media\primeicons-P53SE5CV.woff" />
+    <_ContentIncludedByDefault Remove="wwwroot\media\primeicons-RSSEDYLY.eot" />
+    <_ContentIncludedByDefault Remove="wwwroot\polyfills-FFHMD2TL.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\prerendered-routes.json" />
+    <_ContentIncludedByDefault Remove="wwwroot\styles-K2BXUKXV.css" />
+  </ItemGroup>
+
 </Project>
