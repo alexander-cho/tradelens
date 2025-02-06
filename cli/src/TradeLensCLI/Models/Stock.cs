@@ -1,1 +1,0 @@
-// stock model: ID, Ticker, Company Name

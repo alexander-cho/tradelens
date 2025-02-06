@@ -15,8 +15,13 @@ builder.Services.AddControllers();
 // builder.Services.AddOpenApi();
 
 // register Db Context
-builder.Services.AddDbContext<TradeLensDbContext>(opt => {
-    opt.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+builder.Services.AddDbContext<TradeLensDbContext>(opt =>
+{
+    opt.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"),
+        sqlOptions => sqlOptions.EnableRetryOnFailure(
+            maxRetryCount: 5,
+            maxRetryDelay: TimeSpan.FromSeconds(60),
+            errorNumbersToAdd: null));
 });
 
 builder.Services.AddScoped<IPostRepository, PostRepository>();

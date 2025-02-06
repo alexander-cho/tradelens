@@ -1,1 +1,0 @@
-UI components are downloaded on the command line from shadcn/ui

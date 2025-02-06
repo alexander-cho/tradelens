@@ -7,10 +7,11 @@ import { Router } from '@angular/router';
 import { IconFieldModule } from 'primeng/iconfield';
 import { InputIconModule } from 'primeng/inputicon';
 import { InputText } from 'primeng/inputtext';
+import { CheckboxModule } from 'primeng/checkbox';
 
 @Component({
   selector: 'app-login',
-  imports: [ReactiveFormsModule, CardModule, IconFieldModule, InputIconModule, ButtonModule, InputText],
+  imports: [ReactiveFormsModule, CardModule, IconFieldModule, InputIconModule, ButtonModule, InputText, CheckboxModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
 })
