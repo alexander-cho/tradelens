@@ -16,7 +16,7 @@ class FederalReserve:
     """
     def __init__(self):
         self.api_key = os.getenv('FRED_API_KEY')
-        # temporarily bypass ssl verificiation
+        # temporarily bypass ssl verification
         ssl._create_default_https_context = ssl._create_unverified_context
         self.fred = Fred(api_key=self.api_key)
 

@@ -1,12 +1,49 @@
-<div class="flex flex-col gap-3">
-  <div class="flex justify-end">
-    <p-button (click)="openFiltersDialog()">Filters</p-button>
-  </div>
+<app-navbar></app-navbar>
 
-  <div class="grid grid-cols-5 gap-4">
-    @for (post of posts; track post.id) {
-      <!--    pass post down to child component using directive-->
-      <app-post [post]="post"></app-post>
-    }
+<div class="flex justify-between p-3">
+  <mat-paginator [length]="posts?.count"
+                 [pageSize]="feedParams.pageSize"
+                 [pageSizeOptions]="postsPerPage"
+                 (page)="handlePageEvent($event)"
+                 [showFirstLastButtons]="true"
+                 aria-label="Select page">
+  </mat-paginator>
+
+  <form class="relative flex items-center w-full max-w-md mx-4" #searchForm="ngForm" (ngSubmit)="onSearchChange()">
+    <input type="search"
+           id="input-label"
+           class="py-3 px-4 block w-full rounded-lg text-sm text-gray-800 border border-gray-800"
+           placeholder="Search post content"
+           name="search"
+           [(ngModel)]="feedParams.search"
+    />
+  </form>
+
+  <div class="flex gap-3">
+    <button (click)="openFiltersDialog()" type="button"
+            class="py-3 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent text-indigo-600 hover:bg-indigo-300 focus:outline-none focus:bg-indigo-100 hover:text-gray-800 disabled:opacity-50 disabled:pointer-events-none">
+      Filters
+    </button>
+    <button [matMenuTriggerFor]="sortMenu" type="button"
+            class="py-3 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent text-indigo-600 hover:bg-indigo-300 focus:outline-none focus:bg-indigo-100 hover:text-gray-800 disabled:opacity-50 disabled:pointer-events-none">
+      Sort
+    </button>
   </div>
 </div>
+
+<div class="w-2/5 mx-auto">
+  @for (post of posts?.data; track post.id) {
+    <!--pass post down to child component using directive-->
+    <app-post [post]="post"></app-post>
+  }
+</div>
+
+<mat-menu #sortMenu="matMenu">
+  <mat-selection-list [multiple]="false" (selectionChange)="onSortChange($event)">
+    @for (option of sortOptions; track $index) {
+      <mat-list-option [value]="option.value" [selected]="feedParams.sort === option.value">
+        {{ option.name }}
+      </mat-list-option>
+    }
+  </mat-selection-list>
+</mat-menu>

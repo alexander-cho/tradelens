@@ -77,7 +77,7 @@ def register():
         return redirect(url_for('auth.login'))
 
     return render_template(
-        template_name_or_list='auth/register.html',
+        template_name_or_list='register.html',
         title='Register',
         registration_form=registration_form
     )

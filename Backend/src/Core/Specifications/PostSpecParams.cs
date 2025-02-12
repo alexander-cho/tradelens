@@ -31,7 +31,7 @@ public class PostSpecParams
     public string? Sort { get; set; }
 
     // pagination
-    // set maximum number of items per page, intialize page index and size
+    // set maximum number of items per page, initialize page index and size
     private const int MaxPageSize = 50;
     public int PageIndex { get; set; } = 1;
     private int _pageSize = 5;

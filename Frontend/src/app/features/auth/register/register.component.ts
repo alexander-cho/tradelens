@@ -1,25 +1,24 @@
 import { Component, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
-import { CardModule } from 'primeng/card';
-import { IconFieldModule } from 'primeng/iconfield';
-import { InputIconModule } from 'primeng/inputicon';
-import { ButtonModule } from 'primeng/button';
-import { InputText } from 'primeng/inputtext';
 import { AuthService } from '../../../core/services/auth.service';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
+import { MatCard } from '@angular/material/card';
+import { MatInput } from '@angular/material/input';
 
 @Component({
   selector: 'app-register',
-  imports: [ReactiveFormsModule, CardModule, IconFieldModule, InputIconModule, ButtonModule, InputText],
+  imports: [ReactiveFormsModule, MatCard, MatInput, RouterLink],
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss'
 })
 export class RegisterComponent {
-  private fb = inject(FormBuilder);
+  private formBuilder = inject(FormBuilder);
   private authService = inject(AuthService);
   private router = inject(Router);
 
-  registerForm = this.fb.group({
+  validationErrors?: string[];
+
+  registerForm = this.formBuilder.group({
     firstName: [''],
     lastName: [''],
     email: [''],
@@ -29,7 +28,10 @@ export class RegisterComponent {
   onSubmit() {
     this.authService.register(this.registerForm.value).subscribe({
       next: () => {
-        this.router.navigateByUrl('/auth/login');
+        this.router.navigateByUrl('/login');
+      },
+      error: errors => {
+        this.validationErrors = Object.values(errors.error.errors).flat() as string[];
       }
     });
   }

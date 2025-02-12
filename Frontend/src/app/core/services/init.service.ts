@@ -6,7 +6,7 @@ import { forkJoin } from 'rxjs';
   providedIn: 'root'
 })
 export class InitService {
-  // persist logged in user
+// persist logged-in user
   private authService = inject(AuthService);
 
   init() {

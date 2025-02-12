@@ -3,6 +3,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Pagination } from '../../shared/models/pagination';
 import { Post } from '../../shared/models/post';
 import { environment } from '../../../environments/environment';
+import { FeedParams } from '../../shared/models/feedParams';
 
 
 // services are initialized when application starts (singleton)
@@ -18,16 +19,23 @@ export class FeedService {
   tickers: string[] = [];
   sentiments: string[] = [];
 
-  public getPosts(tickers?: string[], sentiments?: string[]) {
-    // build query string as parameter object
+  getPosts(feedParams: FeedParams) {
     let params = new HttpParams();
-    if (tickers && tickers.length > 0) {
-      params = params.append('tickers', tickers.join(','));
+    // build query string as parameter object
+    if (feedParams.tickers.length > 0) {
+      params = params.append('tickers', feedParams.tickers.join(','));
     }
-    if (sentiments && sentiments.length > 0) {
-      params = params.append('sentiments', sentiments.join(','));
+    if (feedParams.sentiments.length > 0) {
+      params = params.append('sentiments', feedParams.sentiments.join(','));
     }
-    params = params.append('pageSize', 57);
+    params = params.append('pageSize', feedParams.pageSize);
+    params = params.append('pageIndex', feedParams.pageNumber);
+    if (feedParams.sort) {
+      params = params.append('sort', feedParams.sort);
+    }
+    if (feedParams.search) {
+      params = params.append('search', feedParams.search);
+    }
     return this.http.get<Pagination<Post>>(this.baseUrl + 'posts', { params });
   }
 
@@ -45,3 +53,4 @@ export class FeedService {
     })
   }
 }
+

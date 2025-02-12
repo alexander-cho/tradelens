@@ -1,26 +1,63 @@
-<p-card class="max-w-lg mx-auto mt-32 p-8" [style]="{width: '500px'}">
-  <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
-    <div class="text-center mb-6">
-      <h1 class="text-3xl font-semibold text-primary">Register</h1>
+<mat-card class="max-w-lg mx-auto my-auto mt-32 p-8">
+  <div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
+    <a routerLink="/">Home</a>
+
+    <div class="sm:mx-auto sm:w-full sm:max-w-sm">
+      <h2 class="text-center text-2xl/9 font-bold tracking-tight text-gray-900">Register</h2>
     </div>
 
-    <p-iconfield>
-      <p-inputicon styleClass="pi pi-lock"/>
-      <input formControlName="firstName" type="text" pInputText placeholder="First name"/>
-    </p-iconfield>
-    <p-iconfield>
-      <p-inputicon styleClass="pi pi-lock"/>
-      <input formControlName="lastName" type="text" pInputText placeholder="Last name"/>
-    </p-iconfield>
-    <p-iconfield>
-      <p-inputicon styleClass="pi pi-user"/>
-      <input formControlName="email" type="email" pInputText placeholder="Email"/>
-    </p-iconfield>
-    <p-iconfield>
-      <p-inputicon styleClass="pi pi-lock"/>
-      <input formControlName="password" type="password" pInputText placeholder="Password"/>
-    </p-iconfield>
+    <p class="mt-10 text-center text-sm/6 text-gray-500">
+      Welcome to TradeLens! <br> Let's set up your account with a strong password.
+    </p>
 
-    <p-button class="w-full py-2" type="submit" label="Register" icon="pi pi-check" iconPos="right"/>
-  </form>
-</p-card>
+    <div class="mt-2 sm:mx-auto sm:w-full sm:max-w-sm">
+      <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="space-y-6" method="POST">
+        <div>
+          <label class="block text-sm/6 font-medium text-gray-900">First name</label>
+          <div class="mt-2">
+            <input type="text" formControlName="firstName" matInput class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6">
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-sm/6 font-medium text-gray-900">Last name</label>
+          <div class="mt-2">
+            <input type="text" formControlName="lastName" matInput class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6">
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-sm/6 font-medium text-gray-900">Email address</label>
+          <div class="mt-2">
+            <input type="email" formControlName="email" matInput class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6">
+          </div>
+        </div>
+
+        <div>
+          <div class="flex items-center justify-between">
+            <label class="block text-sm/6 font-medium text-gray-900">Password</label>
+          </div>
+          <div class="mt-2">
+            <input type="password" formControlName="password" matInput class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6">
+          </div>
+        </div>
+
+        @if (validationErrors) {
+          <div class="mb-3 p-4 bg-red-100 text-red-600">
+            <ul class="list-disc px-3">
+              @for (error of validationErrors; track $index) {
+                <li>{{ error }}</li>>
+              }
+            </ul>
+          </div>
+        }
+
+        <div>
+          <button type="submit" class="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+            Create account
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</mat-card>

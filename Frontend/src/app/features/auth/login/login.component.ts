@@ -1,28 +1,22 @@
 import { Component, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
-import { CardModule } from 'primeng/card';
-import { ButtonModule } from 'primeng/button';
 import { AuthService } from '../../../core/services/auth.service';
-import { Router } from '@angular/router';
-import { IconFieldModule } from 'primeng/iconfield';
-import { InputIconModule } from 'primeng/inputicon';
-import { InputText } from 'primeng/inputtext';
-import { CheckboxModule } from 'primeng/checkbox';
+import { Router, RouterLink } from '@angular/router';
+import { MatCard } from '@angular/material/card';
 
 @Component({
   selector: 'app-login',
-  imports: [ReactiveFormsModule, CardModule, IconFieldModule, InputIconModule, ButtonModule, InputText, CheckboxModule],
+  imports: [ReactiveFormsModule, MatCard, RouterLink],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
 })
 export class LoginComponent {
-  private fb = inject(FormBuilder);
+  private formBuilder = inject(FormBuilder);
   private authService = inject(AuthService);
 
-  // redirect user after logging in
   private router = inject(Router);
 
-  loginForm = this.fb.group({
+  loginForm = this.formBuilder.group({
     email: [''],
     password: ['']
   });
@@ -31,8 +25,8 @@ export class LoginComponent {
     this.authService.login(this.loginForm.value).subscribe({
       next: () => {
         this.authService.getUserInfo().subscribe();
-        this.router.navigateByUrl('');
+        this.router.navigateByUrl('/');
       }
-    })
+    });
   }
 }
