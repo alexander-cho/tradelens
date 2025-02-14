@@ -1,0 +1,7 @@
+<app-navbar></app-navbar>
+
+<div class="w-2/3 mx-auto">
+  @for (company of companies; track $index) {
+    {{ company.ticker }} - {{ company.companyName }} - {{ company.ipoYear }} - {{ company.sector }} - {{ company.industry }} - {{ company.country }} <br>
+  }
+</div>
