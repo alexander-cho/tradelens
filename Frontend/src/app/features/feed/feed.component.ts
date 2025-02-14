@@ -65,6 +65,7 @@ export class FeedComponent implements OnInit {
     const selectedOption = event.options[0];
     if (selectedOption) {
       this.feedParams.sort = selectedOption.value;
+      this.feedParams.pageNumber = 1;
       this.getPosts();
     }
   }
@@ -85,6 +86,7 @@ export class FeedComponent implements OnInit {
           console.log(result);
           this.feedParams.tickers = result.selectedTickers;
           this.feedParams.sentiments = result.selectedSentiments;
+          this.feedParams.pageNumber = 1;
           console.log(this.feedParams);
           this.getPosts();
         }

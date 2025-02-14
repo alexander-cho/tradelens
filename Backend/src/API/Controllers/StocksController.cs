@@ -1,26 +1,18 @@
 using Microsoft.AspNetCore.Mvc;
 using Core.Entities;
-using Infrastructure.Data;
-using Microsoft.EntityFrameworkCore;
+using Core.Interfaces;
+using Core.Specifications;
 
 namespace API.Controllers;
 
-public class StocksController : BaseApiController
+public class StocksController(IGenericRepository<Stock> repository) : BaseApiController
 {
-    // private readonly IGenericRepository<Stock> repository;
-    private readonly TradeLensDbContext context;
-
-    public StocksController(TradeLensDbContext context)
-    {
-        // this.repository = repository;
-        this.context = context;
-    }
-
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<Stock>>> GetCompanies()
+    public async Task<ActionResult<IEnumerable<Stock>>> GetCompanies([FromQuery] StockSpecParams stockSpecParams)
     {
-        var posts = context.Stocks.ToListAsync();
-        return Ok(await posts);
+        var spec = new StockSpecification(stockSpecParams);
+        var stocks = CreatePagedResult(repository, spec, stockSpecParams.PageIndex, stockSpecParams.PageSize);
+        return await stocks;
 
         // var posts = context.Stocks
         //     .Where(x => x.IpoYear == 2007)
@@ -30,14 +22,45 @@ public class StocksController : BaseApiController
         //     .ToListAsync();
         // return await posts;
     }
-
+    
     [HttpGet("{ticker}")]
     public async Task<ActionResult<Stock?>> GetCompany(string ticker)
     {
-        var stock = await context.Stocks.FirstOrDefaultAsync(x => x.Ticker == ticker);
+        var spec = new StockByTickerSpecification(ticker);
+        var stock = await repository.GetEntityWithSpec(spec);
+        if (stock == null)
+        {
+            return NotFound();
+        }
+
         return stock;
     }
     
-    // possible admin role: add, update, delete companies based on delistings, new ipos, changes, etc.
     
+    // possible admin role: add, update, delete companies based on de-listings, new IPOs, changes, etc.
+
+    
+    [HttpGet("ipoYears")]
+    public async Task<ActionResult<IReadOnlyList<string>>> GetIpoYears()
+    {
+        var spec = new IpoYearListSpecification();
+        var ipoYears = await repository.ListWithSpecAsync(spec);
+        return Ok(ipoYears);
+    }
+    
+    [HttpGet("countries")]
+    public async Task<ActionResult<IReadOnlyList<string>>> GetCountries()
+    {
+        var spec = new CountryListSpecification();
+        var countries = await repository.ListWithSpecAsync(spec);
+        return Ok(countries);
+    }
+    
+    [HttpGet("sectors")]
+    public async Task<ActionResult<IReadOnlyList<string>>> GetSectors()
+    {
+        var spec = new SectorListSpecification();
+        var sectors = await repository.ListWithSpecAsync(spec);
+        return Ok(sectors);
+    }
 }

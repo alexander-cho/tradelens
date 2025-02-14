@@ -1,5 +1,3 @@
-using System;
-
 namespace Core.Entities;
 
 // enum Sentiment { Bullish, Bearish };

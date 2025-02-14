@@ -1,5 +1,3 @@
-using System;
-using System.Net.Http.Headers;
 using Core.Entities;
 
 namespace Core.Interfaces;

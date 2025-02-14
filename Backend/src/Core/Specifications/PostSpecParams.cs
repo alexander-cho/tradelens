@@ -1,5 +1,3 @@
-using System;
-
 namespace Core.Specifications;
 
 
@@ -11,13 +9,14 @@ public class PostSpecParams
     public List<string> Tickers
     {
         get => _tickers;
-        // query string for ex: .../api/...?ticker=SOFI,TSLA,AFRM&...
+        // query string for ex: .../api/...?tickers=SOFI,TSLA,AFRM&...
         set
         {
             _tickers = value.SelectMany(x => x.Split(',', StringSplitOptions.RemoveEmptyEntries)).ToList();
         }
     }
 
+    
     private List<string> _sentiments = [];
     public List<string> Sentiments
     {

@@ -6,6 +6,7 @@
                  [pageSizeOptions]="postsPerPage"
                  (page)="handlePageEvent($event)"
                  [showFirstLastButtons]="true"
+                 [pageIndex]="feedParams.pageNumber - 1"
                  aria-label="Select page">
   </mat-paginator>
 

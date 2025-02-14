@@ -14,6 +14,7 @@ import { Stock } from '../../shared/models/stock';
 export class CompaniesComponent implements OnInit{
   stockService = inject(StockService);
 
+  // Pagination<Stock>
   companies?: Stock[];
 
   getCompanies() {

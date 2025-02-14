@@ -1,12 +1,7 @@
-using System.Linq.Expressions;
-using API.RequestHelpers;
 using Core.Entities;
 using Core.Interfaces;
 using Core.Specifications;
-using Infrastructure.Data;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace API.Controllers;
 public class PostsController(IGenericRepository<Post> repository) : BaseApiController

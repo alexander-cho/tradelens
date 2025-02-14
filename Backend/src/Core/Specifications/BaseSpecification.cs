@@ -1,4 +1,3 @@
-using System;
 using System.Linq.Expressions;
 using Core.Interfaces;
 
@@ -6,7 +5,7 @@ namespace Core.Specifications;
 
 public class BaseSpecification<T>(Expression<Func<T, bool>>? criteria) : ISpecification<T>
 {
-    // be able to pass specifictations without having to specify criteria or Where() clause
+    // be able to pass specifications without having to specify criteria or Where() clause
     protected BaseSpecification() : this(null) { }
 
     public Expression<Func<T, bool>>? Criteria => criteria;
