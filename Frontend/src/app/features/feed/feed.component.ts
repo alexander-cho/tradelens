@@ -14,7 +14,15 @@ import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-feed',
-  imports: [PostComponent, NavbarComponent, MatMenuModule, MatSelectionList, MatListOption, MatPaginator, FormsModule],
+  imports: [
+    PostComponent,
+    NavbarComponent,
+    MatMenuModule,
+    MatSelectionList,
+    MatListOption,
+    MatPaginator,
+    FormsModule
+  ],
   templateUrl: './feed.component.html',
   styleUrl: './feed.component.scss'
 })
@@ -83,14 +91,21 @@ export class FeedComponent implements OnInit {
     dialogRef.afterClosed().subscribe({
       next: result => {
         if (result) {
-          console.log(result);
           this.feedParams.tickers = result.selectedTickers;
           this.feedParams.sentiments = result.selectedSentiments;
           this.feedParams.pageNumber = 1;
-          console.log(this.feedParams);
           this.getPosts();
         }
       }
     });
+  }
+
+  resetParams() {
+    this.feedParams.tickers = [];
+    this.feedParams.sentiments = [];
+    this.feedParams.pageNumber = 1;
+    this.feedParams.search = '';
+    this.feedParams.sort = '';
+    this.getPosts();
   }
 }

@@ -1,7 +1,95 @@
 <app-navbar></app-navbar>
 
-<div class="w-2/3 mx-auto">
-  @for (company of companies; track $index) {
-    {{ company.ticker }} - {{ company.companyName }} - {{ company.ipoYear }} - {{ company.sector }} - {{ company.industry }} - {{ company.country }} <br>
-  }
+<div class="flex justify-between p-3">
+  <mat-paginator [length]="companies?.count"
+                 [pageSize]="companyParams.pageSize"
+                 [pageSizeOptions]="tickersPerPage"
+                 (page)="handlePageEvent($event)"
+                 [showFirstLastButtons]="true"
+                 [pageIndex]="companyParams.pageNumber - 1"
+                 aria-label="Select page">
+  </mat-paginator>
+
+  <form class="relative flex items-center w-full max-w-md mx-4" #searchForm="ngForm" (ngSubmit)="onSearchChange()">
+    <input type="search"
+           id="input-label"
+           class="py-3 px-4 block w-full rounded-lg text-sm text-gray-800 border border-gray-800"
+           placeholder="Search by Ticker Symbol or Company Name"
+           name="search"
+           [(ngModel)]="companyParams.search"
+    />
+  </form>
+
+  <div class="flex gap-3">
+    <button (click)="resetParams()" type="button"
+            class="py-3 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent text-red-600 hover:bg-red-300 focus:outline-none focus:bg-red-100 hover:text-gray-800 disabled:opacity-50 disabled:pointer-events-none">
+      Reset
+    </button>
+    <button (click)="openFiltersDialog()" type="button"
+            class="py-3 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent text-indigo-600 hover:bg-indigo-300 focus:outline-none focus:bg-indigo-100 hover:text-gray-800 disabled:opacity-50 disabled:pointer-events-none">
+      Filters
+    </button>
+    <button [matMenuTriggerFor]="sortMenu" type="button"
+            class="py-3 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent text-indigo-600 hover:bg-indigo-300 focus:outline-none focus:bg-indigo-100 hover:text-gray-800 disabled:opacity-50 disabled:pointer-events-none">
+      Sort
+    </button>
+  </div>
 </div>
+
+<div class="flex flex-col w-4/5 mx-auto mt-4">
+  <div class="-m-1.5 overflow-x-auto">
+    <div class="p-1.5 min-w-full inline-block align-middle">
+      <div class="border rounded-lg overflow-hidden">
+        <table class="min-w-full divide-y divide-gray-200">
+          <thead class="bg-gray-50">
+          <tr>
+            <th scope="col" class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">Ticker</th>
+            <th scope="col" class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">Name</th>
+            <th scope="col" class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">Sector</th>
+            <th scope="col" class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">Industry</th>
+            <th scope="col" class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">Country</th>
+            <th scope="col" class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">IPO Year</th>
+          </tr>
+          </thead>
+          <tbody class="divide-y divide-gray-200">
+            @for (company of companies?.data; track $index) {
+              <tr>
+                <td class="px-6 py-4 text-sm font-medium">
+                  <button type="button"
+                          routerLink="/"
+                          class="inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent text-indigo-600 hover:text-blue-800 focus:outline-none focus:text-blue-800 disabled:opacity-50 disabled:pointer-events-none">{{ company.ticker }}
+                  </button>
+                </td>
+                <td class="px-6 py-4 text-sm font-medium text-gray-800">
+                  <div class="max-w-[150px] overflow-x-auto whitespace-nowrap">{{ company.companyName }}</div>
+                </td>
+                <td class="px-6 py-4 text-sm text-gray-800">
+                  <div class="max-w-[150px] overflow-x-auto whitespace-nowrap">{{ company.sector }}</div>
+                </td>
+                <td class="px-6 py-4 text-sm text-gray-800">
+                  <div class="max-w-[150px] overflow-x-auto whitespace-nowrap">{{ company.industry }}</div>
+                </td>
+                <td class="px-6 py-4 text-sm text-gray-800">
+                  <div class="max-w-[100px] overflow-x-auto whitespace-nowrap">{{ company.country }}</div>
+                </td>
+                <td class="px-6 py-4 text-sm text-gray-800">
+                  <div class="max-w-[80px] overflow-x-auto whitespace-nowrap">{{ company.ipoYear }}</div>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<mat-menu #sortMenu="matMenu">
+  <mat-selection-list [multiple]="false" (selectionChange)="onSortChange($event)">
+    @for (option of sortOptions; track $index) {
+      <mat-list-option [value]="option.value" [selected]="companyParams.sort === option.value">
+        {{ option.name }}
+      </mat-list-option>
+    }
+  </mat-selection-list>
+</mat-menu>
