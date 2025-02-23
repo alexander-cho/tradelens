@@ -1,10 +1,12 @@
 using API.Middleware;
 using Core.Interfaces;
 using Core.Entities;
+using Infrastructure.Clients;
 using Infrastructure.Data;
 using Infrastructure.Repositories;
 using Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
+using StackExchange.Redis;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -27,6 +29,8 @@ builder.Services.AddDbContext<TradeLensDbContext>(opt =>
 builder.Services.AddScoped<IPostRepository, PostRepository>();
 
 builder.Services.AddScoped<IPolygonService, PolygonService>();
+builder.Services.AddScoped<IFmpService, FmpService>();
+builder.Services.AddScoped<IFmpClient, FmpClient>();
 
 // type of entity to be used with generic repositories is unknown at this point- typeof()
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
@@ -42,6 +46,12 @@ builder.Services.AddCors();
 builder.Services.AddHttpClient("Polygon", client =>
 {
     client.BaseAddress = new Uri("https://api.polygon.io/");
+    client.DefaultRequestHeaders.Add("Accept", "application/json");
+});
+
+builder.Services.AddHttpClient("Fmp", client =>
+{
+    // client.BaseAddress = new Uri("https://api.polygon.io/");
     client.DefaultRequestHeaders.Add("Accept", "application/json");
 });
 
