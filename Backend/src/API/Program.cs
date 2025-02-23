@@ -32,6 +32,9 @@ builder.Services.AddScoped<IPolygonService, PolygonService>();
 builder.Services.AddScoped<IFmpService, FmpService>();
 builder.Services.AddScoped<IFmpClient, FmpClient>();
 
+// redis caching service functionality is a singleton so users can access same instance
+builder.Services.AddSingleton<IResponseCacheService, ResponseCacheService>();
+
 // type of entity to be used with generic repositories is unknown at this point- typeof()
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 
@@ -41,6 +44,19 @@ builder.Services.AddIdentityApiEndpoints<User>().AddEntityFrameworkStores<TradeL
 
 // CORS
 builder.Services.AddCors();
+
+// Redis, singleton so it's alive for the duration of the application
+builder.Services.AddSingleton<IConnectionMultiplexer>(config =>
+{
+    var connectionString = builder.Configuration.GetConnectionString("Redis");
+    if (connectionString == null)
+    {
+        throw new Exception("Cannot get Redis connection string");
+    }
+
+    var configuration = ConfigurationOptions.Parse(connectionString, ignoreUnknown: true);
+    return ConnectionMultiplexer.Connect(configuration);
+});
 
 // HTTP Client factory
 builder.Services.AddHttpClient("Polygon", client =>
