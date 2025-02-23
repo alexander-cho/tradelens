@@ -19,28 +19,26 @@ public class StockSpecParams
     }
 
 
-    private List<string?> _countries = [];
+    private List<string>? _countries = [];
 
-    public List<string?> Countries
+    public List<string>? Countries
     {
         get => _countries;
         set
         {
-            _countries = value.SelectMany(x => x.Split(',', StringSplitOptions.RemoveEmptyEntries)).ToList();
+            _countries = value?.SelectMany(x => x.Split(',', StringSplitOptions.RemoveEmptyEntries)).ToList();
         }
     }
 
 
-    private List<string?> _sectors = [];
+    private List<string>? _sectors = [];
 
-    public List<string?> Sectors
+    public List<string>? Sectors
     {
         get => _sectors;
         set
         {
-            _sectors = value.
-                Where(x => x != null).
-                SelectMany(x => x.Split(',', StringSplitOptions.RemoveEmptyEntries)).ToList();
+            _sectors = value?.SelectMany(x => x.Split(',', StringSplitOptions.RemoveEmptyEntries)).ToList();
         }
     }
     

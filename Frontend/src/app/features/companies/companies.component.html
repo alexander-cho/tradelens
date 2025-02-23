@@ -21,16 +21,13 @@
   </form>
 
   <div class="flex gap-3">
-    <button (click)="resetParams()" type="button"
-            class="py-3 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent text-red-600 hover:bg-red-300 focus:outline-none focus:bg-red-100 hover:text-gray-800 disabled:opacity-50 disabled:pointer-events-none">
+    <button (click)="resetParams()" type="button" class="cursor-pointer py-3 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg text-red-600 focus:outline-none hover:text-gray-800 disabled:opacity-50 disabled:pointer-events-none">
       Reset
     </button>
-    <button (click)="openFiltersDialog()" type="button"
-            class="py-3 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent text-indigo-600 hover:bg-indigo-300 focus:outline-none focus:bg-indigo-100 hover:text-gray-800 disabled:opacity-50 disabled:pointer-events-none">
+    <button (click)="openFiltersDialog()" type="button" class="cursor-pointer py-3 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg text-indigo-600 focus:outline-none hover:text-gray-800 disabled:opacity-50 disabled:pointer-events-none">
       Filters
     </button>
-    <button [matMenuTriggerFor]="sortMenu" type="button"
-            class="py-3 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent text-indigo-600 hover:bg-indigo-300 focus:outline-none focus:bg-indigo-100 hover:text-gray-800 disabled:opacity-50 disabled:pointer-events-none">
+    <button [matMenuTriggerFor]="sortMenu" type="button" class="cursor-pointer py-3 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg text-indigo-600 focus:outline-none hover:text-gray-800 disabled:opacity-50 disabled:pointer-events-none">
       Sort
     </button>
   </div>
@@ -55,10 +52,10 @@
             @for (company of companies?.data; track $index) {
               <tr>
                 <td class="px-6 py-4 text-sm font-medium">
-                  <button type="button"
-                          routerLink="/"
-                          class="inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent text-indigo-600 hover:text-blue-800 focus:outline-none focus:text-blue-800 disabled:opacity-50 disabled:pointer-events-none">{{ company.ticker }}
-                  </button>
+                  <a
+                    routerLink="/companies/{{company.ticker}}"
+                    class="inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent text-blue-500 hover:text-blue-800 focus:outline-none focus:text-blue-800 disabled:opacity-50 disabled:pointer-events-none">{{ company.ticker }}
+                  </a>
                 </td>
                 <td class="px-6 py-4 text-sm font-medium text-gray-800">
                   <div class="max-w-[150px] overflow-x-auto whitespace-nowrap">{{ company.companyName }}</div>

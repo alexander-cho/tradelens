@@ -27,7 +27,7 @@ import { MatPaginator, PageEvent } from '@angular/material/paginator';
   templateUrl: './companies.component.html',
   styleUrl: './companies.component.scss'
 })
-export class CompaniesComponent implements OnInit{
+export class CompaniesComponent implements OnInit {
   stockService = inject(StockService);
   dialogService = inject(MatDialog);
   companyParams = new CompanyParams();
@@ -37,9 +37,9 @@ export class CompaniesComponent implements OnInit{
   tickersPerPage = [10, 20, 30, 50]
 
   sortOptions = [
-    {name: 'Default', value: ''},
-    {name: 'Alphabetical (A-Z)', value: 'a-z'},
-    {name: 'Alphabetical (Z-A)', value: 'z-a'}
+    { name: 'Default', value: '' },
+    { name: 'Alphabetical (A-Z)', value: 'a-z' },
+    { name: 'Alphabetical (Z-A)', value: 'z-a' }
   ]
 
   getCompanies() {

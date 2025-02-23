@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { Post } from '../../../shared/models/post';
 
 @Component({
@@ -12,5 +12,5 @@ export class PostComponent {
   // post is optional, since upon creation of this component, we will not have the post
   // check for existence in template
   // receive data from parent component, feed.
-  @Input() post?: Post;
+  post = input.required<Post>();
 }

@@ -1,0 +1,39 @@
+ticker - {{ ticker() }}
+
+<br><br><br>
+
+1day -> from=today-1, to=today, 5minute | 15minute | 1hour <br>
+1week -> from today-7, to=today, 5minute | 15minute | 1hour <br>
+1month -> from today-30, to=today, 1hour | 1day <br>
+3month -> from today-91, to=today, 1hour | 1day | 1week <br>
+1year -> from today-365, to=today, 1day | 1week | 1month <br>
+
+<br><br>
+
+<form class="relative flex items-center w-full max-w-md mx-20" #searchForm="ngForm" (ngSubmit)="onParamChange()">
+  <input type="number"
+         id="multiplier"
+         class="py-3 px-4 block w-full rounded-lg text-sm text-gray-800 border border-gray-800"
+         placeholder="multiplier"
+         name="search"
+         [(ngModel)]="multiplier"/>
+  <input type="text"
+         id="timespan"
+         class="py-3 px-4 block w-full rounded-lg text-sm text-gray-800 border border-gray-800"
+         placeholder="timespan"
+         name="search"
+         [(ngModel)]="timespan"/>
+  <button type="submit">SUBMIT</button>
+</form>
+
+<br><br><br>
+Candlestick bars for {{ multiplier }}{{ timespan }} - {{ from }} to {{ to }}
+<br>
+@if (barAggregates) {
+  open high low close volume vwap <br>
+  @for (bar of barAggregates.results; track $index) {
+    {{ bar.o }} {{ bar.h }} {{ bar.l }} {{ bar.c }} {{ bar.v }} {{ bar.vw }} <br>
+  }
+}
+
+<br><br><br>
