@@ -3,7 +3,7 @@ using Core.Specifications;
 
 namespace Core.Interfaces;
 
-public interface IPolygonService
+public interface IPolygonClient
 {
     Task<BarAggregateDto> GetBarAggregatesAsync(PolygonBarAggSpecParams polygonBarAggSpecParams);
     Task<RelatedCompaniesDto> GetRelatedCompaniesAsync(string ticker);

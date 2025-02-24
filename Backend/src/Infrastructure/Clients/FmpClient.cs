@@ -27,7 +27,7 @@ public class FmpClient : IFmpClient
         
         return await response.Content.ReadFromJsonAsync<IEnumerable<CongressTradesDto>>();
     }
-
+    
     public async Task<IEnumerable<CongressTradesDto>> GetLatestSenateTradesAsync()
     {
         var url = $"senate-latest?apikey={_fmpApiKey}";

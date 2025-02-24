@@ -1,47 +1,25 @@
+using Core.DTOs.Polygon;
 using Core.Interfaces;
-using Microsoft.Extensions.Configuration;
+using Core.Specifications;
 
 namespace Infrastructure.Services;
 
 public class PolygonService : IPolygonService
 {
-    private readonly IHttpClientFactory _httpClientFactory;
-    private readonly string? _polygonApiKey;
+    private readonly IPolygonClient _client;
 
-    public PolygonService(IHttpClientFactory httpClientFactory, IConfiguration configuration)
+    public PolygonService(IPolygonClient client)
     {
-        this._httpClientFactory = httpClientFactory;
-        this._polygonApiKey = configuration["DataApiKeys:PolygonApiKey"];
+        _client = client;
     }
 
-    // PASS PARAMS LATER
-    public async Task<string> GetBarAggregatesAsync()
+    public async Task<BarAggregateDto> GetBarAggregatesAsync(PolygonBarAggSpecParams polygonBarAggSpecParams)
     {
-        var client = this._httpClientFactory.CreateClient("Polygon");
-        var response =
-            await client.GetAsync(
-                $"v2/aggs/ticker/SOFI/range/1/hour/2025-01-01/2025-01-17?adjusted=true&sort=asc&limit=50000&apiKey={_polygonApiKey}");
-        if (response.IsSuccessStatusCode)
-        {
-            var result = await response.Content.ReadAsStringAsync();
-            return result;
-        }
-
-        return "Could not get Bar Aggregates";
+        return await _client.GetBarAggregatesAsync(polygonBarAggSpecParams);
     }
 
-    public async Task<string> GetRelatedCompaniesAsync()
+    public async Task<RelatedCompaniesDto> GetRelatedCompaniesAsync(string ticker)
     {
-        var client = this._httpClientFactory.CreateClient("Polygon");
-        var response =
-            await client.GetAsync(
-                $"v1/related-companies/SOFI?apiKey={_polygonApiKey}");
-        if (response.IsSuccessStatusCode)
-        {
-            var result = await response.Content.ReadAsStringAsync();
-            return result;
-        }
-
-        return "Could not get related companies";
+        return await _client.GetRelatedCompaniesAsync(ticker);
     }
 }

@@ -29,6 +29,7 @@ builder.Services.AddDbContext<TradeLensDbContext>(opt =>
 builder.Services.AddScoped<IPostRepository, PostRepository>();
 
 builder.Services.AddScoped<IPolygonService, PolygonService>();
+builder.Services.AddScoped<IPolygonClient, PolygonClient>();
 builder.Services.AddScoped<IFmpService, FmpService>();
 builder.Services.AddScoped<IFmpClient, FmpClient>();
 
@@ -67,7 +68,7 @@ builder.Services.AddHttpClient("Polygon", client =>
 
 builder.Services.AddHttpClient("Fmp", client =>
 {
-    // client.BaseAddress = new Uri("https://api.polygon.io/");
+    // client.BaseAddress = new Uri("https://financialmodelingprep.com/stable/");
     client.DefaultRequestHeaders.Add("Accept", "application/json");
 });
 
