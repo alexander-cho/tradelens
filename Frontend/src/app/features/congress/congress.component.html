@@ -1,86 +1,81 @@
 <app-navbar></app-navbar>
 
-House Trades
-<div class="flex flex-col">
-  <div class="-m-1.5 overflow-x-auto">
-    <div class="p-1.5 min-w-full inline-block align-middle">
-      <div class="overflow-hidden">
-        <table class="min-w-full divide-y divide-gray-200">
-          <thead>
-          <tr>
-            <th scope="col" class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">Politician</th>
-            <th scope="col" class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">Trade</th>
-            <th scope="col" class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">Disclosed</th>
-            <th scope="col" class="px-6 py-3 text-end text-xs font-medium text-gray-500 uppercase">Traded</th>
-            <th scope="col" class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">Owner</th>
-            <th scope="col" class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">Type</th>
-            <th scope="col" class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">Size</th>
-            <th scope="col" class="px-6 py-3 text-end text-xs font-medium text-gray-500 uppercase">Action</th>
-            <th scope="col" class="px-6 py-3 text-end text-xs font-medium text-gray-500 uppercase">Asset Type</th>
-            <th scope="col" class="px-6 py-3 text-end text-xs font-medium text-gray-500 uppercase">Link</th>
-          </tr>
-          </thead>
-          <tbody class="divide-y divide-gray-200">
-            @for (trade of houseTrades; track $index) {
+<mat-tab-group>
+  <mat-tab label="House">
+    <div class="scrollable-list flex flex-col w-9/10 mx-auto mt-4">
+      <div class="-m-1.5 overflow-x-auto">
+        <div class="p-1.5 min-w-full inline-block align-middle">
+          <div class="overflow-hidden">
+            <table class="min-w-full divide-y divide-gray-600">
+              <thead>
               <tr>
-                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">{{ trade.office }}</td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">{{ trade.symbol }} - {{ trade.assetDescription }}</td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">{{ trade.disclosureDate }}</td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">{{ trade.transactionDate }}</td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">{{ trade.owner }}</td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">{{ trade.type }}</td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">{{ trade.amount }}</td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">{{ trade.type }}</td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">{{ trade.assetType }}</td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">{{ trade.link }}</td>
+                <th scope="col" class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">Politician</th>
+                <th scope="col" class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">Trade</th>
+                <th scope="col" class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">Action</th>
+                <th scope="col" class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">Disclosed</th>
+                <th scope="col" class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">Traded</th>
+                <th scope="col" class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">Size</th>
+                <th scope="col" class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">Owner</th>
               </tr>
-            }
-          </tbody>
-        </table>
+              </thead>
+              <tbody class="divide-y divide-gray-300">
+                @for (trade of houseTrades; track $index) {
+                  <tr>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">{{ trade.office }}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">{{ trade.symbol }} - {{ trade.assetDescription }}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-blue-500">
+                      <a href="{{ trade.link }}">{{ trade.assetType }} {{ trade.type }}</a>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">{{ trade.disclosureDate }}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">{{ trade.transactionDate }}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">{{ trade.amount }}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">{{ trade.owner }}</td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-</div>
 
-Senate Trades
-
-<div class="flex flex-col">
-  <div class="-m-1.5 overflow-x-auto">
-    <div class="p-1.5 min-w-full inline-block align-middle">
-      <div class="overflow-hidden">
-        <table class="min-w-full divide-y divide-gray-200">
-          <thead>
-          <tr>
-            <th scope="col" class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">Politician</th>
-            <th scope="col" class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">Trade</th>
-            <th scope="col" class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">Disclosed</th>
-            <th scope="col" class="px-6 py-3 text-end text-xs font-medium text-gray-500 uppercase">Traded</th>
-            <th scope="col" class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">Owner</th>
-            <th scope="col" class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">Type</th>
-            <th scope="col" class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">Size</th>
-            <th scope="col" class="px-6 py-3 text-end text-xs font-medium text-gray-500 uppercase">Action</th>
-            <th scope="col" class="px-6 py-3 text-end text-xs font-medium text-gray-500 uppercase">Asset Type</th>
-            <th scope="col" class="px-6 py-3 text-end text-xs font-medium text-gray-500 uppercase">Link</th>
-          </tr>
-          </thead>
-          <tbody class="divide-y divide-gray-200">
-            @for (trade of senateTrades; track $index) {
+  </mat-tab>
+  <mat-tab label="Senate">
+    <div class="scrollable-list flex flex-col w-9/10 mx-auto mt-4">
+      <div class="-m-1.5 overflow-x-auto">
+        <div class="p-1.5 min-w-full inline-block align-middle">
+          <div class="overflow-hidden">
+            <table class="min-w-full divide-y divide-gray-500">
+              <thead>
               <tr>
-                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">{{ trade.office }}</td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">{{ trade.symbol }} - {{ trade.assetDescription }}</td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">{{ trade.disclosureDate }}</td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">{{ trade.transactionDate }}</td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">{{ trade.owner }}</td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">{{ trade.type }}</td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">{{ trade.amount }}</td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">{{ trade.type }}</td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">{{ trade.assetType }}</td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">{{ trade.link }}</td>
+                <th scope="col" class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">Politician</th>
+                <th scope="col" class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">Trade</th>
+                <th scope="col" class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">Action</th>
+                <th scope="col" class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">Disclosed</th>
+                <th scope="col" class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">Traded</th>
+                <th scope="col" class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">Size</th>
+                <th scope="col" class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">Owner</th>
               </tr>
-            }
-          </tbody>
-        </table>
+              </thead>
+              <tbody class="divide-y divide-gray-300">
+                @for (trade of senateTrades; track $index) {
+                  <tr>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">{{ trade.office }}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">{{ trade.symbol }} - {{ trade.assetDescription }}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-blue-500">
+                      <a href="{{ trade.link }}">{{ trade.assetType }} {{ trade.type }}</a>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">{{ trade.disclosureDate }}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">{{ trade.transactionDate }}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">{{ trade.amount }}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">{{ trade.owner }}</td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-</div>
+  </mat-tab>
+</mat-tab-group>
