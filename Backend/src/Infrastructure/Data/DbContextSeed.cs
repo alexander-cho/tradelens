@@ -6,7 +6,7 @@ namespace Infrastructure.Data;
 
 public class DbContextSeed
 {
-    public static async Task SeedPostsAsync(TradeLensDbContext context)
+    public static async Task SeedPostsAsync(TradelensDbContext context)
     {
         //
         var path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
@@ -15,8 +15,8 @@ public class DbContextSeed
         if (!context.Posts.Any())
         {
             // in production
-            var postsData = await File.ReadAllTextAsync(path + @"/Data/SeedData/posts.json");
-            // var postsData = await File.ReadAllTextAsync("../Infrastructure/Data/SeedData/posts.json");
+            // var postsData = await File.ReadAllTextAsync(path + @"/Data/SeedData/posts.json");
+            var postsData = await File.ReadAllTextAsync("../Infrastructure/Data/SeedData/posts.json");
             var posts = JsonSerializer.Deserialize<List<Post>>(postsData);
             // if there is no data
             if (posts == null)
@@ -29,22 +29,22 @@ public class DbContextSeed
         }
     }
 
-    public static async Task SeedCompanyData(TradeLensDbContext context)
+    public static async Task SeedCompanyData(TradelensDbContext context)
     {
         var path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
         
         if (!context.Stocks.Any())
         {
-            var stocksData = await File.ReadAllTextAsync(path + @"/Data/SeedData/tickers.json");
-            // var stocksData = await File.ReadAllTextAsync("../Infrastructure/Data/SeedData/tickers.json");
+            // var stocksData = await File.ReadAllTextAsync(path + @"/Data/SeedData/tickers.json");
+            var stocksData = await File.ReadAllTextAsync("../Infrastructure/Data/SeedData/tickers.json");
             var stocks = JsonSerializer.Deserialize<List<Stock>>(stocksData);
-
+    
             // if there is no data
             if (stocks == null)
             {
                 return;
             }
-
+    
             context.Stocks.AddRange(stocks);
             await context.SaveChangesAsync();
         }

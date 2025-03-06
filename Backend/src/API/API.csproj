@@ -21,4 +21,16 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="wwwroot\3rdpartylicenses.txt" />
+    <_ContentIncludedByDefault Remove="wwwroot\chunk-3OMB65A2.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\chunk-I7XMQMNH.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\favicon.ico" />
+    <_ContentIncludedByDefault Remove="wwwroot\index.html" />
+    <_ContentIncludedByDefault Remove="wwwroot\main-IOT3QKB7.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\polyfills-FFHMD2TL.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\prerendered-routes.json" />
+    <_ContentIncludedByDefault Remove="wwwroot\styles-PPE2X33L.css" />
+  </ItemGroup>
+
 </Project>

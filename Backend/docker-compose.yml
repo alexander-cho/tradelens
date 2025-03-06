@@ -1,20 +1,35 @@
 services:
   sql:
-    image: mcr.microsoft.com/azure-sql-edge
+    image: postgres:17.2-alpine3.21
+    container_name: tradelens-db
+    restart: always
     environment:
-      ACCEPT_EULA: "1"
-      MSSQL_SA_PASSWORD: "Password@1"
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=tradelens-db
     ports:
-      - "2000:1433"
+      - "5430:5432"
     volumes:
-      - sql-data:/var/opt/mssql
+      - sql-data:/var/lib/postgresql/data
+
   redis:
     image: redis:latest
+    container_name: redis
     ports:
       - "6379:6379"
     volumes:
       - redis-data:/data
-        
+
+  app:
+    container_name: tradelens-app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "6501:6501"
+    depends_on:
+      - sql
+
 volumes:
   redis-data:
   sql-data:

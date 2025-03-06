@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repositories;
 
-public class PostRepository(TradeLensDbContext context) : IPostRepository
+public class PostRepository(TradelensDbContext context) : IPostRepository
 {
     public async Task<IReadOnlyList<Post>> GetPostsAsync(string? ticker, string? sentiment, string? sort)
     {

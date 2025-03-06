@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Data;
 
-public class TradeLensDbContext(DbContextOptions options) : IdentityDbContext<User>(options)
+public class TradelensDbContext(DbContextOptions options) : IdentityDbContext<User>(options)
 {
     
     // define entities
