@@ -17,13 +17,9 @@ builder.Services.AddControllers();
 // builder.Services.AddOpenApi();
 
 // register Db Context
-builder.Services.AddDbContext<TradeLensDbContext>(opt =>
+builder.Services.AddDbContext<TradelensDbContext>(opt =>
 {
-    opt.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"),
-        sqlOptions => sqlOptions.EnableRetryOnFailure(
-            maxRetryCount: 5,
-            maxRetryDelay: TimeSpan.FromSeconds(60),
-            errorNumbersToAdd: null));
+    opt.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 
 builder.Services.AddScoped<IPostRepository, PostRepository>();
@@ -41,7 +37,7 @@ builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepositor
 
 // authentication with Identity
 builder.Services.AddAuthorization();
-builder.Services.AddIdentityApiEndpoints<User>().AddEntityFrameworkStores<TradeLensDbContext>();
+builder.Services.AddIdentityApiEndpoints<User>().AddEntityFrameworkStores<TradelensDbContext>();
 
 // CORS
 builder.Services.AddCors();
@@ -104,7 +100,7 @@ try
 {
     using var scope = app.Services.CreateScope();
     var services = scope.ServiceProvider;
-    var context = services.GetRequiredService<TradeLensDbContext>();
+    var context = services.GetRequiredService<TradelensDbContext>();
     await context.Database.MigrateAsync();
     await DbContextSeed.SeedPostsAsync(context);
     await DbContextSeed.SeedCompanyData(context);

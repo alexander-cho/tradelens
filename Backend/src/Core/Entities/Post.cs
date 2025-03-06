@@ -7,5 +7,5 @@ public class Post : BaseEntity
     public required string Ticker { get; set; }
     public required string Content { get; set; }
     public required string Sentiment { get; set; }
-    public DateTime CreatedOn { get; set; } = DateTime.Now;
+    public DateTime CreatedOn { get; set; } = DateTime.UtcNow;
 }
