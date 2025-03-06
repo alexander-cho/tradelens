@@ -8,7 +8,7 @@ namespace Infrastructure.Repositories;
 // generic repo for crud. compiler cannot infer type <T> of entity to be passed in as a parameter,
 // so Set<T> the type
 
-public class GenericRepository<T>(TradeLensDbContext context) : IGenericRepository<T> where T : BaseEntity
+public class GenericRepository<T>(TradelensDbContext context) : IGenericRepository<T> where T : BaseEntity
 {
     public async Task<IReadOnlyList<T>> ListAllAsync()
     {

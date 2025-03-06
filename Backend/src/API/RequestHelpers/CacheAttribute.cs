@@ -1,5 +1,5 @@
 using System.Text;
-using Azure.Core;
+// using Azure.Core;
 using Core.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
