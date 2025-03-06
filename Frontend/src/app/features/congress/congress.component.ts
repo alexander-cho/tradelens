@@ -2,10 +2,11 @@ import { Component, inject, OnInit } from '@angular/core';
 import { CongressService } from '../../core/services/congress.service';
 import { NavbarComponent } from '../../layout/navbar/navbar.component';
 import { CongressTrades } from '../../shared/models/fmp';
+import { MatTab, MatTabGroup } from '@angular/material/tabs';
 
 @Component({
   selector: 'app-congress',
-  imports: [NavbarComponent],
+  imports: [NavbarComponent, MatTabGroup, MatTab],
   templateUrl: './congress.component.html',
   styleUrl: './congress.component.scss'
 })
@@ -27,7 +28,7 @@ export class CongressComponent implements OnInit {
         console.log(response);
       },
       error: err => console.log(err)
-    })
+    });
   }
 
   getSenateTrades() {
@@ -37,6 +38,6 @@ export class CongressComponent implements OnInit {
         console.log(response);
       },
       error: err => console.log(err)
-    })
+    });
   }
 }
