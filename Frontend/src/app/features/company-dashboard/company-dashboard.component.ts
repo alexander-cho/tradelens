@@ -3,12 +3,14 @@ import { NavbarComponent } from '../../layout/navbar/navbar.component';
 import { DashboardService } from '../../core/services/dashboard.service';
 import { RelatedCompanies } from '../../shared/models/polygon';
 import { CandlestickChartComponent } from './candlestick-chart/candlestick-chart.component';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-company-dashboard',
   imports: [
     NavbarComponent,
-    CandlestickChartComponent
+    CandlestickChartComponent,
+    RouterLink
   ],
   templateUrl: './company-dashboard.component.html',
   styleUrl: './company-dashboard.component.scss'
