@@ -20,6 +20,10 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
   </ItemGroup>
+  
+  <ItemGroup>
+    <InternalsVisibleTo Include="API.Tests" />
+  </ItemGroup>
 
   <ItemGroup>
     <_ContentIncludedByDefault Remove="wwwroot\3rdpartylicenses.txt" />
