@@ -36,5 +36,9 @@
     <_ContentIncludedByDefault Remove="wwwroot\prerendered-routes.json" />
     <_ContentIncludedByDefault Remove="wwwroot\styles-PPE2X33L.css" />
   </ItemGroup>
+  
+  <ItemGroup>
+    <InternalsVisibleTo Include="API.Tests" />
+  </ItemGroup>
 
 </Project>
