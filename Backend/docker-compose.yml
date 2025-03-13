@@ -15,10 +15,6 @@ services:
       - ASPNETCORE_URLS=http://*:6501
     depends_on:
       - sql
-#    logging:
-#      driver: fluentd
-#      options:
-#        fluentd-address: fluent-bit:24224
   
   # backing services
   
@@ -50,6 +46,7 @@ services:
   grafana:
     container_name: grafana
     image: grafana/grafana:11.5.2
+    user: "501"
     platform: linux/amd64
     depends_on:
       - loki
@@ -67,22 +64,29 @@ services:
     container_name: loki
     image: grafana/loki:3.4
     platform: linux/amd64
-    depends_on:
-      - fluent-bit
+    volumes:
+      # mount the loki config file
+      - ./observability/loki/loki-config.yml:/mnt/config/loki-config.yml
     ports:
       - "3100:3100"
+    command: -config.file=/mnt/config/loki-config.yml
   
-  fluent-bit:
-    container_name: fluent-bit
-    image: grafana/fluent-bit-plugin-loki:3.4.2-amd64
-    platform: linux/amd64
+  promtail:
+    container_name: promtail
+    image: grafana/promtail:3.4.2-arm64
     ports:
-      - "24224:24224"
-    # url to forward log messages
-    environment:
-      - LOKI_URL=http://loki:3100/loki/api/v1/push
+      - "9080:9080"
     volumes:
-      - ./observability/fluent-bit/fluent-bit.conf:/fluent-bit/etc/fluent-bit.conf
+      # mount the promtail config file
+      - ./observability/promtail/promtail-config.yml:/mnt/config/promtail-config.yml
+#      - /var/log:/var/log
+      - /var/lib/docker/containers:/var/lib/docker/containers
+      - /var/run/docker.sock:/var/run/docker.sock
+    depends_on:
+      - loki
+    command: -config.file=/mnt/config/promtail-config.yml
+#    environment:
+#      - LOKI_URL=http://localhost:3100/loki/api/v1/push
 
 
 volumes:

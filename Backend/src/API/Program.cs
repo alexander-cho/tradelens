@@ -7,6 +7,7 @@ using Infrastructure.Repositories;
 using Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
 using Npgsql;
+using OpenTelemetry.Logs;
 using StackExchange.Redis;
 using Polly;
 using Polly.Retry;
@@ -24,6 +25,10 @@ builder.Services.AddDbContext<TradelensDbContext>(opt =>
 {
     opt.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
+
+// logging
+builder.Logging.ClearProviders();
+builder.Logging.AddOpenTelemetry(logging => logging.AddConsoleExporter());
 
 builder.Services.AddScoped<IPostRepository, PostRepository>();
 
