@@ -6,7 +6,11 @@ using Infrastructure.Data;
 using Infrastructure.Repositories;
 using Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
+using Npgsql;
+using OpenTelemetry.Logs;
 using StackExchange.Redis;
+using Polly;
+using Polly.Retry;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,6 +25,10 @@ builder.Services.AddDbContext<TradelensDbContext>(opt =>
 {
     opt.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
+
+// logging
+builder.Logging.ClearProviders();
+builder.Logging.AddOpenTelemetry(logging => logging.AddConsoleExporter());
 
 builder.Services.AddScoped<IPostRepository, PostRepository>();
 
@@ -101,6 +109,23 @@ try
     using var scope = app.Services.CreateScope();
     var services = scope.ServiceProvider;
     var context = services.GetRequiredService<TradelensDbContext>();
+    
+    // retry policy for Npgsql exceptions
+    AsyncRetryPolicy retryPolicy = Policy
+        .Handle<NpgsqlException>()
+        .WaitAndRetryAsync(
+            retryCount: 5,
+            sleepDurationProvider: retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)),
+            onRetry: (exception, retryCount, context) =>
+            {
+                Console.WriteLine($"Retry {retryCount} due to {exception.Message}");
+            });
+
+    await retryPolicy.ExecuteAsync(async () =>
+    {
+        await context.Database.MigrateAsync();
+    });
+    
     await context.Database.MigrateAsync();
     await DbContextSeed.SeedPostsAsync(context);
     await DbContextSeed.SeedCompanyData(context);
