@@ -126,7 +126,6 @@ try
         await context.Database.MigrateAsync();
     });
     
-    await context.Database.MigrateAsync();
     await DbContextSeed.SeedPostsAsync(context);
     await DbContextSeed.SeedCompanyData(context);
 }
@@ -137,3 +136,5 @@ catch (Exception exception)
 }
 
 app.Run();
+
+public partial class Program {}
