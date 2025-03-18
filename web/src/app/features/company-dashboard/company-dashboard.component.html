@@ -1,0 +1,11 @@
+<app-navbar></app-navbar>
+
+<app-candlestick-chart [ticker]="ticker()"></app-candlestick-chart>
+
+Related Companies
+<br>
+@if (relatedCompanies) {
+  @for (relatedCompany of relatedCompanies.results; track $index) {
+    <a href="/companies/{{relatedCompany.ticker}}">{{ relatedCompany.ticker }}</a> <br>
+  }
+}
