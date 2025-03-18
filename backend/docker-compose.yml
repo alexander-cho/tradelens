@@ -55,10 +55,8 @@ services:
     environment:
       - GF_SECURITY_ADMIN_USER=user
       - GF_SECURITY_ADMIN_PASSWORD=password
-  #    volumes:
-  #      - ./observability/grafana/datasource.yml:/etc/grafana/provisioning/datasources/datasource.yml
-  #      - ./observability/grafana/dashboards:/etc/grafana/provisioning/dashboards
-  #      - ./observability/grafana/grafana.ini:/etc/grafana/grafana.ini
+    volumes:
+      - ./observability/grafana/grafana.ini:/etc/grafana/grafana.ini
   
   loki:
     container_name: loki
