@@ -17,9 +17,9 @@ public class DbContextSeed
             // in production
             // var postsData = await File.ReadAllTextAsync(path + @"/Data/SeedData/posts.json");
             
-            var postsData = await File.ReadAllTextAsync("../Infrastructure/Data/SeedData/posts.json");
+            // var postsData = await File.ReadAllTextAsync("../Infrastructure/Data/SeedData/posts.json");
             
-            // var postsData = await File.ReadAllTextAsync(path);
+            var postsData = await File.ReadAllTextAsync(path);
             
             var posts = JsonSerializer.Deserialize<List<Post>>(postsData);
             // if there is no data
@@ -42,9 +42,9 @@ public class DbContextSeed
         {
             // var stocksData = await File.ReadAllTextAsync(path + @"/Data/SeedData/tickers.json");
             
-            var stocksData = await File.ReadAllTextAsync("../Infrastructure/Data/SeedData/tickers.json");
+            // var stocksData = await File.ReadAllTextAsync("../Infrastructure/Data/SeedData/tickers.json");
             
-            // var stocksData = await File.ReadAllTextAsync(path);
+            var stocksData = await File.ReadAllTextAsync(path);
             var stocks = JsonSerializer.Deserialize<List<Stock>>(stocksData);
     
             // if there is no data

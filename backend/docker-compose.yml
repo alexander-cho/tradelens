@@ -10,8 +10,8 @@ services:
     ports:
       - "6502:6501"
     environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-      - ConnectionStrings__DefaultConnection=Host=sql;Port=5432;Database=tradelens-db;Username=postgres;Password=postgres
+      - ASPNETCORE_ENVIRONMENT=Staging
+#      - ConnectionStrings__DefaultConnection=Host=sql;Port=5432;Database=tradelens-db;Username=postgres;Password=postgres
       - ASPNETCORE_URLS=http://*:6501
     depends_on:
       - sql
@@ -38,8 +38,8 @@ services:
       - "6379:6379"
     volumes:
       - redis-data:/data
-    environment:
-      - ConnectionStrings__Redis=redis
+#    environment:
+#      - ConnectionStrings__Redis=redis
   
   # observability
   

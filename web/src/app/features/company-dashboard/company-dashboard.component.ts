@@ -10,7 +10,7 @@ import { RouterLink } from '@angular/router';
   imports: [
     NavbarComponent,
     CandlestickChartComponent,
-    RouterLink
+    // RouterLink
   ],
   templateUrl: './company-dashboard.component.html',
   styleUrl: './company-dashboard.component.scss'
