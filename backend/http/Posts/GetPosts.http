@@ -1,0 +1,2 @@
+# get all posts with content containing specified string
+GET https://localhost:6001/api/posts?search=telehealth
