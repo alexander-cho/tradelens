@@ -4,7 +4,7 @@ using Core.Entities;
 
 namespace Infrastructure.Data;
 
-public class DbContextSeed
+public static class DbContextSeed
 {
     public static async Task SeedPostsAsync(TradelensDbContext context)
     {
