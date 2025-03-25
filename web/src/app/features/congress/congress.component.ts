@@ -25,7 +25,6 @@ export class CongressComponent implements OnInit {
     this.congressService.getHouseTrades().subscribe({
       next: response => {
         this.houseTrades = response;
-        console.log(response);
       },
       error: err => console.log(err)
     });
@@ -35,7 +34,6 @@ export class CongressComponent implements OnInit {
     this.congressService.getSenateTrades().subscribe({
       next: response => {
         this.senateTrades = response;
-        console.log(response);
       },
       error: err => console.log(err)
     });

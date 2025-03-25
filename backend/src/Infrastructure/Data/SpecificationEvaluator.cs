@@ -5,7 +5,7 @@ namespace Infrastructure.Data;
 
 // define, build up actual query expressions that will interact with DB
 
-public class SpecificationEvaluator<T> where T : BaseEntity
+public static class SpecificationEvaluator<T> where T : BaseEntity
 {
     public static IQueryable<T> GetQuery(IQueryable<T> query, ISpecification<T> specification)
     {
@@ -15,7 +15,7 @@ public class SpecificationEvaluator<T> where T : BaseEntity
             query = query.Where(specification.Criteria);
         }
 
-        // if there is an OrderBy expression passed thorugh in the parameters
+        // if there is an OrderBy expression passed through in the parameters
         if (specification.OrderBy != null)
         {
             query = query.OrderBy(specification.OrderBy);
