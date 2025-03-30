@@ -12,13 +12,13 @@ public static class HttpClientFactoryExtensions
         
         services.AddHttpClient("Fmp", client =>
         {
-            // client.BaseAddress = new Uri("https://financialmodelingprep.com/stable/");
+            client.BaseAddress = new Uri("https://financialmodelingprep.com/stable/");
             client.DefaultRequestHeaders.Add("Accept", "application/json");
         });
 
         services.AddHttpClient("Finnhub", client =>
         {
-            // client.BaseAddress = new Uri("https://finnhub.io/api/v1/stock/");
+            client.BaseAddress = new Uri("https://finnhub.io/api/v1/stock/");
             client.DefaultRequestHeaders.Add("Accept", "application/json");
         });
         
