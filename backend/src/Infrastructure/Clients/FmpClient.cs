@@ -7,22 +7,20 @@ namespace Infrastructure.Clients;
 
 public class FmpClient : IFmpClient
 {
-    private readonly HttpClient _httpClient;
+    private readonly IHttpClientFactory _httpClientFactory;
     private readonly string? _fmpApiKey;
-    private const string BaseUrl = "https://financialmodelingprep.com/stable/";
     
     public FmpClient(IHttpClientFactory httpClientFactory, IConfiguration configuration)
     {
-        _httpClient = httpClientFactory.CreateClient("Polygon");
-        _httpClient.BaseAddress = new Uri(BaseUrl);
-        _fmpApiKey = configuration["DataApiKeys:FmpApiKey"];
+        this._httpClientFactory = httpClientFactory;
+        this._fmpApiKey = configuration["DataApiKeys:FmpApiKey"];
     }
 
     public async Task<IEnumerable<CongressTradesDto>> GetLatestHouseTradesAsync()
     {
-        var url = $"house-latest?apikey={_fmpApiKey}";
+        var client = _httpClientFactory.CreateClient("Fmp");
         
-        var response = await _httpClient.GetAsync(url);
+        var response = await client.GetAsync($"house-latest?apikey={_fmpApiKey}");
         response.EnsureSuccessStatusCode();
         
         return await response.Content.ReadFromJsonAsync<IEnumerable<CongressTradesDto>>();
@@ -30,9 +28,9 @@ public class FmpClient : IFmpClient
     
     public async Task<IEnumerable<CongressTradesDto>> GetLatestSenateTradesAsync()
     {
-        var url = $"senate-latest?apikey={_fmpApiKey}";
+        var client = _httpClientFactory.CreateClient("Fmp");
         
-        var response = await _httpClient.GetAsync(url);
+        var response = await client.GetAsync($"senate-latest?apikey={_fmpApiKey}");
         response.EnsureSuccessStatusCode();
         
         return await response.Content.ReadFromJsonAsync<IEnumerable<CongressTradesDto>>();
