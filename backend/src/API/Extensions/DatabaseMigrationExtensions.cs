@@ -6,7 +6,7 @@ using Polly.Retry;
 
 namespace API.Extensions;
 
-public static class DbMigrationExtensions
+public static class DatabaseMigrationExtensions
 {
     public static async Task MigrateAndSeedDatabaseAsync(this WebApplication app)
     {
