@@ -36,6 +36,8 @@ builder.Services.AddScoped<IPolygonService, PolygonService>();
 builder.Services.AddScoped<IPolygonClient, PolygonClient>();
 builder.Services.AddScoped<IFmpService, FmpService>();
 builder.Services.AddScoped<IFmpClient, FmpClient>();
+builder.Services.AddScoped<IFinnhubClient, FinnhubClient>();
+builder.Services.AddScoped<IFinnhubService, FinnhubService>();
 
 // redis caching service functionality is a singleton so users can access same instance
 builder.Services.AddSingleton<IResponseCacheService, ResponseCacheService>();
@@ -73,6 +75,11 @@ builder.Services.AddHttpClient("Polygon", client =>
 builder.Services.AddHttpClient("Fmp", client =>
 {
     // client.BaseAddress = new Uri("https://financialmodelingprep.com/stable/");
+    client.DefaultRequestHeaders.Add("Accept", "application/json");
+});
+
+builder.Services.AddHttpClient("Finnhub", client =>
+{
     client.DefaultRequestHeaders.Add("Accept", "application/json");
 });
 
