@@ -6,14 +6,14 @@ export type BarAggregates = {
   results: Bar[];
 }
 
-type Bar = {
+export type Bar = {
   v: number;
   vw: number;
   o: number;
   c: number;
   h: number;
   l: number;
-  t: bigint;
+  t: number;
   n: number;
 }
 
