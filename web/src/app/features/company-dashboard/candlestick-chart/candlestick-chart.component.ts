@@ -19,8 +19,8 @@ export class CandlestickChartComponent implements OnInit {
   // get ticker from parent component
   ticker = input.required<string>();
 
-  multiplier = 1;
-  timespan = "hour";
+  multiplier = 5;
+  timespan = "minute";
   from = "2025-03-13";
   to = "2025-03-14";
   dashboardService = inject(DashboardService);
