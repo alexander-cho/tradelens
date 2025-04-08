@@ -1,5 +1,3 @@
-{{ stock?.ticker }} - {{ stock?.companyName }}
-
 <!--<br><br><br>-->
 
 <!--1day -> from=today-1, to=today, 5minute | 15minute | 1hour <br>-->
@@ -9,8 +7,7 @@
 <!--1year -> from today-365, to=today, 1day | 1week | 1month <br>-->
 
 <!-- just give one option per timespan for more simplicity, e.g. the 5 minute bars for 1 day chart-->
-<mat-card></mat-card>
-<br><br>
+<br>
 @for (option of candlestickChartOptions; track $index) {
   {{ option }}
 }

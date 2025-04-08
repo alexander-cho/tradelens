@@ -2,12 +2,11 @@ import { Component, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { AuthService } from '../../../core/services/auth.service';
 import { Router, RouterLink } from '@angular/router';
-import { MatCard } from '@angular/material/card';
 import { MatInput } from '@angular/material/input';
 
 @Component({
   selector: 'app-register',
-  imports: [ReactiveFormsModule, MatCard, MatInput, RouterLink],
+  imports: [ReactiveFormsModule, MatInput, RouterLink],
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss'
 })
