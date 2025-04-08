@@ -3,7 +3,6 @@ import { DashboardService } from '../../../core/services/dashboard.service';
 import { Bar, BarAggregates } from '../../../shared/models/polygon';
 import { FormsModule } from '@angular/forms';
 import { ChartComponent, NgApexchartsModule } from "ng-apexcharts";
-import { MatButton } from "@angular/material/button";
 import { Stock } from "../../../shared/models/stock";
 import { ChartOptions } from "../../../shared/models/charting";
 import { MatCard } from "@angular/material/card";
@@ -11,7 +10,7 @@ import { MatCard } from "@angular/material/card";
 @Component({
   selector: 'app-candlestick-chart',
   imports: [
-    FormsModule, NgApexchartsModule, MatButton, MatCard
+    FormsModule, NgApexchartsModule, MatCard
   ],
   templateUrl: './candlestick-chart.component.html',
   styleUrl: './candlestick-chart.component.scss'
