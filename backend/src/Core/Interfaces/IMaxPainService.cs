@@ -4,5 +4,5 @@ namespace Core.Interfaces;
 
 public interface IMaxPainService
 {
-    Task<OptionsData> GetOptionChainsAsync();
+    Task<OptionsData> GetMaxPainCalculation();
 }

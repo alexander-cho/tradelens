@@ -1,5 +1,6 @@
 using Core.DTOs.Tradier;
 using Core.Interfaces;
+using Microsoft.Extensions.Logging;
 
 namespace Infrastructure.Services;
 
@@ -11,7 +12,7 @@ public class MaxPainService : IMaxPainService
     {
         _client = client;
     }
-    public async Task<OptionsData> GetOptionChainsAsync()
+    public async Task<OptionsData> GetMaxPainCalculation()
     {
         return await _client.GetOptionChainsAsync();
     }

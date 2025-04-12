@@ -9,16 +9,24 @@ public class OptionsData
 
 public class FullOptionChain
 {
-    public required List<Strike> Option { get; set; }
+    public required List<StrikePriceData> Option { get; set; }
 }
 
-public class Strike
+public class StrikePriceData
 {
     public required string Symbol { get; set; }
-    public required string Description { get; set; }
+    public string? Description { get; set; }
+    public required string Underlying { get; set; }
+    public float Strike { get; set; }
+    
+    [JsonPropertyName("open_interest")]
+    public int OpenInterest { get; set; }
     
     [JsonPropertyName("expiration_date")]
     public required string ExpirationDate { get; set; }
+    
+    [JsonPropertyName("option_type")]
+    public required string OptionType { get; set; }
 }
 
 // public class Greeks
