@@ -1,6 +1,6 @@
-using Core.DTOs.Polygon;
 using Core.DTOs.Tradier;
 using Core.Interfaces;
+using Core.Specifications;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
@@ -18,9 +18,9 @@ public class OptionsController : ControllerBase
     }
 
     [HttpGet("MaxPain")]
-    public async Task<ActionResult<OptionsData>> GetMaxPain()
+    public async Task<ActionResult<OptionsData>> GetMaxPain([FromQuery] TradierOptionChainSpecParams tradierOptionChainSpecParams)
     {
-        return await _maxPainService.GetMaxPainCalculation();
+        return await _maxPainService.GetMaxPainCalculation(tradierOptionChainSpecParams);
     }
 
     // [HttpGet("BarAggs")]

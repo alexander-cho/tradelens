@@ -1,8 +1,9 @@
 using Core.DTOs.Tradier;
+using Core.Specifications;
 
 namespace Core.Interfaces;
 
 public interface ITradierClient
 {
-    Task<OptionsData> GetOptionChainsAsync();
+    Task<OptionsData> GetOptionChainsAsync(TradierOptionChainSpecParams tradierOptionChainSpecParams);
 }

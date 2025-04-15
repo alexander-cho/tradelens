@@ -1,6 +1,7 @@
 using System.Net.Http.Json;
 using Core.DTOs.Tradier;
 using Core.Interfaces;
+using Core.Specifications;
 using Infrastructure.Services;
 using Microsoft.Extensions.Logging;
 
@@ -17,11 +18,11 @@ public class TradierClient : ITradierClient
         this._logger = logger;
     }
 
-    public async Task<OptionsData> GetOptionChainsAsync()
+    public async Task<OptionsData> GetOptionChainsAsync(TradierOptionChainSpecParams tradierOptionChainSpecParams)
     {
         var client = _httpClientFactory.CreateClient("Tradier");
         
-        var response = await client.GetAsync("options/chains?symbol=SOFI&expiration=2025-04-11&greeks=true");
+        var response = await client.GetAsync($"options/chains?symbol={tradierOptionChainSpecParams.Symbol}&expiration={tradierOptionChainSpecParams.Expiration}&greeks={tradierOptionChainSpecParams.Greeks}");
         response.EnsureSuccessStatusCode();
         if (response.IsSuccessStatusCode) ;
         

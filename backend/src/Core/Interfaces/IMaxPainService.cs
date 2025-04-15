@@ -1,8 +1,9 @@
 using Core.DTOs.Tradier;
+using Core.Specifications;
 
 namespace Core.Interfaces;
 
 public interface IMaxPainService
 {
-    Task<OptionsData> GetMaxPainCalculation();
+    Task<OptionsData> GetMaxPainCalculation(TradierOptionChainSpecParams tradierOptionChainSpecParams);
 }
