@@ -22,7 +22,7 @@ builder.Services.AddRepositories();
 
 builder.Services.AddIdentityConfiguration();
 
-builder.Services.AddHttpClients();
+builder.Services.AddHttpClients(builder.Configuration);
 
 
 var app = builder.Build();

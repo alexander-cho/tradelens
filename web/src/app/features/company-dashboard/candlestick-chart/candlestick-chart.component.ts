@@ -21,8 +21,8 @@ export class CandlestickChartComponent implements OnInit {
 
   multiplier = 5;
   timespan = "minute";
-  from = "2025-03-13";
-  to = "2025-03-14";
+  from = "2025-06-09";
+  to = "2025-06-27";
   dashboardService = inject(DashboardService);
 
   candlestickChartOptions = ['1d', '5d', '1m', '3m', '6m', '1y'];

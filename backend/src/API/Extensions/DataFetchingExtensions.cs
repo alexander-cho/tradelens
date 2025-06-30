@@ -17,8 +17,13 @@ public static class DataFetchingExtensions
             .AddScoped<IFmpClient, FmpClient>()
             // Finnhub services
             .AddScoped<IFinnhubService, FinnhubService>()
-            .AddScoped<IFinnhubClient, FinnhubClient>();
-        
+            .AddScoped<IFinnhubClient, FinnhubClient>()
+            // Tradier services
+            .AddScoped<ITradierClient, TradierClient>()
+            
+            // Option maximum pain
+            .AddScoped<IMaxPainService, MaxPainService>();
+
         return services;
     }
 }
