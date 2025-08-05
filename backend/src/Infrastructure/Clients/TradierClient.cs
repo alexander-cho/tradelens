@@ -2,7 +2,7 @@ using System.Net.Http.Json;
 using Core.DTOs.Tradier;
 using Core.Interfaces;
 using Core.Specifications;
-using Infrastructure.Services;
+// using Infrastructure.Services;
 using Microsoft.Extensions.Logging;
 
 namespace Infrastructure.Clients;
@@ -24,17 +24,18 @@ public class TradierClient : ITradierClient
         
         var response = await client.GetAsync($"options/chains?symbol={tradierOptionChainSpecParams.Symbol}&expiration={tradierOptionChainSpecParams.Expiration}&greeks={tradierOptionChainSpecParams.Greeks}");
         response.EnsureSuccessStatusCode();
-        if (response.IsSuccessStatusCode) ;
-        
-        var optionData = await response.Content.ReadFromJsonAsync<OptionsData>();
-        
-        _logger.LogInformation("Retrieved {optionData}", optionData);
-
-        if (optionData != null)
+        if (response.IsSuccessStatusCode)
         {
-            return optionData;
+            var optionData = await response.Content.ReadFromJsonAsync<OptionsData>();
+
+            _logger.LogInformation("Retrieved {optionData}", optionData);
+
+            if (optionData != null)
+            {
+                return optionData;
+            }
         }
-        
+
         throw new HttpRequestException($"Failed to get bar aggregates. Status code: {response.StatusCode}");
     }
 }
