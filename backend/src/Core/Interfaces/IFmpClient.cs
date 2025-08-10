@@ -6,4 +6,5 @@ public interface IFmpClient
 {
     Task<IEnumerable<CongressTradesDto>> GetLatestHouseTradesAsync();
     Task<IEnumerable<CongressTradesDto>> GetLatestSenateTradesAsync();
+    Task<IEnumerable<RevenueSegmentation>> GetRevenueProductSegmentationAsync();
 }

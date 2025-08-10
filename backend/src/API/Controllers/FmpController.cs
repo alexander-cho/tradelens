@@ -29,4 +29,10 @@ public class FmpController : ControllerBase
     {
         return Ok(await this._service.GetLatestSenateTradesAsync());
     }
+
+    [HttpGet("revenue-segmentation")]
+    public async Task<ActionResult<IEnumerable<RevenueSegmentation>>> GetRevenueProductSegmentation()
+    {
+        return Ok(await this._service.GetRevenueProductSegmentationAsync());
+    }
 }

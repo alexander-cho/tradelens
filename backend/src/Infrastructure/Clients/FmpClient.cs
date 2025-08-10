@@ -35,4 +35,14 @@ public class FmpClient : IFmpClient
         
         return await response.Content.ReadFromJsonAsync<IEnumerable<CongressTradesDto>>();
     }
+
+    public async Task<IEnumerable<RevenueSegmentation>> GetRevenueProductSegmentationAsync()
+    {
+        var client = _httpClientFactory.CreateClient("Fmp");
+        
+        var response = await client.GetAsync($"revenue-product-segmentation?symbol=SOFI&limit=5&period=annual&apikey={_fmpApiKey}");
+        response.EnsureSuccessStatusCode();
+        
+        return await response.Content.ReadFromJsonAsync<IEnumerable<RevenueSegmentation>>();
+    }
 }
