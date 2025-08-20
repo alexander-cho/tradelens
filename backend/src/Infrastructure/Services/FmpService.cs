@@ -21,4 +21,9 @@ public class FmpService : IFmpService
     {
         return await _fmpClient.GetLatestSenateTradesAsync();
     }
+
+    public async Task<IEnumerable<RevenueSegmentation>> GetRevenueProductSegmentationAsync()
+    {
+        return await _fmpClient.GetRevenueProductSegmentationAsync();
+    }
 }
