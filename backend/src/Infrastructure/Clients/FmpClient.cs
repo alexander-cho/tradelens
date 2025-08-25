@@ -45,4 +45,9 @@ public class FmpClient : IFmpClient
         
         return await response.Content.ReadFromJsonAsync<IEnumerable<RevenueSegmentation>>();
     }
+
+    public Task<IEnumerable<FinancialMetric>> GetIncomeStatementAsync()
+    {
+        throw new NotImplementedException();
+    }
 }
