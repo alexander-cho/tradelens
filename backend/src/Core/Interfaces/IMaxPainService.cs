@@ -5,5 +5,5 @@ namespace Core.Interfaces;
 
 public interface IMaxPainService
 {
-    Task<OptionsData> GetMaxPainCalculation(TradierOptionChainSpecParams tradierOptionChainSpecParams);
+    Task<OptionsData> GetMaxPainCalculationAsync(TradierOptionChainSpecParams tradierOptionChainSpecParams);
 }

@@ -20,7 +20,7 @@ public static class DataFetchingExtensions
             .AddScoped<IFinnhubClient, FinnhubClient>()
             // Tradier services
             .AddScoped<ITradierClient, TradierClient>()
-            
+            .AddScoped<ITradierService, TradierService>()
             // Option maximum pain
             .AddScoped<IMaxPainService, MaxPainService>();
 

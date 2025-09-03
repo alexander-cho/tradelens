@@ -38,4 +38,25 @@ public class TradierClient : ITradierClient
 
         throw new HttpRequestException($"Failed to get bar aggregates. Status code: {response.StatusCode}");
     }
+
+    public async Task<ExpiryData> GetExpiryDataForUnderlyingAsync(string symbol)
+    {
+        var client = _httpClientFactory.CreateClient("Tradier");
+        
+        var response = await client.GetAsync($"options/expirations?symbol={symbol}");
+        response.EnsureSuccessStatusCode();
+        if (response.IsSuccessStatusCode)
+        {
+            var expiryData = await response.Content.ReadFromJsonAsync<ExpiryData>();
+
+            _logger.LogInformation("Retrieved {expiryData}", expiryData);
+
+            if (expiryData != null)
+            {
+                return expiryData;
+            }
+        }
+        
+        throw new HttpRequestException($"Failed to get expiry data for {symbol}");
+    }
 }

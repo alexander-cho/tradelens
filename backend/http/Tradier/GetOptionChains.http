@@ -1,1 +1,1 @@
-GET https://localhost:6001/api/MaxPain
+GET https://localhost:6001/api/options/MaxPain?symbol=SOFI&expiration=2025-08-29&greeks=true

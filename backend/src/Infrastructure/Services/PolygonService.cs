@@ -10,7 +10,7 @@ public class PolygonService : IPolygonService
 
     public PolygonService(IPolygonClient client)
     {
-        _client = client;
+        this._client = client;
     }
 
     public async Task<BarAggregateDto> GetBarAggregatesAsync(PolygonBarAggSpecParams polygonBarAggSpecParams)
