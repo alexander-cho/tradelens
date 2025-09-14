@@ -1,3 +1,4 @@
+using Core.DTOs.Options;
 using Core.DTOs.Tradier;
 using Core.Interfaces;
 using Core.Specifications;
@@ -20,9 +21,9 @@ public class OptionsController : ControllerBase
     }
     
     [HttpGet("CashValues")]
-    public async Task<ActionResult<OptionsData>> GetMaxPain([FromQuery] TradierOptionChainSpecParams tradierOptionChainSpecParams)
+    public List<CashSumAtPrice> GetMaxPain([FromQuery] TradierOptionChainSpecParams tradierOptionChainSpecParams)
     {
-        return await _maxPainService.CalculateCashValuesForOneExpirationAsync(tradierOptionChainSpecParams);
+        return _maxPainService.CalculateCashValuesForOneExpirationAsync(tradierOptionChainSpecParams);
     }
 
     [HttpGet("expirations")]
