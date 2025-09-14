@@ -2,7 +2,12 @@ namespace Core.DTOs.Options;
 
 public class MaxPain
 {
-    
+}
+
+public class CallsAndPutsCashSums
+{
+    public required List<CashSumAtPrice> CallCashSums { get; set; }
+    public required List<CashSumAtPrice> PutCashSums { get; set; }
 }
 
 public class CashSumAtPrice

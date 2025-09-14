@@ -6,7 +6,7 @@ namespace Core.Interfaces;
 
 public interface IMaxPainService
 {
-    List<CashSumAtPrice> CalculateCashValuesForOneExpirationAsync(TradierOptionChainSpecParams tradierOptionChainSpecParams);
+    CallsAndPutsCashSums CalculateCashValuesForOneExpirationAsync(TradierOptionChainSpecParams tradierOptionChainSpecParams);
     
     Task<OptionsData> GetMaxPainCalculationAsync(TradierOptionChainSpecParams tradierOptionChainSpecParams);
 }

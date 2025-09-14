@@ -18,7 +18,7 @@ public class MaxPainService : IMaxPainService
         this._logger = logger;
     }
 
-    public List<CashSumAtPrice> CalculateCashValuesForOneExpirationAsync(TradierOptionChainSpecParams tradierOptionChainSpecParams)
+    public CallsAndPutsCashSums CalculateCashValuesForOneExpirationAsync(TradierOptionChainSpecParams tradierOptionChainSpecParams)
     {
         // this should return a hashmap containing cash values for calls, puts, and the max pain strike.
         // Each strike price is considered as a hypothetical closing price at expiry
@@ -27,12 +27,14 @@ public class MaxPainService : IMaxPainService
 
         var optionChain = _client.GetOptionChainsAsync(tradierOptionChainSpecParams).Result;
 
-        var callCashSums = CashValueHelpers.CalculateCallCashValues(optionChain);
-        var putCashSums = CashValueHelpers.CalculatePutCashValues(optionChain);
-        
-        _logger.LogInformation("Call cash sums: {callCashSums}, and put cash sums: {putCashSums}", callCashSums, putCashSums);
+        var calls = MaxPainHelpers.CalculateCallCashValues(optionChain);
+        var puts = MaxPainHelpers.CalculatePutCashValues(optionChain);
 
-        return callCashSums;
+        return new CallsAndPutsCashSums
+        {
+            CallCashSums = calls,
+            PutCashSums = puts
+        };
     }
     
     public async Task<OptionsData> GetMaxPainCalculationAsync(TradierOptionChainSpecParams tradierOptionChainSpecParams)

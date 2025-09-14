@@ -3,8 +3,13 @@ using Core.DTOs.Tradier;
 
 namespace Infrastructure.Helpers;
 
-public static class CashValueHelpers
+public static class MaxPainHelpers
 {
+    public static double CalculateMaxPain(OptionsData optionsData)
+    {
+        return 0.0;
+    }
+    
     public static List<CashSumAtPrice> CalculateCallCashValues(OptionsData optionsData)
     {
         List<StrikePriceData> options = optionsData.Options.Option;
@@ -49,49 +54,46 @@ public static class CashValueHelpers
         return cashAtEachPrice;
     }
 
-    public static PutCashSumData CalculatePutCashValues(OptionsData optionsData)
+    public static List<CashSumAtPrice> CalculatePutCashValues(OptionsData optionsData)
     {
         List<StrikePriceData> options = optionsData.Options.Option;
+        HashSet<float> strikePrices = GetStrikePrices(optionsData);
+        
+        var cashAtEachPrice = new List<CashSumAtPrice>();
 
-        PutCashSumData putCashSumData = new PutCashSumData
+        foreach (var hypotheticalClose in strikePrices)
         {
-            PutCashSumList = new List<CashSumAtStrike>()
-        };
+            double totalPutValue = 0;
 
-        for (int i = 0; i < options.Count; i++)
-        {
-            if (options[i].OptionType == "put")
+            for (int i = 0; i < options.Count; i++)
             {
-                double strike = options[i].Strike;
-                int openInterest = options[i].OpenInterest;
-                double putCashSum = 0;
-
-                for (int j = 0; j < options.Count; j++)
+                if (options[i].OptionType == "call")
                 {
-                    double putCashValue;
-                    double hypotheticalClose = options[j].Strike;
+                    double strike = options[i].Strike;
+                    int openInterest = options[i].OpenInterest;
 
+                    double intrinsicValue;
+                    
                     if ((strike - hypotheticalClose) * openInterest * 100 < 0)
                     {
-                        putCashValue = 0;
+                        intrinsicValue = 0;
                     }
                     else
                     {
-                        putCashValue = (hypotheticalClose - strike) * openInterest * 100;
+                        intrinsicValue = (strike - hypotheticalClose) * openInterest * 100;
                     }
 
-                    putCashSum += putCashValue;
+                    totalPutValue += intrinsicValue;
                 }
-
-                putCashSumData.PutCashSumList.Add(new CashSumAtStrike
-                {
-                    Strike = strike,
-                    CashSum = putCashSum
-                });
             }
+            cashAtEachPrice.Add(new CashSumAtPrice
+            {
+                Price = hypotheticalClose,
+                TotalCashValue = totalPutValue
+            });
         }
 
-        return putCashSumData;
+        return cashAtEachPrice;
     }
 
     private static HashSet<float> GetStrikePrices(OptionsData optionsData)
@@ -106,10 +108,5 @@ public static class CashValueHelpers
         }
 
         return strikePrices;
-    }
-
-    public static double CalculateMaxPain()
-    {
-        return 0;
     }
 }
