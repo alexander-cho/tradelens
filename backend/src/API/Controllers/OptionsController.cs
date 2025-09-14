@@ -19,10 +19,10 @@ public class OptionsController : ControllerBase
         this._tradierService = tradierService;
     }
     
-    [HttpGet("MaxPain")]
+    [HttpGet("CashValues")]
     public async Task<ActionResult<OptionsData>> GetMaxPain([FromQuery] TradierOptionChainSpecParams tradierOptionChainSpecParams)
     {
-        return await _maxPainService.GetMaxPainCalculationAsync(tradierOptionChainSpecParams);
+        return await _maxPainService.CalculateCashValuesForOneExpirationAsync(tradierOptionChainSpecParams);
     }
 
     [HttpGet("expirations")]
