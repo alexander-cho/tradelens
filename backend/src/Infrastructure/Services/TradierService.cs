@@ -14,6 +14,6 @@ public class TradierService : ITradierService
 
     public async Task<ExpiryData> GetExpiryListForUnderlyingAsync(string symbol)
     {
-        return await _client.GetExpiryDataForUnderlyingAsync(symbol);
+        return await _client.GetExpiryDatesForUnderlyingAsync(symbol);
     }
 }
