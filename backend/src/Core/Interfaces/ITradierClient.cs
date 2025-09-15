@@ -6,4 +6,6 @@ namespace Core.Interfaces;
 public interface ITradierClient
 {
     Task<OptionsData> GetOptionChainsAsync(TradierOptionChainSpecParams tradierOptionChainSpecParams);
+
+    Task<ExpiryData> GetExpiryDatesForUnderlyingAsync(string symbol);
 }

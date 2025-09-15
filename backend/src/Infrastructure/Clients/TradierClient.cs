@@ -2,7 +2,6 @@ using System.Net.Http.Json;
 using Core.DTOs.Tradier;
 using Core.Interfaces;
 using Core.Specifications;
-// using Infrastructure.Services;
 using Microsoft.Extensions.Logging;
 
 namespace Infrastructure.Clients;
@@ -37,5 +36,26 @@ public class TradierClient : ITradierClient
         }
 
         throw new HttpRequestException($"Failed to get bar aggregates. Status code: {response.StatusCode}");
+    }
+
+    public async Task<ExpiryData> GetExpiryDatesForUnderlyingAsync(string symbol)
+    {
+        var client = _httpClientFactory.CreateClient("Tradier");
+        
+        var response = await client.GetAsync($"options/expirations?symbol={symbol}");
+        response.EnsureSuccessStatusCode();
+        if (response.IsSuccessStatusCode)
+        {
+            var expiryDates = await response.Content.ReadFromJsonAsync<ExpiryData>();
+
+            _logger.LogInformation("Retrieved {expiryData}", expiryDates);
+
+            if (expiryDates != null)
+            {
+                return expiryDates;
+            }
+        }
+        
+        throw new HttpRequestException($"Failed to get expiry dates for {symbol}");
     }
 }

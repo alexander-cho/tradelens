@@ -1,3 +1,4 @@
+using Core.DTOs.Options;
 using Core.DTOs.Tradier;
 using Core.Interfaces;
 using Core.Specifications;
@@ -10,17 +11,25 @@ namespace API.Controllers;
 public class OptionsController : ControllerBase
 {
     private readonly IMaxPainService _maxPainService;
+    private readonly ITradierService _tradierService;
     // private readonly IPolygonService _polygonService;
     
-    public OptionsController(IMaxPainService service)
+    public OptionsController(IMaxPainService maxPainService, ITradierService tradierService)
     {
-        this._maxPainService = service;
+        this._maxPainService = maxPainService;
+        this._tradierService = tradierService;
+    }
+    
+    [HttpGet("CashValues")]
+    public CallsAndPutsCashSums GetMaxPain([FromQuery] TradierOptionChainSpecParams tradierOptionChainSpecParams)
+    {
+        return _maxPainService.CalculateCashValuesForOneExpirationAsync(tradierOptionChainSpecParams);
     }
 
-    [HttpGet("MaxPain")]
-    public async Task<ActionResult<OptionsData>> GetMaxPain([FromQuery] TradierOptionChainSpecParams tradierOptionChainSpecParams)
+    [HttpGet("expirations")]
+    public async Task<ActionResult<ExpiryData>> GetExpiryListForUnderlying([FromQuery] string symbol)
     {
-        return await _maxPainService.GetMaxPainCalculation(tradierOptionChainSpecParams);
+        return await _tradierService.GetExpiryListForUnderlyingAsync(symbol);
     }
 
     // [HttpGet("BarAggs")]
