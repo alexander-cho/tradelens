@@ -21,7 +21,7 @@ public class OptionsController : ControllerBase
     }
     
     [HttpGet("CashValues")]
-    public CallsAndPutsCashSums GetMaxPain([FromQuery] TradierOptionChainSpecParams tradierOptionChainSpecParams)
+    public CallsAndPutsCashSums GetCashValuesAndMaxPain([FromQuery] TradierOptionChainSpecParams tradierOptionChainSpecParams)
     {
         return _maxPainService.CalculateCashValuesForOneExpirationAsync(tradierOptionChainSpecParams);
     }
