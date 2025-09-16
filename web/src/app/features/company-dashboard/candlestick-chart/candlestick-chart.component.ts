@@ -2,15 +2,16 @@ import { Component, inject, input, OnInit } from '@angular/core';
 import { DashboardService } from '../../../core/services/dashboard.service';
 import { Bar, BarAggregates } from '../../../shared/models/polygon';
 import { FormsModule } from '@angular/forms';
-import { ChartComponent, NgApexchartsModule } from "ng-apexcharts";
+// import { ChartComponent, NgApexchartsModule } from "ng-apexcharts";
 import { Stock } from "../../../shared/models/stock";
-import { ChartOptions } from "../../../shared/models/charting";
+// import { ChartOptions } from "../../../shared/models/charting";
 // import { MatCard } from "@angular/material/card";
 
 @Component({
   selector: 'app-candlestick-chart',
   imports: [
-    FormsModule, NgApexchartsModule,
+    FormsModule,
+    // NgApexchartsModule,
     // MatCard
   ],
   templateUrl: './candlestick-chart.component.html',
@@ -29,37 +30,37 @@ export class CandlestickChartComponent implements OnInit {
   candlestickChartOptions = ['1d', '5d', '1m', '3m', '6m', '1y'];
 
   barAggregates?: BarAggregates;
-  chart?: ChartComponent;
-  chartOptions?: ChartOptions;
+  // chart?: ChartComponent;
+  // chartOptions?: ChartOptions;
 
   stock?: Stock;
 
-  constructor() {
-    // initialize with empty/default values
-    this.chartOptions = {
-      series: [{
-        name: "candle",
-        data: []
-      }],
-      chart: {
-        type: "candlestick",
-        height: 350,
-        width: 600
-      },
-      title: {
-        text: "",
-        align: "left"
-      },
-      xaxis: {
-        type: "datetime"
-      },
-      yaxis: {
-        tooltip: {
-          enabled: true
-        }
-      }
-    };
-  }
+  // constructor() {
+  //   // initialize with empty/default values
+  //   this.chartOptions = {
+  //     series: [{
+  //       name: "candle",
+  //       data: []
+  //     }],
+  //     chart: {
+  //       type: "candlestick",
+  //       height: 350,
+  //       width: 600
+  //     },
+  //     title: {
+  //       text: "",
+  //       align: "left"
+  //     },
+  //     xaxis: {
+  //       type: "datetime"
+  //     },
+  //     yaxis: {
+  //       tooltip: {
+  //         enabled: true
+  //       }
+  //     }
+  //   };
+  // }
 
   ngOnInit(): void {
     this.dashboardService.getStockByTicker(this.ticker()).subscribe({
@@ -100,31 +101,31 @@ export class CandlestickChartComponent implements OnInit {
 
   updateChart() {
     const candleData = this.convertBarsToChartData(this.barAggregates?.results);
-    this.chartOptions = {
-      ...this.chartOptions,
-      series: [
-        {
-          name: "candle",
-          data: candleData
-        }
-      ],
-      chart: {
-        type: "candlestick",
-        height: 350,
-        width: 600
-      },
-      title: {
-        text: this.ticker() + " " + this.multiplier + this.timespan,
-        align: "left"
-      },
-      xaxis: {
-        type: "datetime"
-      },
-      yaxis: {
-        tooltip: {
-          enabled: true
-        }
-      }
-    }
+    // this.chartOptions = {
+    //   ...this.chartOptions,
+    //   series: [
+    //     {
+    //       name: "candle",
+    //       data: candleData
+    //     }
+    //   ],
+    //   chart: {
+    //     type: "candlestick",
+    //     height: 350,
+    //     width: 600
+    //   },
+    //   title: {
+    //     text: this.ticker() + " " + this.multiplier + this.timespan,
+    //     align: "left"
+    //   },
+    //   xaxis: {
+    //     type: "datetime"
+    //   },
+    //   yaxis: {
+    //     tooltip: {
+    //       enabled: true
+    //     }
+    //   }
+    // }
   }
 }
