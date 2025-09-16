@@ -7,10 +7,10 @@
 <!--1year -> from today-365, to=today, 1day | 1week | 1month <br>-->
 
 <!-- just give one option per timespan for more simplicity, e.g. the 5 minute bars for 1 day chart-->
-<br>
-@for (option of candlestickChartOptions; track $index) {
-  {{ option }}
-}
+<!--<br>-->
+<!--@for (option of candlestickChartOptions; track $index) {-->
+<!--  {{ option }}-->
+<!--}-->
 
 <!--<form class="relative flex items-center w-full max-w-md mx-20" #searchForm="ngForm" (ngSubmit)="onParamChange()">-->
 <!--  <input type="number"-->
@@ -28,14 +28,14 @@
 <!--  <button mat-stroked-button type="submit">SUBMIT</button>-->
 <!--</form>-->
 
-@if (chartOptions) {
-  <div id="chart">
-    <apx-chart
-      [series]="chartOptions.series"
-      [chart]="chartOptions.chart"
-      [xaxis]="chartOptions.xaxis"
-      [yaxis]="chartOptions.yaxis"
-      [title]="chartOptions.title"
-    ></apx-chart>
-  </div>
-}
+<!--@if (chartOptions) {-->
+<!--  <div id="chart">-->
+<!--    <apx-chart-->
+<!--      [series]="chartOptions.series"-->
+<!--      [chart]="chartOptions.chart"-->
+<!--      [xaxis]="chartOptions.xaxis"-->
+<!--      [yaxis]="chartOptions.yaxis"-->
+<!--      [title]="chartOptions.title"-->
+<!--    ></apx-chart>-->
+<!--  </div>-->
+<!--}-->
