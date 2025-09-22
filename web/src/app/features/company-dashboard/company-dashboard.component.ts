@@ -41,7 +41,7 @@ export class CompanyDashboardComponent implements OnInit {
           console.log(response);
         },
         error: err => console.log(err)
-      })
+      });
     }
   }
 }
