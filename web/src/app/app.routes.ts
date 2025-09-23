@@ -7,6 +7,7 @@ import { FeedComponent } from './features/feed/feed.component';
 import { CompaniesComponent } from './features/companies/companies.component';
 import { CompanyDashboardComponent } from './features/company-dashboard/company-dashboard.component';
 import { CongressComponent } from './features/congress/congress.component';
+import { OptionsComponent } from './features/options/options.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -17,4 +18,5 @@ export const routes: Routes = [
   { path: 'companies', component: CompaniesComponent },
   { path: 'companies/:ticker', component: CompanyDashboardComponent },
   { path: 'congress', component: CongressComponent },
+  { path: 'options', component: OptionsComponent },
 ];

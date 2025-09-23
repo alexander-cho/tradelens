@@ -12,7 +12,7 @@
       <div class="flex flex-col gap-5 mt-5 sm:flex-row sm:items-center sm:justify-end sm:mt-0 sm:ps-5">
         <a routerLink="/feed" class="font-medium text-gray-600 hover:text-gray-400 focus:outline-none focus:text-gray-400">Feed</a>
         <a routerLink="/companies" class="font-medium text-gray-600 hover:text-gray-400 focus:outline-none focus:text-gray-400">Companies</a>
-        <a class="font-medium text-gray-600 hover:text-gray-400 focus:outline-none focus:text-gray-400">Max Pain</a>
+        <a routerLink="/options" class="font-medium text-gray-600 hover:text-gray-400 focus:outline-none focus:text-gray-400">Max Pain</a>
         <a routerLink="/congress" class="font-medium text-gray-600 hover:text-gray-400 focus:outline-none focus:text-gray-400">Congress</a>
         @if (authService.currentUser()) {
           <a (click)="logout()" routerLink="/" class="font-medium text-blue-500 focus:outline-none">Logout</a>

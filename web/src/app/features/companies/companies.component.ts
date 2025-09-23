@@ -100,7 +100,8 @@ export class CompaniesComponent implements OnInit {
     });
   }
 
-  resetParams() {
+  // https://www.reddit.com/r/Angular2/comments/1ihk7pb/why_not_use_protected_and_private_for_component/
+  public resetParams() {
     this.companyParams.ipoYears = [];
     this.companyParams.countries = [];
     this.companyParams.sectors = [];

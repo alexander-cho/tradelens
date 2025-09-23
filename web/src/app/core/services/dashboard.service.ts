@@ -12,6 +12,7 @@ export class DashboardService {
   private baseUrl = environment.apiUrl;
   private http = inject(HttpClient);
 
+  // think of creating this in a different service, one dedicated to getting bar aggs possibly
   public getBarAggregates(ticker: string, multiplier: number, timespan: string, from: string, to: string): Observable<BarAggregates> {
     let params = new HttpParams();
     if (ticker) {
