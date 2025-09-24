@@ -15,3 +15,16 @@
 @for (expirationDate of expirationDates?.expirations?.date; track $index) {
   {{ expirationDate }} <br>
 }
+@if (maxPainData) {
+  CALLS <br>
+
+  @for (strike of maxPainData?.callCashSums; track $index) {
+    {{ strike.price }} : {{ strike.totalCashValue }} <br>
+  }
+
+  PUTS <br>
+
+  @for (strike of maxPainData?.putCashSums; track $index) {
+    {{ strike.price }} : {{ strike.totalCashValue }} <br>
+  }
+}
