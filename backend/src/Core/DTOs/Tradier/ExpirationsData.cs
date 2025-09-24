@@ -1,5 +1,7 @@
 namespace Core.DTOs.Tradier;
 
+// Tradier nested responses
+
 public class ExpiryData
 {
     public required FullExpiryList Expirations { get; set; }
