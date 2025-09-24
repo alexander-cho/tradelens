@@ -35,6 +35,7 @@
               }
             ],
             "styles": [
+              "src/theme.less",
               "@angular/material/prebuilt-themes/azure-blue.css",
               "src/tailwind.css",
               "src/styles.scss"
