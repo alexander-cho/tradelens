@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { ExpiryData } from '../../shared/models/options';
+import { CallsAndPutsCashSums, ExpiryData } from '../../shared/models/options';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -18,7 +18,14 @@ export class OptionsService {
     return this.http.get<ExpiryData>(this.baseUrl + 'options/expirations', { params });
   }
 
-  public getMaxPain(ticker: string, expiration: string, greeks: boolean) {
+  public getCashValuesAndMaxPain(symbol: string, expiration: string, greeks?: boolean): Observable<CallsAndPutsCashSums> {
+    let params = new HttpParams();
+    params = params.append('symbol', symbol);
+    params = params.append('expiration', expiration);
+    if (greeks) {
+      params = params.append('greeks', greeks);
+    }
 
+    return this.http.get<CallsAndPutsCashSums>(this.baseUrl + 'options/CashValues', { params })
   }
 }

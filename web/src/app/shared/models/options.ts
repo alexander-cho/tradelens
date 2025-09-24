@@ -7,14 +7,14 @@ export type FullExpiryList = {
 }
 
 
-export type MaxPainData = {
-  callCashSums: CashSumAtStrike[];
-  putCashSums: CashSumAtStrike[];
-  totalCashSums: CashSumAtStrike[];
+export type CallsAndPutsCashSums = {
+  callCashSums: CashSumAtPrice[];
+  putCashSums: CashSumAtPrice[];
+  totalCashSums: CashSumAtPrice[];
   maxPainValue: number;
 }
 
-type CashSumAtStrike = {
+type CashSumAtPrice = {
   price: number;
   totalCashValue: number;
 }
