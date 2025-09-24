@@ -1,6 +1,11 @@
-export type ExpirationDates = {
-  expiryDate: string[];
+export type ExpiryData = {
+  expirations: FullExpiryList;
 }
+
+export type FullExpiryList = {
+  date: string[];
+}
+
 
 export type MaxPainData = {
   callCashSums: CashSumAtStrike[];
