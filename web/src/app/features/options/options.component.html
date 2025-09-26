@@ -4,27 +4,29 @@
   <input nz-input
          type="text"
          class=""
-         placeholder="Ticker symbol"
+         placeholder="Enter a ticker symbol"
          name="ticker"
          [(ngModel)]="ticker"/>
 
-  <button nz-button nzType="primary">Get Expirations</button>
+  <button nz-button nzType="primary">Get Expiration Dates</button>
 </form>
 
-<form (ngSubmit)="onExpiryDateSelection()">
-  @if (expirationDates) {
-    <nz-select nzPlaceHolder="Select an expiration date" [(ngModel)]="selectedExpiration" name="expiryDate">
-      @for (expirationDate of expirationDates?.expirations?.date; track $index) {
-        <nz-option nzValue="{{expirationDate}}" nzLabel="{{expirationDate}}">{{ expirationDate }}</nz-option>
-      }
-    </nz-select>
-    <button nz-button nzType="primary">Select Expiry</button>
-  }
-</form>
+@if (expirationDates()) {
+  <nz-select
+    nzPlaceHolder="Select an expiration date"
+    [(ngModel)]="selectedExpiration"
+    (ngModelChange)="onExpiryDateSelection()"
+    name="expiryDate">
+    @for (expirationDate of expirationDates()?.expirations?.date; track $index) {
+      <nz-option nzValue="{{expirationDate}}" nzLabel="{{expirationDate}}">{{ expirationDate }}</nz-option>
+    }
+  </nz-select>
+}
 
-@if (maxPainData) {
+@if (maxPainData()) {
   <app-max-pain-chart
-    [cashValuesDataForChart]="maxPainData"
-    [expirationDate]="selectedExpiration">
+    [tickerSymbol]="submittedTicker()"
+    [cashValuesDataForChart]="maxPainData()"
+    [expirationDate]="selectedExpiration()">
   </app-max-pain-chart>
 }

@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal, WritableSignal } from '@angular/core';
 import { OptionsService } from '../../core/services/options.service';
 import { NavbarComponent } from '../../layout/navbar/navbar.component';
 import { FormsModule } from '@angular/forms';
@@ -24,12 +24,18 @@ import { NzOptionComponent, NzSelectComponent } from 'ng-zorro-antd/select';
 })
 export class OptionsComponent {
   optionsService = inject(OptionsService);
-  ticker = "";
-  expirationDates?: ExpiryData;
-  selectedExpiration: string = "";
-  maxPainData?: CallsAndPutsCashSums;
+
+  ticker: WritableSignal<string> = signal<string>("");
+  selectedExpiration: WritableSignal<string> = signal<string>("");
+  expirationDates: WritableSignal<ExpiryData | undefined> = signal<ExpiryData | undefined>(undefined);
+  maxPainData: WritableSignal<CallsAndPutsCashSums | undefined> = signal<CallsAndPutsCashSums | undefined>(undefined);
+
+  // only pass ticker to child component when user submits it,
+  // or else signal is updated for each letter change inside of input
+  submittedTicker: WritableSignal<string> = signal<string>("");
 
   onTickerSubmit() {
+    this.submittedTicker.set(this.ticker());
     this.getExpirationDatesAssociatedWithStock();
   }
 
@@ -38,9 +44,17 @@ export class OptionsComponent {
   }
 
   getExpirationDatesAssociatedWithStock() {
-    this.optionsService.getExpirations(this.ticker).subscribe({
+    // reset the selected expiration when getting new ticker data
+    this.selectedExpiration.set("");
+
+    // reset maxPainData (cash value data) when user selects a new ticker
+    // or else chart re-renders with stale data
+    this.maxPainData.set(undefined);
+
+    this.optionsService.getExpirations(this.ticker()).subscribe({
       next: response => {
-        this.expirationDates = response;
+        this.expirationDates.set(response);
+        console.log(this.ticker());
         console.log(response);
       },
       error: err => console.log(err)
@@ -48,10 +62,10 @@ export class OptionsComponent {
   }
 
   getCashValuesAndMaxPain() {
-    this.optionsService.getCashValuesAndMaxPain(this.ticker, this.selectedExpiration).subscribe({
+    this.optionsService.getCashValuesAndMaxPain(this.ticker(), this.selectedExpiration()).subscribe({
       next: response => {
-        this.maxPainData = response;
-        console.log(this.selectedExpiration);
+        this.maxPainData.set(response);
+        console.log(this.selectedExpiration());
         console.log(response);
       },
       error: err => console.log(err)
