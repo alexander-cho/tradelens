@@ -1,30 +1,30 @@
 <app-navbar></app-navbar>
 
-<form class="relative flex items-center w-full max-w-md mx-20" (ngSubmit)="onTickerSubmit()">
-
-  <input type="text"
-         id="ticker"
-         class="py-3 px-4 block w-full rounded-lg text-sm text-gray-800 border border-gray-800"
-         placeholder="Ticker Symbol"
-         name="search"
+<form (ngSubmit)="onTickerSubmit()">
+  <input nz-input
+         type="text"
+         class=""
+         placeholder="Ticker symbol"
+         name="ticker"
          [(ngModel)]="ticker"/>
 
-  <button mat-stroked-button type="submit">SUBMIT</button>
+  <button nz-button nzType="primary">Get Expirations</button>
 </form>
 
-@for (expirationDate of expirationDates?.expirations?.date; track $index) {
-  {{ expirationDate }} <br>
-}
+<form (ngSubmit)="onExpiryDateSelection()">
+  @if (expirationDates) {
+    <nz-select nzPlaceHolder="Select an expiration date" [(ngModel)]="selectedExpiration" name="expiryDate">
+      @for (expirationDate of expirationDates?.expirations?.date; track $index) {
+        <nz-option nzValue="{{expirationDate}}" nzLabel="{{expirationDate}}">{{ expirationDate }}</nz-option>
+      }
+    </nz-select>
+    <button nz-button nzType="primary">Select Expiry</button>
+  }
+</form>
+
 @if (maxPainData) {
-  CALLS <br>
-
-  @for (strike of maxPainData?.callCashSums; track $index) {
-    {{ strike.price }} : {{ strike.totalCashValue }} <br>
-  }
-
-  PUTS <br>
-
-  @for (strike of maxPainData?.putCashSums; track $index) {
-    {{ strike.price }} : {{ strike.totalCashValue }} <br>
-  }
+  <app-max-pain-chart
+    [cashValuesDataForChart]="maxPainData"
+    [expirationDate]="selectedExpiration">
+  </app-max-pain-chart>
 }
