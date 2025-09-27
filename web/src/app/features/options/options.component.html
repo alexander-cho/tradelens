@@ -1,5 +1,6 @@
 <app-navbar></app-navbar>
 
+<div>
 <form (ngSubmit)="onTickerSubmit()">
   <input nz-input
          type="text"
@@ -22,6 +23,7 @@
     }
   </nz-select>
 }
+</div>
 
 @if (maxPainData()) {
   <app-max-pain-chart

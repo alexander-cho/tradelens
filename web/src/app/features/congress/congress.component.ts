@@ -2,11 +2,14 @@ import { Component, inject, OnInit } from '@angular/core';
 import { CongressService } from '../../core/services/congress.service';
 import { NavbarComponent } from '../../layout/navbar/navbar.component';
 import { CongressTrades } from '../../shared/models/fmp';
-import { MatTab, MatTabGroup } from '@angular/material/tabs';
+// import { MatTab, MatTabGroup } from '@angular/material/tabs';
 
 @Component({
   selector: 'app-congress',
-  imports: [NavbarComponent, MatTabGroup, MatTab],
+  imports: [NavbarComponent,
+    // MatTabGroup,
+    // MatTab
+  ],
   templateUrl: './congress.component.html',
   styleUrl: './congress.component.scss'
 })
