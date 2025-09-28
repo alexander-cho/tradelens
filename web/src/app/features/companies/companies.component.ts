@@ -1,5 +1,4 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { NavbarComponent } from '../../layout/navbar/navbar.component';
 import { StockService } from '../../core/services/stock.service';
 import { Stock } from '../../shared/models/stock';
 import { Pagination } from '../../shared/models/pagination';
@@ -13,11 +12,12 @@ import { NzButtonComponent } from 'ng-zorro-antd/button';
 import { NzDropDownDirective, NzDropdownMenuComponent } from 'ng-zorro-antd/dropdown';
 import { NzMenuDirective, NzMenuItemComponent } from 'ng-zorro-antd/menu';
 import { FiltersModalComponent } from './filters-modal/filters-modal.component';
+import { NzTableComponent } from 'ng-zorro-antd/table';
+import { NzDividerComponent } from 'ng-zorro-antd/divider';
 
 @Component({
   selector: 'app-companies',
   imports: [
-    NavbarComponent,
     RouterLink,
     FormsModule,
     NzPaginationComponent,
@@ -26,7 +26,9 @@ import { FiltersModalComponent } from './filters-modal/filters-modal.component';
     NzDropDownDirective,
     NzDropdownMenuComponent,
     NzMenuDirective,
-    NzMenuItemComponent
+    NzMenuItemComponent,
+    NzTableComponent,
+    NzDividerComponent
   ],
   providers: [NzModalService],
   templateUrl: './companies.component.html',

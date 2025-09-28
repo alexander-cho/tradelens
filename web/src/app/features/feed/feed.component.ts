@@ -2,7 +2,6 @@ import { Component, inject, OnInit } from '@angular/core';
 import { FeedService } from '../../core/services/feed.service';
 import { Post } from '../../shared/models/post';
 import { PostComponent } from './post/post.component';
-import { NavbarComponent } from '../../layout/navbar/navbar.component';
 import { Pagination } from '../../shared/models/pagination';
 import { FeedParams } from '../../shared/models/feedParams';
 import { FormsModule } from '@angular/forms';
@@ -18,7 +17,6 @@ import { NzMenuDirective, NzMenuItemComponent } from 'ng-zorro-antd/menu';
   selector: 'app-feed',
   imports: [
     PostComponent,
-    NavbarComponent,
     FormsModule,
     NzPaginationModule,
     NzInputDirective,

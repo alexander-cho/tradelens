@@ -1,6 +1,5 @@
 import { Component, inject, signal, WritableSignal } from '@angular/core';
 import { OptionsService } from '../../core/services/options.service';
-import { NavbarComponent } from '../../layout/navbar/navbar.component';
 import { FormsModule } from '@angular/forms';
 import { CallsAndPutsCashSums, ExpiryData } from '../../shared/models/options';
 import { MaxPainChartComponent } from './max-pain-chart/max-pain-chart.component';
@@ -11,7 +10,6 @@ import { NzOptionComponent, NzSelectComponent } from 'ng-zorro-antd/select';
 @Component({
   selector: 'app-options',
   imports: [
-    NavbarComponent,
     FormsModule,
     MaxPainChartComponent,
     NzButtonComponent,
