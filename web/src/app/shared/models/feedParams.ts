@@ -1,8 +1,8 @@
 export class FeedParams {
   tickers: string[] = [];
   sentiments: string[] = [];
-  sort = '';
-  pageNumber = 1;
-  pageSize = 5;
-  search = '';
+  sort: string = '';
+  pageNumber: number = 1;
+  pageSize: number = 5;
+  search: string = '';
 }

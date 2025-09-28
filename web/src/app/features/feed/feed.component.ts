@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, signal, WritableSignal } from '@angular/core';
 import { FeedService } from '../../core/services/feed.service';
 import { Post } from '../../shared/models/post';
 import { PostComponent } from './post/post.component';
@@ -12,6 +12,8 @@ import { NzModalService } from 'ng-zorro-antd/modal';
 import { FiltersModalComponent } from './filters-modal/filters-modal.component';
 import { NzDropDownDirective, NzDropdownMenuComponent } from 'ng-zorro-antd/dropdown';
 import { NzMenuDirective, NzMenuItemComponent } from 'ng-zorro-antd/menu';
+import { debounceTime, Observable } from 'rxjs';
+import { toObservable } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-feed',
@@ -34,37 +36,37 @@ export class FeedComponent implements OnInit {
   feedService = inject(FeedService);
   modalService = inject(NzModalService);
 
+  searchTerm: WritableSignal<string> = signal<string>("");
+  debouncedSearch: Observable<string> = toObservable(this.searchTerm).pipe(
+    debounceTime(1000)
+  );
+
   feedParams = new FeedParams();
-
   posts?: Pagination<Post>;
-
-  selectedTickers: string[] = [];
-  selectedSentiments: string[] = [];
-
-  postsPerPage = [5, 10, 15, 20]
-
+  postsPerPage = [5, 10, 15, 20];
   sortOptions = [
     { name: 'Default', value: '' },
     { name: 'Newest First', value: 'latest' },
     { name: 'Oldest First', value: 'earliest' }
-  ]
+  ];
+
+  ngOnInit() {
+    this.feedService.getTickers();
+    this.feedService.getSentiments();
+    this.getPosts();
+
+    this.debouncedSearch.subscribe(() => {
+      this.feedParams.pageNumber = 1;
+      this.feedParams.search = this.searchTerm();
+      this.getPosts();
+    });
+  }
 
   getPosts() {
     this.feedService.getPosts(this.feedParams).subscribe({
       next: response => this.posts = response,
       error: error => console.log(error)
     });
-  }
-
-  ngOnInit() {
-    this.feedService.getTickers();
-    this.feedService.getSentiments();
-    this.getPosts();
-  }
-
-  onSearchChange() {
-    this.feedParams.pageNumber = 1;
-    this.getPosts();
   }
 
   handlePageIndexChangeEvent(event: number) {

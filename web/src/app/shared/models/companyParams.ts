@@ -2,8 +2,8 @@ export class CompanyParams {
   ipoYears: number[] = [];
   countries: string[] = [];
   sectors: string[] = [];
-  sort = '';
-  pageNumber = 1;
-  pageSize = 10;
-  search = '';
+  sort: string = '';
+  pageNumber: number = 1;
+  pageSize: number = 10;
+  search: string = '';
 }
