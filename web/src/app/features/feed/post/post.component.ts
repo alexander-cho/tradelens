@@ -1,9 +1,12 @@
 import { Component, input } from '@angular/core';
 import { Post } from '../../../shared/models/post';
+import { NzCardComponent } from 'ng-zorro-antd/card';
 
 @Component({
   selector: 'app-post',
-  imports: [],
+  imports: [
+    NzCardComponent
+  ],
   templateUrl: './post.component.html',
   styleUrl: './post.component.scss'
 })

@@ -1,18 +1,16 @@
 import { Component, inject, input, OnInit } from '@angular/core';
 import { DashboardService } from '../../../core/services/dashboard.service';
 import { Bar, BarAggregates } from '../../../shared/models/polygon';
+import { Stock } from "../../../shared/models/stock";
 import { FormsModule } from '@angular/forms';
 // import { ChartComponent, NgApexchartsModule } from "ng-apexcharts";
-import { Stock } from "../../../shared/models/stock";
 // import { ChartOptions } from "../../../shared/models/charting";
-// import { MatCard } from "@angular/material/card";
 
 @Component({
   selector: 'app-candlestick-chart',
   imports: [
     FormsModule,
-    // NgApexchartsModule,
-    // MatCard
+    // NgApexchartsModule
   ],
   templateUrl: './candlestick-chart.component.html',
   styleUrl: './candlestick-chart.component.scss'

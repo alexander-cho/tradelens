@@ -1,68 +1,50 @@
-<div class="flex min-h-full flex-col justify-center px-6 py-10 lg:px-8">
-  <div class="sm:mx-auto sm:w-full sm:max-w-sm">
-    <h2 class="text-center text-2xl/9 font-bold tracking-tight text-gray-900">Sign Up</h2>
-  </div>
+Sign up <br>
+Welcome to TradeLens! <br>
+Lets set up your account with a strong password. <br>
 
-  <p class="mt-4 text-center text-sm/6 text-gray-500">
-    Welcome to TradeLens! <br> Let's set up your account with a strong password.
-  </p>
+Already have an account?
+<a routerLink="/login">Log in</a>
 
-  <p class="mt-4 text-center text-sm/6 text-gray-400">
-    Already have an account?
-    <a routerLink="/login" class="font-semibold text-indigo-600 hover:text-indigo-500">Log In</a>
-  </p>
-
-  <div class="mt-2 sm:mx-auto sm:w-full sm:max-w-sm">
-    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="space-y-6" method="POST">
-      <div>
-        <label class="block text-sm/6 font-medium text-gray-600">First name</label>
-        <div class="mt-2">
-          <input type="text" formControlName="firstName" matInput placeholder="First name" class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6">
-        </div>
-      </div>
-
-      <div>
-        <label class="block text-sm/6 font-medium text-gray-600">Last name</label>
-        <div class="mt-2">
-          <input type="text" formControlName="lastName" matInput placeholder="Last name" class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6">
-        </div>
-      </div>
-
-      <div>
-        <label class="block text-sm/6 font-medium text-gray-600">Email address</label>
-        <div class="mt-2">
-          <input type="email" formControlName="email" matInput placeholder="Email address" class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6">
-        </div>
-      </div>
-
-      <div>
-        <div class="flex items-center justify-between">
-          <label class="block text-sm/6 font-medium text-gray-600">Password</label>
-        </div>
-        <div class="mt-2">
-          <input type="password" formControlName="password" matInput placeholder="Password" class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6">
-        </div>
-      </div>
-
-      @if (validationErrors) {
-        <div class="mb-3 p-4 bg-red-100 text-red-600">
-          <ul class="list-disc px-3">
-            @for (error of validationErrors; track $index) {
-              <li>{{ error }}</li>>
-            }
-          </ul>
-        </div>
-      }
-
-      <div>
-        <button type="submit" class="cursor-pointer mt-2 flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
-          Create account
-        </button>
-      </div>
-
-      <p class="mt-8 text-center text-sm/6">
-        <a routerLink="/" class="font-semibold text-indigo-600 hover:text-indigo-500">Go Home</a>
-      </p>
-    </form>
-  </div>
-</div>
+<form nz-form [formGroup]="registerForm" class="register-form" (ngSubmit)="onSubmit()" method="POST">
+  <nz-form-item>
+    <nz-form-control nzErrorTip="Please input your username!">
+      <nz-input-group nzPrefixIcon="user">
+        <input type="text" nz-input formControlName="firstName" required placeholder="First name" />
+      </nz-input-group>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-control nzErrorTip="Please input your username!">
+      <nz-input-group nzPrefixIcon="user">
+        <input type="text" nz-input formControlName="lastName" required placeholder="Last name" />
+      </nz-input-group>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-control nzErrorTip="Please input your username!">
+      <nz-input-group nzPrefixIcon="user">
+        <input type="text" nz-input formControlName="email" required placeholder="Email address" />
+      </nz-input-group>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-control nzErrorTip="Please input your Password!">
+      <nz-input-group nzPrefixIcon="lock">
+        <input type="password" nz-input formControlName="password" required placeholder="Password" />
+      </nz-input-group>
+    </nz-form-control>
+  </nz-form-item>
+  <!--  <div nz-row class="login-form-margin">-->
+  <!--    <div nz-col [nzSpan]="12">-->
+  <!--      <label nz-checkbox formControlName="remember">-->
+  <!--        <span>Remember me</span>-->
+  <!--      </label>-->
+  <!--    </div>-->
+  <!--    <div nz-col [nzSpan]="12">-->
+  <!--      <a class="login-form-forgot">Forgot password</a>-->
+  <!--    </div>-->
+  <!--  </div>-->
+  <button nz-button type="submit" class="login-form-button login-form-margin" [nzType]="'primary'">Create account</button>
+  <br>
+  <a routerLink="/">Go Home</a>
+</form>

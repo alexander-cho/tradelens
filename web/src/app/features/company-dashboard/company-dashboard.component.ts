@@ -1,15 +1,13 @@
 import { Component, inject, input, OnInit } from '@angular/core';
-import { NavbarComponent } from '../../layout/navbar/navbar.component';
+import { Stock } from "../../shared/models/stock";
 import { DashboardService } from '../../core/services/dashboard.service';
 import { RelatedCompanies } from '../../shared/models/polygon';
 import { CandlestickChartComponent } from './candlestick-chart/candlestick-chart.component';
 // import { RouterLink } from '@angular/router';
-import { Stock } from "../../shared/models/stock";
 
 @Component({
   selector: 'app-company-dashboard',
   imports: [
-    NavbarComponent,
     CandlestickChartComponent,
     // RouterLink
   ],
