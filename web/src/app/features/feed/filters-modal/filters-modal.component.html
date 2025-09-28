@@ -1,0 +1,12 @@
+<nz-select nzAllowClear nzPlaceHolder="Select Tickers" [(ngModel)]="selectedTickers" nzMode="multiple">
+  @for (ticker of feedService.tickers; track $index) {
+    <nz-option [nzValue]="ticker" [nzLabel]="ticker">{{ ticker }}</nz-option>
+  }
+</nz-select>
+<nz-select nzAllowClear nzPlaceHolder="Bullish or Bearish" [(ngModel)]="selectedSentiments" nzMode="multiple">
+  @for (sentiment of feedService.sentiments; track $index) {
+    <nz-option [nzValue]="sentiment" [nzLabel]="sentiment">{{ sentiment }}</nz-option>
+  }
+</nz-select>
+
+<button nz-button (click)="applyFilters()" nzType="default">Apply Filters</button>

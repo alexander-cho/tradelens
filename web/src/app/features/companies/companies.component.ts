@@ -5,31 +5,37 @@ import { Stock } from '../../shared/models/stock';
 import { Pagination } from '../../shared/models/pagination';
 import { CompanyParams } from '../../shared/models/companyParams';
 import { RouterLink } from '@angular/router';
-import { FiltersDialogComponent } from './filters-dialog/filters-dialog.component';
-import { MatDialog } from '@angular/material/dialog';
-import { MatListOption, MatSelectionList, MatSelectionListChange } from '@angular/material/list';
-import { MatMenu, MatMenuModule } from '@angular/material/menu';
 import { FormsModule } from '@angular/forms';
-import { MatPaginator, PageEvent } from '@angular/material/paginator';
+import { NzModalService } from 'ng-zorro-antd/modal';
+import { NzPaginationComponent } from 'ng-zorro-antd/pagination';
+import { NzInputDirective } from 'ng-zorro-antd/input';
+import { NzButtonComponent } from 'ng-zorro-antd/button';
+import { NzDropDownDirective, NzDropdownMenuComponent } from 'ng-zorro-antd/dropdown';
+import { NzMenuDirective, NzMenuItemComponent } from 'ng-zorro-antd/menu';
+import { FiltersModalComponent } from './filters-modal/filters-modal.component';
 
 @Component({
   selector: 'app-companies',
   imports: [
     NavbarComponent,
     RouterLink,
-    MatListOption,
-    MatMenu,
-    MatSelectionList,
     FormsModule,
-    MatPaginator,
-    MatMenuModule
+    NzPaginationComponent,
+    NzInputDirective,
+    NzButtonComponent,
+    NzDropDownDirective,
+    NzDropdownMenuComponent,
+    NzMenuDirective,
+    NzMenuItemComponent
   ],
+  providers: [NzModalService],
   templateUrl: './companies.component.html',
   styleUrl: './companies.component.scss'
 })
 export class CompaniesComponent implements OnInit {
   stockService = inject(StockService);
-  dialogService = inject(MatDialog);
+
+  modalService = inject(NzModalService);
   companyParams = new CompanyParams();
 
   companies?: Pagination<Stock>;
@@ -61,33 +67,38 @@ export class CompaniesComponent implements OnInit {
     this.getCompanies();
   }
 
-  handlePageEvent(event: PageEvent) {
-    this.companyParams.pageSize = event.pageSize;
-    this.companyParams.pageNumber = event.pageIndex + 1;
+  handlePageIndexChangeEvent(event: number) {
+    this.companyParams.pageNumber = event;
     this.getCompanies();
   }
 
-  onSortChange(event: MatSelectionListChange) {
-    const selectedOption = event.options[0];
-    if (selectedOption) {
-      this.companyParams.sort = selectedOption.value;
+  handlePageSizeChangeEvent(event: number) {
+    // https://github.com/NG-ZORRO/ng-zorro-antd/issues/5695
+    this.companyParams.pageSize = event;
+    this.companyParams.pageNumber = 1;
+    this.getCompanies();
+  }
+
+  onSortChange(value: string) {
+      this.companyParams.sort = value;
       this.companyParams.pageNumber = 1;
       this.getCompanies();
-    }
   }
 
   openFiltersDialog() {
-    const dialogRef = this.dialogService.open(FiltersDialogComponent, {
-      minWidth: '900px',
-      maxHeight: '700px',
-      data: {
+    const modalRef = this.modalService.create({
+      nzTitle: 'Filters',
+      nzContent: FiltersModalComponent,
+      nzWidth: '500px',
+      nzData: {
         selectedIpoYears: this.companyParams.ipoYears,
         selectedCountries: this.companyParams.countries,
         selectedSectors: this.companyParams.sectors
-      }
+      },
+      nzFooter: null
     });
 
-    dialogRef.afterClosed().subscribe({
+    modalRef.afterClose.subscribe({
       next: result => {
         if (result) {
           this.companyParams.ipoYears = result.selectedIpoYears;
