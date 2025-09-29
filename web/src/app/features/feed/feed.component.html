@@ -19,7 +19,7 @@
 <button nz-button nzType="default" (click)="openFiltersDialog()">Filters</button>
 <button nz-button nzType="default" nz-dropdown [nzDropdownMenu]="sortMenu">Sort</button>
 
-<div class="w-2/5 mx-auto">
+<div class="w-full max-w-2xl mx-auto px-4">
   @for (post of posts?.data; track post.id) {
     <!--pass post down to child component using directive-->
     <app-post [post]="post"></app-post>

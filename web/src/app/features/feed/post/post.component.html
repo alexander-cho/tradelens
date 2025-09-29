@@ -1,5 +1,5 @@
 @if (post()) {
-  <nz-card style="width:500px;" nzTitle="{{ post().ticker }}" [nzExtra]="extraTemplate">
+  <nz-card nzTitle="{{ post().ticker }}" [nzExtra]="extraTemplate">
     <p>{{ post().sentiment }}</p>
     <p>{{ post().content }}</p>
     <p>{{ post().createdOn }}</p>
