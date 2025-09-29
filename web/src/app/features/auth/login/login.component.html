@@ -1,7 +1,12 @@
 <div class="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
   <div class="max-w-md w-full space-y-8">
     <div class="text-center">
-      <h2 class="text-3xl font-extrabold text-gray-900">Log in to your account</h2>
+      <h2 class="text-2xl font-extrabold text-gray-900">Log in to your account</h2>
+    </div>
+
+    <div class="text-center">
+      <span class="text-gray-600">Not a member? </span>
+      <a routerLink="/auth/register" class="font-medium">Create an account</a>
     </div>
 
     <form nz-form [formGroup]="loginForm" class="mt-8 space-y-6" (ngSubmit)="onSubmit()" method="POST">
@@ -38,13 +43,7 @@
         <button nz-button type="submit" class="w-full" [nzType]="'primary'">Log in</button>
 
         <div class="text-sm text-center space-y-2">
-          <div>
-            <span class="text-gray-600">Not a member? </span>
-            <a routerLink="/auth/register" class="font-medium">Sign up</a>
-          </div>
-          <div>
             <a routerLink="/" class="font-medium">Go Home</a>
-          </div>
         </div>
       </div>
     </form>
