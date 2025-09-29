@@ -7,66 +7,17 @@
                nzShowSizeChanger>
 </nz-pagination>
 
-<form #searchForm="ngForm" (ngSubmit)="onSearchChange()">
-  <input nz-input
-         type="search"
-         id="input-label"
-         placeholder="Search by Ticker symbol or Company name"
-         name="search"
-         [(ngModel)]="companyParams.search"/>
-</form>
+<input nz-input
+       type="search"
+       id="input-label"
+       placeholder="Search by Ticker symbol or Company name"
+       name="search"
+       [ngModel]="searchTerm()"
+       (ngModelChange)="searchTerm.set($event)"/>
 
 <button nz-button nzType="default" nzDanger (click)="resetParams()">Reset</button>
 <button nz-button nzType="default" (click)="openFiltersDialog()">Filters</button>
 <button nz-button nzType="default" nz-dropdown [nzDropdownMenu]="sortMenu">Sort</button>
-
-<!--<div class="flex flex-col w-4/5 mx-auto mt-4">-->
-<!--  <div class="-m-1.5 overflow-x-auto">-->
-<!--    <div class="p-1.5 min-w-full inline-block align-middle">-->
-<!--      <div class="border rounded-lg overflow-hidden">-->
-<!--        <table class="min-w-full divide-y divide-gray-200">-->
-<!--          <thead class="bg-gray-50">-->
-<!--          <tr>-->
-<!--            <th scope="col" class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">Ticker</th>-->
-<!--            <th scope="col" class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">Name</th>-->
-<!--            <th scope="col" class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">Sector</th>-->
-<!--            <th scope="col" class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">Industry</th>-->
-<!--            <th scope="col" class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">Country</th>-->
-<!--            <th scope="col" class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">IPO Year</th>-->
-<!--          </tr>-->
-<!--          </thead>-->
-<!--          <tbody class="divide-y divide-gray-200">-->
-<!--            @for (company of companies?.data; track $index) {-->
-<!--              <tr>-->
-<!--                <td class="px-6 py-4 text-sm font-medium">-->
-<!--                  <a-->
-<!--                    routerLink="/companies/{{company.ticker}}"-->
-<!--                    class="inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent text-blue-500 hover:text-blue-800 focus:outline-none focus:text-blue-800 disabled:opacity-50 disabled:pointer-events-none">{{ company.ticker }}-->
-<!--                  </a>-->
-<!--                </td>-->
-<!--                <td class="px-6 py-4 text-sm font-medium text-gray-800">-->
-<!--                  <div class="max-w-[150px] overflow-x-auto whitespace-nowrap">{{ company.companyName }}</div>-->
-<!--                </td>-->
-<!--                <td class="px-6 py-4 text-sm text-gray-800">-->
-<!--                  <div class="max-w-[150px] overflow-x-auto whitespace-nowrap">{{ company.sector }}</div>-->
-<!--                </td>-->
-<!--                <td class="px-6 py-4 text-sm text-gray-800">-->
-<!--                  <div class="max-w-[150px] overflow-x-auto whitespace-nowrap">{{ company.industry }}</div>-->
-<!--                </td>-->
-<!--                <td class="px-6 py-4 text-sm text-gray-800">-->
-<!--                  <div class="max-w-[100px] overflow-x-auto whitespace-nowrap">{{ company.country }}</div>-->
-<!--                </td>-->
-<!--                <td class="px-6 py-4 text-sm text-gray-800">-->
-<!--                  <div class="max-w-[80px] overflow-x-auto whitespace-nowrap">{{ company.ipoYear }}</div>-->
-<!--                </td>-->
-<!--              </tr>-->
-<!--            }-->
-<!--          </tbody>-->
-<!--        </table>-->
-<!--      </div>-->
-<!--    </div>-->
-<!--  </div>-->
-<!--</div>-->
 
 <nz-table>
   <thead>
@@ -82,7 +33,9 @@
   <tbody>
     @for (company of companies?.data; track $index) {
       <tr>
-        <td>{{ company.ticker }}</td>
+        <td>
+          <a routerLink="/companies/{{company.ticker}}">{{ company.ticker }}</a>
+        </td>
         <td>{{ company.companyName }}</td>
         <td>{{ company.sector }}</td>
         <td>{{ company.industry }}</td>

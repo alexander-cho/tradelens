@@ -1,33 +1,51 @@
-Log in to your account
+<div class="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+  <div class="max-w-md w-full space-y-8">
+    <div class="text-center">
+      <h2 class="text-2xl font-extrabold text-gray-900">Log in to your account</h2>
+    </div>
 
-<form nz-form [formGroup]="loginForm" class="login-form" (ngSubmit)="onSubmit()" method="POST">
-  <nz-form-item>
-    <nz-form-control nzErrorTip="Please input your username!">
-      <nz-input-group nzPrefixIcon="user">
-        <input type="text" nz-input formControlName="email" required placeholder="Email address" />
-      </nz-input-group>
-    </nz-form-control>
-  </nz-form-item>
-  <nz-form-item>
-    <nz-form-control nzErrorTip="Please input your Password!">
-      <nz-input-group nzPrefixIcon="lock">
-        <input type="password" nz-input formControlName="password" required placeholder="Password" />
-      </nz-input-group>
-    </nz-form-control>
-  </nz-form-item>
-<!--  <div nz-row class="login-form-margin">-->
-<!--    <div nz-col [nzSpan]="12">-->
-<!--      <label nz-checkbox formControlName="remember">-->
-<!--        <span>Remember me</span>-->
-<!--      </label>-->
-<!--    </div>-->
-<!--    <div nz-col [nzSpan]="12">-->
-<!--      <a class="login-form-forgot">Forgot password</a>-->
-<!--    </div>-->
-<!--  </div>-->
-  <button nz-button type="submit" class="login-form-button login-form-margin" [nzType]="'primary'">Log in</button>
-  Not a member?
-  <a routerLink="/auth/register">Sign up</a>
-  <br>
-  <a routerLink="/">Go Home</a>
-</form>
+    <div class="text-center">
+      <span class="text-gray-600">Not a member? </span>
+      <a routerLink="/auth/register" class="font-medium">Create an account</a>
+    </div>
+
+    <form nz-form [formGroup]="loginForm" class="mt-8 space-y-6" (ngSubmit)="onSubmit()" method="POST">
+      <div class="space-y-4">
+        <nz-form-item>
+          <nz-form-control nzErrorTip="Please input your username!">
+            <nz-input-group nzPrefixIcon="user">
+              <input type="text" nz-input formControlName="email" required placeholder="Email address" />
+            </nz-input-group>
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+          <nz-form-control nzErrorTip="Please input your Password!">
+            <nz-input-group nzPrefixIcon="lock">
+              <input type="password" nz-input formControlName="password" required placeholder="Password" />
+            </nz-input-group>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+      <!--  <div nz-row class="login-form-margin">-->
+      <!--    <div nz-col [nzSpan]="12">-->
+      <!--      <label nz-checkbox formControlName="remember">-->
+      <!--        <span>Remember me</span>-->
+      <!--      </label>-->
+      <!--    </div>-->
+      <!--    <div nz-col [nzSpan]="12">-->
+      <!--      <a class="login-form-forgot">Forgot password</a>-->
+      <!--    </div>-->
+      <!--  </div>-->
+
+      <div class="flex flex-col items-center space-y-4">
+        <button nz-button type="submit" class="w-full" [nzType]="'primary'">Log in</button>
+
+        <div class="text-sm text-center space-y-2">
+            <a routerLink="/" class="font-medium">Go Home</a>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, signal, WritableSignal } from '@angular/core';
 import { StockService } from '../../core/services/stock.service';
 import { Stock } from '../../shared/models/stock';
 import { Pagination } from '../../shared/models/pagination';
@@ -13,7 +13,8 @@ import { NzDropDownDirective, NzDropdownMenuComponent } from 'ng-zorro-antd/drop
 import { NzMenuDirective, NzMenuItemComponent } from 'ng-zorro-antd/menu';
 import { FiltersModalComponent } from './filters-modal/filters-modal.component';
 import { NzTableComponent } from 'ng-zorro-antd/table';
-import { NzDividerComponent } from 'ng-zorro-antd/divider';
+import { toObservable } from '@angular/core/rxjs-interop';
+import { debounceTime, Observable } from 'rxjs';
 
 @Component({
   selector: 'app-companies',
@@ -27,8 +28,7 @@ import { NzDividerComponent } from 'ng-zorro-antd/divider';
     NzDropdownMenuComponent,
     NzMenuDirective,
     NzMenuItemComponent,
-    NzTableComponent,
-    NzDividerComponent
+    NzTableComponent
   ],
   providers: [NzModalService],
   templateUrl: './companies.component.html',
@@ -36,37 +36,47 @@ import { NzDividerComponent } from 'ng-zorro-antd/divider';
 })
 export class CompaniesComponent implements OnInit {
   stockService = inject(StockService);
-
   modalService = inject(NzModalService);
+
+  searchTerm: WritableSignal<string> = signal<string>("");
+  debouncedSearch: Observable<string> = toObservable(this.searchTerm).pipe(
+    debounceTime(1000)
+  );
+
   companyParams = new CompanyParams();
-
   companies?: Pagination<Stock>;
-
-  tickersPerPage = [10, 20, 30, 50]
-
+  tickersPerPage = [10, 20, 30, 50];
   sortOptions = [
     { name: 'Default', value: '' },
     { name: 'Alphabetical (A-Z)', value: 'a-z' },
     { name: 'Alphabetical (Z-A)', value: 'z-a' }
-  ]
-
-  getCompanies() {
-    this.stockService.getStocks(this.companyParams).subscribe({
-      next: response => this.companies = response,
-      error: error => console.log(error)
-    });
-  }
+  ];
 
   ngOnInit() {
     this.stockService.getIpoYears();
     this.stockService.getCountries();
     this.stockService.getSectors();
     this.getCompanies();
+
+    this.debouncedSearch.subscribe(() => {
+      this.companyParams.pageNumber = 1;
+      this.companyParams.search = this.searchTerm();
+      this.getCompanies();
+    });
   }
 
-  onSearchChange() {
-    this.companyParams.pageNumber = 1;
-    this.getCompanies();
+  // // dynamic search using effects
+  // searchChange = effect(() => {
+  //   this.companyParams.pageNumber = 1;
+  //   this.companyParams.search = this.searchTerm();
+  //   this.getCompanies();
+  // });
+
+  getCompanies() {
+    this.stockService.getStocks(this.companyParams).subscribe({
+      next: response => this.companies = response,
+      error: error => console.log(error)
+    });
   }
 
   handlePageIndexChangeEvent(event: number) {
@@ -82,16 +92,16 @@ export class CompaniesComponent implements OnInit {
   }
 
   onSortChange(value: string) {
-      this.companyParams.sort = value;
-      this.companyParams.pageNumber = 1;
-      this.getCompanies();
+    this.companyParams.sort = value;
+    this.companyParams.pageNumber = 1;
+    this.getCompanies();
   }
 
   openFiltersDialog() {
     const modalRef = this.modalService.create({
       nzTitle: 'Filters',
       nzContent: FiltersModalComponent,
-      nzWidth: '500px',
+      nzWidth: '600px',
       nzData: {
         selectedIpoYears: this.companyParams.ipoYears,
         selectedCountries: this.companyParams.countries,

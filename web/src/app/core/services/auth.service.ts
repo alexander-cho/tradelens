@@ -24,12 +24,13 @@ export class AuthService {
   }
 
   getUserInfo() {
-    return this.http.get<User>(this.baseUrl + 'auth/user-info').pipe(
-      map(user => {
-        this.currentUser.set(user);
-        return user;
-      })
-    );
+    return this.http.get<User>(this.baseUrl + 'auth/user-info')
+      .pipe(
+        map(user => {
+          this.currentUser.set(user);
+          return user;
+        })
+      );
   }
 
   logout() {
