@@ -16,7 +16,7 @@ public class FinnhubController : ControllerBase
         _service = service;
     }
     
-    [HttpGet("MarketStatus")]
+    [HttpGet("market-status")]
     [Cache(1000)]
     public async Task<ActionResult<MarketStatusDto>> GetMarketStatus()
     {

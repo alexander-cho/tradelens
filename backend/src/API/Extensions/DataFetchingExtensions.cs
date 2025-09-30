@@ -13,7 +13,6 @@ public static class DataFetchingExtensions
             .AddScoped<IPolygonService, PolygonService>()
             .AddScoped<IPolygonClient, PolygonClient>()
             // FMP services
-            .AddScoped<IFmpService, FmpService>()
             .AddScoped<IFmpClient, FmpClient>()
             // Finnhub services
             .AddScoped<IFinnhubService, FinnhubService>()
@@ -22,7 +21,11 @@ public static class DataFetchingExtensions
             .AddScoped<ITradierClient, TradierClient>()
             .AddScoped<ITradierService, TradierService>()
             // Option maximum pain
-            .AddScoped<IMaxPainService, MaxPainService>();
+            .AddScoped<IMaxPainService, MaxPainService>()
+            
+            .AddScoped<ICongressService, CongressService>()
+            
+            ;
 
         return services;
     }

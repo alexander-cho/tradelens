@@ -8,12 +8,12 @@ namespace Infrastructure.Services;
 
 public class MaxPainService : IMaxPainService
 {
-    private readonly ITradierClient _client;
+    private readonly ITradierClient _tradierClient;
     private readonly ILogger<MaxPainService> _logger;
 
     public MaxPainService(ITradierClient client, ILogger<MaxPainService> logger)
     {
-        this._client = client;
+        this._tradierClient = client;
         this._logger = logger;
     }
 
@@ -22,7 +22,7 @@ public class MaxPainService : IMaxPainService
         // this should return a hashmap containing cash values for calls, puts, and the max pain strike.
         // Each strike price is considered as a hypothetical closing price at expiry
 
-        var optionChain = _client.GetOptionChainsAsync(tradierOptionChainSpecParams).Result;
+        var optionChain = _tradierClient.GetOptionChainsAsync(tradierOptionChainSpecParams).Result;
 
         var calls = MaxPainHelpers.CalculateCallCashValues(optionChain);
         var puts = MaxPainHelpers.CalculatePutCashValues(optionChain);
