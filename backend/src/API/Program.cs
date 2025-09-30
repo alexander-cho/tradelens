@@ -12,7 +12,9 @@ builder.Services.AddCors();
 
 builder.Logging.AddLogging();
 
-builder.Services.AddDataServices();
+builder.Services.AddDataClients();
+
+builder.Services.AddBusinessLogicServices();
 
 builder.Services.AddPostgresqlDbContext(builder.Configuration);
 
