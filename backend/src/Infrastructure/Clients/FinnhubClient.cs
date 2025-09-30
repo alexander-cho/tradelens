@@ -16,13 +16,28 @@ public class FinnhubClient : IFinnhubClient
         this._finnhubApiKey = configuration["DataApiKeys:FinnhubApiKey"];
     }
 
-    public async Task<MarketStatusDto> GetMarketStatusAsync()
+    public async Task<MarketStatusDto?> GetMarketStatusAsync()
     {
-        var client = this._httpClientFactory.CreateClient("Finnhub");
+        try
+        {
+            var client = this._httpClientFactory.CreateClient("Finnhub");
         
-        var response = await client.GetAsync($"market-status?exchange=US&token={_finnhubApiKey}");
-        response.EnsureSuccessStatusCode();
+            var response = await client.GetAsync($"market-status?exchange=US&token={_finnhubApiKey}");
+            response.EnsureSuccessStatusCode();
         
-        return await response.Content.ReadFromJsonAsync<MarketStatusDto>();
+            var result = await response.Content.ReadFromJsonAsync<MarketStatusDto>();
+
+            return result;
+        }
+        catch (HttpRequestException ex)
+        {
+            throw new InvalidOperationException("Failed to fetch house trades", ex);
+        }
+    }
+    
+    // PRO endpoint
+    public Task GetCongressionalTradesByTickerAsync()
+    {
+        throw new NotImplementedException();
     }
 }
