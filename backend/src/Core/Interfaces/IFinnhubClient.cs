@@ -4,5 +4,6 @@ namespace Core.Interfaces;
 
 public interface IFinnhubClient
 {
-    Task<MarketStatusDto> GetMarketStatusAsync();
+    Task<MarketStatusDto?> GetMarketStatusAsync();
+    Task GetCongressionalTradesByTickerAsync();
 }
