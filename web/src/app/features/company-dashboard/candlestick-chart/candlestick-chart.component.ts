@@ -1,8 +1,8 @@
 import { Component, inject, input, OnInit } from '@angular/core';
-import { DashboardService } from '../../../core/services/dashboard.service';
 import { Bar, BarAggregates } from '../../../shared/models/polygon';
 import { Stock } from "../../../shared/models/stock";
 import { FormsModule } from '@angular/forms';
+import { CompanyDashboardService } from '../../../core/services/company-dashboard.service';
 // import { ChartComponent, NgApexchartsModule } from "ng-apexcharts";
 // import { ChartOptions } from "../../../shared/models/charting";
 
@@ -23,7 +23,7 @@ export class CandlestickChartComponent implements OnInit {
   timespan = "minute";
   from = "2025-08-09";
   to = "2025-08-19";
-  dashboardService = inject(DashboardService);
+  companyDashboardService = inject(CompanyDashboardService);
 
   candlestickChartOptions = ['1d', '5d', '1m', '3m', '6m', '1y'];
 
@@ -61,7 +61,7 @@ export class CandlestickChartComponent implements OnInit {
   // }
 
   ngOnInit(): void {
-    this.dashboardService.getStockByTicker(this.ticker()).subscribe({
+    this.companyDashboardService.getStockByTicker(this.ticker()).subscribe({
       next: response => {
         this.stock = response;
         this.getBars();
@@ -76,7 +76,7 @@ export class CandlestickChartComponent implements OnInit {
   // }
 
   getBars() {
-    this.dashboardService.getBarAggregates(this.ticker(), this.multiplier, this.timespan, this.from, this.to).subscribe({
+    this.companyDashboardService.getBarAggregates(this.ticker(), this.multiplier, this.timespan, this.from, this.to).subscribe({
       next: response => {
         this.barAggregates = response;
         this.updateChart();

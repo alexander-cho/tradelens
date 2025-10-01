@@ -35,8 +35,8 @@
               }
             ],
             "styles": [
-              "src/theme.less",
               "src/tailwind.css",
+              "src/theme.less",
               "src/styles.scss"
             ],
             "scripts": []

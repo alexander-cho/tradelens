@@ -1,15 +1,15 @@
 import { Component, inject, input, OnInit } from '@angular/core';
 import { Stock } from "../../shared/models/stock";
-import { DashboardService } from '../../core/services/dashboard.service';
 import { RelatedCompanies } from '../../shared/models/polygon';
 import { CandlestickChartComponent } from './candlestick-chart/candlestick-chart.component';
-// import { RouterLink } from '@angular/router';
+import { CompanyDashboardService } from '../../core/services/company-dashboard.service';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-company-dashboard',
   imports: [
     CandlestickChartComponent,
-    // RouterLink
+    RouterLink
   ],
   templateUrl: './company-dashboard.component.html',
   styleUrl: './company-dashboard.component.scss'
@@ -17,12 +17,12 @@ import { CandlestickChartComponent } from './candlestick-chart/candlestick-chart
 export class CompanyDashboardComponent implements OnInit {
   // get ticker from url path
   ticker = input.required<string>();
-  dashboardService = inject(DashboardService);
+  companyDashboardService = inject(CompanyDashboardService);
   stock?: Stock;
   relatedCompanies?: RelatedCompanies;
 
   ngOnInit() {
-    this.dashboardService.getStockByTicker(this.ticker()).subscribe({
+    this.companyDashboardService.getStockByTicker(this.ticker()).subscribe({
       next: response => {
         this.stock = response;
         this.getRelatedCompanies();
@@ -33,7 +33,7 @@ export class CompanyDashboardComponent implements OnInit {
 
   getRelatedCompanies() {
     if (this.stock) {
-      this.dashboardService.getRelatedCompanies(this.stock.ticker).subscribe({
+      this.companyDashboardService.getRelatedCompanies(this.stock.ticker).subscribe({
         next: response => {
           this.relatedCompanies = response;
           console.log(response);

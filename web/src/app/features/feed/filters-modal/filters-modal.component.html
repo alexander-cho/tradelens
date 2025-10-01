@@ -1,12 +1,26 @@
-<nz-select nzAllowClear nzPlaceHolder="Select Tickers" [(ngModel)]="selectedTickers" nzMode="multiple">
-  @for (ticker of feedService.tickers; track $index) {
-    <nz-option [nzValue]="ticker" [nzLabel]="ticker">{{ ticker }}</nz-option>
-  }
-</nz-select>
-<nz-select nzAllowClear nzPlaceHolder="Bullish or Bearish" [(ngModel)]="selectedSentiments" nzMode="multiple">
-  @for (sentiment of feedService.sentiments; track $index) {
-    <nz-option [nzValue]="sentiment" [nzLabel]="sentiment">{{ sentiment }}</nz-option>
-  }
-</nz-select>
+<div>
+  <div class="flex gap-4 p-4 mx-auto">
+    <nz-select nzAllowClear
+               nzPlaceHolder="Select Tickers"
+               [(ngModel)]="selectedTickers"
+               nzMode="multiple"
+               class="w-full">
+      @for (ticker of feedService.tickers; track $index) {
+        <nz-option [nzValue]="ticker" [nzLabel]="ticker">{{ ticker }}</nz-option>
+      }
+    </nz-select>
+    <nz-select nzAllowClear
+               nzPlaceHolder="Bullish or Bearish"
+               [(ngModel)]="selectedSentiments"
+               nzMode="multiple"
+               class="w-full">
+      @for (sentiment of feedService.sentiments; track $index) {
+        <nz-option [nzValue]="sentiment" [nzLabel]="sentiment">{{ sentiment }}</nz-option>
+      }
+    </nz-select>
+  </div>
 
-<button nz-button (click)="applyFilters()" nzType="default">Apply Filters</button>
+  <div class="flex justify-end px-8 py-4">
+    <button nz-button (click)="applyFilters()" nzType="default">Apply Filters</button>
+  </div>
+</div>

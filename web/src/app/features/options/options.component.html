@@ -1,26 +1,26 @@
 <div>
-<form (ngSubmit)="onTickerSubmit()">
-  <input nz-input
-         type="text"
-         class=""
-         placeholder="Enter a ticker symbol"
-         name="ticker"
-         [(ngModel)]="ticker"/>
+  <form (ngSubmit)="onTickerSubmit()">
+    <input nz-input
+           type="text"
+           class=""
+           placeholder="Enter a ticker symbol"
+           name="ticker"
+           [(ngModel)]="ticker"/>
 
-  <button nz-button nzType="primary">Get Expiration Dates</button>
-</form>
+    <button nz-button nzType="primary">Get Expiration Dates</button>
+  </form>
 
-@if (expirationDates()) {
-  <nz-select
-    nzPlaceHolder="Select an expiration date"
-    [(ngModel)]="selectedExpiration"
-    (ngModelChange)="onExpiryDateSelection()"
-    name="expiryDate">
-    @for (expirationDate of expirationDates()?.expirations?.date; track $index) {
-      <nz-option nzValue="{{expirationDate}}" nzLabel="{{expirationDate}}">{{ expirationDate }}</nz-option>
-    }
-  </nz-select>
-}
+  @if (expirationDates()) {
+    <nz-select
+      nzPlaceHolder="Select an expiration date"
+      [(ngModel)]="selectedExpiration"
+      (ngModelChange)="onExpiryDateSelection()"
+      name="expiryDate">
+      @for (expirationDate of expirationDates()?.expirations?.date; track $index) {
+        <nz-option nzValue="{{expirationDate}}" nzLabel="{{expirationDate}}">{{ expirationDate }}</nz-option>
+      }
+    </nz-select>
+  }
 </div>
 
 @if (maxPainData()) {
