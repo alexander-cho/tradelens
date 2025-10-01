@@ -11,6 +11,6 @@ export class HomeService {
   private http = inject(HttpClient);
 
   public getMarketStatus() {
-    return this.http.get<MarketStatus>(this.baseUrl + 'finnhub/market-status');
+    return this.http.get<MarketStatus>(this.baseUrl + 'marketdata/market-status');
   }
 }

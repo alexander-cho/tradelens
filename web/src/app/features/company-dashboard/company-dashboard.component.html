@@ -7,6 +7,6 @@ Related Companies
 <br>
 @if (relatedCompanies) {
   @for (relatedCompany of relatedCompanies.results; track $index) {
-    <a href="/companies/{{relatedCompany.ticker}}">{{ relatedCompany.ticker }}</a> <br>
+    <a routerLink="/companies/{{relatedCompany.ticker}}">{{ relatedCompany.ticker }}</a> <br>
   }
 }

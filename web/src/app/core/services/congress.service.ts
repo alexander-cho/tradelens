@@ -12,10 +12,10 @@ export class CongressService {
   private http = inject(HttpClient);
 
   public getHouseTrades(): Observable<CongressTrades[]> {
-    return this.http.get<CongressTrades[]>(this.baseUrl + 'fmp/house');
+    return this.http.get<CongressTrades[]>(this.baseUrl + 'congress/trades?chamber=house');
   }
 
   public getSenateTrades(): Observable<CongressTrades[]> {
-    return this.http.get<CongressTrades[]>(this.baseUrl + 'fmp/senate');
+    return this.http.get<CongressTrades[]>(this.baseUrl + 'congress/trades?chamber=senate');
   }
 }

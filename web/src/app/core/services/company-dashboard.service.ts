@@ -1,14 +1,14 @@
 import { inject, Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { BarAggregates, RelatedCompanies } from '../../shared/models/polygon';
 import { Observable } from 'rxjs';
+import { BarAggregates, RelatedCompanies } from '../../shared/models/polygon';
 import { Stock } from '../../shared/models/stock';
 
 @Injectable({
   providedIn: 'root'
 })
-export class DashboardService {
+export class CompanyDashboardService {
   private baseUrl = environment.apiUrl;
   private http = inject(HttpClient);
 
@@ -30,7 +30,7 @@ export class DashboardService {
     if (to) {
       params = params.append('to', to);
     }
-    return this.http.get<BarAggregates>(this.baseUrl + 'polygon/bar-aggs', { params });
+    return this.http.get<BarAggregates>(this.baseUrl + 'baraggregates', { params });
   }
 
   public getRelatedCompanies(ticker: string): Observable<RelatedCompanies> {
