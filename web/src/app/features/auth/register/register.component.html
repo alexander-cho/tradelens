@@ -15,54 +15,52 @@
       </a>
     </div>
 
-    <form nz-form [formGroup]="registerForm" class="mt-8 space-y-6" (ngSubmit)="onSubmit()" method="POST">
-      <div class="space-y-4">
-        <div class="flex space-x-4">
-          <nz-form-item class="flex-1 mb-0">
-            <nz-form-control nzErrorTip="Please input your first name!">
-              <nz-input-group nzPrefixIcon="user">
-                <input type="text" nz-input formControlName="firstName" required placeholder="First name" />
-              </nz-input-group>
-            </nz-form-control>
-          </nz-form-item>
+    <form nz-form [formGroup]="registerForm" class="mt-8 space-y-4" (ngSubmit)="onSubmit()" method="POST">
 
-          <nz-form-item class="flex-1 mb-0">
-            <nz-form-control nzErrorTip="Please input your last name!">
-              <nz-input-group nzPrefixIcon="user">
-                <input type="text" nz-input formControlName="lastName" required placeholder="Last name" />
-              </nz-input-group>
-            </nz-form-control>
-          </nz-form-item>
-        </div>
+      <nz-form-item>
+        <nz-form-control nzErrorTip="Please input your first name!">
+          <nz-input-group nzPrefixIcon="user">
+            <input type="text" nz-input formControlName="firstName" required placeholder="First name"/>
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
 
-        <nz-form-item>
-          <nz-form-control nzErrorTip="Please input your email!">
-            <nz-input-group nzPrefixIcon="user">
-              <input type="text" nz-input formControlName="email" required placeholder="Email address" />
-            </nz-input-group>
-          </nz-form-control>
-        </nz-form-item>
+      <nz-form-item>
+        <nz-form-control nzErrorTip="Please input your last name!">
+          <nz-input-group nzPrefixIcon="user">
+            <input type="text" nz-input formControlName="lastName" required placeholder="Last name"/>
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
 
-        <nz-form-item>
-          <nz-form-control nzErrorTip="Please input your Password!">
-            <nz-input-group nzPrefixIcon="lock">
-              <input type="password" nz-input formControlName="password" required placeholder="Password" />
-            </nz-input-group>
-          </nz-form-control>
-        </nz-form-item>
-      </div>
+      <nz-form-item>
+        <nz-form-control nzErrorTip="Please input your email!">
+          <nz-input-group nzPrefixIcon="user">
+            <input type="text" nz-input formControlName="email" required placeholder="Email address"/>
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-control nzErrorTip="Please input your Password!">
+          <nz-input-group nzPrefixIcon="lock">
+            <input type="password" nz-input formControlName="password" required placeholder="Password"/>
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
 
       <div class="flex flex-col items-center space-y-4">
         <button nz-button type="submit" class="w-full" [nzType]="'primary'">
           Create account
         </button>
 
-        <div class="text-sm text-center">
+        <div class="text-sm text-center mt-4">
           <a routerLink="/" class="font-medium">
             Go Home
           </a>
         </div>
       </div>
     </form>
+
   </div>
 </div>
