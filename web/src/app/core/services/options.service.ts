@@ -26,6 +26,6 @@ export class OptionsService {
       params = params.append('greeks', greeks);
     }
 
-    return this.http.get<CallsAndPutsCashSums>(this.baseUrl + 'options/CashValues', { params })
+    return this.http.get<CallsAndPutsCashSums>(this.baseUrl + 'options/cash-values', { params })
   }
 }

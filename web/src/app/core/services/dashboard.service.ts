@@ -30,7 +30,7 @@ export class DashboardService {
     if (to) {
       params = params.append('to', to);
     }
-    return this.http.get<BarAggregates>(this.baseUrl + 'polygon/baraggs', { params });
+    return this.http.get<BarAggregates>(this.baseUrl + 'polygon/bar-aggs', { params });
   }
 
   public getRelatedCompanies(ticker: string): Observable<RelatedCompanies> {
@@ -38,7 +38,7 @@ export class DashboardService {
     if (ticker) {
       params = params.append('ticker', ticker);
     }
-    return this.http.get<RelatedCompanies>(this.baseUrl + 'polygon/relatedcompanies', { params });
+    return this.http.get<RelatedCompanies>(this.baseUrl + 'polygon/related-companies', { params });
   }
 
   // method in order to associate ticker retrieved from parent component with stock entity

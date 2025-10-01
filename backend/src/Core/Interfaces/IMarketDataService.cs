@@ -2,8 +2,7 @@ using Core.DTOs.Finnhub;
 
 namespace Core.Interfaces;
 
-public interface IFinnhubClient
+public interface IMarketDataService
 {
     Task<MarketStatusDto?> GetMarketStatusAsync();
-    Task GetCongressionalTradesByTickerAsync();
 }

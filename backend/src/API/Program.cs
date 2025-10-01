@@ -12,7 +12,9 @@ builder.Services.AddCors();
 
 builder.Logging.AddLogging();
 
-builder.Services.AddDataServices();
+builder.Services.AddDataClients();
+
+builder.Services.AddBusinessLogicServices();
 
 builder.Services.AddPostgresqlDbContext(builder.Configuration);
 
@@ -33,7 +35,7 @@ app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().AllowCredentials().WithOrig
 app.UseMiddleware<ExceptionMiddleware>();
 
 app.UseDefaultFiles();
-app.UseStaticFiles();
+// app.UseStaticFiles();
 
 app.MapControllers();
 
