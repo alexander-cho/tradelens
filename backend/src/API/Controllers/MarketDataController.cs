@@ -7,19 +7,19 @@ namespace API.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class FinnhubController : ControllerBase
+public class MarketDataController : ControllerBase
 {
-    private readonly IFinnhubService _service;
+    private readonly IMarketDataService _marketDataService;
 
-    public FinnhubController(IFinnhubService service)
+    public MarketDataController(IMarketDataService marketDataService)
     {
-        _service = service;
+        _marketDataService = marketDataService;
     }
     
     [HttpGet("market-status")]
     [Cache(1000)]
     public async Task<ActionResult<MarketStatusDto>> GetMarketStatus()
     {
-        return Ok(await this._service.GetMarketStatusAsync());
+        return Ok(await this._marketDataService.GetMarketStatusAsync());
     }
 }

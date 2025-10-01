@@ -9,7 +9,7 @@ public class FinnhubClient : IFinnhubClient
 {
     private readonly IHttpClientFactory _httpClientFactory;
     private readonly string? _finnhubApiKey;
-    
+
     public FinnhubClient(IHttpClientFactory httpClientFactory, IConfiguration configuration)
     {
         this._httpClientFactory = httpClientFactory;
@@ -21,20 +21,20 @@ public class FinnhubClient : IFinnhubClient
         try
         {
             var client = this._httpClientFactory.CreateClient("Finnhub");
-        
+
             var response = await client.GetAsync($"market-status?exchange=US&token={_finnhubApiKey}");
             response.EnsureSuccessStatusCode();
-        
+
             var result = await response.Content.ReadFromJsonAsync<MarketStatusDto>();
 
             return result;
         }
-        catch (HttpRequestException ex)
+        catch(HttpRequestException exception)
         {
-            throw new InvalidOperationException("Failed to fetch house trades", ex);
+            throw new HttpRequestException("Failed to fetch current market status", exception);
         }
     }
-    
+
     // PRO endpoint
     public Task GetCongressionalTradesByTickerAsync()
     {

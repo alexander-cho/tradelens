@@ -11,13 +11,12 @@ namespace API.Controllers;
 public class OptionsController : ControllerBase
 {
     private readonly IMaxPainService _maxPainService;
-    private readonly ITradierService _tradierService;
-    // private readonly IPolygonService _polygonService;
+    private readonly IOptionsService _optionsService;
     
-    public OptionsController(IMaxPainService maxPainService, ITradierService tradierService)
+    public OptionsController(IMaxPainService maxPainService, IOptionsService optionsService)
     {
         this._maxPainService = maxPainService;
-        this._tradierService = tradierService;
+        this._optionsService = optionsService;
     }
     
     [HttpGet("cash-values")]
@@ -29,12 +28,6 @@ public class OptionsController : ControllerBase
     [HttpGet("expirations")]
     public async Task<ActionResult<ExpiryData>> GetExpiryListForUnderlying([FromQuery] string symbol)
     {
-        return await _tradierService.GetExpiryListForUnderlyingAsync(symbol);
+        return await _optionsService.GetExpiryListForUnderlyingAsync(symbol);
     }
-
-    // [HttpGet("BarAggs")]
-    // public async Task<ActionResult<BarAggregateDto>> GetBarAggregates()
-    // {
-    //     return await 
-    // }
 }
