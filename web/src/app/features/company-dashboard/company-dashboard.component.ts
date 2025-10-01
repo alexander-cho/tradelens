@@ -3,13 +3,11 @@ import { Stock } from "../../shared/models/stock";
 import { RelatedCompanies } from '../../shared/models/polygon';
 import { CandlestickChartComponent } from './candlestick-chart/candlestick-chart.component';
 import { CompanyDashboardService } from '../../core/services/company-dashboard.service';
-import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-company-dashboard',
   imports: [
-    CandlestickChartComponent,
-    RouterLink
+    CandlestickChartComponent
   ],
   templateUrl: './company-dashboard.component.html',
   styleUrl: './company-dashboard.component.scss'

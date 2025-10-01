@@ -26,7 +26,7 @@ public class StocksController(IGenericRepository<Stock> repository) : BaseApiCon
     [HttpGet("{ticker}")]
     public async Task<ActionResult<Stock?>> GetCompany(string ticker)
     {
-        var spec = new StockByTickerSpecification(ticker);
+        var spec = new StockByTickerSpecification(ticker.ToUpper());
         var stock = await repository.GetEntityWithSpec(spec);
         if (stock == null)
         {

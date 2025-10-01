@@ -38,7 +38,7 @@ export class CompanyDashboardService {
     if (ticker) {
       params = params.append('ticker', ticker);
     }
-    return this.http.get<RelatedCompanies>(this.baseUrl + 'polygon/related-companies', { params });
+    return this.http.get<RelatedCompanies>(this.baseUrl + 'companies/related-companies', { params });
   }
 
   // method in order to associate ticker retrieved from parent component with stock entity

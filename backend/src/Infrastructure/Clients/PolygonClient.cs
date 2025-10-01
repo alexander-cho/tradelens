@@ -25,7 +25,7 @@ public class PolygonClient : IPolygonClient
     {
         var client = this._httpClientFactory.CreateClient("Polygon");
         var response = await client.GetAsync(
-            $"v2/aggs/ticker/{polygonBarAggSpecParams.Ticker}/range/{polygonBarAggSpecParams.Multiplier}/{polygonBarAggSpecParams.Timespan}/{polygonBarAggSpecParams.From}/{polygonBarAggSpecParams.To}?adjusted=true&sort=asc&limit=50000&apiKey={_polygonApiKey}");
+            $"v2/aggs/ticker/{polygonBarAggSpecParams.Ticker.ToUpper()}/range/{polygonBarAggSpecParams.Multiplier}/{polygonBarAggSpecParams.Timespan}/{polygonBarAggSpecParams.From}/{polygonBarAggSpecParams.To}?adjusted=true&sort=asc&limit=50000&apiKey={_polygonApiKey}");
         response.EnsureSuccessStatusCode();
 
         var result = await response.Content.ReadFromJsonAsync<BarAggregateDto>();
@@ -42,7 +42,7 @@ public class PolygonClient : IPolygonClient
         var client = this._httpClientFactory.CreateClient("Polygon");
         var response =
             await client.GetAsync(
-                $"v1/related-companies/{ticker}?apiKey={_polygonApiKey}");
+                $"v1/related-companies/{ticker.ToUpper()}?apiKey={_polygonApiKey}");
         response.EnsureSuccessStatusCode();
         var result = await response.Content.ReadFromJsonAsync<RelatedCompaniesDto>();
         return result;
