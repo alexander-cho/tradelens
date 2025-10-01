@@ -8,10 +8,10 @@ public static class RegisterServiceExtensions
     public static IServiceCollection AddBusinessLogicServices(this IServiceCollection services)
     {
         services
-            .AddScoped<IPolygonService, PolygonService>() // -> BarAggregateService
-            .AddScoped<IFinnhubService, FinnhubService>()
-            .AddScoped<ITradierService, TradierService>()
+            .AddScoped<IMarketDataService, MarketDataService>()
+            .AddScoped<IOptionsService, OptionsService>()
             .AddScoped<IMaxPainService, MaxPainService>()
+            .AddScoped<ICongressService, CongressService>()
             ;
 
         return services;

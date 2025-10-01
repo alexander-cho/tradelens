@@ -3,11 +3,11 @@ using Core.Interfaces;
 
 namespace Infrastructure.Services;
 
-public class TradierService : ITradierService
+public class OptionsService : IOptionsService
 {
     private readonly ITradierClient _client;
 
-    public TradierService(ITradierClient client)
+    public OptionsService(ITradierClient client)
     {
         _client = client;
     }
