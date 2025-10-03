@@ -1,9 +1,10 @@
 using System.Net.Http.Json;
-using Core.DTOs.Fmp;
 using Core.Interfaces;
+using Core.Models;
+using Infrastructure.Clients.Fmp.DTOs;
 using Microsoft.Extensions.Configuration;
 
-namespace Infrastructure.Clients;
+namespace Infrastructure.Clients.Fmp;
 
 public class FmpClient : IFmpClient
 {
@@ -54,7 +55,7 @@ public class FmpClient : IFmpClient
         }
     }
 
-    public async Task<IEnumerable<RevenueSegmentation>> GetRevenueProductSegmentationAsync()
+    public async Task<IEnumerable<RevenueSegmentationDto>> GetRevenueProductSegmentationAsync()
     {
         try
         {
@@ -63,7 +64,7 @@ public class FmpClient : IFmpClient
             var response = await client.GetAsync($"revenue-product-segmentation?symbol=SOFI&limit=5&period=annual&apikey={_fmpApiKey}");
             response.EnsureSuccessStatusCode();
 
-            var result = await response.Content.ReadFromJsonAsync<IEnumerable<RevenueSegmentation>>();
+            var result = await response.Content.ReadFromJsonAsync<IEnumerable<RevenueSegmentationDto>>();
 
             return result ?? [];
         }

@@ -1,23 +1,22 @@
-using Core.DTOs.Options;
-using Core.DTOs.Tradier;
+using Core.Models;
 
-namespace Infrastructure.Helpers;
+namespace Core.Services;
 
-public static class MaxPainHelpers
+public static class MaxPainCalculation
 {
-    public static double CalculateMaxPain(OptionsData optionsData)
+    public static double CalculateMaxPain(OptionsChain optionsChain)
     {
-        List<CashSumAtPrice> totalSums = CalculateCashValuesTotal(optionsData);
+        List<CashSumAtPrice> totalSums = CalculateCashValuesTotal(optionsChain);
         double maxPainValue = totalSums.Min(x => x.TotalCashValue);
         double maxPainStrike = totalSums.First(x => x.TotalCashValue == maxPainValue).Price;
         return maxPainStrike;
     }
 
     // use same DTO for adding calls and puts sums
-    public static List<CashSumAtPrice> CalculateCashValuesTotal(OptionsData optionsData)
+    public static List<CashSumAtPrice> CalculateCashValuesTotal(OptionsChain optionsChain)
     {
-        List<CashSumAtPrice> callSums = CalculateCallCashValues(optionsData);
-        List<CashSumAtPrice> putSums = CalculatePutCashValues(optionsData);
+        List<CashSumAtPrice> callSums = CalculateCallCashValues(optionsChain);
+        List<CashSumAtPrice> putSums = CalculatePutCashValues(optionsChain);
 
         var totalAtEachPrice = new List<CashSumAtPrice>();
 
@@ -33,10 +32,10 @@ public static class MaxPainHelpers
         return totalAtEachPrice;
     }
 
-    public static List<CashSumAtPrice> CalculateCallCashValues(OptionsData optionsData)
+    public static List<CashSumAtPrice> CalculateCallCashValues(OptionsChain optionsChain)
     {
-        List<StrikePriceData> options = optionsData.Options.Option;
-        HashSet<float> strikePrices = GetStrikePrices(optionsData);
+        List<StrikePriceData> options = optionsChain.Options.Option;
+        HashSet<float> strikePrices = GetStrikePrices(optionsChain);
 
         var cashAtEachPrice = new List<CashSumAtPrice>();
 
@@ -78,10 +77,10 @@ public static class MaxPainHelpers
         return cashAtEachPrice;
     }
 
-    public static List<CashSumAtPrice> CalculatePutCashValues(OptionsData optionsData)
+    public static List<CashSumAtPrice> CalculatePutCashValues(OptionsChain optionsChain)
     {
-        List<StrikePriceData> options = optionsData.Options.Option;
-        HashSet<float> strikePrices = GetStrikePrices(optionsData);
+        List<StrikePriceData> options = optionsChain.Options.Option;
+        HashSet<float> strikePrices = GetStrikePrices(optionsChain);
 
         var cashAtEachPrice = new List<CashSumAtPrice>();
 
@@ -121,9 +120,9 @@ public static class MaxPainHelpers
         return cashAtEachPrice;
     }
 
-    private static HashSet<float> GetStrikePrices(OptionsData optionsData)
+    private static HashSet<float> GetStrikePrices(OptionsChain optionsChain)
     {
-        List<StrikePriceData> options = optionsData.Options.Option;
+        List<StrikePriceData> options = optionsChain.Options.Option;
 
         HashSet<float> strikePrices = new();
 

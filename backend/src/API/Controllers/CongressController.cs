@@ -1,6 +1,6 @@
 using API.RequestHelpers;
-using Core.DTOs.Fmp;
 using Core.Interfaces;
+using Infrastructure.Clients.Fmp.DTOs;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
@@ -18,7 +18,7 @@ public class CongressController : ControllerBase
 
     [Cache(600)]
     [HttpGet("trades")]
-    public async Task<ActionResult<CongressTradesDto>> GetCongressTrades([FromQuery] string chamber)
+    public async Task<ActionResult<string>> GetCongressTrades([FromQuery] string chamber)
     {
         var result = await _congressService.GetCongressTradesAsync(chamber);
         return Ok(result);

@@ -1,11 +1,12 @@
-using Core.DTOs.Fmp;
+using Core.Models;
+using Infrastructure.Clients.Fmp.DTOs;
 
-namespace Core.Interfaces;
+namespace Infrastructure.Clients.Fmp;
 
 public interface IFmpClient
 {
     Task<IEnumerable<CongressTradesDto>> GetLatestHouseTradesAsync();
     Task<IEnumerable<CongressTradesDto>> GetLatestSenateTradesAsync();
-    Task<IEnumerable<RevenueSegmentation>> GetRevenueProductSegmentationAsync();
+    Task<IEnumerable<RevenueSegmentationDto>> GetRevenueProductSegmentationAsync();
     Task<IEnumerable<FinancialMetric>> GetIncomeStatementAsync();
 }

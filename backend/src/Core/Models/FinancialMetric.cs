@@ -1,6 +1,6 @@
 using Core.Entities;
 
-namespace Core.DTOs.Fmp;
+namespace Core.Models;
 
 public class FinancialMetric : BaseEntity
 {

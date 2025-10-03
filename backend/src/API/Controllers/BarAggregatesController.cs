@@ -1,6 +1,5 @@
-using Core.DTOs.Polygon;
-using Core.Interfaces;
 using Core.Specifications;
+using Infrastructure.Clients.Polygon;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
@@ -15,10 +14,11 @@ public class BarAggregatesController : ControllerBase
     {
         _polygonClient = polygonClient;
     }
-    
-    [HttpGet]
-    public async Task<ActionResult<BarAggregateDto?>> GetBarAggregates([FromQuery] PolygonBarAggSpecParams polygonBarAggSpecParams)
-    {
-        return await this._polygonClient.GetBarAggregatesAsync(polygonBarAggSpecParams);
-    }
+    //
+    // [HttpGet]
+    // public async Task<ActionResult<string>> GetBarAggregates([FromQuery] PolygonBarAggSpecParams polygonBarAggSpecParams)
+    // {
+    //     return await this._polygonClient.GetBarAggregatesAsync(polygonBarAggSpecParams);
+    //     
+    // }
 }

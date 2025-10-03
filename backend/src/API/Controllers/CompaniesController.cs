@@ -1,5 +1,4 @@
 using API.RequestHelpers;
-using Core.DTOs.Polygon;
 using Core.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,7 +17,7 @@ public class CompaniesController : ControllerBase
 
     [Cache(1000)]
     [HttpGet("related-companies")]
-    public async Task<ActionResult<RelatedCompaniesDto?>> GetRelatedCompanies(string ticker)
+    public async Task<ActionResult<string>> GetRelatedCompanies(string ticker)
     {
         return await _companiesService.GetRelatedCompaniesAsync(ticker);
     }

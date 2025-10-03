@@ -1,11 +1,10 @@
 using System.Net.Http.Json;
-using Core.DTOs.Polygon;
-using Core.Interfaces;
 using Core.Specifications;
+using Infrastructure.Clients.Polygon.DTOs;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
-namespace Infrastructure.Clients;
+namespace Infrastructure.Clients.Polygon;
 
 public class PolygonClient : IPolygonClient
 {

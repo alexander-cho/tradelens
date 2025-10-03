@@ -1,10 +1,9 @@
-using Core.DTOs.Options;
-using Core.DTOs.Tradier;
+using Core.Models;
 using Core.Specifications;
 
 namespace Core.Interfaces;
 
 public interface IMaxPainService
 {
-    CallsAndPutsCashSums CalculateCashValuesForOneExpirationAsync(TradierOptionChainSpecParams tradierOptionChainSpecParams);
+    // CallsAndPutsCashSums CalculateCashValuesForOneExpirationAsync(TradierOptionChainSpecParams tradierOptionChainSpecParams);
 }

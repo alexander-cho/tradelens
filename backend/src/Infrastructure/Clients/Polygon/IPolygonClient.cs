@@ -1,7 +1,7 @@
-using Core.DTOs.Polygon;
 using Core.Specifications;
+using Infrastructure.Clients.Polygon.DTOs;
 
-namespace Core.Interfaces;
+namespace Infrastructure.Clients.Polygon;
 
 public interface IPolygonClient
 {

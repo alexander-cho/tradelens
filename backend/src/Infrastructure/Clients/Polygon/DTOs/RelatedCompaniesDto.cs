@@ -1,4 +1,4 @@
-namespace Core.DTOs.Polygon;
+namespace Infrastructure.Clients.Polygon.DTOs;
 
 public class RelatedCompaniesDto
 {

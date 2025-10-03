@@ -1,4 +1,4 @@
-namespace Core.DTOs.Options;
+namespace Core.Models;
 
 public class MaxPain
 {

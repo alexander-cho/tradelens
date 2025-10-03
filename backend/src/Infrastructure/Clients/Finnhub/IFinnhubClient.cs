@@ -1,6 +1,6 @@
-using Core.DTOs.Finnhub;
+using Infrastructure.Clients.Finnhub.DTOs;
 
-namespace Core.Interfaces;
+namespace Infrastructure.Clients.Finnhub;
 
 public interface IFinnhubClient
 {

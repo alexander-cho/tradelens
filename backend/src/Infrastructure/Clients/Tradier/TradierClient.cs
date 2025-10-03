@@ -1,31 +1,32 @@
 using System.Net.Http.Json;
-using Core.DTOs.Tradier;
-using Core.Interfaces;
 using Core.Specifications;
+using Infrastructure.Clients.Tradier.DTOs;
 using Microsoft.Extensions.Logging;
 
-namespace Infrastructure.Clients;
+namespace Infrastructure.Clients.Tradier;
 
 public class TradierClient : ITradierClient
 {
     private readonly IHttpClientFactory _httpClientFactory;
     private readonly ILogger<TradierClient> _logger;
-    
+
     public TradierClient(IHttpClientFactory httpClientFactory, ILogger<TradierClient> logger)
     {
         this._httpClientFactory = httpClientFactory;
         this._logger = logger;
     }
 
-    public async Task<OptionsData> GetOptionChainsAsync(TradierOptionChainSpecParams tradierOptionChainSpecParams)
+    public async Task<OptionsChainDto> GetOptionsChainAsync(TradierOptionChainSpecParams tradierOptionChainSpecParams)
     {
         var client = _httpClientFactory.CreateClient("Tradier");
-        
-        var response = await client.GetAsync($"options/chains?symbol={tradierOptionChainSpecParams.Symbol}&expiration={tradierOptionChainSpecParams.Expiration}&greeks={tradierOptionChainSpecParams.Greeks}");
+
+        var response =
+            await client.GetAsync(
+                $"options/chains?symbol={tradierOptionChainSpecParams.Symbol}&expiration={tradierOptionChainSpecParams.Expiration}&greeks={tradierOptionChainSpecParams.Greeks}");
         response.EnsureSuccessStatusCode();
         if (response.IsSuccessStatusCode)
         {
-            var optionData = await response.Content.ReadFromJsonAsync<OptionsData>();
+            var optionData = await response.Content.ReadFromJsonAsync<OptionsChainDto>();
 
             _logger.LogInformation("Retrieved {optionData}", optionData);
 
@@ -38,15 +39,15 @@ public class TradierClient : ITradierClient
         throw new HttpRequestException($"Failed to get bar aggregates. Status code: {response.StatusCode}");
     }
 
-    public async Task<ExpiryData> GetExpiryDatesForUnderlyingAsync(string symbol)
+    public async Task<ExpirationsDto> GetExpiryDatesForUnderlyingAsync(string symbol)
     {
         var client = _httpClientFactory.CreateClient("Tradier");
-        
+
         var response = await client.GetAsync($"options/expirations?symbol={symbol}");
         response.EnsureSuccessStatusCode();
         if (response.IsSuccessStatusCode)
         {
-            var expiryDates = await response.Content.ReadFromJsonAsync<ExpiryData>();
+            var expiryDates = await response.Content.ReadFromJsonAsync<ExpirationsDto>();
 
             _logger.LogInformation("Retrieved {expiryData}", expiryDates);
 
@@ -55,7 +56,7 @@ public class TradierClient : ITradierClient
                 return expiryDates;
             }
         }
-        
+
         throw new HttpRequestException($"Failed to get expiry dates for {symbol}");
     }
 }

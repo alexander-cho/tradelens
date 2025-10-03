@@ -1,4 +1,4 @@
-namespace Core.DTOs.Finnhub;
+namespace Infrastructure.Clients.Finnhub.DTOs;
 
 public record MarketStatusDto(
     string Exchange,

@@ -1,5 +1,5 @@
-using Core.DTOs.Finnhub;
 using Core.Interfaces;
+using Infrastructure.Clients.Finnhub;
 
 namespace Infrastructure.Services;
 
@@ -12,8 +12,10 @@ public class MarketDataService : IMarketDataService
         this._finnhubClient = finnhubClient;
     }
 
-    public async Task<MarketStatusDto?> GetMarketStatusAsync()
+    public async Task<string> GetMarketStatusAsync()
     {
-        return await _finnhubClient.GetMarketStatusAsync();
+        // return await _finnhubClient.GetMarketStatusAsync();
+        
+        throw new NotImplementedException();
     }
 }

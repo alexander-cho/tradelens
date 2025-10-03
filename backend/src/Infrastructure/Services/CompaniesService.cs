@@ -1,5 +1,5 @@
-using Core.DTOs.Polygon;
 using Core.Interfaces;
+using Infrastructure.Clients.Polygon;
 
 namespace Infrastructure.Services;
 
@@ -12,8 +12,10 @@ public class CompaniesService : ICompaniesService
         _polygonClient = polygonClient;
     }
 
-    public async Task<RelatedCompaniesDto?> GetRelatedCompaniesAsync(string ticker)
+    public async Task<string> GetRelatedCompaniesAsync(string ticker)
     {
-        return await _polygonClient.GetRelatedCompaniesAsync(ticker);
+        // return await _polygonClient.GetRelatedCompaniesAsync(ticker);
+
+        throw new NotImplementedException();
     }
 }

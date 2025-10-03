@@ -1,6 +1,5 @@
-using Core.DTOs.Options;
-using Core.DTOs.Tradier;
 using Core.Interfaces;
+using Core.Models;
 using Core.Specifications;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,15 +17,15 @@ public class OptionsController : ControllerBase
         this._maxPainService = maxPainService;
         this._optionsService = optionsService;
     }
-    
-    [HttpGet("cash-values")]
-    public CallsAndPutsCashSums GetCashValuesAndMaxPain([FromQuery] TradierOptionChainSpecParams tradierOptionChainSpecParams)
-    {
-        return _maxPainService.CalculateCashValuesForOneExpirationAsync(tradierOptionChainSpecParams);
-    }
+    //
+    // [HttpGet("cash-values")]
+    // public CallsAndPutsCashSums GetCashValuesAndMaxPain([FromQuery] TradierOptionChainSpecParams tradierOptionChainSpecParams)
+    // {
+    //     return _maxPainService.CalculateCashValuesForOneExpirationAsync(tradierOptionChainSpecParams);
+    // }
 
     [HttpGet("expirations")]
-    public async Task<ActionResult<ExpiryData>> GetExpiryListForUnderlying([FromQuery] string symbol)
+    public async Task<ActionResult<string>> GetExpiryListForUnderlying([FromQuery] string symbol)
     {
         return await _optionsService.GetExpiryListForUnderlyingAsync(symbol);
     }

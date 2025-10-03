@@ -1,5 +1,5 @@
-using Core.DTOs.Tradier;
 using Core.Interfaces;
+using Infrastructure.Clients.Tradier;
 
 namespace Infrastructure.Services;
 
@@ -12,8 +12,10 @@ public class OptionsService : IOptionsService
         _client = client;
     }
 
-    public async Task<ExpiryData> GetExpiryListForUnderlyingAsync(string symbol)
+    public async Task<string> GetExpiryListForUnderlyingAsync(string symbol)
     {
-        return await _client.GetExpiryDatesForUnderlyingAsync(symbol);
+        // return await _client.GetExpiryDatesForUnderlyingAsync(symbol);
+
+        throw new NotImplementedException();
     }
 }

@@ -1,9 +1,8 @@
 using System.Net.Http.Json;
-using Core.DTOs.Finnhub;
-using Core.Interfaces;
+using Infrastructure.Clients.Finnhub.DTOs;
 using Microsoft.Extensions.Configuration;
 
-namespace Infrastructure.Clients;
+namespace Infrastructure.Clients.Finnhub;
 
 public class FinnhubClient : IFinnhubClient
 {

@@ -1,5 +1,7 @@
-using Core.Interfaces;
-using Infrastructure.Clients;
+using Infrastructure.Clients.Finnhub;
+using Infrastructure.Clients.Fmp;
+using Infrastructure.Clients.Polygon;
+using Infrastructure.Clients.Tradier;
 
 namespace API.Extensions;
 
