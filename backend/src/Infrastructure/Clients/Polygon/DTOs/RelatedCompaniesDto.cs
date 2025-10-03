@@ -1,14 +1,11 @@
 namespace Infrastructure.Clients.Polygon.DTOs;
 
-public class RelatedCompaniesDto
-{
-    public required string Ticker { get; set; }
-    public string? Status { get; set; }
+public record RelatedCompaniesDto(
+    string Ticker,
+    string? Status,
+    List<RelatedCompany>? Results
+);
 
-    public List<RelatedCompany>? Results { get; set; }
-}
-
-public class RelatedCompany
-{
-    public required string Ticker { get; set; }
-}
+public record RelatedCompany(
+    string Ticker
+);

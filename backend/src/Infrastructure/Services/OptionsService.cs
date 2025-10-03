@@ -41,10 +41,12 @@ public class OptionsService : IOptionsService
         };
     }
 
-    public async Task<string> GetExpiryListForUnderlyingAsync(string symbol)
+    public async Task<ExpirationsModel> GetExpiryListForUnderlyingAsync(string symbol)
     {
-        // return await _client.GetExpiryDatesForUnderlyingAsync(symbol);
+        var expirationsDto = await _tradierClient.GetExpiryDatesForUnderlyingAsync(symbol);
 
-        throw new NotImplementedException();
+        var expirations = ExpirationsMapper.ToExpirationsDomainModel(expirationsDto);
+
+        return expirations;
     }
 }

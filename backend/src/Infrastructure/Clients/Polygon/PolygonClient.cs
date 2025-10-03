@@ -20,14 +20,14 @@ public class PolygonClient : IPolygonClient
         this._logger = logger;
     }
 
-    public async Task<BarAggregateDto?> GetBarAggregatesAsync(PolygonBarAggSpecParams polygonBarAggSpecParams)
+    public async Task<BarAggregatesDto?> GetBarAggregatesAsync(PolygonBarAggSpecParams polygonBarAggSpecParams)
     {
         var client = this._httpClientFactory.CreateClient("Polygon");
         var response = await client.GetAsync(
             $"v2/aggs/ticker/{polygonBarAggSpecParams.Ticker.ToUpper()}/range/{polygonBarAggSpecParams.Multiplier}/{polygonBarAggSpecParams.Timespan}/{polygonBarAggSpecParams.From}/{polygonBarAggSpecParams.To}?adjusted=true&sort=asc&limit=50000&apiKey={_polygonApiKey}");
         response.EnsureSuccessStatusCode();
 
-        var result = await response.Content.ReadFromJsonAsync<BarAggregateDto>();
+        var result = await response.Content.ReadFromJsonAsync<BarAggregatesDto>();
         _logger.LogInformation(
             "Retrieved {polygonBarAggSpecParams.Multiplier} {polygonBarAggSpecParams.Timespan} bar aggregates for symbol {polygonBarAggSpecParams.Ticker} from {polygonBarAggSpecParams.From} to {polygonBarAggSpecParams.To}",
             polygonBarAggSpecParams.Multiplier, polygonBarAggSpecParams.Timespan, polygonBarAggSpecParams.Ticker,

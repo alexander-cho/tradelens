@@ -1,6 +1,6 @@
 namespace Core.Models;
 
-public class OptionsChain
+public class OptionsChainModel
 {
     public required FullOptionsChain Options { get; set; }
 }

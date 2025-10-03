@@ -1,6 +1,8 @@
+using Core.Models;
+
 namespace Core.Interfaces;
 
 public interface ICongressService
 {
-    Task<IEnumerable<string>> GetCongressTradesAsync(string chamber);
+    Task<IEnumerable<CongressTradeModel>> GetCongressTradesAsync(string chamber);
 }

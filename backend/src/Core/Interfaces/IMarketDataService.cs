@@ -1,6 +1,8 @@
+using Core.Models;
+
 namespace Core.Interfaces;
 
 public interface IMarketDataService
 {
-    Task<string> GetMarketStatusAsync();
+    Task<MarketStatusModel?> GetMarketStatusAsync();
 }

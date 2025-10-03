@@ -7,5 +7,5 @@ public interface IOptionsService
 {
     CallsAndPutsCashSums CalculateCashValuesForOneExpirationAsync(TradierOptionChainSpecParams tradierOptionChainSpecParams);
 
-    public Task<string> GetExpiryListForUnderlyingAsync(string symbol);
+    public Task<ExpirationsModel> GetExpiryListForUnderlyingAsync(string symbol);
 }

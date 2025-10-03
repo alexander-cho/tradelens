@@ -5,8 +5,8 @@ namespace Infrastructure.Clients.Fmp;
 
 public interface IFmpClient
 {
-    Task<IEnumerable<CongressTradesDto>> GetLatestHouseTradesAsync();
-    Task<IEnumerable<CongressTradesDto>> GetLatestSenateTradesAsync();
+    Task<IEnumerable<CongressTradeDto>> GetLatestHouseTradesAsync();
+    Task<IEnumerable<CongressTradeDto>> GetLatestSenateTradesAsync();
     Task<IEnumerable<RevenueSegmentationDto>> GetRevenueProductSegmentationAsync();
     Task<IEnumerable<FinancialMetric>> GetIncomeStatementAsync();
 }

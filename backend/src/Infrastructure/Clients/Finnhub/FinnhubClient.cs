@@ -24,7 +24,7 @@ public class FinnhubClient : IFinnhubClient
             var response = await client.GetAsync($"market-status?exchange=US&token={_finnhubApiKey}");
             response.EnsureSuccessStatusCode();
 
-            var result = await response.Content.ReadFromJsonAsync<MarketStatusDto>();
+            var result = await response.Content.ReadFromJsonAsync<MarketStatusDto?>();
 
             return result;
         }

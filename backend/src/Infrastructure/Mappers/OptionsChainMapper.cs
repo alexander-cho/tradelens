@@ -5,9 +5,9 @@ namespace Infrastructure.Mappers;
 
 public static class OptionsChainMapper
 {
-    public static OptionsChain ToOptionsChainDomainModel(OptionsChainDto optionsChainDto)
+    public static OptionsChainModel ToOptionsChainDomainModel(OptionsChainDto optionsChainDto)
     {
-        return new OptionsChain
+        return new OptionsChainModel
         {
             Options = ToFullOptionsChainDomainModel(optionsChainDto.Options)
         };

@@ -1,6 +1,6 @@
-namespace Infrastructure.Clients.Polygon.DTOs;
+namespace Core.Models;
 
-public class BarAggregateDto
+public class BarAggregatesModel
 {
     public required string Ticker { get; set; }
 

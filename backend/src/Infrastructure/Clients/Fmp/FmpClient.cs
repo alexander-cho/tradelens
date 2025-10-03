@@ -17,7 +17,7 @@ public class FmpClient : IFmpClient
         this._fmpApiKey = configuration["DataApiKeys:FmpApiKey"];
     }
 
-    public async Task<IEnumerable<CongressTradesDto>> GetLatestHouseTradesAsync()
+    public async Task<IEnumerable<CongressTradeDto>> GetLatestHouseTradesAsync()
     {
         try
         {
@@ -26,7 +26,7 @@ public class FmpClient : IFmpClient
             var response = await client.GetAsync($"house-latest?apikey={_fmpApiKey}");
             response.EnsureSuccessStatusCode();
 
-            var result = await response.Content.ReadFromJsonAsync<IEnumerable<CongressTradesDto>>();
+            var result = await response.Content.ReadFromJsonAsync<IEnumerable<CongressTradeDto>>();
 
             return result ?? [];
         }
@@ -36,7 +36,7 @@ public class FmpClient : IFmpClient
         }
     }
 
-    public async Task<IEnumerable<CongressTradesDto>> GetLatestSenateTradesAsync()
+    public async Task<IEnumerable<CongressTradeDto>> GetLatestSenateTradesAsync()
     {
         try
         {
@@ -45,7 +45,7 @@ public class FmpClient : IFmpClient
             var response = await client.GetAsync($"senate-latest?apikey={_fmpApiKey}");
             response.EnsureSuccessStatusCode();
 
-            var result = await response.Content.ReadFromJsonAsync<IEnumerable<CongressTradesDto>>();
+            var result = await response.Content.ReadFromJsonAsync<IEnumerable<CongressTradeDto>>();
 
             return result ?? [];
         }

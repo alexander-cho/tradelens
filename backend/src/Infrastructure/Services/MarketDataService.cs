@@ -1,5 +1,7 @@
 using Core.Interfaces;
+using Core.Models;
 using Infrastructure.Clients.Finnhub;
+using Infrastructure.Mappers;
 
 namespace Infrastructure.Services;
 
@@ -12,10 +14,17 @@ public class MarketDataService : IMarketDataService
         this._finnhubClient = finnhubClient;
     }
 
-    public async Task<string> GetMarketStatusAsync()
+    public async Task<MarketStatusModel?> GetMarketStatusAsync()
     {
-        // return await _finnhubClient.GetMarketStatusAsync();
+        var marketStatusDto = await _finnhubClient.GetMarketStatusAsync();
         
-        throw new NotImplementedException();
+        if (marketStatusDto == null)
+        {
+            throw new InvalidOperationException("Market status data was not available");
+        }
+        
+        var marketStatus = MarketStatusMapper.ToMarketStatusDomainModel(marketStatusDto);
+
+        return marketStatus;
     }
 }

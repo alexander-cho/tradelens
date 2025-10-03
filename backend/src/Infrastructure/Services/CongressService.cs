@@ -1,5 +1,7 @@
 using Core.Interfaces;
+using Core.Models;
 using Infrastructure.Clients.Fmp;
+using Infrastructure.Mappers;
 
 namespace Infrastructure.Services;
 
@@ -12,7 +14,7 @@ public class CongressService : ICongressService
         this._fmpClient = fmpClient;
     }
 
-    public async Task<IEnumerable<string>> GetCongressTradesAsync(string chamber)
+    public async Task<IEnumerable<CongressTradeModel>> GetCongressTradesAsync(string chamber)
     {
         // if (chamber == "house")
         // {
@@ -26,16 +28,16 @@ public class CongressService : ICongressService
         //
         // throw new Exception("invalid congressional chamber");
 
-        // switch (chamber)
-        // {
-        //     case "house":
-        //         return await _fmpClient.GetLatestHouseTradesAsync();
-        //     case "senate":
-        //         return await _fmpClient.GetLatestSenateTradesAsync();
-        //     default:
-        //         throw new ArgumentException("invalid congressional chamber", nameof(chamber));
-        // }
-
-        throw new NotImplementedException();
+        switch (chamber)
+        {
+            case "house":
+                var houseTradesDto = await _fmpClient.GetLatestHouseTradesAsync();
+                return houseTradesDto.Select(trade => CongressTradeMapper.ToCongressTradesDomainModel(trade)).ToList();
+            case "senate":
+                var senateTradesDto = await _fmpClient.GetLatestSenateTradesAsync();
+                return senateTradesDto.Select(CongressTradeMapper.ToCongressTradesDomainModel).ToList();
+            default:
+                throw new ArgumentException("invalid congressional chamber", nameof(chamber));
+        }
     }
 }

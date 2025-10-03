@@ -1,4 +1,6 @@
 using Core.Interfaces;
+using Core.Models;
+using Core.Specifications;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
@@ -13,15 +15,15 @@ public class OptionsController : ControllerBase
     {
         this._optionsService = optionsService;
     }
-    //
-    // [HttpGet("cash-values")]
-    // public CallsAndPutsCashSums GetCashValuesAndMaxPain([FromQuery] TradierOptionChainSpecParams tradierOptionChainSpecParams)
-    // {
-    //     return _maxPainService.CalculateCashValuesForOneExpirationAsync(tradierOptionChainSpecParams);
-    // }
+    
+    [HttpGet("cash-values")]
+    public CallsAndPutsCashSums GetCashValuesAndMaxPain([FromQuery] TradierOptionChainSpecParams tradierOptionChainSpecParams)
+    {
+        return _optionsService.CalculateCashValuesForOneExpirationAsync(tradierOptionChainSpecParams);
+    }
 
     [HttpGet("expirations")]
-    public async Task<ActionResult<string>> GetExpiryListForUnderlying([FromQuery] string symbol)
+    public async Task<ActionResult<ExpirationsModel>> GetExpiryListForUnderlying([FromQuery] string symbol)
     {
         return await _optionsService.GetExpiryListForUnderlyingAsync(symbol);
     }
