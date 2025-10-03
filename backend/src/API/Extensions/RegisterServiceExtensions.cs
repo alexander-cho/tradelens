@@ -10,7 +10,6 @@ public static class RegisterServiceExtensions
         services
             .AddScoped<IMarketDataService, MarketDataService>()
             .AddScoped<IOptionsService, OptionsService>()
-            .AddScoped<IMaxPainService, MaxPainService>()
             .AddScoped<ICongressService, CongressService>()
             .AddScoped<ICompaniesService, CompaniesService>()
             ;

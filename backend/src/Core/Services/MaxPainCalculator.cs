@@ -2,7 +2,7 @@ using Core.Models;
 
 namespace Core.Services;
 
-public static class MaxPainCalculation
+public static class MaxPainCalculator
 {
     public static double CalculateMaxPain(OptionsChain optionsChain)
     {

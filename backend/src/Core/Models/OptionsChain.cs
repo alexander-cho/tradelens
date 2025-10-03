@@ -2,10 +2,10 @@ namespace Core.Models;
 
 public class OptionsChain
 {
-    public required FullOptionChain Options { get; set; }
+    public required FullOptionsChain Options { get; set; }
 }
 
-public class FullOptionChain
+public class FullOptionsChain
 {
     public required List<StrikePriceData> Option { get; set; }
 }

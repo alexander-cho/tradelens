@@ -6,10 +6,10 @@ namespace Infrastructure.Clients.Tradier.DTOs;
 /// {options: {option: [{symbol: ...},{},{},...] } }
 /// </summary>
 public record OptionsChainDto(
-    FullOptionChain Options
+    FullOptionsChain Options
 );
 
-public record FullOptionChain(
+public record FullOptionsChain(
     List<StrikePriceData> Option
 );
 

@@ -1,6 +1,4 @@
 using Core.Interfaces;
-using Core.Models;
-using Core.Specifications;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
@@ -9,12 +7,10 @@ namespace API.Controllers;
 [ApiController]
 public class OptionsController : ControllerBase
 {
-    private readonly IMaxPainService _maxPainService;
     private readonly IOptionsService _optionsService;
-    
-    public OptionsController(IMaxPainService maxPainService, IOptionsService optionsService)
+
+    public OptionsController(IOptionsService optionsService)
     {
-        this._maxPainService = maxPainService;
         this._optionsService = optionsService;
     }
     //
