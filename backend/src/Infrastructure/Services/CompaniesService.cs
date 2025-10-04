@@ -1,5 +1,7 @@
-using Core.DTOs.Polygon;
 using Core.Interfaces;
+using Core.Models;
+using Infrastructure.Clients.Polygon;
+using Infrastructure.Mappers;
 
 namespace Infrastructure.Services;
 
@@ -12,8 +14,16 @@ public class CompaniesService : ICompaniesService
         _polygonClient = polygonClient;
     }
 
-    public async Task<RelatedCompaniesDto?> GetRelatedCompaniesAsync(string ticker)
+    public async Task<RelatedCompaniesModel> GetRelatedCompaniesAsync(string ticker)
     {
-        return await _polygonClient.GetRelatedCompaniesAsync(ticker);
+        var relatedCompaniesDto = await _polygonClient.GetRelatedCompaniesAsync(ticker);
+        if (relatedCompaniesDto == null)
+        {
+            throw new InvalidOperationException($"Related companies data for {ticker} was not available");
+        }
+
+        var relatedCompanies = RelatedCompaniesMapper.ToRelatedCompaniesDomainModel(relatedCompaniesDto);
+
+        return relatedCompanies;
     }
 }

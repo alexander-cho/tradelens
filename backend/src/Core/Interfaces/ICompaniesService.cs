@@ -1,8 +1,8 @@
-using Core.DTOs.Polygon;
+using Core.Models;
 
 namespace Core.Interfaces;
 
 public interface ICompaniesService
 {
-    Task<RelatedCompaniesDto?> GetRelatedCompaniesAsync(string ticker);
+    Task<RelatedCompaniesModel> GetRelatedCompaniesAsync(string ticker);
 }

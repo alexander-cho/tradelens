@@ -1,6 +1,7 @@
-using Core.DTOs.Polygon;
-using Core.Interfaces;
+using Core.Models;
 using Core.Specifications;
+using Infrastructure.Clients.Polygon;
+using Infrastructure.Mappers;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
@@ -17,8 +18,15 @@ public class BarAggregatesController : ControllerBase
     }
     
     [HttpGet]
-    public async Task<ActionResult<BarAggregateDto?>> GetBarAggregates([FromQuery] PolygonBarAggSpecParams polygonBarAggSpecParams)
+    public async Task<ActionResult<BarAggregatesModel>> GetBarAggregates([FromQuery] PolygonBarAggSpecParams polygonBarAggSpecParams)
     {
-        return await this._polygonClient.GetBarAggregatesAsync(polygonBarAggSpecParams);
+        var barAggregatesDto = await this._polygonClient.GetBarAggregatesAsync(polygonBarAggSpecParams);
+        if (barAggregatesDto == null)
+        {
+            throw new InvalidOperationException("Could not fetch bar aggregates");
+        }
+        var barAggregates = BarAggregatesMapper.ToBarAggregateDomainModel(barAggregatesDto);
+        
+        return barAggregates;
     }
 }

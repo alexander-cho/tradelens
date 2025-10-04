@@ -1,5 +1,4 @@
 using API.RequestHelpers;
-using Core.DTOs.Finnhub;
 using Core.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,7 +17,7 @@ public class MarketDataController : ControllerBase
     
     [HttpGet("market-status")]
     [Cache(1000)]
-    public async Task<ActionResult<MarketStatusDto>> GetMarketStatus()
+    public async Task<ActionResult<string>> GetMarketStatus()
     {
         return Ok(await this._marketDataService.GetMarketStatusAsync());
     }

@@ -1,8 +1,11 @@
-using Core.DTOs.Tradier;
+using Core.Models;
+using Core.Specifications;
 
 namespace Core.Interfaces;
 
 public interface IOptionsService
 {
-    public Task<ExpiryData> GetExpiryListForUnderlyingAsync(string symbol);
+    CallsAndPutsCashSums CalculateCashValuesForOneExpirationAsync(TradierOptionChainSpecParams tradierOptionChainSpecParams);
+
+    public Task<ExpirationsModel> GetExpiryListForUnderlyingAsync(string symbol);
 }

@@ -1,8 +1,8 @@
-using Core.DTOs.Fmp;
+using Core.Models;
 
 namespace Core.Interfaces;
 
 public interface ICongressService
 {
-    Task<IEnumerable<CongressTradesDto>> GetCongressTradesAsync(string chamber);
+    Task<IEnumerable<CongressTradeModel>> GetCongressTradesAsync(string chamber);
 }

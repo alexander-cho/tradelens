@@ -8,8 +8,8 @@ public class StockSpecification : BaseSpecification<Stock>
         (string.IsNullOrEmpty(stockSpecParams.Search) || x.CompanyName.ToLower().Contains(stockSpecParams.Search)) |
         (string.IsNullOrEmpty(stockSpecParams.Search) || x.Ticker.ToLower().Contains(stockSpecParams.Search)) &&
         (!stockSpecParams.IpoYears.Any() || stockSpecParams.IpoYears.Contains(x.IpoYear)) &&
-        (!stockSpecParams.Countries.Any() || stockSpecParams.Countries.Contains(x.Country)) &&
-        (!stockSpecParams.Sectors.Any() || stockSpecParams.Sectors.Contains(x.Sector))
+        (!stockSpecParams.Countries.Any() || (x.Country!= null && stockSpecParams.Countries.Contains(x.Country))) &&
+        (!stockSpecParams.Sectors.Any() || (x.Sector!= null && stockSpecParams.Sectors.Contains(x.Sector)))
     )
     {
         switch (stockSpecParams.Sort)

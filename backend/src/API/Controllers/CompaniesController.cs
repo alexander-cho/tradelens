@@ -1,6 +1,6 @@
 using API.RequestHelpers;
-using Core.DTOs.Polygon;
 using Core.Interfaces;
+using Core.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
@@ -18,7 +18,7 @@ public class CompaniesController : ControllerBase
 
     [Cache(1000)]
     [HttpGet("related-companies")]
-    public async Task<ActionResult<RelatedCompaniesDto?>> GetRelatedCompanies(string ticker)
+    public async Task<ActionResult<RelatedCompaniesModel>> GetRelatedCompanies(string ticker)
     {
         return await _companiesService.GetRelatedCompaniesAsync(ticker);
     }
