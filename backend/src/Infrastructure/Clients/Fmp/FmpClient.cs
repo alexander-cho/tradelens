@@ -1,6 +1,4 @@
 using System.Net.Http.Json;
-using Core.Interfaces;
-using Core.Models;
 using Infrastructure.Clients.Fmp.DTOs;
 using Microsoft.Extensions.Configuration;
 
@@ -54,6 +52,25 @@ public class FmpClient : IFmpClient
             throw new InvalidOperationException("Failed to fetch senate trades", ex);
         }
     }
+    
+    public async Task<IEnumerable<IncomeStatementDto>> GetIncomeStatementAsync(string symbol, int limit, string period)
+    {
+        try
+        {
+            var client = _httpClientFactory.CreateClient("Fmp");
+
+            var response = await client.GetAsync($"income-statement?symbol={symbol}&limit=5&period={period}&apikey={_fmpApiKey}");
+            response.EnsureSuccessStatusCode();
+
+            var result = await response.Content.ReadFromJsonAsync<IEnumerable<IncomeStatementDto>>();
+
+            return result ?? [];
+        }
+        catch (HttpRequestException ex)
+        {
+            throw new InvalidOperationException("Failed to fetch income statement", ex);
+        }
+    }
 
     public async Task<IEnumerable<RevenueSegmentationDto>> GetRevenueProductSegmentationAsync()
     {
@@ -72,10 +89,5 @@ public class FmpClient : IFmpClient
         {
             throw new InvalidOperationException("Failed to fetch revenue product segmentation", ex);
         }
-    }
-
-    public Task<IEnumerable<FinancialMetric>> GetIncomeStatementAsync()
-    {
-        throw new NotImplementedException();
     }
 }

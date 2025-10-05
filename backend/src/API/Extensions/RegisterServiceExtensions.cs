@@ -11,7 +11,7 @@ public static class RegisterServiceExtensions
             .AddScoped<IMarketDataService, MarketDataService>()
             .AddScoped<IOptionsService, OptionsService>()
             .AddScoped<ICongressService, CongressService>()
-            .AddScoped<ICompaniesService, CompaniesService>()
+            .AddScoped<ICompanyFundamentalsService, CompanyFundamentalsService>()
             ;
 
         return services;

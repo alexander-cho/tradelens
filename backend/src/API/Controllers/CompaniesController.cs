@@ -1,6 +1,7 @@
 using API.RequestHelpers;
 using Core.Interfaces;
 using Core.Models;
+using Core.Models.CompanyFundamentals;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
@@ -9,17 +10,23 @@ namespace API.Controllers;
 [ApiController]
 public class CompaniesController : ControllerBase
 {
-    private readonly ICompaniesService _companiesService;
+    private readonly ICompanyFundamentalsService _companyFundamentalsService;
 
-    public CompaniesController(ICompaniesService companiesService)
+    public CompaniesController(ICompanyFundamentalsService companyFundamentalsService)
     {
-        _companiesService = companiesService;
+        _companyFundamentalsService = companyFundamentalsService;
     }
 
     [Cache(1000)]
     [HttpGet("related-companies")]
-    public async Task<ActionResult<RelatedCompaniesModel>> GetRelatedCompanies(string ticker)
+    public async Task<ActionResult<RelatedCompaniesModel>> GetRelatedCompanies([FromQuery] string ticker)
     {
-        return await _companiesService.GetRelatedCompaniesAsync(ticker);
+        return await _companyFundamentalsService.GetRelatedCompaniesAsync(ticker);
+    }
+
+    [HttpGet("income-statement")]
+    public async Task<ActionResult<IncomeStatement>> GetIncomeStatement([FromQuery] string ticker, string period)
+    {
+        return await _companyFundamentalsService.GetIncomeStatementAsync(ticker, limit: 5, period);
     }
 }

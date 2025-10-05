@@ -1,17 +1,22 @@
 using Core.Interfaces;
 using Core.Models;
+using Core.Models.CompanyFundamentals;
+using Infrastructure.Clients.Fmp;
 using Infrastructure.Clients.Polygon;
 using Infrastructure.Mappers;
+using Infrastructure.Mappers.CompanyFundamentals;
 
 namespace Infrastructure.Services;
 
-public class CompaniesService : ICompaniesService
+public class CompanyFundamentalsService : ICompanyFundamentalsService
 {
     private readonly IPolygonClient _polygonClient;
+    private readonly IFmpClient _fmpClient;
 
-    public CompaniesService(IPolygonClient polygonClient)
+    public CompanyFundamentalsService(IPolygonClient polygonClient, IFmpClient fmpClient)
     {
         _polygonClient = polygonClient;
+        _fmpClient = fmpClient;
     }
 
     public async Task<RelatedCompaniesModel> GetRelatedCompaniesAsync(string ticker)
@@ -25,5 +30,13 @@ public class CompaniesService : ICompaniesService
         var relatedCompanies = RelatedCompaniesMapper.ToRelatedCompaniesDomainModel(relatedCompaniesDto);
 
         return relatedCompanies;
+    }
+
+    public async Task<IncomeStatement> GetIncomeStatementAsync(string ticker, int limit, string period)
+    {
+        var incomeStatementDto = await _fmpClient.GetIncomeStatementAsync(ticker, 5, period);
+        var incomeStatements = IncomeStatementMapper.ToIncomeStatement(incomeStatementDto, ticker);
+
+        return incomeStatements;
     }
 }
