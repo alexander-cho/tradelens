@@ -4,7 +4,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { BarAggregates, RelatedCompanies } from '../../shared/models/polygon';
 import { Stock } from '../../shared/models/stock';
-import { IncomeStatement } from '../../shared/models/fundamentals/incomeStatement';
+import { IncomeStatement } from '../../shared/models/fundamentals/income-statement';
 
 @Injectable({
   providedIn: 'root'

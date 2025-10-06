@@ -2,7 +2,7 @@ import { Component, inject, OnInit, signal, WritableSignal } from '@angular/core
 import { StockService } from '../../core/services/stock.service';
 import { Stock } from '../../shared/models/stock';
 import { Pagination } from '../../shared/models/pagination';
-import { CompanyParams } from '../../shared/models/companyParams';
+import { CompanyParams } from '../../shared/models/company-params';
 import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { NzModalService } from 'ng-zorro-antd/modal';

@@ -3,7 +3,7 @@ import { Stock } from "../../shared/models/stock";
 import { RelatedCompanies } from '../../shared/models/polygon';
 // import { CandlestickChartComponent } from './candlestick-chart/candlestick-chart.component';
 import { CompanyDashboardService } from '../../core/services/company-dashboard.service';
-import { IncomeStatement } from '../../shared/models/fundamentals/incomeStatement';
+import { IncomeStatement } from '../../shared/models/fundamentals/income-statement';
 
 @Component({
   selector: 'app-company-dashboard',
