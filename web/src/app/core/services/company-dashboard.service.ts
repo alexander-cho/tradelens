@@ -4,6 +4,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { BarAggregates, RelatedCompanies } from '../../shared/models/polygon';
 import { Stock } from '../../shared/models/stock';
+import { IncomeStatement } from '../../shared/models/fundamentals/incomeStatement';
 
 @Injectable({
   providedIn: 'root'
@@ -30,7 +31,12 @@ export class CompanyDashboardService {
     if (to) {
       params = params.append('to', to);
     }
-    return this.http.get<BarAggregates>(this.baseUrl + 'baraggregates', { params });
+    return this.http.get<BarAggregates>(this.baseUrl + 'bar-aggregates', { params });
+  }
+
+  // method in order to associate ticker retrieved from parent component with stock entity
+  public getStockByTicker(ticker: string): Observable<Stock> {
+    return this.http.get<Stock>(this.baseUrl + 'stocks/' + ticker);
   }
 
   public getRelatedCompanies(ticker: string): Observable<RelatedCompanies> {
@@ -41,8 +47,13 @@ export class CompanyDashboardService {
     return this.http.get<RelatedCompanies>(this.baseUrl + 'companies/related-companies', { params });
   }
 
-  // method in order to associate ticker retrieved from parent component with stock entity
-  public getStockByTicker(ticker: string): Observable<Stock> {
-    return this.http.get<Stock>(this.baseUrl + 'stocks/' + ticker);
+  public getIncomeStatement(ticker: string, period: string): Observable<IncomeStatement> {
+    let params = new HttpParams();
+    if (ticker) {
+      params = params
+        .append('ticker', ticker)
+        .append('period', period);
+    }
+    return this.http.get<IncomeStatement>(this.baseUrl + 'companies/income-statement', { params });
   }
 }

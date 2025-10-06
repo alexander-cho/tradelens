@@ -1,12 +1,18 @@
 {{ stock?.ticker }} - {{ stock?.companyName }}
 
 <!--<app-candlestick-chart [ticker]="ticker()"></app-candlestick-chart>-->
-<app-candlestick-chart [ticker]="ticker()"></app-candlestick-chart>
 
 Related Companies
 <br>
 @if (relatedCompanies) {
   @for (relatedCompany of relatedCompanies.results; track $index) {
     <a href="/companies/{{relatedCompany.ticker}}">{{ relatedCompany.ticker }}</a> <br>
+  }
+}
+
+Income Statement Data - Revenue <br>
+@if (incomeStatement) {
+  @for (incomeStatementPeriod of incomeStatement.periodData; track $index) {
+    {{ incomeStatementPeriod.revenue }} <br>
   }
 }

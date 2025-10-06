@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
 
-[Route("api/[controller]")]
+[Route("api/bar-aggregates")]
 [ApiController]
 public class BarAggregatesController : ControllerBase
 {

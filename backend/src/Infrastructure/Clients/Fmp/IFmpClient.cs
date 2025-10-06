@@ -1,4 +1,3 @@
-using Core.Models;
 using Infrastructure.Clients.Fmp.DTOs;
 
 namespace Infrastructure.Clients.Fmp;
