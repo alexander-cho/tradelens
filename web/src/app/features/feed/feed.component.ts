@@ -3,7 +3,7 @@ import { FeedService } from '../../core/services/feed.service';
 import { Post } from '../../shared/models/post';
 import { PostComponent } from './post/post.component';
 import { Pagination } from '../../shared/models/pagination';
-import { FeedParams } from '../../shared/models/feedParams';
+import { FeedParams } from '../../shared/models/feed-params';
 import { FormsModule } from '@angular/forms';
 import { NzPaginationModule } from 'ng-zorro-antd/pagination';
 import { NzInputDirective } from 'ng-zorro-antd/input';

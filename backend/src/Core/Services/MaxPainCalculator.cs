@@ -12,7 +12,7 @@ public static class MaxPainCalculator
         return maxPainStrike;
     }
 
-    // use same DTO for adding calls and puts sums
+    // use same domain/model for adding calls and puts sums
     public static List<CashSumAtPrice> CalculateCashValuesTotal(OptionsChainModel optionsChainModel)
     {
         List<CashSumAtPrice> callSums = CalculateCallCashValues(optionsChainModel);

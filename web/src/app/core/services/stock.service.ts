@@ -3,7 +3,7 @@ import { environment } from '../../../environments/environment';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Stock } from '../../shared/models/stock';
 import { Pagination } from '../../shared/models/pagination';
-import { CompanyParams } from '../../shared/models/companyParams';
+import { CompanyParams } from '../../shared/models/company-params';
 
 @Injectable({
   providedIn: 'root'

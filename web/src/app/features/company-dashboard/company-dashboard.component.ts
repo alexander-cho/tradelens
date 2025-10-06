@@ -1,13 +1,14 @@
 import { Component, inject, input, OnInit } from '@angular/core';
 import { Stock } from "../../shared/models/stock";
 import { RelatedCompanies } from '../../shared/models/polygon';
-import { CandlestickChartComponent } from './candlestick-chart/candlestick-chart.component';
+// import { CandlestickChartComponent } from './candlestick-chart/candlestick-chart.component';
 import { CompanyDashboardService } from '../../core/services/company-dashboard.service';
+import { IncomeStatement } from '../../shared/models/fundamentals/income-statement';
 
 @Component({
   selector: 'app-company-dashboard',
   imports: [
-    CandlestickChartComponent
+    // CandlestickChartComponent
   ],
   templateUrl: './company-dashboard.component.html',
   styleUrl: './company-dashboard.component.scss'
@@ -19,11 +20,15 @@ export class CompanyDashboardComponent implements OnInit {
   stock?: Stock;
   relatedCompanies?: RelatedCompanies;
 
+  period = "quarter";
+  incomeStatement?: IncomeStatement;
+
   ngOnInit() {
     this.companyDashboardService.getStockByTicker(this.ticker()).subscribe({
       next: response => {
         this.stock = response;
         this.getRelatedCompanies();
+        this.getIncomeStatement();
       },
       error: err => console.log(err)
     });
@@ -38,6 +43,18 @@ export class CompanyDashboardComponent implements OnInit {
         },
         error: err => console.log(err)
       });
+    }
+  }
+
+  getIncomeStatement() {
+    if (this.stock) {
+      this.companyDashboardService.getIncomeStatement(this.stock.ticker, this.period).subscribe({
+        next: response => {
+          this.incomeStatement = response;
+          console.log(response);
+        },
+        error: err => console.log(err)
+      })
     }
   }
 }
