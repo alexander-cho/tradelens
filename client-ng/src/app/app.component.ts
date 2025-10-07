@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { NavbarComponent } from './layout/navbar/navbar.component';
 import { filter } from 'rxjs';
@@ -15,7 +15,7 @@ import { FooterComponent } from './layout/footer/footer.component';
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
-  title = 'TradeLens';
+  title = signal("TradeLens");
 
   showNavbar = true;
   private hiddenRoutes = ['/login', '/auth/register', '/auth/landing'];
