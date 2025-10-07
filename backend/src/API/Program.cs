@@ -35,7 +35,7 @@ app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().AllowCredentials().WithOrig
 app.UseMiddleware<ExceptionMiddleware>();
 
 app.UseDefaultFiles();
-// app.UseStaticFiles();
+app.UseStaticFiles();
 
 app.MapControllers();
 
