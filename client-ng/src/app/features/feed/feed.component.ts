@@ -41,8 +41,8 @@ export class FeedComponent implements OnInit {
     debounceTime(1000)
   );
 
+  posts: WritableSignal<Pagination<Post> | undefined> = signal(undefined);
   feedParams = new FeedParams();
-  posts?: Pagination<Post>;
   postsPerPage = [5, 10, 15, 20];
   sortOptions = [
     { name: 'Default', value: '' },
@@ -64,7 +64,7 @@ export class FeedComponent implements OnInit {
 
   getPosts() {
     this.feedService.getPosts(this.feedParams).subscribe({
-      next: response => this.posts = response,
+      next: response => this.posts.set(response),
       error: error => console.log(error)
     });
   }

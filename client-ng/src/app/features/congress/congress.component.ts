@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, signal, WritableSignal } from '@angular/core';
 import { CongressService } from '../../core/services/congress.service';
 import { CongressTrades } from '../../shared/models/fmp';
 import { NzTableComponent } from 'ng-zorro-antd/table';
@@ -14,8 +14,8 @@ import { NzTableComponent } from 'ng-zorro-antd/table';
 export class CongressComponent implements OnInit {
   congressService = inject(CongressService);
 
-  houseTrades?: CongressTrades[];
-  senateTrades?: CongressTrades[];
+  houseTrades: WritableSignal<CongressTrades[] | undefined> = signal(undefined);
+  senateTrades: WritableSignal<CongressTrades[] | undefined> = signal(undefined);
 
   ngOnInit() {
     this.getHouseTrades();
@@ -24,18 +24,14 @@ export class CongressComponent implements OnInit {
 
   getHouseTrades() {
     this.congressService.getHouseTrades().subscribe({
-      next: response => {
-        this.houseTrades = response;
-      },
+      next: response => this.houseTrades.set(response),
       error: err => console.log(err)
     });
   }
 
   getSenateTrades() {
     this.congressService.getSenateTrades().subscribe({
-      next: response => {
-        this.senateTrades = response;
-      },
+      next: response => this.senateTrades.set(response),
       error: err => console.log(err)
     });
   }

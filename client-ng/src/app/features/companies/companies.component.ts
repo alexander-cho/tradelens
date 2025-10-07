@@ -43,8 +43,8 @@ export class CompaniesComponent implements OnInit {
     debounceTime(1000)
   );
 
+  companies: WritableSignal<Pagination<Stock> | undefined> = signal(undefined);
   companyParams = new CompanyParams();
-  companies?: Pagination<Stock>;
   tickersPerPage = [10, 20, 30, 50];
   sortOptions = [
     { name: 'Default', value: '' },
@@ -74,7 +74,7 @@ export class CompaniesComponent implements OnInit {
 
   getCompanies() {
     this.stockService.getStocks(this.companyParams).subscribe({
-      next: response => this.companies = response,
+      next: response => this.companies?.set(response),
       error: error => console.log(error)
     });
   }

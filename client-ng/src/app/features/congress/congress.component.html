@@ -11,7 +11,7 @@
   </tr>
   </thead>
   <tbody>
-    @for (trade of senateTrades; track $index) {
+    @for (trade of houseTrades(); track $index) {
       <tr>
         <td>{{ trade.office }}</td>
         <td>{{ trade.symbol }} - {{ trade.assetDescription }}</td>

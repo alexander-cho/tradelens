@@ -1,4 +1,4 @@
-<nz-pagination [nzTotal]="posts?.count"
+<nz-pagination [nzTotal]="posts()?.count"
                [nzPageSize]="feedParams.pageSize"
                [nzPageIndex]="feedParams.pageNumber"
                [nzPageSizeOptions]="postsPerPage"
@@ -20,7 +20,7 @@
        (ngModelChange)="searchTerm.set($event)"/>
 
 <div class="w-full max-w-2xl mx-auto px-4">
-  @for (post of posts?.data; track post.id) {
+  @for (post of posts()?.data; track post.id) {
     <!--pass post down to child component using directive-->
     <app-post [post]="post"></app-post>
   }
