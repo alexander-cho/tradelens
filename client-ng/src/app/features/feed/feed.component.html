@@ -1,0 +1,37 @@
+<nz-pagination [nzTotal]="posts()?.count"
+               [nzPageSize]="feedParams.pageSize"
+               [nzPageIndex]="feedParams.pageNumber"
+               [nzPageSizeOptions]="postsPerPage"
+               (nzPageIndexChange)="handlePageIndexChangeEvent($event)"
+               (nzPageSizeChange)="handlePageSizeChangeEvent($event)"
+               nzShowSizeChanger>
+</nz-pagination>
+
+<button nz-button nzType="default" nzDanger (click)="resetParams()">Reset</button>
+<button nz-button nzType="default" (click)="openFiltersDialog()">Filters</button>
+<button nz-button nzType="default" nz-dropdown [nzDropdownMenu]="sortMenu">Sort</button>
+
+<input nz-input
+       type="search"
+       id="input-label"
+       placeholder="Search post content"
+       name="search"
+       [ngModel]="searchTerm()"
+       (ngModelChange)="searchTerm.set($event)"/>
+
+<div class="w-full max-w-2xl mx-auto px-4">
+  @for (post of posts()?.data; track post.id) {
+    <!--pass post down to child component using directive-->
+    <app-post [post]="post"></app-post>
+  }
+</div>
+
+<nz-dropdown-menu #sortMenu="nzDropdownMenu">
+  <ul nz-menu nzSelectable>
+    @for (option of sortOptions; track $index) {
+      <li nz-menu-item (click)="onSortChange(option.value)" [nzSelected]="feedParams.sort === option.value">
+        {{ option.name }}
+      </li>
+    }
+  </ul>
+</nz-dropdown-menu>
