@@ -1,50 +1,37 @@
-<app-navbar></app-navbar>
+<nz-pagination [nzTotal]="posts?.count"
+               [nzPageSize]="feedParams.pageSize"
+               [nzPageIndex]="feedParams.pageNumber"
+               [nzPageSizeOptions]="postsPerPage"
+               (nzPageIndexChange)="handlePageIndexChangeEvent($event)"
+               (nzPageSizeChange)="handlePageSizeChangeEvent($event)"
+               nzShowSizeChanger>
+</nz-pagination>
 
-<div class="flex justify-between p-3">
-  <mat-paginator [length]="posts?.count"
-                 [pageSize]="feedParams.pageSize"
-                 [pageSizeOptions]="postsPerPage"
-                 (page)="handlePageEvent($event)"
-                 [showFirstLastButtons]="true"
-                 [pageIndex]="feedParams.pageNumber - 1"
-                 aria-label="Select page">
-  </mat-paginator>
+<button nz-button nzType="default" nzDanger (click)="resetParams()">Reset</button>
+<button nz-button nzType="default" (click)="openFiltersDialog()">Filters</button>
+<button nz-button nzType="default" nz-dropdown [nzDropdownMenu]="sortMenu">Sort</button>
 
-  <form class="relative flex items-center w-full max-w-md mx-4" #searchForm="ngForm" (ngSubmit)="onSearchChange()">
-    <input type="search"
-           id="input-label"
-           class="py-3 px-4 block w-full rounded-lg text-sm text-gray-800 border border-gray-800"
-           placeholder="Search post content"
-           name="search"
-           [(ngModel)]="feedParams.search"/>
-  </form>
+<input nz-input
+       type="search"
+       id="input-label"
+       placeholder="Search post content"
+       name="search"
+       [ngModel]="searchTerm()"
+       (ngModelChange)="searchTerm.set($event)"/>
 
-  <div class="flex gap-3">
-    <button (click)="resetParams()" type="button" class="cursor-pointer py-3 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg text-red-600 focus:outline-none hover:text-gray-800 disabled:opacity-50 disabled:pointer-events-none">
-      Reset
-    </button>
-    <button (click)="openFiltersDialog()" type="button" class="cursor-pointer py-3 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg text-indigo-600 focus:outline-none hover:text-gray-800 disabled:opacity-50 disabled:pointer-events-none">
-      Filters
-    </button>
-    <button [matMenuTriggerFor]="sortMenu" type="button" class="cursor-pointer py-3 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg text-indigo-600 focus:outline-none hover:text-gray-800 disabled:opacity-50 disabled:pointer-events-none">
-      Sort
-    </button>
-  </div>
-</div>
-
-<div class="w-2/5 mx-auto">
+<div class="w-full max-w-2xl mx-auto px-4">
   @for (post of posts?.data; track post.id) {
     <!--pass post down to child component using directive-->
     <app-post [post]="post"></app-post>
   }
 </div>
 
-<mat-menu #sortMenu="matMenu">
-  <mat-selection-list [multiple]="false" (selectionChange)="onSortChange($event)">
+<nz-dropdown-menu #sortMenu="nzDropdownMenu">
+  <ul nz-menu nzSelectable>
     @for (option of sortOptions; track $index) {
-      <mat-list-option [value]="option.value" [selected]="feedParams.sort === option.value">
+      <li nz-menu-item (click)="onSortChange(option.value)" [nzSelected]="feedParams.sort === option.value">
         {{ option.name }}
-      </mat-list-option>
+      </li>
     }
-  </mat-selection-list>
-</mat-menu>
+  </ul>
+</nz-dropdown-menu>

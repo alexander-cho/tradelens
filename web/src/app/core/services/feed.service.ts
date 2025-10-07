@@ -3,8 +3,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Pagination } from '../../shared/models/pagination';
 import { Post } from '../../shared/models/post';
 import { environment } from '../../../environments/environment';
-import { FeedParams } from '../../shared/models/feedParams';
-
+import { FeedParams } from '../../shared/models/feed-params';
 
 // services are initialized when application starts (singleton)
 @Injectable({

@@ -1,49 +1,66 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, signal, WritableSignal } from '@angular/core';
 import { FeedService } from '../../core/services/feed.service';
 import { Post } from '../../shared/models/post';
 import { PostComponent } from './post/post.component';
-import { FiltersDialogComponent } from './filters-dialog/filters-dialog.component'
-import { MatDialog } from '@angular/material/dialog';
-import { NavbarComponent } from '../../layout/navbar/navbar.component';
-import { MatMenuModule } from '@angular/material/menu';
-import { MatListOption, MatSelectionList, MatSelectionListChange } from '@angular/material/list';
-import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { Pagination } from '../../shared/models/pagination';
-import { FeedParams } from '../../shared/models/feedParams';
+import { FeedParams } from '../../shared/models/feed-params';
 import { FormsModule } from '@angular/forms';
+import { NzPaginationModule } from 'ng-zorro-antd/pagination';
+import { NzInputDirective } from 'ng-zorro-antd/input';
+import { NzButtonComponent } from 'ng-zorro-antd/button';
+import { NzModalService } from 'ng-zorro-antd/modal';
+import { FiltersModalComponent } from './filters-modal/filters-modal.component';
+import { NzDropDownDirective, NzDropdownMenuComponent } from 'ng-zorro-antd/dropdown';
+import { NzMenuDirective, NzMenuItemComponent } from 'ng-zorro-antd/menu';
+import { debounceTime, Observable } from 'rxjs';
+import { toObservable } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-feed',
   imports: [
     PostComponent,
-    NavbarComponent,
-    MatMenuModule,
-    MatSelectionList,
-    MatListOption,
-    MatPaginator,
-    FormsModule
+    FormsModule,
+    NzPaginationModule,
+    NzInputDirective,
+    NzButtonComponent,
+    NzDropdownMenuComponent,
+    NzMenuDirective,
+    NzMenuItemComponent,
+    NzDropDownDirective,
   ],
+  providers: [NzModalService],
   templateUrl: './feed.component.html',
   styleUrl: './feed.component.scss'
 })
 export class FeedComponent implements OnInit {
   feedService = inject(FeedService);
-  dialogService = inject(MatDialog);
+  modalService = inject(NzModalService);
+
+  searchTerm: WritableSignal<string> = signal<string>("");
+  debouncedSearch: Observable<string> = toObservable(this.searchTerm).pipe(
+    debounceTime(1000)
+  );
 
   feedParams = new FeedParams();
-
   posts?: Pagination<Post>;
-
-  selectedTickers: string[] = [];
-  selectedSentiments: string[] = [];
-
-  postsPerPage = [5, 10, 15, 20]
-
+  postsPerPage = [5, 10, 15, 20];
   sortOptions = [
-    {name: 'Default', value: ''},
-    {name: 'Newest First', value: 'latest'},
-    {name: 'Oldest First', value: 'earliest'}
-  ]
+    { name: 'Default', value: '' },
+    { name: 'Newest First', value: 'latest' },
+    { name: 'Oldest First', value: 'earliest' }
+  ];
+
+  ngOnInit() {
+    this.feedService.getTickers();
+    this.feedService.getSentiments();
+    this.getPosts();
+
+    this.debouncedSearch.subscribe(() => {
+      this.feedParams.pageNumber = 1;
+      this.feedParams.search = this.searchTerm();
+      this.getPosts();
+    });
+  }
 
   getPosts() {
     this.feedService.getPosts(this.feedParams).subscribe({
@@ -52,43 +69,37 @@ export class FeedComponent implements OnInit {
     });
   }
 
-  ngOnInit() {
-    this.feedService.getTickers();
-    this.feedService.getSentiments();
+  handlePageIndexChangeEvent(event: number) {
+    this.feedParams.pageNumber = event;
     this.getPosts();
   }
 
-  onSearchChange() {
+  handlePageSizeChangeEvent(event: number) {
+    // https://github.com/NG-ZORRO/ng-zorro-antd/issues/5695
+    this.feedParams.pageSize = event;
     this.feedParams.pageNumber = 1;
     this.getPosts();
   }
 
-  handlePageEvent(event: PageEvent) {
-    this.feedParams.pageSize = event.pageSize;
-    this.feedParams.pageNumber = event.pageIndex + 1;
+  onSortChange(value: string) {
+    this.feedParams.sort = value;
+    this.feedParams.pageNumber = 1;
     this.getPosts();
   }
 
-  onSortChange(event: MatSelectionListChange) {
-    const selectedOption = event.options[0];
-    if (selectedOption) {
-      this.feedParams.sort = selectedOption.value;
-      this.feedParams.pageNumber = 1;
-      this.getPosts();
-    }
-  }
-
   openFiltersDialog() {
-    const dialogRef = this.dialogService.open(FiltersDialogComponent, {
-      minWidth: '500px',
-      maxHeight: '600px',
-      data: {
+    const modalRef = this.modalService.create({
+      nzTitle: 'Filters',
+      nzContent: FiltersModalComponent,
+      nzWidth: '500px',
+      nzData: {
         selectedTickers: this.feedParams.tickers,
         selectedSentiments: this.feedParams.sentiments
-      }
+      },
+      nzFooter: null
     });
 
-    dialogRef.afterClosed().subscribe({
+    modalRef.afterClose.subscribe({
       next: result => {
         if (result) {
           this.feedParams.tickers = result.selectedTickers;

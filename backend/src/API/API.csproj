@@ -35,6 +35,11 @@
     <_ContentIncludedByDefault Remove="wwwroot\polyfills-FFHMD2TL.js" />
     <_ContentIncludedByDefault Remove="wwwroot\prerendered-routes.json" />
     <_ContentIncludedByDefault Remove="wwwroot\styles-PPE2X33L.css" />
+    <_ContentIncludedByDefault Remove="wwwroot\chunk-HLSVCFZM.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\chunk-L45ZC6LT.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\main-MTYVJPPU.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\polyfills-HPZ7KTN2.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\styles-UKJDU4Y5.css" />
   </ItemGroup>
   
   <ItemGroup>

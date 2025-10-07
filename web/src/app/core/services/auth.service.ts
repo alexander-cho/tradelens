@@ -2,16 +2,14 @@ import { inject, Injectable, signal } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { User } from '../../shared/models/user';
-import { Router } from '@angular/router';
 import { map } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  baseUrl = environment.apiUrl;
+  private baseUrl = environment.apiUrl;
   private http = inject(HttpClient);
-  private router = inject(Router);
 
   currentUser = signal<User | null>(null);
 
@@ -26,12 +24,13 @@ export class AuthService {
   }
 
   getUserInfo() {
-    return this.http.get<User>(this.baseUrl + 'auth/user-info').pipe(
-      map(user => {
-        this.currentUser.set(user);
-        return user;
-      })
-    );
+    return this.http.get<User>(this.baseUrl + 'auth/user-info')
+      .pipe(
+        map(user => {
+          this.currentUser.set(user);
+          return user;
+        })
+      );
   }
 
   logout() {

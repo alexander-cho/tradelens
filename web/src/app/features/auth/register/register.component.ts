@@ -2,12 +2,18 @@ import { Component, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { AuthService } from '../../../core/services/auth.service';
 import { Router, RouterLink } from '@angular/router';
-import { MatCard } from '@angular/material/card';
-import { MatInput } from '@angular/material/input';
+import { NzButtonComponent } from 'ng-zorro-antd/button';
+import { NzColDirective, NzRowDirective } from 'ng-zorro-antd/grid';
+import { NzFormControlComponent, NzFormDirective, NzFormItemComponent } from 'ng-zorro-antd/form';
+import { NzInputDirective, NzInputGroupComponent } from 'ng-zorro-antd/input';
+// import { MatInput } from '@angular/material/input';
 
 @Component({
   selector: 'app-register',
-  imports: [ReactiveFormsModule, MatCard, MatInput, RouterLink],
+  imports: [ReactiveFormsModule,
+    // MatInput,
+    RouterLink, NzButtonComponent, NzColDirective, NzFormControlComponent, NzFormDirective, NzFormItemComponent, NzInputDirective, NzInputGroupComponent, NzRowDirective
+  ],
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss'
 })

@@ -9,7 +9,7 @@ import { AuthService } from '../../core/services/auth.service';
   styleUrl: './navbar.component.scss'
 })
 export class NavbarComponent {
-  authService = inject(AuthService);
+  protected authService = inject(AuthService);
   private router = inject(Router);
 
   logout() {

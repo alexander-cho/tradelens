@@ -2,43 +2,45 @@ namespace Core.Specifications;
 
 public class StockSpecParams
 {
-    private List<int?> _ipoYears = [];
+    // private List<int?> _ipoYears = [];
 
-    public List<int?> IpoYears
-    {
-        get => _ipoYears;
-        set
-        {
-            // convert each to a string, then split, then back to original type of int
-            _ipoYears = value
-                .Select(x => x.ToString())
-                .SelectMany(x => x.Split(',', StringSplitOptions.RemoveEmptyEntries))
-                .Select(x => (int?)int.Parse(x.Trim()))
-                .ToList();
-        }
-    }
+    // public List<int?> IpoYears
+    // {
+    //     get => _ipoYears;
+    //     set
+    //     {
+    //         // convert each to a string, then split, then back to original type of int
+    //         _ipoYears = value
+    //             .Select(x => x.ToString())
+    //             .SelectMany(x => x.Split(',', StringSplitOptions.RemoveEmptyEntries))
+    //             .Select(x => (int?)int.Parse(x.Trim()))
+    //             .ToList();
+    //     }
+    // }
+    
+    public List<int?> IpoYears { get; set; } = [];
+    
 
+    private List<string> _countries = [];
 
-    private List<string>? _countries = [];
-
-    public List<string>? Countries
+    public List<string> Countries
     {
         get => _countries;
         set
         {
-            _countries = value?.SelectMany(x => x.Split(',', StringSplitOptions.RemoveEmptyEntries)).ToList();
+            _countries = value.SelectMany(x => x.Split(',', StringSplitOptions.RemoveEmptyEntries)).ToList();
         }
     }
 
 
-    private List<string>? _sectors = [];
+    private List<string> _sectors = [];
 
-    public List<string>? Sectors
+    public List<string> Sectors
     {
         get => _sectors;
         set
         {
-            _sectors = value?.SelectMany(x => x.Split(',', StringSplitOptions.RemoveEmptyEntries)).ToList();
+            _sectors = value.SelectMany(x => x.Split(',', StringSplitOptions.RemoveEmptyEntries)).ToList();
         }
     }
     
@@ -62,6 +64,6 @@ public class StockSpecParams
     public string Search
     {
         get => _search ?? "";
-        set => _search = value?.ToLower();
+        set => _search = value.ToLower();
     }
 }

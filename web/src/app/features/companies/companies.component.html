@@ -1,92 +1,57 @@
-<app-navbar></app-navbar>
+<nz-pagination [nzTotal]="companies?.count"
+               [nzPageSize]="companyParams.pageSize"
+               [nzPageIndex]="companyParams.pageNumber"
+               [nzPageSizeOptions]="tickersPerPage"
+               (nzPageIndexChange)="handlePageIndexChangeEvent($event)"
+               (nzPageSizeChange)="handlePageSizeChangeEvent($event)"
+               nzShowSizeChanger>
+</nz-pagination>
 
-<div class="flex justify-between p-3">
-  <mat-paginator [length]="companies?.count"
-                 [pageSize]="companyParams.pageSize"
-                 [pageSizeOptions]="tickersPerPage"
-                 (page)="handlePageEvent($event)"
-                 [showFirstLastButtons]="true"
-                 [pageIndex]="companyParams.pageNumber - 1"
-                 aria-label="Select page">
-  </mat-paginator>
+<button nz-button nzType="default" nzDanger (click)="resetParams()">Reset</button>
+<button nz-button nzType="default" (click)="openFiltersDialog()">Filters</button>
+<button nz-button nzType="default" nz-dropdown [nzDropdownMenu]="sortMenu">Sort</button>
 
-  <form class="relative flex items-center w-full max-w-md mx-4" #searchForm="ngForm" (ngSubmit)="onSearchChange()">
-    <input type="search"
-           id="input-label"
-           class="py-3 px-4 block w-full rounded-lg text-sm text-gray-800 border border-gray-800"
-           placeholder="Search by Ticker Symbol or Company Name"
-           name="search"
-           [(ngModel)]="companyParams.search"
-    />
-  </form>
+<input nz-input
+       type="search"
+       id="input-label"
+       placeholder="Search by Ticker symbol or Company name"
+       name="search"
+       [ngModel]="searchTerm()"
+       (ngModelChange)="searchTerm.set($event)"/>
 
-  <div class="flex gap-3">
-    <button (click)="resetParams()" type="button" class="cursor-pointer py-3 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg text-red-600 focus:outline-none hover:text-gray-800 disabled:opacity-50 disabled:pointer-events-none">
-      Reset
-    </button>
-    <button (click)="openFiltersDialog()" type="button" class="cursor-pointer py-3 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg text-indigo-600 focus:outline-none hover:text-gray-800 disabled:opacity-50 disabled:pointer-events-none">
-      Filters
-    </button>
-    <button [matMenuTriggerFor]="sortMenu" type="button" class="cursor-pointer py-3 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg text-indigo-600 focus:outline-none hover:text-gray-800 disabled:opacity-50 disabled:pointer-events-none">
-      Sort
-    </button>
-  </div>
-</div>
-
-<div class="flex flex-col w-4/5 mx-auto mt-4">
-  <div class="-m-1.5 overflow-x-auto">
-    <div class="p-1.5 min-w-full inline-block align-middle">
-      <div class="border rounded-lg overflow-hidden">
-        <table class="min-w-full divide-y divide-gray-200">
-          <thead class="bg-gray-50">
-          <tr>
-            <th scope="col" class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">Ticker</th>
-            <th scope="col" class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">Name</th>
-            <th scope="col" class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">Sector</th>
-            <th scope="col" class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">Industry</th>
-            <th scope="col" class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">Country</th>
-            <th scope="col" class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">IPO Year</th>
-          </tr>
-          </thead>
-          <tbody class="divide-y divide-gray-200">
-            @for (company of companies?.data; track $index) {
-              <tr>
-                <td class="px-6 py-4 text-sm font-medium">
-                  <a
-                    routerLink="/companies/{{company.ticker}}"
-                    class="inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent text-blue-500 hover:text-blue-800 focus:outline-none focus:text-blue-800 disabled:opacity-50 disabled:pointer-events-none">{{ company.ticker }}
-                  </a>
-                </td>
-                <td class="px-6 py-4 text-sm font-medium text-gray-800">
-                  <div class="max-w-[150px] overflow-x-auto whitespace-nowrap">{{ company.companyName }}</div>
-                </td>
-                <td class="px-6 py-4 text-sm text-gray-800">
-                  <div class="max-w-[150px] overflow-x-auto whitespace-nowrap">{{ company.sector }}</div>
-                </td>
-                <td class="px-6 py-4 text-sm text-gray-800">
-                  <div class="max-w-[150px] overflow-x-auto whitespace-nowrap">{{ company.industry }}</div>
-                </td>
-                <td class="px-6 py-4 text-sm text-gray-800">
-                  <div class="max-w-[100px] overflow-x-auto whitespace-nowrap">{{ company.country }}</div>
-                </td>
-                <td class="px-6 py-4 text-sm text-gray-800">
-                  <div class="max-w-[80px] overflow-x-auto whitespace-nowrap">{{ company.ipoYear }}</div>
-                </td>
-              </tr>
-            }
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </div>
-</div>
-
-<mat-menu #sortMenu="matMenu">
-  <mat-selection-list [multiple]="false" (selectionChange)="onSortChange($event)">
-    @for (option of sortOptions; track $index) {
-      <mat-list-option [value]="option.value" [selected]="companyParams.sort === option.value">
-        {{ option.name }}
-      </mat-list-option>
+<nz-table>
+  <thead>
+  <tr>
+    <th>Ticker</th>
+    <th>Company Name</th>
+    <th>Sector</th>
+    <th>Industry</th>
+    <th>Country</th>
+    <th>IPO Year</th>
+  </tr>
+  </thead>
+  <tbody>
+    @for (company of companies?.data; track $index) {
+      <tr>
+        <td>
+          <a routerLink="/companies/{{company.ticker}}">{{ company.ticker }}</a>
+        </td>
+        <td>{{ company.companyName }}</td>
+        <td>{{ company.sector }}</td>
+        <td>{{ company.industry }}</td>
+        <td>{{ company.country }}</td>
+        <td>{{ company.ipoYear }}</td>
+      </tr>
     }
-  </mat-selection-list>
-</mat-menu>
+  </tbody>
+</nz-table>
+
+<nz-dropdown-menu #sortMenu="nzDropdownMenu">
+  <ul nz-menu nzSelectable>
+    @for (option of sortOptions; track $index) {
+      <li nz-menu-item (click)="onSortChange(option.value)" [nzSelected]="companyParams.sort === option.value">
+        {{ option.name }}
+      </li>
+    }
+  </ul>
+</nz-dropdown-menu>

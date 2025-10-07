@@ -1,0 +1,37 @@
+<div>
+  <div class="flex gap-4 p-4 mx-auto">
+    <nz-select nzAllowClear
+               nzPlaceHolder="Select IPO Years"
+               [(ngModel)]="selectedIpoYears"
+               nzMode="multiple"
+               class="w-full">
+      @for (ipoYear of stockService.ipoYears; track $index) {
+        <nz-option [nzValue]="ipoYear" [nzLabel]="ipoYear">{{ ipoYear }}</nz-option>
+      }
+    </nz-select>
+
+    <nz-select nzAllowClear
+               nzPlaceHolder="Select Countries"
+               [(ngModel)]="selectedCountries"
+               nzMode="multiple"
+               class="w-full">
+      @for (country of stockService.countries; track $index) {
+        <nz-option [nzValue]="country" [nzLabel]="country">{{ country }}</nz-option>
+      }
+    </nz-select>
+
+    <nz-select nzAllowClear
+               nzPlaceHolder="Select Sectors"
+               [(ngModel)]="selectedSectors"
+               nzMode="multiple"
+               class="w-full">
+      @for (sector of stockService.sectors; track $index) {
+        <nz-option [nzValue]="sector" [nzLabel]="sector">{{ sector }}</nz-option>
+      }
+    </nz-select>
+  </div>
+
+  <div class="flex justify-end px-8 py-4">
+    <button nz-button (click)="applyFilters()" nzType="default">Apply Filters</button>
+  </div>
+</div>

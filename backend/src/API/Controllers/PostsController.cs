@@ -104,8 +104,8 @@ public class PostsController(IGenericRepository<Post> repository) : BaseApiContr
     public async Task<ActionResult<IReadOnlyList<string>>> GetSentiments()
     {
         var spec = new SentimentListSpecification();
-        var tickers = await repository.ListWithSpecAsync(spec);
-        return Ok(tickers);
+        var sentiments = await repository.ListWithSpecAsync(spec);
+        return Ok(sentiments);
 
         // return Ok(await repository.GetTickers());
     }
