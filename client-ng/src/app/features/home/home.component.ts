@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, signal, WritableSignal } from '@angular/core';
 import { HomeService } from '../../core/services/home.service';
 import { MarketStatus } from '../../shared/models/finnhub';
 
@@ -11,7 +11,8 @@ import { MarketStatus } from '../../shared/models/finnhub';
 })
 export class HomeComponent implements OnInit {
   homeService = inject(HomeService);
-  marketStatus?: MarketStatus;
+
+  marketStatus: WritableSignal<MarketStatus | undefined> = signal(undefined);
 
   ngOnInit() {
     this.getMarketStatus();
@@ -19,9 +20,7 @@ export class HomeComponent implements OnInit {
 
   getMarketStatus() {
     this.homeService.getMarketStatus().subscribe({
-      next: response => {
-        this.marketStatus = response;
-      },
+      next: response => this.marketStatus.set(response),
       error: err => console.log(err)
     });
   }
