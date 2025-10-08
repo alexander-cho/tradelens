@@ -42,6 +42,7 @@ export class FeedComponent implements OnInit {
   );
 
   posts: WritableSignal<Pagination<Post> | undefined> = signal(undefined);
+
   feedParams = new FeedParams();
   postsPerPage = [5, 10, 15, 20];
   sortOptions = [

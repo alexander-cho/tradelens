@@ -44,6 +44,7 @@ export class CompaniesComponent implements OnInit {
   );
 
   companies: WritableSignal<Pagination<Stock> | undefined> = signal(undefined);
+
   companyParams = new CompanyParams();
   tickersPerPage = [10, 20, 30, 50];
   sortOptions = [

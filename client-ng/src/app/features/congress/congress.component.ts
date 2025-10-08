@@ -2,11 +2,16 @@ import { Component, inject, OnInit, signal, WritableSignal } from '@angular/core
 import { CongressService } from '../../core/services/congress.service';
 import { CongressTrades } from '../../shared/models/fmp';
 import { NzTableComponent } from 'ng-zorro-antd/table';
+import { NzRadioComponent, NzRadioGroupComponent } from 'ng-zorro-antd/radio';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-congress',
   imports: [
-    NzTableComponent
+    NzTableComponent,
+    NzRadioGroupComponent,
+    NzRadioComponent,
+    FormsModule
   ],
   templateUrl: './congress.component.html',
   styleUrl: './congress.component.scss'
@@ -14,25 +19,22 @@ import { NzTableComponent } from 'ng-zorro-antd/table';
 export class CongressComponent implements OnInit {
   congressService = inject(CongressService);
 
-  houseTrades: WritableSignal<CongressTrades[] | undefined> = signal(undefined);
-  senateTrades: WritableSignal<CongressTrades[] | undefined> = signal(undefined);
+  chamber: WritableSignal<string> = signal("house");
+  congressTrades: WritableSignal<CongressTrades[] | undefined> = signal(undefined);
 
   ngOnInit() {
-    this.getHouseTrades();
-    this.getSenateTrades();
+    this.getCongressionalTrades();
   }
 
-  getHouseTrades() {
-    this.congressService.getHouseTrades().subscribe({
-      next: response => this.houseTrades.set(response),
-      error: err => console.log(err)
-    });
+  onChamberSelectChange(event: string) {
+    this.chamber.set(event);
+    this.getCongressionalTrades();
   }
 
-  getSenateTrades() {
-    this.congressService.getSenateTrades().subscribe({
-      next: response => this.senateTrades.set(response),
+  getCongressionalTrades() {
+    this.congressService.getCongressionalTrades(this.chamber()).subscribe({
+      next: response => this.congressTrades.set(response),
       error: err => console.log(err)
     });
-  }
+  };
 }
