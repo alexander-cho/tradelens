@@ -5,7 +5,7 @@ namespace Infrastructure.Mappers.CompanyFundamentals;
 
 public static class IncomeStatementMapper
 {
-    public static IncomeStatement ToIncomeStatement(IEnumerable<IncomeStatementDto> incomeStatementDtoAsList, string symbol)
+    public static IncomeStatement ToIncomeStatement(IEnumerable<IncomeStatementDto> incomeStatementDtoList, string symbol)
     {
         // List<IncomeStatementPeriod> listOfIncomeStatements = [];
         // foreach (var incomeStatement in incomeStatementDtoAsList)
@@ -14,7 +14,7 @@ public static class IncomeStatementMapper
         //     listOfIncomeStatements.Add(incomeStatementPeriodAsNewModel);
         // }
 
-        var listOfIncomeStatements = incomeStatementDtoAsList.Select(ToIncomeStatementPeriod).ToList();
+        var listOfIncomeStatements = incomeStatementDtoList.Select(ToIncomeStatementPeriod).ToList();
 
         return new IncomeStatement
         {

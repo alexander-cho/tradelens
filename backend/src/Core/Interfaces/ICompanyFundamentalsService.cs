@@ -7,4 +7,6 @@ public interface ICompanyFundamentalsService
 {
     Task<RelatedCompaniesModel> GetRelatedCompaniesAsync(string ticker);
     Task<IncomeStatement> GetIncomeStatementAsync(string ticker, int limit, string period);
+    Task<BalanceSheet> GetBalanceSheetAsync(string ticker, int limit, string period);
+    Task<CashFlowStatement> GetCashFlowStatementAsync(string ticker, int limit, string period);
 }
