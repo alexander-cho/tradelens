@@ -11,11 +11,7 @@ export class CongressService {
   private baseUrl = environment.apiUrl;
   private http = inject(HttpClient);
 
-  public getHouseTrades(): Observable<CongressTrades[]> {
-    return this.http.get<CongressTrades[]>(this.baseUrl + 'congress/trades?chamber=house');
-  }
-
-  public getSenateTrades(): Observable<CongressTrades[]> {
-    return this.http.get<CongressTrades[]>(this.baseUrl + 'congress/trades?chamber=senate');
+  public getCongressionalTrades(chamber: string): Observable<CongressTrades[]> {
+    return this.http.get<CongressTrades[]>(this.baseUrl + `congress/trades?chamber=${chamber}`)
   }
 }

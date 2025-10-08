@@ -1,3 +1,8 @@
+<nz-radio-group [ngModel]="chamber()" (ngModelChange)="onChamberSelectChange($event)">
+  <label nz-radio-button nzValue="house">House</label>
+  <label nz-radio-button nzValue="senate">Senate</label>
+</nz-radio-group>
+
 <nz-table>
   <thead>
   <tr>
@@ -11,7 +16,7 @@
   </tr>
   </thead>
   <tbody>
-    @for (trade of houseTrades(); track $index) {
+    @for (trade of congressTrades(); track $index) {
       <tr>
         <td>{{ trade.office }}</td>
         <td>{{ trade.symbol }} - {{ trade.assetDescription }}</td>
