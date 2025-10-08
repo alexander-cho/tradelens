@@ -23,6 +23,6 @@ export type RelatedCompanies = {
   results: RelatedCompany[];
 }
 
-type RelatedCompany = {
+export type RelatedCompany = {
   ticker: string;
 }

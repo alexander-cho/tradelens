@@ -39,7 +39,7 @@ export class CompanyDashboardService {
     return this.http.get<Stock>(this.baseUrl + 'stocks/' + ticker);
   }
 
-  public getRelatedCompanies(ticker: string): Observable<RelatedCompanies> {
+  public getRelatedCompanies(ticker: string | undefined): Observable<RelatedCompanies> {
     let params = new HttpParams();
     if (ticker) {
       params = params.append('ticker', ticker);
@@ -47,7 +47,7 @@ export class CompanyDashboardService {
     return this.http.get<RelatedCompanies>(this.baseUrl + 'companies/related-companies', { params });
   }
 
-  public getIncomeStatement(ticker: string, period: string): Observable<IncomeStatement> {
+  public getIncomeStatement(ticker: string | undefined, period: string): Observable<IncomeStatement> {
     let params = new HttpParams();
     if (ticker) {
       params = params
