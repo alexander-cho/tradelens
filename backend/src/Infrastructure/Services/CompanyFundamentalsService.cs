@@ -39,4 +39,20 @@ public class CompanyFundamentalsService : ICompanyFundamentalsService
 
         return incomeStatements;
     }
+    
+    public async Task<BalanceSheet> GetBalanceSheetAsync(string ticker, int limit, string period)
+    {
+        var balanceSheetDto = await _fmpClient.GetBalanceSheetStatementAsync(ticker, 5, period);
+        var balanceSheets = BalanceSheetMapper.ToBalanceSheet(balanceSheetDto, ticker);
+
+        return balanceSheets;
+    }
+    
+    public async Task<CashFlowStatement> GetCashFlowStatementAsync(string ticker, int limit, string period)
+    {
+        var cashFlowStatementDto = await _fmpClient.GetCashFlowStatementAsync(ticker, 5, period);
+        var cashFlowStatements = CashFlowStatementMapper.ToCashFlowStatement(cashFlowStatementDto, ticker);
+
+        return cashFlowStatements;
+    }
 }

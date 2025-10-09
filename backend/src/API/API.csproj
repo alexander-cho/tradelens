@@ -40,6 +40,10 @@
     <_ContentIncludedByDefault Remove="wwwroot\main-MTYVJPPU.js" />
     <_ContentIncludedByDefault Remove="wwwroot\polyfills-HPZ7KTN2.js" />
     <_ContentIncludedByDefault Remove="wwwroot\styles-UKJDU4Y5.css" />
+    <_ContentIncludedByDefault Remove="wwwroot\chunk-45DXKDZG.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\chunk-RKY2M6OY.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\main-WAZIVFYI.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\styles-S43UNL6L.css" />
   </ItemGroup>
   
   <ItemGroup>

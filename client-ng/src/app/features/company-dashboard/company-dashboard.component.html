@@ -8,8 +8,17 @@ Related Companies
   <a href="/companies/{{relatedCompany.ticker}}">{{ relatedCompany.ticker }}</a> <br>
 }
 
-
 Income Statement Data - Revenue <br>
 @for (incomeStatementPeriod of incomeStatement()?.periodData; track $index) {
   {{ incomeStatementPeriod.revenue }} <br>
+}
+
+Balance Sheet Data - Total Assets <br>
+@for (balanceSheetPeriod of balanceSheet()?.periodData; track $index) {
+  {{ balanceSheetPeriod.totalAssets }} <br>
+}
+
+Cash Flow Statement Data - Free Cash Flow <br>
+@for (cashFlowStatementPeriod of cashFlowStatement()?.periodData; track $index) {
+  {{ cashFlowStatementPeriod.freeCashFlow }} <br>
 }

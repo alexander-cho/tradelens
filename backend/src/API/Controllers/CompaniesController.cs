@@ -29,4 +29,24 @@ public class CompaniesController : ControllerBase
     {
         return await _companyFundamentalsService.GetIncomeStatementAsync(ticker, limit: 5, period);
     }
+
+    [HttpGet("balance-sheet")]
+    public async Task<ActionResult<BalanceSheet>> GetBalanceSheet([FromQuery] string ticker, string period)
+    {
+        try 
+        {
+            var result = await _companyFundamentalsService.GetBalanceSheetAsync(ticker, limit: 5, period);
+            return Ok(result);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, new { error = ex.Message, stackTrace = ex.StackTrace });
+        }
+    }
+    
+    [HttpGet("cash-flow")]
+    public async Task<ActionResult<CashFlowStatement>> GetCashFlowStatement([FromQuery] string ticker, string period)
+    {
+        return await _companyFundamentalsService.GetCashFlowStatementAsync(ticker, limit: 5, period);
+    }
 }
