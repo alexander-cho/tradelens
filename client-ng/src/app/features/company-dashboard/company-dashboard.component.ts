@@ -5,6 +5,8 @@ import { RelatedCompanies } from '../../shared/models/polygon';
 import { CompanyDashboardService } from '../../core/services/company-dashboard.service';
 import { IncomeStatement } from '../../shared/models/fundamentals/income-statement';
 import { Router } from '@angular/router';
+import { BalanceSheet } from '../../shared/models/fundamentals/balance-sheet';
+import { CashFlowStatement } from '../../shared/models/fundamentals/cash-flow-statement';
 
 @Component({
   selector: 'app-company-dashboard',
@@ -23,6 +25,8 @@ export class CompanyDashboardComponent implements OnInit {
 
   relatedCompanies: WritableSignal<RelatedCompanies | undefined> = signal(undefined);
   incomeStatement: WritableSignal<IncomeStatement | undefined> = signal(undefined);
+  balanceSheet: WritableSignal<BalanceSheet | undefined> = signal(undefined);
+  cashFlowStatement: WritableSignal<CashFlowStatement | undefined> = signal(undefined);
   stock: WritableSignal<Stock | undefined> = signal(undefined);
 
   period = "quarter";
@@ -33,6 +37,8 @@ export class CompanyDashboardComponent implements OnInit {
         this.stock.set(response);
         this.getRelatedCompanies();
         this.getIncomeStatement();
+        this.getBalanceSheet();
+        this.getCashFlowStatement();
       },
       error: err => {
         console.log(err);
@@ -51,6 +57,20 @@ export class CompanyDashboardComponent implements OnInit {
   getIncomeStatement() {
     this.companyDashboardService.getIncomeStatement(this.ticker(), this.period).subscribe({
       next: response => this.incomeStatement.set(response),
+      error: err => console.log(err)
+    })
+  }
+
+  getBalanceSheet() {
+    this.companyDashboardService.getBalanceSheet(this.ticker(), this.period).subscribe({
+      next: response => this.balanceSheet.set(response),
+      error: err => console.log(err)
+    })
+  }
+
+  getCashFlowStatement() {
+    this.companyDashboardService.getCashFlowStatement(this.ticker(), this.period).subscribe({
+      next: response => this.cashFlowStatement.set(response),
       error: err => console.log(err)
     })
   }

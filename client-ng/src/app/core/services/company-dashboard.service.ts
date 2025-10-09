@@ -5,6 +5,8 @@ import { Observable } from 'rxjs';
 import { BarAggregates, RelatedCompanies } from '../../shared/models/polygon';
 import { Stock } from '../../shared/models/stock';
 import { IncomeStatement } from '../../shared/models/fundamentals/income-statement';
+import { BalanceSheet } from '../../shared/models/fundamentals/balance-sheet';
+import { CashFlowStatement } from '../../shared/models/fundamentals/cash-flow-statement';
 
 @Injectable({
   providedIn: 'root'
@@ -55,5 +57,25 @@ export class CompanyDashboardService {
         .append('period', period);
     }
     return this.http.get<IncomeStatement>(this.baseUrl + 'companies/income-statement', { params });
+  }
+
+  public getBalanceSheet(ticker: string | undefined, period: string): Observable<BalanceSheet> {
+    let params = new HttpParams();
+    if (ticker) {
+      params = params
+        .append('ticker', ticker)
+        .append('period', period);
+    }
+    return this.http.get<BalanceSheet>(this.baseUrl + 'companies/balance-sheet', { params });
+  }
+
+  public getCashFlowStatement(ticker: string | undefined, period: string): Observable<CashFlowStatement> {
+    let params = new HttpParams();
+    if (ticker) {
+      params = params
+        .append('ticker', ticker)
+        .append('period', period);
+    }
+    return this.http.get<CashFlowStatement>(this.baseUrl + 'companies/cash-flow', { params });
   }
 }
