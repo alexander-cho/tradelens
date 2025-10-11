@@ -129,6 +129,8 @@ public class CompanyFundamentalsService : ICompanyFundamentalsService
                                 });
                             }
 
+                            revenueData.Reverse();
+
                             // start shaping the response
                             Metric revenueMetric = new Metric
                             {
@@ -150,6 +152,8 @@ public class CompanyFundamentalsService : ICompanyFundamentalsService
                                 });
                             }
 
+                            netIncomeData.Reverse();
+
                             // start shaping the response
                             Metric netIncomeMetric = new Metric
                             {
@@ -170,6 +174,8 @@ public class CompanyFundamentalsService : ICompanyFundamentalsService
                                     Value = i.GrossProfit
                                 });
                             }
+
+                            grossProfitData.Reverse();
 
                             // start shaping the response
                             Metric grossProfitMetric = new Metric
@@ -197,6 +203,8 @@ public class CompanyFundamentalsService : ICompanyFundamentalsService
                                 });
                             }
 
+                            totalAssetsData.Reverse();
+
                             // start shaping the response
                             Metric totalAssetsMetric = new Metric
                             {
@@ -223,6 +231,8 @@ public class CompanyFundamentalsService : ICompanyFundamentalsService
                                 });
                             }
 
+                            freeCashFlowData.Reverse();
+
                             // start shaping the response
                             Metric freeCashFlowMetric = new Metric
                             {
@@ -243,6 +253,8 @@ public class CompanyFundamentalsService : ICompanyFundamentalsService
                                     Value = i.StockBasedCompensation
                                 });
                             }
+
+                            stockBasedCompensationData.Reverse();
 
                             // start shaping the response
                             Metric stockBasedCompensationMetric = new Metric
