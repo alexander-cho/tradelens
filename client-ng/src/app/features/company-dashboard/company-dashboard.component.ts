@@ -1,16 +1,19 @@
-import { Component, inject, input, OnInit, signal, WritableSignal } from '@angular/core';
+import { Component, effect, inject, input, OnInit, signal, WritableSignal } from '@angular/core';
 import { Stock } from "../../shared/models/stock";
 import { RelatedCompanies } from '../../shared/models/polygon';
-// import { CandlestickChartComponent } from './candlestick-chart/candlestick-chart.component';
 import { CompanyDashboardService } from '../../core/services/company-dashboard.service';
-import { IncomeStatement } from '../../shared/models/fundamentals/income-statement';
 import { Router } from '@angular/router';
-import { BalanceSheet } from '../../shared/models/fundamentals/balance-sheet';
-import { CashFlowStatement } from '../../shared/models/fundamentals/cash-flow-statement';
+import { CompanyFundamentalsResponse } from '../../shared/models/fundamentals/company-fundamentals-response';
+import { CompanyMetricChartComponent } from '../../shared/components/company-metric-chart/company-metric-chart.component';
+import { NzButtonComponent } from 'ng-zorro-antd/button';
+// import { CandlestickChartComponent } from './candlestick-chart/candlestick-chart.component';
 
 @Component({
   selector: 'app-company-dashboard',
   imports: [
+    CompanyMetricChartComponent,
+    NzButtonComponent,
+    // CompanyMetricChartComponent,
     // CandlestickChartComponent
   ],
   templateUrl: './company-dashboard.component.html',
@@ -24,27 +27,37 @@ export class CompanyDashboardComponent implements OnInit {
   router = inject(Router);
 
   relatedCompanies: WritableSignal<RelatedCompanies | undefined> = signal(undefined);
-  incomeStatement: WritableSignal<IncomeStatement | undefined> = signal(undefined);
-  balanceSheet: WritableSignal<BalanceSheet | undefined> = signal(undefined);
-  cashFlowStatement: WritableSignal<CashFlowStatement | undefined> = signal(undefined);
+  fundamentalData: WritableSignal<CompanyFundamentalsResponse | undefined> = signal(undefined);
   stock: WritableSignal<Stock | undefined> = signal(undefined);
 
-  period = "quarter";
+  period: WritableSignal<string> = signal('quarter');
+  metricsList: WritableSignal<string[]> = signal(['revenue', 'netIncome', 'freeCashFlow']);
 
   ngOnInit() {
     this.companyDashboardService.getStockByTicker(this.ticker()).subscribe({
       next: response => {
         this.stock.set(response);
         this.getRelatedCompanies();
-        this.getIncomeStatement();
-        this.getBalanceSheet();
-        this.getCashFlowStatement();
       },
       error: err => {
         console.log(err);
         this.router.navigateByUrl('/companies');
       }
     });
+  }
+
+  // change metrics reactively
+  metricsChangeEffect = effect(() => {
+    const changedPeriod = this.period();
+    const changedMetricsList = this.metricsList();
+
+    if (changedPeriod || changedMetricsList) {
+      this.getUserRequestedCompanyFundamentalData();
+    }
+  });
+
+  onMetricsChange() {
+    this.metricsList.set(['revenue', 'netIncome', 'freeCashFlow', 'grossProfit']);
   }
 
   getRelatedCompanies() {
@@ -54,24 +67,10 @@ export class CompanyDashboardComponent implements OnInit {
     });
   }
 
-  getIncomeStatement() {
-    this.companyDashboardService.getIncomeStatement(this.ticker(), this.period).subscribe({
-      next: response => this.incomeStatement.set(response),
+  getUserRequestedCompanyFundamentalData() {
+    this.companyDashboardService.getCompanyFundamentalData(this.ticker(), this.period(), this.metricsList()).subscribe({
+      next: response => this.fundamentalData.set(response),
       error: err => console.log(err)
-    })
-  }
-
-  getBalanceSheet() {
-    this.companyDashboardService.getBalanceSheet(this.ticker(), this.period).subscribe({
-      next: response => this.balanceSheet.set(response),
-      error: err => console.log(err)
-    })
-  }
-
-  getCashFlowStatement() {
-    this.companyDashboardService.getCashFlowStatement(this.ticker(), this.period).subscribe({
-      next: response => this.cashFlowStatement.set(response),
-      error: err => console.log(err)
-    })
+    });
   }
 }
