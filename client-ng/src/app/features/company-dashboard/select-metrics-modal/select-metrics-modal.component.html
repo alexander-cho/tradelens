@@ -1,0 +1,18 @@
+<div>
+  <div class="flex justify-end px-8 py-4">
+    <nz-select nzAllowClear
+               nzPlaceHolder="Select Metrics"
+               [(ngModel)]="userSelectedMetrics"
+               nzMode="multiple"
+               class="w-full">
+      @for (metric of metricsList; track $index) {
+        <nz-option [nzValue]="metric" [nzLabel]="metric">{{ metric }}</nz-option>
+      }
+    </nz-select>
+    <button nz-button
+            (click)="applyMetricsSelect()"
+            nzType="default">
+      Apply Filters
+    </button>
+  </div>
+</div>

@@ -6,6 +6,8 @@ import { Router } from '@angular/router';
 import { CompanyFundamentalsResponse } from '../../shared/models/fundamentals/company-fundamentals-response';
 import { CompanyMetricChartComponent } from '../../shared/components/company-metric-chart/company-metric-chart.component';
 import { NzButtonComponent } from 'ng-zorro-antd/button';
+import { SelectMetricsModalComponent } from './select-metrics-modal/select-metrics-modal.component';
+import { NzModalService } from 'ng-zorro-antd/modal';
 // import { CandlestickChartComponent } from './candlestick-chart/candlestick-chart.component';
 
 @Component({
@@ -16,6 +18,7 @@ import { NzButtonComponent } from 'ng-zorro-antd/button';
     // CompanyMetricChartComponent,
     // CandlestickChartComponent
   ],
+  providers: [NzModalService],
   templateUrl: './company-dashboard.component.html',
   styleUrl: './company-dashboard.component.scss'
 })
@@ -25,13 +28,18 @@ export class CompanyDashboardComponent implements OnInit {
 
   companyDashboardService = inject(CompanyDashboardService);
   router = inject(Router);
+  modalService = inject(NzModalService);
 
   relatedCompanies: WritableSignal<RelatedCompanies | undefined> = signal(undefined);
   fundamentalData: WritableSignal<CompanyFundamentalsResponse | undefined> = signal(undefined);
   stock: WritableSignal<Stock | undefined> = signal(undefined);
 
   period: WritableSignal<string> = signal('quarter');
-  metricsList: WritableSignal<string[]> = signal(['revenue', 'netIncome', 'freeCashFlow']);
+
+  // if amount of availableMetrics gets longer, have to change how many selected to initially render
+  availableMetrics: string[] = ['revenue', 'netIncome', 'grossProfit',
+    'totalAssets', 'freeCashFlow', 'stockBasedCompensation'];
+  selectedMetrics: WritableSignal<string[]> = signal(this.availableMetrics);
 
   ngOnInit() {
     this.companyDashboardService.getStockByTicker(this.ticker()).subscribe({
@@ -46,19 +54,17 @@ export class CompanyDashboardComponent implements OnInit {
     });
   }
 
-  // change metrics reactively
+  // on initial load, the period is set as 'annual' (Yearly) and there will be x amount of pre-selected metrics,
+  // 6 or 9, around ones that all companies have in common, e.g. revenue, etc.
+  // update metrics reactively
   metricsChangeEffect = effect(() => {
     const changedPeriod = this.period();
-    const changedMetricsList = this.metricsList();
+    const changedMetricsList = this.selectedMetrics();
 
     if (changedPeriod || changedMetricsList) {
       this.getUserRequestedCompanyFundamentalData();
     }
   });
-
-  onMetricsChange() {
-    this.metricsList.set(['revenue', 'netIncome', 'freeCashFlow', 'grossProfit']);
-  }
 
   getRelatedCompanies() {
     this.companyDashboardService.getRelatedCompanies(this.ticker()).subscribe({
@@ -68,9 +74,36 @@ export class CompanyDashboardComponent implements OnInit {
   }
 
   getUserRequestedCompanyFundamentalData() {
-    this.companyDashboardService.getCompanyFundamentalData(this.ticker(), this.period(), this.metricsList()).subscribe({
-      next: response => this.fundamentalData.set(response),
+    this.companyDashboardService.getCompanyFundamentalData(this.ticker(), this.period(), this.selectedMetrics()).subscribe({
+      next: response => {
+        this.fundamentalData.set(response);
+        console.log('Backend returned:', response.metricData);
+      },
       error: err => console.log(err)
+    });
+  }
+
+  openSelectMetricsModal() {
+    const modalRef = this.modalService.create({
+      nzTitle: 'Select Metrics',
+      nzContent: SelectMetricsModalComponent,
+      nzWidth: '600px',
+      nzData: {
+        // parent -> modal
+        availableMetrics: this.availableMetrics,
+        selectedMetrics: this.selectedMetrics()
+      },
+      nzFooter: null
+    });
+
+    // modal -> parent
+    // listens for modal close event, which 'result' is { selectedMetrics: [...] }
+    modalRef.afterClose.subscribe({
+      next: result => {
+        if (result) {
+          this.selectedMetrics.set(result.selectedMetrics);
+        }
+      }
     });
   }
 }
