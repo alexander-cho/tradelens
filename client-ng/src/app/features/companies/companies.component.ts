@@ -98,7 +98,7 @@ export class CompaniesComponent implements OnInit {
     this.getCompanies();
   }
 
-  openFiltersDialog() {
+  openFiltersModal() {
     const modalRef = this.modalService.create({
       nzTitle: 'Filters',
       nzContent: FiltersModalComponent,

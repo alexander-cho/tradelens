@@ -9,10 +9,11 @@ Related Companies
 
 <br>
 
-<button nz-button nzType="primary" (click)="onMetricsChange()">CLICK HERE TO ADD GROSS PROFIT</button>
+<button nz-button nzType="default" (click)="openSelectMetricsModal()">Edit Charts</button>
 
 <br>
-@for (metric of fundamentalData()?.metricData; track $index) {
+<!-- tracking by $index causes problems for fundamentalData which is a dynamic collection -->
+@for (metric of fundamentalData()?.metricData; track metric.metricName) {
   <app-company-metric-chart
   [ticker]="ticker()"
   [metricName]="metric.metricName"
