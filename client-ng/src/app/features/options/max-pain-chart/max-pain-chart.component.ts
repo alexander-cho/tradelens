@@ -16,6 +16,14 @@ export class MaxPainChartComponent {
   chart?: Chart;
 
   chartChangeEffect = effect(() => {
+    if (!this.chart) {
+      this.createChart();
+    } else {
+      this.updateChart(this.cashValuesDataForChart(), this.expirationDate());
+    }
+  });
+
+  createChart() {
     // read both signals to track changes
     const newCashData = this.cashValuesDataForChart();
     const newExpiryDate = this.expirationDate();
@@ -61,7 +69,22 @@ export class MaxPainChartComponent {
             display: true
           }
         }
-      },
+      }
     });
-  });
+  }
+
+  updateChart(newCashData: CallsAndPutsCashSums | undefined, newExpiryDate: string | undefined) {
+    if (!newCashData || !newCashData.callCashSums || !newCashData.putCashSums) {
+      return;
+    }
+
+    if (this.chart && this.chart.options.plugins?.title?.text) {
+      this.chart.data.labels = newCashData?.callCashSums.map(x => x.price);
+      this.chart.data.datasets[0].data = newCashData?.callCashSums.map(x => x.totalCashValue);
+      this.chart.data.datasets[1].data = newCashData?.putCashSums.map(x => x.totalCashValue);
+      this.chart.options.plugins.title.text = `Cash Values for ${ this.tickerSymbol()?.toUpperCase() ?? 'Unknown' } expiring ${ newExpiryDate }`;
+    }
+
+    this.chart?.update();
+  }
 }
