@@ -12,4 +12,5 @@ public class CashFlowStatementPeriod
     public required string Period { get; set; }
     public long StockBasedCompensation { get; set; }
     public long FreeCashFlow { get; set; }
+    public long CashAtEndOfPeriod { get; set; }
 }

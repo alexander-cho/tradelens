@@ -9,8 +9,11 @@ public static class CompanyFundamentalMetricMappings
         { "grossProfit", "IncomeStatement" },
 
         { "totalAssets", "BalanceSheet" },
+        { "totalLiabilities", "BalanceSheet" },
+        { "totalStockholdersEquity", "BalanceSheet" },
 
         { "freeCashFlow", "CashFlow" },
-        { "stockBasedCompensation", "CashFlow" }
+        { "stockBasedCompensation", "CashFlow" },
+        { "cashAtEndOfPeriod", "CashFlow" }
     };
 }

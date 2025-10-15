@@ -38,7 +38,8 @@ export class CompanyDashboardComponent implements OnInit {
 
   // if amount of availableMetrics gets longer, have to change how many selected to initially render
   availableMetrics: string[] = ['revenue', 'netIncome', 'grossProfit',
-    'totalAssets', 'freeCashFlow', 'stockBasedCompensation'];
+    'totalAssets', 'totalLiabilities', 'totalStockholdersEquity',
+    'freeCashFlow', 'stockBasedCompensation', 'cashAtEndOfPeriod'];
   selectedMetrics: WritableSignal<string[]> = signal(this.availableMetrics);
 
   ngOnInit() {

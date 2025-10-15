@@ -4,6 +4,8 @@ public record BalanceSheetDto(
     string Symbol,
     string FiscalYear,
     string Period,
-    long TotalAssets
+    long TotalAssets,
+    long TotalLiabilities,
+    long TotalStockHoldersEquity
     // debts -> types of debts
 );
