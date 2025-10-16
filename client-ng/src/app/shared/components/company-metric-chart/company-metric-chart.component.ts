@@ -54,7 +54,7 @@ export class CompanyMetricChartComponent implements AfterViewInit {
             label: metricNameRead,
             data: dataRead.map(x => x.value),
             borderWidth: 1,
-            backgroundColor: 'rgba(0, 250, 0, 0.7)'
+            backgroundColor: 'rgb(' + (Math.floor(Math.random() * 256)) + ',' + (Math.floor(Math.random() * 256)) + ',' + (Math.floor(Math.random() * 256)) + ')'
           }
         ],
       },

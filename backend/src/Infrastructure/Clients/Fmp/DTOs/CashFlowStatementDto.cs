@@ -5,5 +5,6 @@ public record CashFlowStatementDto(
     string FiscalYear,
     string Period,
     long StockBasedCompensation,
-    long FreeCashFlow
+    long FreeCashFlow,
+    long CashAtEndOfPeriod
 );

@@ -23,7 +23,8 @@ public static class CashFlowStatementMapper
             FiscalYear = cashFlowStatementDto.FiscalYear,
             Period = cashFlowStatementDto.Period,
             StockBasedCompensation = cashFlowStatementDto.StockBasedCompensation,
-            FreeCashFlow = cashFlowStatementDto.FreeCashFlow
+            FreeCashFlow = cashFlowStatementDto.FreeCashFlow,
+            CashAtEndOfPeriod = cashFlowStatementDto.CashAtEndOfPeriod
         };
     }
 }

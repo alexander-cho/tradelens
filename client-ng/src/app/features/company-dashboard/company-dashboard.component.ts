@@ -8,6 +8,7 @@ import { CompanyMetricChartComponent } from '../../shared/components/company-met
 import { NzButtonComponent } from 'ng-zorro-antd/button';
 import { SelectMetricsModalComponent } from './select-metrics-modal/select-metrics-modal.component';
 import { NzModalService } from 'ng-zorro-antd/modal';
+import { NzColDirective, NzRowDirective } from 'ng-zorro-antd/grid';
 // import { CandlestickChartComponent } from './candlestick-chart/candlestick-chart.component';
 
 @Component({
@@ -15,7 +16,8 @@ import { NzModalService } from 'ng-zorro-antd/modal';
   imports: [
     CompanyMetricChartComponent,
     NzButtonComponent,
-    // CompanyMetricChartComponent,
+    NzRowDirective,
+    NzColDirective,
     // CandlestickChartComponent
   ],
   providers: [NzModalService],
@@ -38,7 +40,8 @@ export class CompanyDashboardComponent implements OnInit {
 
   // if amount of availableMetrics gets longer, have to change how many selected to initially render
   availableMetrics: string[] = ['revenue', 'netIncome', 'grossProfit',
-    'totalAssets', 'freeCashFlow', 'stockBasedCompensation'];
+    'totalAssets', 'totalLiabilities', 'totalStockholdersEquity',
+    'freeCashFlow', 'stockBasedCompensation', 'cashAtEndOfPeriod'];
   selectedMetrics: WritableSignal<string[]> = signal(this.availableMetrics);
 
   ngOnInit() {

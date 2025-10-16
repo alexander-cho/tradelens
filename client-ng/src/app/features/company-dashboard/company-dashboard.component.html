@@ -4,7 +4,7 @@
 
 Related Companies
 @for (relatedCompany of relatedCompanies()?.results; track $index) {
-  <a href="/companies/{{relatedCompany.ticker}}">{{ relatedCompany.ticker }}</a>
+  <a href="/companies/{{relatedCompany.ticker}}">{{ relatedCompany.ticker }} </a>
 }
 
 <br>
@@ -13,10 +13,18 @@ Related Companies
 
 <br>
 <!-- tracking by $index causes problems for fundamentalData which is a dynamic collection -->
-@for (metric of fundamentalData()?.metricData; track metric.metricName) {
-  <app-company-metric-chart
-  [ticker]="ticker()"
-  [metricName]="metric.metricName"
-  [data]="metric.data">
-  </app-company-metric-chart>
-}
+<div class="gutter-example">
+  <div nz-row [nzGutter]="[16, 16]">
+    @for (metric of fundamentalData()?.metricData; track metric.metricName) {
+      <div nz-col class="gutter-row" [nzSpan]="24 / 3">
+        <div class="grid-config">
+          <app-company-metric-chart
+            [ticker]="ticker()"
+            [metricName]="metric.metricName"
+            [data]="metric.data">
+          </app-company-metric-chart>
+        </div>
+      </div>
+    }
+  </div>
+</div>

@@ -214,6 +214,52 @@ public class CompanyFundamentalsService : ICompanyFundamentalsService
                             
                             responseToSend.Add(totalAssetsMetric);
                             break;
+                        case "totalLiabilities":
+                            List<ValueDataAtEachPeriod> totalLiabilitiesData = [];
+                            foreach (var i in balanceSheetData.PeriodData)
+                            {
+                                totalLiabilitiesData.Add(new ValueDataAtEachPeriod
+                                {
+                                    Period = i.Period,
+                                    FiscalYear = i.FiscalYear,
+                                    Value = i.TotalLiabilities
+                                });
+                            }
+
+                            totalLiabilitiesData.Reverse();
+
+                            // start shaping the response
+                            Metric totalLiabilitiesMetric = new Metric
+                            {
+                                MetricName = "totalLiabilities",
+                                Data = totalLiabilitiesData
+                            };
+                            
+                            responseToSend.Add(totalLiabilitiesMetric);
+                            break;
+                        case "totalStockholdersEquity":
+                            List<ValueDataAtEachPeriod> totalStockholdersEquityData = [];
+                            foreach (var i in balanceSheetData.PeriodData)
+                            {
+                                totalStockholdersEquityData.Add(new ValueDataAtEachPeriod
+                                {
+                                    Period = i.Period,
+                                    FiscalYear = i.FiscalYear,
+                                    Value = i.TotalStockholdersEquity
+                                });
+                            }
+
+                            totalStockholdersEquityData.Reverse();
+
+                            // start shaping the response
+                            Metric totalStockholdersEquityMetric = new Metric
+                            {
+                                MetricName = "totalStockholdersEquity",
+                                Data = totalStockholdersEquityData
+                            };
+                            
+                            responseToSend.Add(totalStockholdersEquityMetric);
+                            break;
                     }
                     break;
                 case "CashFlow":
@@ -264,6 +310,29 @@ public class CompanyFundamentalsService : ICompanyFundamentalsService
                             };
                             
                             responseToSend.Add(stockBasedCompensationMetric);
+                            break;
+                        case "cashAtEndOfPeriod":
+                            List<ValueDataAtEachPeriod> cashAtEndOfPeriodData= [];
+                            foreach (var i in cashFlowData.PeriodData)
+                            {
+                                cashAtEndOfPeriodData.Add(new ValueDataAtEachPeriod
+                                {
+                                    Period = i.Period,
+                                    FiscalYear = i.FiscalYear,
+                                    Value = i.CashAtEndOfPeriod
+                                });
+                            }
+
+                            cashAtEndOfPeriodData.Reverse();
+
+                            // start shaping the response
+                            Metric cashAtEndOfPeriodMetric = new Metric
+                            {
+                                MetricName = "cashAtEndOfPeriod",
+                                Data = cashAtEndOfPeriodData
+                            };
+                            
+                            responseToSend.Add(cashAtEndOfPeriodMetric);
                             break;
                     }
                     break;

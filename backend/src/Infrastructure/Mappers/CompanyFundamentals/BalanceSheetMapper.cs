@@ -22,7 +22,9 @@ public static class BalanceSheetMapper
         {
             FiscalYear = balanceSheetDto.FiscalYear,
             Period = balanceSheetDto.Period,
-            TotalAssets = balanceSheetDto.TotalAssets
+            TotalAssets = balanceSheetDto.TotalAssets,
+            TotalLiabilities = balanceSheetDto.TotalLiabilities,
+            TotalStockholdersEquity = balanceSheetDto.TotalStockHoldersEquity
         };
     }
 }
