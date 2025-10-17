@@ -18,14 +18,28 @@ public record StrikePriceData(
     string? Description,
     string Underlying,
     float Strike,
+    int Volume,
     [property: JsonPropertyName("open_interest")]
     int OpenInterest,
     [property: JsonPropertyName("expiration_date")]
     string ExpirationDate,
     [property: JsonPropertyName("option_type")]
-    string OptionType
+    string OptionType,
+    float? Last,
+    float? Bid,
+    float? Ask,
+    Greeks? Greeks
 );
 
-// public record Greeks(
-//     double Delta
-// );
+public record Greeks(
+    double Delta,
+    double Gamma,
+    double Theta,
+    double Vega,
+    double Rho,
+    double Phi,
+    [property: JsonPropertyName("smv_vol")]
+    double SmvVol,
+    [property: JsonPropertyName("update_at")]
+    string? UpdatedAt
+);

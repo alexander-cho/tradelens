@@ -6,6 +6,7 @@ import { MaxPainChartComponent } from './max-pain-chart/max-pain-chart.component
 import { NzButtonComponent } from 'ng-zorro-antd/button';
 import { NzInputDirective } from 'ng-zorro-antd/input';
 import { NzOptionComponent, NzSelectComponent } from 'ng-zorro-antd/select';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-options',
@@ -15,7 +16,8 @@ import { NzOptionComponent, NzSelectComponent } from 'ng-zorro-antd/select';
     NzButtonComponent,
     NzInputDirective,
     NzSelectComponent,
-    NzOptionComponent
+    NzOptionComponent,
+    RouterLink
   ],
   templateUrl: './options.component.html',
   styleUrl: './options.component.scss'
@@ -24,7 +26,7 @@ export class OptionsComponent {
   optionsService = inject(OptionsService);
 
   ticker: WritableSignal<string> = signal<string>("");
-  selectedExpiration: WritableSignal<string> = signal<string>("");
+  selectedExpiration: WritableSignal<string | undefined> = signal<string | undefined>(undefined);
   expirationDates: WritableSignal<ExpiryData | undefined> = signal<ExpiryData | undefined>(undefined);
   maxPainData: WritableSignal<CallsAndPutsCashSums | undefined> = signal<CallsAndPutsCashSums | undefined>(undefined);
 

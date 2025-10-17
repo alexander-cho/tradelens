@@ -23,6 +23,10 @@
   }
 </div>
 
+@if (selectedExpiration()) {
+  <button [routerLink]="['/options', ticker(), selectedExpiration()]" nz-button nzType="primary">Explore</button>
+}
+
 @if (maxPainData()) {
   <app-max-pain-chart
     [tickerSymbol]="submittedTicker()"

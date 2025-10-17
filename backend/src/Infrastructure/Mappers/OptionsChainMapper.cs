@@ -27,11 +27,36 @@ public static class OptionsChainMapper
         {
             Description = strikePriceData.Description,
             ExpirationDate = strikePriceData.ExpirationDate,
+            Volume = strikePriceData.Volume,
             OpenInterest = strikePriceData.OpenInterest,
+            Last = strikePriceData.Last,
+            Bid = strikePriceData.Bid,
+            Ask = strikePriceData.Ask,
             OptionType = strikePriceData.OptionType,
             Strike = strikePriceData.Strike,
             Symbol = strikePriceData.Symbol,
-            Underlying = strikePriceData.Underlying
+            Underlying = strikePriceData.Underlying,
+            Greeks = ToGreeksModel(strikePriceData.Greeks)
         };
+    }
+
+    private static Core.Models.Greeks ToGreeksModel(Clients.Tradier.DTOs.Greeks? greeks)
+    {
+        if (greeks != null)
+        {
+            return new Core.Models.Greeks
+            {
+                Delta = greeks.Delta,
+                Gamma = greeks.Gamma,
+                Theta = greeks.Theta,
+                Vega = greeks.Vega,
+                Rho = greeks.Rho,
+                Phi = greeks.Phi,
+                SmvVol = greeks.SmvVol,
+                UpdatedAt = greeks.UpdatedAt
+            };
+        }
+
+        return new Core.Models.Greeks();
     }
 }
