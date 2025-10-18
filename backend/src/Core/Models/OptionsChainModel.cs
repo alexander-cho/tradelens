@@ -2,12 +2,7 @@ namespace Core.Models;
 
 public class OptionsChainModel
 {
-    public required FullOptionsChain Options { get; set; }
-}
-
-public class FullOptionsChain
-{
-    public required List<StrikePriceData> Option { get; set; }
+    public required List<StrikePriceData> OptionsChain { get; set; }
 }
 
 public class StrikePriceData
@@ -18,11 +13,13 @@ public class StrikePriceData
     public float Strike { get; set; }
     public int Volume { get; set; }
     public int OpenInterest { get; set; }
+    public double Activity => OpenInterest > 0 ? (double)Volume / OpenInterest : 0;
     public string? ExpirationDate { get; set; }
     public string? OptionType { get; set; }
     public float? Last { get; set; }
     public float? Bid { get; set; }
     public float? Ask { get; set; }
+    public ImpliedVolatility? ImpliedVolatility { get; set; }
     public Greeks? Greeks { get; set; }
 }
 
@@ -34,6 +31,14 @@ public class Greeks
     public double Vega { get; set; }
     public double Rho { get; set; }
     public double Phi { get; set; }
-    public double SmvVol { get; set; }
+    public string? UpdatedAt { get; set; }
+}
+
+public class ImpliedVolatility
+{
+    public double? BidIv { get; set; }
+    public double? MidIv { get; set; }
+    public double? AskIv { get; set; }
+    public double? SmvVol { get; set; }
     public string? UpdatedAt { get; set; }
 }

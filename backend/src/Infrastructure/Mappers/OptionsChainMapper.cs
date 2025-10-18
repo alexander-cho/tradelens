@@ -9,19 +9,13 @@ public static class OptionsChainMapper
     {
         return new OptionsChainModel
         {
-            Options = ToFullOptionsChainDomainModel(optionsChainDto.Options)
+            OptionsChain = optionsChainDto.Options.Option
+                .Select(ToStrikePriceDataModel)
+                .ToList()
         };
     }
 
-    private static Core.Models.FullOptionsChain ToFullOptionsChainDomainModel(Clients.Tradier.DTOs.FullOptionsChain fullOptionsChain)
-    {
-        return new Core.Models.FullOptionsChain
-        {
-            Option = fullOptionsChain.Option.Select(ToStrikePriceDataDomainModel).ToList()
-        };
-    }
-
-    private static Core.Models.StrikePriceData ToStrikePriceDataDomainModel(Clients.Tradier.DTOs.StrikePriceData strikePriceData)
+    private static Core.Models.StrikePriceData ToStrikePriceDataModel(Clients.Tradier.DTOs.StrikePriceData strikePriceData)
     {
         return new Core.Models.StrikePriceData
         {
@@ -36,13 +30,15 @@ public static class OptionsChainMapper
             Strike = strikePriceData.Strike,
             Symbol = strikePriceData.Symbol,
             Underlying = strikePriceData.Underlying,
-            Greeks = ToGreeksModel(strikePriceData.Greeks)
+            Greeks = ToGreeksModel(strikePriceData.Greeks),
+            ImpliedVolatility = ToImpliedVolatilityModel(strikePriceData.Greeks)
         };
     }
 
     private static Core.Models.Greeks ToGreeksModel(Clients.Tradier.DTOs.Greeks? greeks)
     {
         if (greeks != null)
+            
         {
             return new Core.Models.Greeks
             {
@@ -52,11 +48,26 @@ public static class OptionsChainMapper
                 Vega = greeks.Vega,
                 Rho = greeks.Rho,
                 Phi = greeks.Phi,
-                SmvVol = greeks.SmvVol,
                 UpdatedAt = greeks.UpdatedAt
             };
         }
 
         return new Core.Models.Greeks();
+    }
+
+    private static Core.Models.ImpliedVolatility ToImpliedVolatilityModel(Clients.Tradier.DTOs.Greeks? greeks)
+    {
+        if (greeks != null)
+        {
+            return new Core.Models.ImpliedVolatility
+            {
+                BidIv = greeks.BidIv,
+                MidIv = greeks.MidIv,
+                AskIv = greeks.AskIv,
+                SmvVol = greeks.SmvVol,
+                UpdatedAt = greeks.UpdatedAt
+            };
+        }
+        return new Core.Models.ImpliedVolatility();
     }
 }

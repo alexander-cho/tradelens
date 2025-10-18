@@ -35,6 +35,7 @@ export class OptionsComponent {
   submittedTicker: WritableSignal<string> = signal<string>("");
 
   onTickerSubmit() {
+    this.ticker.set(this.ticker().toUpperCase());
     this.submittedTicker.set(this.ticker());
     this.getExpirationDatesAssociatedWithStock();
   }

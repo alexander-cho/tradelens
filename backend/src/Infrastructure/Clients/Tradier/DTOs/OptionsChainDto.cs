@@ -38,8 +38,14 @@ public record Greeks(
     double Vega,
     double Rho,
     double Phi,
+    [property: JsonPropertyName("bid_iv")]
+    double? BidIv,
+    [property: JsonPropertyName("mid_iv")]
+    double? MidIv,
+    [property: JsonPropertyName("ask_iv")]
+    double? AskIv,
     [property: JsonPropertyName("smv_vol")]
-    double SmvVol,
-    [property: JsonPropertyName("update_at")]
+    double? SmvVol,
+    [property: JsonPropertyName("updated_at")]
     string? UpdatedAt
 );
