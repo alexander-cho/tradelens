@@ -1,4 +1,4 @@
-{{ ticker() }} Option Chain
+{{ ticker() }} Options Chain
 
 <nz-radio-group [ngModel]="selectedMetric()" (ngModelChange)="onMetricChangeEvent($event)">
   <label nz-radio-button nzValue="optionsChain">Options Chain</label>
@@ -8,6 +8,10 @@
   <label nz-radio-button nzValue="impliedVolatility">Implied Volatility</label>
   <label nz-radio-button nzValue="activity">Unusual Activity</label>
 </nz-radio-group>
+
+<button nz-button nzType="primary">Max Pain</button>
+
+<br>
 
 @if (selectedMetric() === "optionsChain") {
   <nz-table>
@@ -49,13 +53,8 @@
     </tbody>
   </nz-table>
 } @else {
-  <app-options-metric-chart [metricChoice]="selectedMetric()"></app-options-metric-chart>
-}
-
-@for (metric of optionsMetricData(); track $index) {
-  @if (typeof metric.data === 'number') {
-    {{ metric.strike }} - {{ metric.optionType }} [{{ metric.data }}] <br>
-  } @else if (metric.metricType === 'greeks' || 'impliedVolatility') {
-    {{ metric.strike }} - {{ metric.optionType }} <{{ metric.data }}> <br>
-  }
+  <app-options-metric-chart
+    [metricChoice]="selectedMetric()"
+    [metricData]="optionsMetricData()">
+  </app-options-metric-chart>
 }
