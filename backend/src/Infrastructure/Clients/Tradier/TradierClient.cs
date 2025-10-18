@@ -36,7 +36,7 @@ public class TradierClient : ITradierClient
             }
         }
 
-        throw new HttpRequestException($"Failed to get bar aggregates. Status code: {response.StatusCode}");
+        throw new HttpRequestException($"Failed to get options chain. Status code: {response.StatusCode}");
     }
 
     public async Task<ExpirationsDto> GetExpiryDatesForUnderlyingAsync(string symbol)

@@ -18,10 +18,19 @@ public class OptionsService : IOptionsService
         _tradierClient = tradierClient;
         _logger = logger;
     }
-    
-    public CallsAndPutsCashSums CalculateCashValuesForOneExpirationAsync(TradierOptionChainSpecParams tradierOptionChainSpecParams)
+
+    public async Task<OptionsChainModel> GetOptionsChainAsync(TradierOptionChainSpecParams tradierOptionChainSpecParams)
     {
-        var optionsChainDto = _tradierClient.GetOptionsChainAsync(tradierOptionChainSpecParams).Result;
+        var optionsChainDto = await _tradierClient.GetOptionsChainAsync(tradierOptionChainSpecParams);
+
+        var optionsChain = OptionsChainMapper.ToOptionsChainDomainModel(optionsChainDto);
+
+        return optionsChain;
+    }
+    
+    public async Task<CallsAndPutsCashSums> CalculateCashValuesForOneExpirationAsync(TradierOptionChainSpecParams tradierOptionChainSpecParams)
+    {
+        var optionsChainDto = await _tradierClient.GetOptionsChainAsync(tradierOptionChainSpecParams);
 
         var optionsChain = OptionsChainMapper.ToOptionsChainDomainModel(optionsChainDto);
     
