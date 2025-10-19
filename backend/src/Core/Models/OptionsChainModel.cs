@@ -13,7 +13,6 @@ public class StrikePriceData
     public float Strike { get; set; }
     public int Volume { get; set; }
     public int OpenInterest { get; set; }
-    public double Activity => OpenInterest > 0 ? (double)Volume / OpenInterest : 0;
     public string? ExpirationDate { get; set; }
     public string? OptionType { get; set; }
     public float? Last { get; set; }
@@ -21,6 +20,7 @@ public class StrikePriceData
     public float? Ask { get; set; }
     public ImpliedVolatility? ImpliedVolatility { get; set; }
     public Greeks? Greeks { get; set; }
+    public Activity? Activity { get; set; }
 }
 
 public class Greeks
@@ -41,4 +41,11 @@ public class ImpliedVolatility
     public double? AskIv { get; set; }
     public double? SmvVol { get; set; }
     public string? UpdatedAt { get; set; }
+}
+
+public class Activity
+{
+    public int Volume { get; set; }
+    public int OpenInterest { get; set; }
+    public double UnusualActivity => OpenInterest > 0 ? (double)Volume / OpenInterest : 0;
 }

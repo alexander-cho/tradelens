@@ -31,7 +31,8 @@ public static class OptionsChainMapper
             Symbol = strikePriceData.Symbol,
             Underlying = strikePriceData.Underlying,
             Greeks = ToGreeksModel(strikePriceData.Greeks),
-            ImpliedVolatility = ToImpliedVolatilityModel(strikePriceData.Greeks)
+            ImpliedVolatility = ToImpliedVolatilityModel(strikePriceData.Greeks),
+            Activity = ToActivity(strikePriceData)
         };
     }
 
@@ -69,5 +70,14 @@ public static class OptionsChainMapper
             };
         }
         return new Core.Models.ImpliedVolatility();
+    }
+
+    private static Core.Models.Activity ToActivity(Clients.Tradier.DTOs.StrikePriceData strikePriceData)
+    {
+        return new Activity
+        {
+            OpenInterest = strikePriceData.OpenInterest,
+            Volume = strikePriceData.Volume
+        };
     }
 }

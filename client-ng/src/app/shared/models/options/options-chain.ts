@@ -9,7 +9,6 @@ export interface StrikePriceData {
   strike: number;
   volume: number;
   openInterest: number;
-  activity: number;
   expirationDate?: string;
   optionType?: string;
   last?: number;
@@ -17,6 +16,7 @@ export interface StrikePriceData {
   ask?: number;
   greeks?: Greeks;
   impliedVolatility?: ImpliedVolatility;
+  activity?: Activity;
 }
 
 export interface Greeks {
@@ -35,4 +35,10 @@ export interface ImpliedVolatility {
   askIv: number;
   smvVol: number;
   updatedAt: string;
+}
+
+export interface Activity {
+  openInterest: number;
+  volume: number;
+  unusualActivity: number;
 }
