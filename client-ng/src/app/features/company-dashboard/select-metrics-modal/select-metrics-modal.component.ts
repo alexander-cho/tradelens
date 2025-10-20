@@ -1,4 +1,4 @@
-import { Component, inject, model, ModelSignal, signal, WritableSignal } from '@angular/core';
+import { Component, inject, model, ModelSignal } from '@angular/core';
 import { NzButtonComponent } from "ng-zorro-antd/button";
 import { NzOptionComponent, NzSelectComponent } from "ng-zorro-antd/select";
 import { NZ_MODAL_DATA, NzModalRef } from 'ng-zorro-antd/modal';
@@ -10,9 +10,7 @@ import { FormsModule } from '@angular/forms';
     NzButtonComponent,
     NzOptionComponent,
     NzSelectComponent,
-    FormsModule,
-    // NzOptionComponent,
-    // NzSelectComponent
+    FormsModule
   ],
   templateUrl: './select-metrics-modal.component.html',
   styleUrl: './select-metrics-modal.component.scss'

@@ -43,13 +43,10 @@ export class OptionsChainDetailComponent implements OnInit {
 
   onMetricChangeEvent(event: keyof StrikePriceData) {
     this.selectedMetric.set(event);
-    console.log(this.selectedMetric());
     if (this.selectedMetric() != 'optionsChain') {
       this.optionsMetricData.set(this.getMetricData(event));
-      console.log(this.optionsMetricData());
     } else {
       this.optionsMetricData.set(undefined);
-      console.log(this.selectedMetric());
     }
   }
 
