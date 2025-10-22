@@ -1,9 +1,9 @@
-import {Component, effect, input, InputSignal, signal, WritableSignal} from '@angular/core';
-import {OptionMetricData} from '../../models/options/options-data-shapes';
-import {Chart} from 'chart.js/auto';
-import {Activity, Greeks, ImpliedVolatility} from '../../models/options/options-chain';
-import {NzRadioComponent, NzRadioGroupComponent} from 'ng-zorro-antd/radio';
-import {FormsModule} from '@angular/forms';
+import { Component, effect, input, InputSignal, signal, WritableSignal } from '@angular/core';
+import { OptionMetricData } from '../../models/options/options-data-shapes';
+import { Chart } from 'chart.js/auto';
+import { Activity, Greeks, ImpliedVolatility } from '../../models/options/options-chain';
+import { NzRadioComponent, NzRadioGroupComponent } from 'ng-zorro-antd/radio';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-options-metric-chart',
@@ -82,10 +82,14 @@ export class OptionsMetricChartComponent {
         },
         plugins: {
           title: {
-            text: `${this.metricChoice()}`,
+            text: `${ this.metricChoice() }`,
             display: true
           }
-        }
+        },
+        // tooltip should show all dataset values at that index
+        interaction: {
+          mode: 'index',
+        },
       }
     });
   }
@@ -109,14 +113,14 @@ export class OptionsMetricChartComponent {
         labels: metricDataRead.filter(x => x.optionType === 'call').map(x => x.strike),
         datasets: [
           {
-            label: `${selectedGreekRead} (Calls)`,
+            label: `${ selectedGreekRead } (Calls)`,
             // cast as valid key in Greeks object type, and cast as number since it has both number and string types, .e.g. updatedAt
             data: metricDataRead.filter(x => x.optionType === 'call').map(x => (x.data as Greeks)[selectedGreekRead as keyof Greeks] as number),
             borderColor: 'rgba(0, 250, 0, 0.7)',
             backgroundColor: 'rgba(0, 250, 0, 0.7)'
           },
           {
-            label: `${selectedGreekRead} (Puts)`,
+            label: `${ selectedGreekRead } (Puts)`,
             data: metricDataRead.filter(x => x.optionType === 'put').map(x => (x.data as Greeks)[selectedGreekRead as keyof Greeks] as number),
             borderColor: 'rgba(250, 0, 0, 0.7)',
             backgroundColor: 'rgba(250, 0, 0, 0.7)'
@@ -132,10 +136,13 @@ export class OptionsMetricChartComponent {
         },
         plugins: {
           title: {
-            text: `${this.metricChoice()}`,
+            text: `${ this.metricChoice() }`,
             display: true
           }
-        }
+        },
+        interaction: {
+          mode: 'index',
+        },
       }
     });
   }
@@ -159,25 +166,25 @@ export class OptionsMetricChartComponent {
         labels: metricDataRead.filter(x => x.optionType === selectedIvCallOrPutRead).map(x => x.strike),
         datasets: [
           {
-            label: `Bid IV (${selectedIvCallOrPutRead})`,
+            label: `Bid IV (${ selectedIvCallOrPutRead })`,
             data: metricDataRead.filter(x => x.optionType === selectedIvCallOrPutRead).map(x => (x.data as ImpliedVolatility).bidIv),
             borderColor: color,
             backgroundColor: color
           },
           {
-            label: `Ask IV (${selectedIvCallOrPutRead})`,
+            label: `Ask IV (${ selectedIvCallOrPutRead })`,
             data: metricDataRead.filter(x => x.optionType === selectedIvCallOrPutRead).map(x => (x.data as ImpliedVolatility).askIv),
             borderColor: color,
             backgroundColor: color
           },
           {
-            label: `Mid IV (${selectedIvCallOrPutRead})`,
+            label: `Mid IV (${ selectedIvCallOrPutRead })`,
             data: metricDataRead.filter(x => x.optionType === selectedIvCallOrPutRead).map(x => (x.data as ImpliedVolatility).midIv),
             borderColor: color,
             backgroundColor: color
           },
           {
-            label: `SMV (${selectedIvCallOrPutRead})`,
+            label: `SMV (${ selectedIvCallOrPutRead })`,
             data: metricDataRead.filter(x => x.optionType === selectedIvCallOrPutRead).map(x => (x.data as ImpliedVolatility).smvVol),
             borderColor: 'rgba(0, 0, 0, 1)',
             backgroundColor: 'rgba(0, 0, 0, 1)'
@@ -193,10 +200,14 @@ export class OptionsMetricChartComponent {
         },
         plugins: {
           title: {
-            text: `${this.metricChoice()}`,
+            text: `${ this.metricChoice() }`,
             display: true
           }
-        }
+        },
+        // tooltip should show all dataset values at that index
+        interaction: {
+          mode: 'index',
+        },
       }
     });
   }
@@ -207,7 +218,7 @@ export class OptionsMetricChartComponent {
     const metricDataRead = this.metricData();
 
     // set color of bars based on user choice between call or put
-    const color = selectedUnusualCallOrPutRead === 'call' ? 'rgba(0, 250, 0, 0.7)' : 'rgba(250, 0, 0, 0.7)';
+    const colors: string[] = selectedUnusualCallOrPutRead === 'call' ? ['rgba(144, 255, 144, 0.7)', 'rgba(0, 180, 0, 0.7)'] : ['rgba(255, 160, 160, 0.7)', 'rgba(250, 0, 0, 0.7)'];
 
     if (!metricDataRead || !metricChoiceRead) {
       return;
@@ -221,7 +232,7 @@ export class OptionsMetricChartComponent {
         labels: metricDataRead.filter(x => x.optionType === selectedUnusualCallOrPutRead).map(x => x.strike),
         datasets: [
           {
-            label: `Volume/OI Ratio (${selectedUnusualCallOrPutRead})`,
+            label: `Volume/OI Ratio (${ selectedUnusualCallOrPutRead })`,
             data: metricDataRead.filter(x => x.optionType === selectedUnusualCallOrPutRead).map(x => (x.data as Activity).unusualActivity),
             borderColor: 'rgba(0, 0, 0, 1)',
             backgroundColor: 'rgba(0, 0, 0, 1)',
@@ -229,17 +240,17 @@ export class OptionsMetricChartComponent {
             yAxisID: 'y'
           },
           {
-            label: `Volume (${selectedUnusualCallOrPutRead})`,
+            label: `Volume (${ selectedUnusualCallOrPutRead })`,
             data: metricDataRead.filter(x => x.optionType === selectedUnusualCallOrPutRead).map(x => (x.data as Activity).volume),
-            borderColor: color,
-            backgroundColor: color,
+            borderColor: colors[1],
+            backgroundColor: colors[1],
             yAxisID: 'y1'
           },
           {
-            label: `Open Interest (${selectedUnusualCallOrPutRead})`,
+            label: `Open Interest (${ selectedUnusualCallOrPutRead })`,
             data: metricDataRead.filter(x => x.optionType === selectedUnusualCallOrPutRead).map(x => (x.data as Activity).openInterest),
-            borderColor: color,
-            backgroundColor: color,
+            borderColor: colors[0],
+            backgroundColor: colors[0],
             yAxisID: 'y1'
           }
         ],
@@ -259,11 +270,15 @@ export class OptionsMetricChartComponent {
             grid: {
               drawOnChartArea: false, // only want the grid lines for one axis to show up
             },
-          }
+          },
+        },
+        // tooltip should show all dataset values at that index
+        interaction: {
+          mode: 'index',
         },
         plugins: {
           title: {
-            text: `${this.metricChoice()}`,
+            text: `${ this.metricChoice() }`,
             display: true
           }
         }

@@ -65,10 +65,13 @@ export class MaxPainChartComponent {
         },
         plugins: {
           title: {
-            text: `Cash Values for ${ this.tickerSymbol()?.toUpperCase() } expiring ${ newExpiryDate }`,
+            text: `Cash Values for ${ this.tickerSymbol()?.toUpperCase() } expiring ${ newExpiryDate }. Max Pain lies at ${ newCashData.maxPainValue }`,
             display: true
           }
-        }
+        },
+        interaction: {
+          mode: 'index',
+        },
       }
     });
   }
