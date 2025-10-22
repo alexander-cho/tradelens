@@ -1,10 +1,13 @@
 import { Component, effect, input, InputSignal, AfterViewInit } from '@angular/core';
 import { ValueDataAtEachPeriod } from '../../models/fundamentals/company-fundamentals-response';
 import { Chart } from 'chart.js/auto';
+import {NzCardComponent} from 'ng-zorro-antd/card';
 
 @Component({
   selector: 'app-company-metric-chart',
-  imports: [],
+  imports: [
+    NzCardComponent
+  ],
   templateUrl: './company-metric-chart.component.html',
   styleUrl: './company-metric-chart.component.scss'
 })
@@ -52,7 +55,7 @@ export class CompanyMetricChartComponent implements AfterViewInit {
         datasets: [
           {
             label: metricNameRead,
-            data: dataRead.map(x => x.value),
+            data: dataRead.map(x => x.value / 1_000_000),
             borderWidth: 1,
             backgroundColor: 'rgb(' + (Math.floor(Math.random() * 256)) + ',' + (Math.floor(Math.random() * 256)) + ',' + (Math.floor(Math.random() * 256)) + ')'
           }
@@ -68,9 +71,11 @@ export class CompanyMetricChartComponent implements AfterViewInit {
         plugins: {
           title: {
             text: `${ this.ticker() } ${ metricNameRead }`,
-            display: true
+            display: false
           }
-        }
+        },
+        // width / height
+        aspectRatio: 1.3
       },
     });
   }
