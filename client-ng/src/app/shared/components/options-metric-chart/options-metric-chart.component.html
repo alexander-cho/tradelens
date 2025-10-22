@@ -1,0 +1,31 @@
+<div [hidden]="metricChoice() != 'greeks'">
+  <nz-radio-group [ngModel]="selectedGreek()" (ngModelChange)="selectedGreek.set($event)">
+    <label nz-radio-button nzValue="delta">Delta</label>
+    <label nz-radio-button nzValue="gamma">Gamma</label>
+    <label nz-radio-button nzValue="theta">Theta</label>
+    <label nz-radio-button nzValue="vega">Vega</label>
+    <label nz-radio-button nzValue="rho">Rho</label>
+    <label nz-radio-button nzValue="phi">Phi</label>
+  </nz-radio-group>
+</div>
+
+<div [hidden]="metricChoice() != 'activity'">
+  <nz-radio-group [ngModel]="selectedUnusualCallOrPut()" (ngModelChange)="selectedUnusualCallOrPut.set($event)">
+    <label nz-radio-button nzValue="call">Calls</label>
+    <label nz-radio-button nzValue="put">Puts</label>
+  </nz-radio-group>
+</div>
+
+<div [hidden]="metricChoice() != 'impliedVolatility'">
+  <nz-radio-group [ngModel]="selectedIvCallOrPut()" (ngModelChange)="selectedIvCallOrPut.set($event)">
+    <label nz-radio-button nzValue="call">Calls</label>
+    <label nz-radio-button nzValue="put">Puts</label>
+  </nz-radio-group>
+</div>
+
+<div>
+  hello
+  <div>
+    <canvas id="metricChart">{{ chart }}</canvas>
+  </div>
+</div>

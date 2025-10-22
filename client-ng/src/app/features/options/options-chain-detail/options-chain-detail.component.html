@@ -1,0 +1,58 @@
+<nz-radio-group [ngModel]="selectedMetric()" (ngModelChange)="onMetricChangeEvent($event)">
+  <label nz-radio-button nzValue="optionsChain">Options Chain</label>
+  <label nz-radio-button nzValue="openInterest">Open Interest</label>
+  <label nz-radio-button nzValue="volume">Volume</label>
+  <label nz-radio-button nzValue="greeks">Greeks</label>
+  <label nz-radio-button nzValue="impliedVolatility">Implied Volatility</label>
+  <label nz-radio-button nzValue="activity">Unusual Activity</label>
+</nz-radio-group>
+
+<button nz-button nzType="primary">Max Pain</button>
+
+<br>
+
+@if (selectedMetric() === "optionsChain") {
+  <nz-table>
+    <thead>
+    <tr>
+      <th colspan="5" style="text-align: center; font-weight: bold;">CALLS</th>
+      <th colspan="5" style="text-align: center; font-weight: bold;">PUTS</th>
+    </tr>
+    <tr>
+      <th>Last Price</th>
+      <th>Bid</th>
+      <th>Ask</th>
+      <th>Volume</th>
+      <th>Open Interest</th>
+      <th>Strike Price</th>
+      <th>Last Price</th>
+      <th>Bid</th>
+      <th>Ask</th>
+      <th>Volume</th>
+      <th>Open Interest</th>
+    </tr>
+    </thead>
+    <tbody>
+      @for (strike of formattedData(); track $index) {
+        <tr>
+          <td>{{ strike.call?.last }}</td>
+          <td>{{ strike.call?.bid }}</td>
+          <td>{{ strike.call?.ask }}</td>
+          <td>{{ strike.call?.volume }}</td>
+          <td>{{ strike.call?.openInterest }}</td>
+          <td>{{ strike.strike }}</td>
+          <td>{{ strike.put?.last }}</td>
+          <td>{{ strike.put?.bid }}</td>
+          <td>{{ strike.put?.ask }}</td>
+          <td>{{ strike.put?.volume }}</td>
+          <td>{{ strike.put?.openInterest }}</td>
+        </tr>
+      }
+    </tbody>
+  </nz-table>
+} @else {
+  <app-options-metric-chart
+    [metricChoice]="selectedMetric()"
+    [metricData]="optionsMetricData()">
+  </app-options-metric-chart>
+}
