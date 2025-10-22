@@ -11,6 +11,11 @@ Related Companies
 
 <button nz-button nzType="default" (click)="openSelectMetricsModal()">Edit Charts</button>
 
+<nz-radio-group [ngModel]="period()" (ngModelChange)="period.set($event)">
+  <label nz-radio-button nzValue="quarter">Quarterly</label>
+  <label nz-radio-button nzValue="annual">Annual</label>
+</nz-radio-group>
+
 <br>
 <!-- tracking by $index causes problems for fundamentalData which is a dynamic collection -->
 <div class="gutter-example">

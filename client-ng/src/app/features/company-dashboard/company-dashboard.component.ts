@@ -9,6 +9,8 @@ import { NzButtonComponent } from 'ng-zorro-antd/button';
 import { SelectMetricsModalComponent } from './select-metrics-modal/select-metrics-modal.component';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { NzColDirective, NzRowDirective } from 'ng-zorro-antd/grid';
+import {NzRadioComponent, NzRadioGroupComponent} from 'ng-zorro-antd/radio';
+import {FormsModule} from '@angular/forms';
 // import { CandlestickChartComponent } from './candlestick-chart/candlestick-chart.component';
 
 @Component({
@@ -18,6 +20,9 @@ import { NzColDirective, NzRowDirective } from 'ng-zorro-antd/grid';
     NzButtonComponent,
     NzRowDirective,
     NzColDirective,
+    NzRadioComponent,
+    NzRadioGroupComponent,
+    FormsModule,
     // CandlestickChartComponent
   ],
   providers: [NzModalService],
