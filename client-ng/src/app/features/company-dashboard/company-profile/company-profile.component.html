@@ -1,0 +1,14 @@
+<h1 class="text-2xl">{{ stock()?.ticker }} - {{ stock()?.companyName }}</h1>
+
+<nz-card>
+  <h1 class="text-lg">Key Ratios</h1>
+</nz-card>
+
+<nz-card>
+  <h1 class="text-lg">Users Also Search For</h1>
+  @for (relatedCompany of relatedCompanies()?.results; track $index) {
+    <a href="/companies/{{relatedCompany.ticker}}">{{ relatedCompany.ticker }} </a>
+  }
+</nz-card>
+
+<app-stock-price-chart-snapshot [ticker]="ticker()"></app-stock-price-chart-snapshot>

@@ -1,8 +1,5 @@
-import { Component, effect, inject, input, OnInit, signal, WritableSignal } from '@angular/core';
-import { Stock } from "../../shared/models/stock";
-import { RelatedCompanies } from '../../shared/models/polygon';
+import { Component, effect, inject, input, signal, WritableSignal } from '@angular/core';
 import { CompanyDashboardService } from '../../core/services/company-dashboard.service';
-import { Router } from '@angular/router';
 import { CompanyFundamentalsResponse } from '../../shared/models/fundamentals/company-fundamentals-response';
 import { CompanyMetricChartComponent } from '../../shared/components/company-metric-chart/company-metric-chart.component';
 import { NzButtonComponent } from 'ng-zorro-antd/button';
@@ -11,8 +8,7 @@ import { NzModalService } from 'ng-zorro-antd/modal';
 import { NzColDirective, NzRowDirective } from 'ng-zorro-antd/grid';
 import {NzRadioComponent, NzRadioGroupComponent} from 'ng-zorro-antd/radio';
 import {FormsModule} from '@angular/forms';
-import {StockPriceChartSnapshotComponent} from './stock-price-chart-snapshot/stock-price-chart-snapshot.component';
-// import { CandlestickChartComponent } from './candlestick-chart/candlestick-chart.component';
+import { CompanyProfileComponent } from './company-profile/company-profile.component';
 
 @Component({
   selector: 'app-company-dashboard',
@@ -24,24 +20,20 @@ import {StockPriceChartSnapshotComponent} from './stock-price-chart-snapshot/sto
     NzRadioComponent,
     NzRadioGroupComponent,
     FormsModule,
-    StockPriceChartSnapshotComponent,
-    // CandlestickChartComponent
+    CompanyProfileComponent,
   ],
   providers: [NzModalService],
   templateUrl: './company-dashboard.component.html',
   styleUrl: './company-dashboard.component.scss'
 })
-export class CompanyDashboardComponent implements OnInit {
+export class CompanyDashboardComponent {
   // get ticker from url path, as defined in routes
   ticker = input.required<string>();
 
   companyDashboardService = inject(CompanyDashboardService);
-  router = inject(Router);
   modalService = inject(NzModalService);
 
-  relatedCompanies: WritableSignal<RelatedCompanies | undefined> = signal(undefined);
   fundamentalData: WritableSignal<CompanyFundamentalsResponse | undefined> = signal(undefined);
-  stock: WritableSignal<Stock | undefined> = signal(undefined);
 
   period: WritableSignal<string> = signal('quarter');
 
@@ -50,19 +42,6 @@ export class CompanyDashboardComponent implements OnInit {
     'totalAssets', 'totalLiabilities', 'totalStockholdersEquity',
     'freeCashFlow', 'stockBasedCompensation', 'cashAtEndOfPeriod'];
   selectedMetrics: WritableSignal<string[]> = signal(this.availableMetrics);
-
-  ngOnInit() {
-    this.companyDashboardService.getStockByTicker(this.ticker()).subscribe({
-      next: response => {
-        this.stock.set(response);
-        this.getRelatedCompanies();
-      },
-      error: err => {
-        console.log(err);
-        this.router.navigateByUrl('/companies');
-      }
-    });
-  }
 
   // on initial load, the period is set as 'annual' (Yearly) and there will be x amount of pre-selected metrics,
   // 6 or 9, around ones that all companies have in common, e.g. revenue, etc.
@@ -75,13 +54,6 @@ export class CompanyDashboardComponent implements OnInit {
       this.getUserRequestedCompanyFundamentalData();
     }
   });
-
-  getRelatedCompanies() {
-    this.companyDashboardService.getRelatedCompanies(this.ticker()).subscribe({
-      next: response => this.relatedCompanies.set(response),
-      error: err => console.log(err)
-    });
-  }
 
   getUserRequestedCompanyFundamentalData() {
     this.companyDashboardService.getCompanyFundamentalData(this.ticker(), this.period(), this.selectedMetrics()).subscribe({

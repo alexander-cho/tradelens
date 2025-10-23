@@ -1,15 +1,4 @@
-{{ stock()?.ticker }} - {{ stock()?.companyName }}
-<br>
-<!--<app-candlestick-chart [ticker]="ticker()"></app-candlestick-chart>-->
-
-Related Companies
-@for (relatedCompany of relatedCompanies()?.results; track $index) {
-  <a href="/companies/{{relatedCompany.ticker}}">{{ relatedCompany.ticker }} </a>
-}
-
-<app-stock-price-chart-snapshot></app-stock-price-chart-snapshot>
-
-<br>
+<app-company-profile [ticker]="ticker()"></app-company-profile>
 
 <button nz-button nzType="default" (click)="openSelectMetricsModal()">Edit Charts</button>
 
