@@ -1,15 +1,19 @@
-<nz-pagination [nzTotal]="companies()?.count"
-               [nzPageSize]="companyParams.pageSize"
-               [nzPageIndex]="companyParams.pageNumber"
-               [nzPageSizeOptions]="tickersPerPage"
-               (nzPageIndexChange)="handlePageIndexChangeEvent($event)"
-               (nzPageSizeChange)="handlePageSizeChangeEvent($event)"
-               nzShowSizeChanger>
-</nz-pagination>
+<div class="flex justify-between pb-2">
+  <nz-pagination [nzTotal]="companies()?.count"
+                 [nzPageSize]="companyParams.pageSize"
+                 [nzPageIndex]="companyParams.pageNumber"
+                 [nzPageSizeOptions]="tickersPerPage"
+                 (nzPageIndexChange)="handlePageIndexChangeEvent($event)"
+                 (nzPageSizeChange)="handlePageSizeChangeEvent($event)"
+                 nzShowSizeChanger>
+  </nz-pagination>
 
-<button nz-button nzType="default" nzDanger (click)="resetParams()">Reset</button>
-<button nz-button nzType="default" (click)="openFiltersModal()">Filters</button>
-<button nz-button nzType="default" nz-dropdown [nzDropdownMenu]="sortMenu">Sort</button>
+  <div>
+    <button nz-button nzType="default" nzDanger (click)="resetParams()">Reset</button>
+    <button nz-button nzType="default" (click)="openFiltersModal()">Filters</button>
+    <button nz-button nzType="default" nz-dropdown [nzDropdownMenu]="sortMenu">Sort</button>
+  </div>
+</div>
 
 <input nz-input
        type="search"

@@ -1,17 +1,18 @@
-{{ stock()?.ticker }} - {{ stock()?.companyName }}
-<br>
-<!--<app-candlestick-chart [ticker]="ticker()"></app-candlestick-chart>-->
+<nz-card>
+  <app-company-profile [ticker]="ticker()"></app-company-profile>
+</nz-card>
 
-Related Companies
-@for (relatedCompany of relatedCompanies()?.results; track $index) {
-  <a href="/companies/{{relatedCompany.ticker}}">{{ relatedCompany.ticker }} </a>
-}
+<div class="flex justify-between items-center py-2">
+  <button nz-button nzType="default">Reset Charts</button>
 
-<br>
+  <nz-radio-group [ngModel]="period()" (ngModelChange)="period.set($event)">
+    <label nz-radio-button nzValue="quarter">Quarterly</label>
+    <label nz-radio-button nzValue="annual">Yearly</label>
+  </nz-radio-group>
 
-<button nz-button nzType="default" (click)="openSelectMetricsModal()">Edit Charts</button>
+  <button nz-button nzType="default" (click)="openSelectMetricsModal()">Edit Charts</button>
+</div>
 
-<br>
 <!-- tracking by $index causes problems for fundamentalData which is a dynamic collection -->
 <div class="gutter-example">
   <div nz-row [nzGutter]="[16, 16]">

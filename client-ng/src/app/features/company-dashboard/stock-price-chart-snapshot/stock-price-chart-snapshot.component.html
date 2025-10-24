@@ -1,0 +1,15 @@
+<nz-card class="h-full flex flex-col">
+  <div class="flex justify-between items-center">
+    <h1 class="text-lg">Stock Price</h1>
+    <nz-radio-group [ngModel]="selectedChartOption()" (ngModelChange)="selectedChartOption.set($event)" nzSize="small">
+      <label nz-radio-button nzValue="1m">1M</label>
+      <label nz-radio-button nzValue="3m">3M</label>
+      <label nz-radio-button nzValue="ytd">YTD</label>
+      <label nz-radio-button nzValue="1y">1Y</label>
+      <label nz-radio-button nzValue="5y">5Y</label>
+    </nz-radio-group>
+  </div>
+  <div class="flex-1">
+    <canvas id="stockPriceChart">{{ chart }}</canvas>
+  </div>
+</nz-card>

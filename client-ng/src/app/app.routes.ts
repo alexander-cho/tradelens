@@ -9,6 +9,7 @@ import { CompanyDashboardComponent } from './features/company-dashboard/company-
 import { CongressComponent } from './features/congress/congress.component';
 import { OptionsComponent } from './features/options/options.component';
 import { OptionsChainDetailComponent } from './features/options/options-chain-detail/options-chain-detail.component';
+import { ChartEngineComponent } from './features/chart-engine/chart-engine.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -20,5 +21,6 @@ export const routes: Routes = [
   { path: 'companies/:ticker', component: CompanyDashboardComponent },
   { path: 'congress', component: CongressComponent },
   { path: 'options', component: OptionsComponent },
-  { path: 'options/:ticker/:expiration', component: OptionsChainDetailComponent }
+  { path: 'options/:ticker/:expiration', component: OptionsChainDetailComponent },
+  { path: 'chart-engine', component: ChartEngineComponent }
 ];
