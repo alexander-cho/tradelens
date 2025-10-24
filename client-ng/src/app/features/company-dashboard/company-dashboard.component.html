@@ -1,11 +1,15 @@
-<app-company-profile [ticker]="ticker()"></app-company-profile>
+<nz-card>
+  <app-company-profile [ticker]="ticker()"></app-company-profile>
+</nz-card>
 
-<button nz-button nzType="default" (click)="openSelectMetricsModal()">Edit Charts</button>
+<button nz-button nzType="default">Reset Charts</button>
 
 <nz-radio-group [ngModel]="period()" (ngModelChange)="period.set($event)">
   <label nz-radio-button nzValue="quarter">Quarterly</label>
-  <label nz-radio-button nzValue="annual">Annual</label>
+  <label nz-radio-button nzValue="annual">Yearly</label>
 </nz-radio-group>
+
+<button nz-button nzType="default" (click)="openSelectMetricsModal()">Edit Charts</button>
 
 <br>
 <!-- tracking by $index causes problems for fundamentalData which is a dynamic collection -->

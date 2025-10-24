@@ -1,14 +1,17 @@
 import { Component, effect, inject, input, signal, WritableSignal } from '@angular/core';
 import { CompanyDashboardService } from '../../core/services/company-dashboard.service';
 import { CompanyFundamentalsResponse } from '../../shared/models/fundamentals/company-fundamentals-response';
-import { CompanyMetricChartComponent } from '../../shared/components/company-metric-chart/company-metric-chart.component';
+import {
+  CompanyMetricChartComponent
+} from '../../shared/components/company-metric-chart/company-metric-chart.component';
 import { NzButtonComponent } from 'ng-zorro-antd/button';
 import { SelectMetricsModalComponent } from './select-metrics-modal/select-metrics-modal.component';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { NzColDirective, NzRowDirective } from 'ng-zorro-antd/grid';
-import {NzRadioComponent, NzRadioGroupComponent} from 'ng-zorro-antd/radio';
-import {FormsModule} from '@angular/forms';
+import { NzRadioComponent, NzRadioGroupComponent } from 'ng-zorro-antd/radio';
+import { FormsModule } from '@angular/forms';
 import { CompanyProfileComponent } from './company-profile/company-profile.component';
+import { NzCardComponent } from 'ng-zorro-antd/card';
 
 @Component({
   selector: 'app-company-dashboard',
@@ -21,6 +24,7 @@ import { CompanyProfileComponent } from './company-profile/company-profile.compo
     NzRadioGroupComponent,
     FormsModule,
     CompanyProfileComponent,
+    NzCardComponent,
   ],
   providers: [NzModalService],
   templateUrl: './company-dashboard.component.html',

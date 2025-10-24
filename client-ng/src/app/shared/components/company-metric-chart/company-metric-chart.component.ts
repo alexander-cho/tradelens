@@ -1,7 +1,7 @@
 import { Component, effect, input, InputSignal, AfterViewInit } from '@angular/core';
 import { ValueDataAtEachPeriod } from '../../models/fundamentals/company-fundamentals-response';
 import { Chart } from 'chart.js/auto';
-import {NzCardComponent} from 'ng-zorro-antd/card';
+import { NzCardComponent } from 'ng-zorro-antd/card';
 
 @Component({
   selector: 'app-company-metric-chart',
@@ -70,7 +70,7 @@ export class CompanyMetricChartComponent implements AfterViewInit {
         },
         plugins: {
           title: {
-            text: `${ this.ticker() } ${ metricNameRead }`,
+            text: `${this.ticker()} ${metricNameRead}`,
             display: false
           }
         },

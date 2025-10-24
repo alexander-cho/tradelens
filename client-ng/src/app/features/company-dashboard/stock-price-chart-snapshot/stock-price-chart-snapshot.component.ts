@@ -101,10 +101,25 @@ export class StockPriceChartSnapshotComponent implements OnInit {
 
     this.chart?.destroy();
 
+    // convert timestamps based on selected option for x-axis
+    const labels = barAggregatesRead.results.map(x => {
+      const date = new Date(x.t);
+      const option = this.selectedChartOption();
+
+      if (option === '1m' || option === '3m') {
+        return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+      } else if (option === 'ytd' || option === '1y') {
+        return date.toLocaleDateString('en-US', { month: 'short' });
+      } else if (option === '5y') {
+        return date.getFullYear().toString();
+      }
+      return '';
+    });
+
     this.chart = new Chart('stockPriceChart', {
       type: 'line',
       data: {
-        labels: barAggregatesRead.results.map(x => x.t),
+        labels: labels,
         datasets: [
           {
             data: barAggregatesRead.results.map(x => x.c),
@@ -116,14 +131,23 @@ export class StockPriceChartSnapshotComponent implements OnInit {
         ],
       },
       options: {
+        maintainAspectRatio: false,
         scales: {
-          x: {},
+          x: {
+            ticks: {
+              maxTicksLimit: 8,  // limit number of labels shown
+              autoSkip: true,     // skip labels automatically
+            }
+          },
           y: {
-            beginAtZero: true
+            beginAtZero: false
           },
         },
         plugins: {
           title: {
+            display: false
+          },
+          legend: {
             display: false
           }
         }
