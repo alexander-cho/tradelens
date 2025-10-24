@@ -108,10 +108,8 @@ export class StockPriceChartSnapshotComponent implements OnInit {
 
       if (option === '1m' || option === '3m') {
         return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
-      } else if (option === 'ytd' || option === '1y') {
+      } else if (option === 'ytd' || option === '1y' || option === '5y') {
         return date.toLocaleDateString('en-US', { month: 'short' });
-      } else if (option === '5y') {
-        return date.getFullYear().toString();
       }
       return '';
     });
