@@ -1,13 +1,73 @@
-<div class="min-h-screen flex flex-col">
-  @if (showNavbar) {
-    <app-navbar></app-navbar>
-  }
-
-  <main class="flex-grow px-20 py-2">
-    <router-outlet></router-outlet>
-  </main>
-
-  @if (showNavbar) {
-    <app-footer></app-footer>
-  }
-</div>
+@if (showNavbar) {
+  <nz-layout>
+    <nz-sider nzCollapsible [(nzCollapsed)]="isCollapsed" [nzTrigger]="null">
+      <div class="logo flex justify-between">
+        <nz-icon nzType="fund" nzTheme="twotone" routerLink="/"/>
+        @if (!isCollapsed) {
+          <span class="logo-text" routerLink="/">TradeLens</span>
+        }
+      </div>
+      <ul nz-menu nzTheme="dark" nzMode="inline">
+        <!--      <li nz-submenu nzTitle="User" nzIcon="user">-->
+        <!--        <ul>-->
+        <!--          <li nz-menu-item>Tom</li>-->
+        <!--          <li nz-menu-item>Bill</li>-->
+        <!--          <li nz-menu-item>Alex</li>-->
+        <!--        </ul>-->
+        <!--      </li>-->
+        <li nz-menu-item routerLink="/feed">
+          <nz-icon routerLink="/feed" nzType="read"/>
+          <span>Feed</span>
+        </li>
+        <li nz-menu-item routerLink="/companies">
+          <nz-icon nzType="file"/>
+          <span>Companies</span>
+        </li>
+        <li nz-menu-item>
+          <nz-icon nzType="file"/>
+          <span>Crypto</span>
+        </li>
+        <li nz-menu-item routerLink="/chart-engine">
+          <nz-icon nzType="area-chart"/>
+          <span>Chart Engine</span>
+        </li>
+        <li nz-menu-item routerLink="/options">
+          <nz-icon nzType="bar-chart"/>
+          <span>Max Pain</span>
+        </li>
+        <li nz-menu-item routerLink="/congress">
+          <nz-icon nzType="book"/>
+          <span>Congress</span>
+        </li>
+        <li nz-menu-item>
+          <nz-icon nzType="file"/>
+          <span>Macro</span>
+        </li>
+      </ul>
+    </nz-sider>
+    <nz-layout>
+      <nz-header class="sticky">
+        <nz-icon
+          class="trigger"
+          [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"
+          (click)="isCollapsed = !isCollapsed"
+        />
+        @if (authService.currentUser()) {
+          <a (click)="logout()" routerLink="/" class="font-medium text-blue-500 focus:outline-none">Logout</a>
+        } @else {
+          <a routerLink="/login" class="font-medium text-blue-500 focus:outline-none">Login</a>
+        }
+      </nz-header>
+      <nz-content class="pt-4">
+        <nz-card>
+          <router-outlet></router-outlet>
+        </nz-card>
+      </nz-content>
+      <nz-footer class="text-center">
+        <span class="text-sm text-gray-500 dark:text-gray-400">© 2025 <a href="#" class="hover:underline">TradeLens™</a>. Based in California.</span>
+      </nz-footer>
+    </nz-layout>
+  </nz-layout>
+} @else {
+  <router-outlet></router-outlet>
+}
