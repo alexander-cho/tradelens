@@ -1,10 +1,11 @@
 import { Component, inject } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../core/services/auth.service';
+import { NzIconDirective } from 'ng-zorro-antd/icon';
 
 @Component({
   selector: 'app-navbar',
-  imports: [RouterLink],
+  imports: [ RouterLink, NzIconDirective ],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.scss'
 })

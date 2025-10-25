@@ -4,6 +4,7 @@ import { CongressTrades } from '../../shared/models/fmp';
 import { NzTableComponent } from 'ng-zorro-antd/table';
 import { NzRadioComponent, NzRadioGroupComponent } from 'ng-zorro-antd/radio';
 import { FormsModule } from '@angular/forms';
+import { NzCardComponent } from 'ng-zorro-antd/card';
 
 @Component({
   selector: 'app-congress',
@@ -11,7 +12,8 @@ import { FormsModule } from '@angular/forms';
     NzTableComponent,
     NzRadioGroupComponent,
     NzRadioComponent,
-    FormsModule
+    FormsModule,
+    NzCardComponent
   ],
   templateUrl: './congress.component.html',
   styleUrl: './congress.component.scss'
