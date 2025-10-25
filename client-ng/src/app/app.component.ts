@@ -12,7 +12,6 @@ import {
   NzLayoutModule,
   NzSiderComponent
 } from 'ng-zorro-antd/layout';
-import { NzCardComponent } from 'ng-zorro-antd/card';
 import { AuthService } from './core/services/auth.service';
 
 @Component({
@@ -29,7 +28,6 @@ import { AuthService } from './core/services/auth.service';
     NzContentComponent,
     NzFooterComponent,
     RouterLink,
-    NzCardComponent,
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'

@@ -1,33 +1,35 @@
-<nz-radio-group [ngModel]="chamber()" (ngModelChange)="onChamberSelectChange($event)">
-  <label nz-radio-button nzValue="house">House</label>
-  <label nz-radio-button nzValue="senate">Senate</label>
-</nz-radio-group>
+<nz-card>
+  <nz-radio-group [ngModel]="chamber()" (ngModelChange)="onChamberSelectChange($event)">
+    <label nz-radio-button nzValue="house">House</label>
+    <label nz-radio-button nzValue="senate">Senate</label>
+  </nz-radio-group>
 
-<nz-table>
-  <thead>
-  <tr>
-    <th>Politician</th>
-    <th>Trade</th>
-    <th>Action</th>
-    <th>Disclosed</th>
-    <th>Traded</th>
-    <th>Size</th>
-    <th>Owner</th>
-  </tr>
-  </thead>
-  <tbody>
-    @for (trade of congressTrades(); track $index) {
-      <tr>
-        <td>{{ trade.office }}</td>
-        <td>{{ trade.symbol }} - {{ trade.assetDescription }}</td>
-        <td>
-          <a href="{{trade.link}}">{{ trade.assetType }} {{ trade.type }}</a>
-        </td>
-        <td>{{ trade.disclosureDate }}</td>
-        <td>{{ trade.transactionDate }}</td>
-        <td>{{ trade.amount }}</td>
-        <td>{{ trade.owner }}</td>
-      </tr>
-    }
-  </tbody>
-</nz-table>
+  <nz-table>
+    <thead>
+    <tr>
+      <th>Politician</th>
+      <th>Trade</th>
+      <th>Action</th>
+      <th>Disclosed</th>
+      <th>Traded</th>
+      <th>Size</th>
+      <th>Owner</th>
+    </tr>
+    </thead>
+    <tbody>
+      @for (trade of congressTrades(); track $index) {
+        <tr>
+          <td>{{ trade.office }}</td>
+          <td>{{ trade.symbol }} - {{ trade.assetDescription }}</td>
+          <td>
+            <a href="{{trade.link}}">{{ trade.assetType }} {{ trade.type }}</a>
+          </td>
+          <td>{{ trade.disclosureDate }}</td>
+          <td>{{ trade.transactionDate }}</td>
+          <td>{{ trade.amount }}</td>
+          <td>{{ trade.owner }}</td>
+        </tr>
+      }
+    </tbody>
+  </nz-table>
+</nz-card>

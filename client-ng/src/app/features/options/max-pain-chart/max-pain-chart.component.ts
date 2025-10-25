@@ -4,7 +4,8 @@ import { CallsAndPutsCashSums } from '../../../shared/models/options';
 
 @Component({
   selector: 'app-max-pain-chart',
-  imports: [],
+  imports: [
+  ],
   templateUrl: './max-pain-chart.component.html',
   styleUrl: './max-pain-chart.component.scss'
 })
@@ -85,7 +86,7 @@ export class MaxPainChartComponent {
       this.chart.data.labels = newCashData?.callCashSums.map(x => x.price);
       this.chart.data.datasets[0].data = newCashData?.callCashSums.map(x => x.totalCashValue);
       this.chart.data.datasets[1].data = newCashData?.putCashSums.map(x => x.totalCashValue);
-      this.chart.options.plugins.title.text = `Cash Values for ${ this.tickerSymbol()?.toUpperCase() ?? 'Unknown' } expiring ${ newExpiryDate }`;
+      this.chart.options.plugins.title.text = `Cash Values for ${ this.tickerSymbol()?.toUpperCase() ?? 'Unknown' } expiring ${ newExpiryDate }. Max Pain lies at ${ newCashData.maxPainValue }`;
     }
 
     this.chart?.update();

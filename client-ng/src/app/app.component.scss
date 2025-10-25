@@ -38,13 +38,13 @@ nz-header {
   left: 80px !important;
 }
 
-// Add top margin to content so it doesn't hide under fixed header
-// And make it fill remaining space
+//// Add top margin to content so it doesn't hide under fixed header
+//// And make it fill remaining space
 nz-content {
-  margin: 64px 16px 0 16px; // 64px top margin for fixed header
-  min-height: calc(100vh - 64px - 70px); // viewport height minus header and footer
-  display: flex;
-  flex-direction: column;
+  margin-top: 64px; // Space for fixed header
+  padding: 16px; // Add some padding
+  min-height: calc(100vh - 64px); // Fill viewport minus header
+  background: #f0f2f5; // Light background (optional)
 }
 
 // Make router-outlet content fill available space
@@ -64,23 +64,40 @@ nz-content > * {
   color: #1890ff;
 }
 
-.logo {
-  height: 32px;
-  background: rgba(255, 255, 255, 0.2);
-  margin: 16px;
-}
-
-nz-breadcrumb {
-  margin: 16px 0;
-}
-
-.inner-content {
-  padding: 24px;
-  background: #fff;
-  min-height: 360px;
-}
-
 nz-footer {
   text-align: center;
   padding: 24px 0;
+}
+
+// sidebar logo configs (collapsed vs open)
+.logo {
+  height: 64px;
+  display: flex;
+  align-items: center;
+  padding: 0 24px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.logo-collapsed {
+  padding: 0;
+  justify-content: center;
+}
+
+.logo nz-icon {
+  font-size: 24px;
+  //transition: all 0.3s;
+}
+
+.logo-text {
+  margin-left: 12px;
+  font-size: 18px;
+  font-weight: 600;
+  color: white;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.logo-collapsed .logo-text {
+  display: none;
 }

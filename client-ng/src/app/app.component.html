@@ -1,7 +1,7 @@
 @if (showNavbar) {
   <nz-layout>
     <nz-sider nzCollapsible [(nzCollapsed)]="isCollapsed" [nzTrigger]="null">
-      <div class="logo flex justify-between">
+      <div class="logo" [class.logo-collapsed]="isCollapsed">
         <nz-icon nzType="fund" nzTheme="twotone" routerLink="/"/>
         @if (!isCollapsed) {
           <span class="logo-text" routerLink="/">TradeLens</span>
@@ -20,11 +20,11 @@
           <span>Feed</span>
         </li>
         <li nz-menu-item routerLink="/companies">
-          <nz-icon nzType="file"/>
+          <nz-icon nzType="shop"/>
           <span>Companies</span>
         </li>
         <li nz-menu-item>
-          <nz-icon nzType="file"/>
+          <nz-icon nzType="bank"/>
           <span>Crypto</span>
         </li>
         <li nz-menu-item routerLink="/chart-engine">
@@ -40,7 +40,11 @@
           <span>Congress</span>
         </li>
         <li nz-menu-item>
-          <nz-icon nzType="file"/>
+          <nz-icon nzType="dollar"/>
+          <span>Earnings Calendar</span>
+        </li>
+        <li nz-menu-item>
+          <nz-icon nzType="global"/>
           <span>Macro</span>
         </li>
       </ul>
@@ -59,9 +63,7 @@
         }
       </nz-header>
       <nz-content class="pt-4">
-        <nz-card>
-          <router-outlet></router-outlet>
-        </nz-card>
+        <router-outlet></router-outlet>
       </nz-content>
       <nz-footer class="text-center">
         <span class="text-sm text-gray-500 dark:text-gray-400">© 2025 <a href="#" class="hover:underline">TradeLens™</a>. Based in California.</span>

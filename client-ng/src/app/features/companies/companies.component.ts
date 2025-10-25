@@ -15,6 +15,7 @@ import { FiltersModalComponent } from './filters-modal/filters-modal.component';
 import { NzTableComponent } from 'ng-zorro-antd/table';
 import { toObservable } from '@angular/core/rxjs-interop';
 import { debounceTime, Observable } from 'rxjs';
+import { NzCardComponent } from 'ng-zorro-antd/card';
 
 @Component({
   selector: 'app-companies',
@@ -28,7 +29,8 @@ import { debounceTime, Observable } from 'rxjs';
     NzDropdownMenuComponent,
     NzMenuDirective,
     NzMenuItemComponent,
-    NzTableComponent
+    NzTableComponent,
+    NzCardComponent
   ],
   providers: [NzModalService],
   templateUrl: './companies.component.html',
