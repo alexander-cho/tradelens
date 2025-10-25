@@ -23,32 +23,34 @@
        [ngModel]="searchTerm()"
        (ngModelChange)="searchTerm.set($event)"/>
 
-<nz-table>
-  <thead>
-  <tr>
-    <th>Ticker</th>
-    <th>Company Name</th>
-    <th>Sector</th>
-    <th>Industry</th>
-    <th>Country</th>
-    <th>IPO Year</th>
-  </tr>
-  </thead>
-  <tbody>
-    @for (company of companies()?.data; track $index) {
-      <tr>
-        <td>
-          <a routerLink="/companies/{{company.ticker}}">{{ company.ticker }}</a>
-        </td>
-        <td>{{ company.companyName }}</td>
-        <td>{{ company.sector }}</td>
-        <td>{{ company.industry }}</td>
-        <td>{{ company.country }}</td>
-        <td>{{ company.ipoYear }}</td>
-      </tr>
-    }
-  </tbody>
-</nz-table>
+<nz-card>
+  <nz-table>
+    <thead>
+    <tr>
+      <th>Ticker</th>
+      <th>Company Name</th>
+      <th>Sector</th>
+      <th>Industry</th>
+      <th>Country</th>
+      <th>IPO Year</th>
+    </tr>
+    </thead>
+    <tbody>
+      @for (company of companies()?.data; track $index) {
+        <tr>
+          <td>
+            <a routerLink="/companies/{{company.ticker}}">{{ company.ticker }}</a>
+          </td>
+          <td>{{ company.companyName }}</td>
+          <td>{{ company.sector }}</td>
+          <td>{{ company.industry }}</td>
+          <td>{{ company.country }}</td>
+          <td>{{ company.ipoYear }}</td>
+        </tr>
+      }
+    </tbody>
+  </nz-table>
+</nz-card>
 
 <nz-dropdown-menu #sortMenu="nzDropdownMenu">
   <ul nz-menu nzSelectable>
