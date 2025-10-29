@@ -32,7 +32,7 @@ jobs:
         
       - name: Install dependencies and build client app
         run: |
-          cd web
+          cd client-ng
           npm install
           ng build
           
