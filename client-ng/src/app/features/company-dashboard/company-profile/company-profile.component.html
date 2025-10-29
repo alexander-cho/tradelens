@@ -1,0 +1,27 @@
+<h1 class="text-2xl">{{ stock()?.ticker }} - {{ stock()?.companyName }}</h1>
+
+<div class="flex gap-4">
+  <nz-card class="flex-1">
+    <h1 class="text-lg">Key Metrics</h1>
+  </nz-card>
+
+  <nz-card class="flex-1">
+    <h1 class="text-lg">Key Ratios</h1>
+    <h1 class="text-md">P/E Ratio</h1>
+    <h1 class="text-md">Forward P/E</h1>
+    <h1 class="text-md">P/S Ratio</h1>
+    <h1 class="text-md">P/B Ratio</h1>
+    <h1 class="text-md">Price/FCF</h1>
+  </nz-card>
+
+  <nz-card class="flex-1">
+    <h1 class="text-lg">Users Also Search For</h1>
+    <div class="columns-2 gap-4">
+      @for (relatedCompany of relatedCompanies()?.results; track $index) {
+        <h1 class="text-md"><a href="/companies/{{relatedCompany.ticker}}">{{ relatedCompany.ticker }}</a></h1>
+      }
+    </div>
+  </nz-card>
+
+  <app-stock-price-chart-snapshot [ticker]="ticker()" class="flex-1"></app-stock-price-chart-snapshot>
+</div>

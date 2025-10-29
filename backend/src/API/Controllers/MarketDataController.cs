@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
 
-[Route("api/[controller]")]
+[Route("api/market-data")]
 [ApiController]
 public class MarketDataController : ControllerBase
 {

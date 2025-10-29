@@ -72,6 +72,43 @@ public class FmpClient : IFmpClient
         }
     }
 
+    public async Task<IEnumerable<BalanceSheetDto>> GetBalanceSheetStatementAsync(string symbol, int limit, string period)
+    {
+        try
+        {
+            var client = _httpClientFactory.CreateClient("Fmp");
+
+            var response = await client.GetAsync($"balance-sheet-statement?symbol={symbol}&limit=5&period={period}&apikey={_fmpApiKey}");
+            response.EnsureSuccessStatusCode();
+
+            var result = await response.Content.ReadFromJsonAsync<IEnumerable<BalanceSheetDto>>();
+
+            return result ?? [];
+        }
+        catch (HttpRequestException ex)
+        {
+            throw new InvalidOperationException("Failed to fetch balance sheet statement", ex);
+        }
+    }
+    public async Task<IEnumerable<CashFlowStatementDto>> GetCashFlowStatementAsync(string symbol, int limit, string period)
+    {
+        try
+        {
+            var client = _httpClientFactory.CreateClient("Fmp");
+
+            var response = await client.GetAsync($"cash-flow-statement?symbol={symbol}&limit=5&period={period}&apikey={_fmpApiKey}");
+            response.EnsureSuccessStatusCode();
+
+            var result = await response.Content.ReadFromJsonAsync<IEnumerable<CashFlowStatementDto>>();
+
+            return result ?? [];
+        }
+        catch (HttpRequestException ex)
+        {
+            throw new InvalidOperationException("Failed to fetch cash flow statement", ex);
+        }
+    }
+
     public async Task<IEnumerable<RevenueSegmentationDto>> GetRevenueProductSegmentationAsync()
     {
         try

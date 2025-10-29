@@ -1,3 +1,4 @@
+using API.RequestHelpers;
 using Core.Interfaces;
 using Core.Models;
 using Core.Specifications;
@@ -15,11 +16,18 @@ public class OptionsController : ControllerBase
     {
         this._optionsService = optionsService;
     }
+
+    [Cache(600)]
+    [HttpGet("options-chain")]
+    public async Task<ActionResult<OptionsChainModel>> GetOptionsChain([FromQuery] TradierOptionChainSpecParams tradierOptionChainSpecParams)
+    {
+        return await _optionsService.GetOptionsChainAsync(tradierOptionChainSpecParams);
+    }
     
     [HttpGet("cash-values")]
-    public CallsAndPutsCashSums GetCashValuesAndMaxPain([FromQuery] TradierOptionChainSpecParams tradierOptionChainSpecParams)
+    public async Task<ActionResult<CallsAndPutsCashSums>> GetCashValuesAndMaxPain([FromQuery] TradierOptionChainSpecParams tradierOptionChainSpecParams)
     {
-        return _optionsService.CalculateCashValuesForOneExpirationAsync(tradierOptionChainSpecParams);
+        return await _optionsService.CalculateCashValuesForOneExpirationAsync(tradierOptionChainSpecParams);
     }
 
     [HttpGet("expirations")]

@@ -34,7 +34,7 @@ public static class MaxPainCalculator
 
     public static List<CashSumAtPrice> CalculateCallCashValues(OptionsChainModel optionsChainModel)
     {
-        List<StrikePriceData> options = optionsChainModel.Options.Option;
+        List<StrikePriceData> options = optionsChainModel.OptionsChain;
         HashSet<float> strikePrices = GetStrikePrices(optionsChainModel);
 
         var cashAtEachPrice = new List<CashSumAtPrice>();
@@ -79,7 +79,7 @@ public static class MaxPainCalculator
 
     public static List<CashSumAtPrice> CalculatePutCashValues(OptionsChainModel optionsChainModel)
     {
-        List<StrikePriceData> options = optionsChainModel.Options.Option;
+        List<StrikePriceData> options = optionsChainModel.OptionsChain;
         HashSet<float> strikePrices = GetStrikePrices(optionsChainModel);
 
         var cashAtEachPrice = new List<CashSumAtPrice>();
@@ -122,7 +122,7 @@ public static class MaxPainCalculator
 
     private static HashSet<float> GetStrikePrices(OptionsChainModel optionsChainModel)
     {
-        List<StrikePriceData> options = optionsChainModel.Options.Option;
+        List<StrikePriceData> options = optionsChainModel.OptionsChain;
 
         HashSet<float> strikePrices = new();
 

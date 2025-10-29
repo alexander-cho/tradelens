@@ -14,13 +14,13 @@ public class StocksController(IGenericRepository<Stock> repository) : BaseApiCon
         var stocks = CreatePagedResult(repository, spec, stockSpecParams.PageIndex, stockSpecParams.PageSize);
         return await stocks;
 
-        // var posts = context.Stocks
+        // var stocks = context.Stocks
         //     .Where(x => x.IpoYear == 2007)
         //     .Where(x => x.Sector == "Finance")
         //     .Where(x => x.Industry == "Savings Institutions")
         //     .Where(x => x.Country == "United States")
         //     .ToListAsync();
-        // return await posts;
+        // return await stocks;
     }
     
     [HttpGet("{ticker}")]

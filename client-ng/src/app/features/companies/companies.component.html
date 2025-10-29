@@ -1,0 +1,63 @@
+<div class="flex justify-between pb-2">
+  <nz-pagination [nzTotal]="companies()?.count"
+                 [nzPageSize]="companyParams.pageSize"
+                 [nzPageIndex]="companyParams.pageNumber"
+                 [nzPageSizeOptions]="tickersPerPage"
+                 (nzPageIndexChange)="handlePageIndexChangeEvent($event)"
+                 (nzPageSizeChange)="handlePageSizeChangeEvent($event)"
+                 nzShowSizeChanger>
+  </nz-pagination>
+
+  <div>
+    <button nz-button nzType="default" nzDanger (click)="resetParams()">Reset</button>
+    <button nz-button nzType="default" (click)="openFiltersModal()">Filters</button>
+    <button nz-button nzType="default" nz-dropdown [nzDropdownMenu]="sortMenu">Sort</button>
+  </div>
+</div>
+
+<input nz-input
+       type="search"
+       id="input-label"
+       placeholder="Search by Ticker symbol or Company name"
+       name="search"
+       [ngModel]="searchTerm()"
+       (ngModelChange)="searchTerm.set($event)"/>
+
+<nz-card>
+  <nz-table>
+    <thead>
+    <tr>
+      <th>Ticker</th>
+      <th>Company Name</th>
+      <th>Sector</th>
+      <th>Industry</th>
+      <th>Country</th>
+      <th>IPO Year</th>
+    </tr>
+    </thead>
+    <tbody>
+      @for (company of companies()?.data; track $index) {
+        <tr>
+          <td>
+            <a routerLink="/companies/{{company.ticker}}">{{ company.ticker }}</a>
+          </td>
+          <td>{{ company.companyName }}</td>
+          <td>{{ company.sector }}</td>
+          <td>{{ company.industry }}</td>
+          <td>{{ company.country }}</td>
+          <td>{{ company.ipoYear }}</td>
+        </tr>
+      }
+    </tbody>
+  </nz-table>
+</nz-card>
+
+<nz-dropdown-menu #sortMenu="nzDropdownMenu">
+  <ul nz-menu nzSelectable>
+    @for (option of sortOptions; track $index) {
+      <li nz-menu-item (click)="onSortChange(option.value)" [nzSelected]="companyParams.sort === option.value">
+        {{ option.name }}
+      </li>
+    }
+  </ul>
+</nz-dropdown-menu>

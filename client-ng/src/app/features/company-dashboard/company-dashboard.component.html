@@ -1,0 +1,31 @@
+<nz-card>
+  <app-company-profile [ticker]="ticker()"></app-company-profile>
+</nz-card>
+
+<div class="flex justify-between items-center py-2">
+  <button nz-button nzType="default">Reset Charts</button>
+
+  <nz-radio-group [ngModel]="period()" (ngModelChange)="period.set($event)">
+    <label nz-radio-button nzValue="quarter">Quarterly</label>
+    <label nz-radio-button nzValue="annual">Yearly</label>
+  </nz-radio-group>
+
+  <button nz-button nzType="default" (click)="openSelectMetricsModal()">Edit Charts</button>
+</div>
+
+<!-- tracking by $index causes problems for fundamentalData which is a dynamic collection -->
+<div class="gutter-example">
+  <div nz-row [nzGutter]="[16, 16]">
+    @for (metric of fundamentalData()?.metricData; track metric.metricName) {
+      <div nz-col class="gutter-row" [nzSpan]="24 / 3">
+        <div class="grid-config">
+          <app-company-metric-chart
+            [ticker]="ticker()"
+            [metricName]="metric.metricName"
+            [data]="metric.data">
+          </app-company-metric-chart>
+        </div>
+      </div>
+    }
+  </div>
+</div>
