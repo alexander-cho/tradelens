@@ -1,4 +1,4 @@
-import { Component, effect, inject, input, OnInit, signal, WritableSignal } from '@angular/core';
+import { Component, effect, inject, input, InputSignal, OnInit, signal, WritableSignal } from '@angular/core';
 import { Stock } from '../../../shared/models/stock';
 import { CompanyDashboardService } from '../../../core/services/company-dashboard.service';
 import { BarAggregates } from '../../../shared/models/polygon';
@@ -20,7 +20,7 @@ import { FormsModule } from '@angular/forms';
 })
 export class StockPriceChartSnapshotComponent implements OnInit {
   // get ticker from parent component
-  ticker = input.required<string>();
+  ticker: InputSignal<string> = input.required<string>();
 
   multiplier = 1;
   timespan: WritableSignal<string> = signal('day');
