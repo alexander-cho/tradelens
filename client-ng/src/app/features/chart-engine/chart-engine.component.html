@@ -1,2 +1,11 @@
 <button nz-button nzType="default">Create Chart Modal Button</button>
-<button nz-button nzType="default">Ad Hoc Chart Modal Button</button>
+<button nz-button nzType="default" (click)="openAdHocChartModal()">Ad Hoc Chart Modal Button</button>
+
+@if (title()) {
+  <app-chart-engine-chart
+    [titleFromParent]="title()"
+    [xAxisDataLabelsFromParent]="xAxis()"
+    [yDataFromParent]="yData()"
+    [yLabelFromParent]="yLabel()">
+  </app-chart-engine-chart>
+}
