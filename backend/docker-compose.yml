@@ -47,7 +47,7 @@ services:
     container_name: grafana
     image: grafana/grafana:11.5.2
     user: "501"
-    platform: linux/amd64
+    platform: linux/arm64
     depends_on:
       - loki
     ports:
@@ -60,8 +60,8 @@ services:
   
   loki:
     container_name: loki
-    image: grafana/loki:3.4
-    platform: linux/amd64
+    image: grafana/loki:3.5
+    platform: linux/arm64
     volumes:
       # mount the loki config file
       - ./observability/loki/loki-config.yml:/mnt/config/loki-config.yml
