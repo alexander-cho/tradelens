@@ -120,15 +120,57 @@ Now define the configurations for each service, for Loki, you can find the recom
 For Promtail configuration at `./observability/promtail/promtail-config.yml`, note the `clients` key value `http://loki:3100/loki/api/v1/push`.
 This is the endpoint where the logs will be pushed to. Also note we use the name `loki` directly since it's what is defined
 in the docker compose file within the same network. Once again, I've commented out the instructions for scraping the
-local machine logs.
+local machine logs. To scrape from Docker, we set the `docker_sd_configs:` host name to use Docker's service discovery by connecting
+to the socket, to dynamically search for containers and their logs without having to specify a file path. We can also manipulate
+the labels of the scraped logs, with `relabel_configs:`; `source_labels:` to extract container name from Docker's metadata,
+and set `target_label: container` as we will use this identifier later on.
 
-Now we run everything, make sure we're in the backend/ directory, run
+There's one more thing we need to consider in order for Loki to discover these logs from Docker, and that's to install the 
+Grafana Loki Docker Driver Client, which is a plugin to enable this, and adding useful labels to our log groups so we can
+query them easily in Grafana as we will see later on, and many more. It can be done with this command (you need to perform this
+on every Docker host which you want to collect logs from.) Read more about it here: `https://grafana.com/docs/loki/latest/send-data/docker-driver/configuration/`
 
 ```bash
-docker compose up -d --force-recreate
+$ docker plugin install grafana/loki-docker-driver:3.3.2-arm64 --alias loki --grant-all-permissions
 ```
 
-Is everything running? Check by running:
+I've added the `-arm64` to the image tag, which you may have to modify.
+
+Check to make sure it is installed:
+
+```bash
+$ docker plugin ls
+```
+
+```
+ID             NAME          DESCRIPTION           ENABLED
+6b6eb7fc65da   loki:latest   Loki Logging Driver   true
+```
+
+Now, as per the config instructions from the Grafana docs, linked above, we need to configure the Loki logging driver as the default
+for all containers. Locate `~/.docker/daemon.json` in the local system and update with the following.
+
+```json
+{
+  "debug": true,
+  "log-driver": "loki",
+  "log-opts": {
+    "loki-batch-size": "400",
+    "loki-url": "http://localhost:3100/loki/api/v1/push"
+  }
+}
+```
+
+Once commiting changes to this file, **restart** the Docker daemon for it to take effect. All newly created containers will send logs
+to Loki via the driver.
+
+Now we run everything, make sure we're in the `backend/` directory, run
+
+```bash
+$ docker compose up -d --force-recreate
+```
+
+Have all the containers started? Check by running:
 ```bash
 $ docker ps
 ```
@@ -148,11 +190,31 @@ Head over to `http://localhost:3100/ready` should say 'ready'. If it doesn't and
 then wait for a few moments and then just refresh the page. We're ready to ingest some logs.
 
 Now head over to Grafana, which we configured to `http://localhost:3000`. Log in- the default username and password
-is 'admin', but as we specified otherwise in the docker compose, we will authenticate with those credentials.
+is `admin`, but as we specified otherwise in the docker compose, we will authenticate with those credentials.
 
 In order to query the logs ingested by Loki, set it as a data source inside of Grafana. Select Add Data Source
 
+![Grafana add data source](images/grafana-add-data-source.png)
 
-Then select Loki. Then enter the url under 'Connection'. The input placeholder may say `http://localhost:3100`, but
-if you remember our promtail config url definition, enter `http://loki:3100`, then scroll down and click 'Save & test'.
+Then select Loki. Now enter the url under 'Connection'. The input placeholder may say `http://localhost:3100`, but
+if you remember our promtail config url definition, use `http://loki:3100`, then scroll down and click 'Save & test'.
 
+![Add Loki](images/grafana-add-loki.png)
+
+Once that is successful, to query the data, click **Explore** on the side menu, then make sure Loki is set as the default
+data source, which it should be. Here we build the LogQL command, click the 'Select label' dropdown menu, and you will see 
+quite a few labels, thanks to the Docker driver plugin that was installed earlier:
+
+![Loki labels](images/grafana-loki-docker-labels.png)
+
+For the 'Select value' dropdown, you should be able to see all the containers running in your local system!
+
+![Loki labels](images/grafana-loki-select-container.png)
+
+The dropdown only shows containers which have logs for that selected time period so make sure to modify that:
+
+![Loki labels](images/grafana-change-time-period.png)
+
+If i want to filter all log records relating to dotnet inside my application container, I can use the following query:
+
+`{container_name="tradelens-app"} |= "dotnet"`
