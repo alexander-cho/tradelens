@@ -44,7 +44,7 @@ this is to pass the metrics as a list in the url parameters as something like:
 This is defined in the `GetFundamentalData` method in the corresponding controller class:
 `backend/src/API/Controllers/CompaniesController.cs`
 
-'vid'
+![SoFi Company Dashboard with API Orchestration of FMP data](https://private-user-images.githubusercontent.com/44910451/513631718-7ebbef72-05dd-44f2-9a8b-77df841c0da6.mov?jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3NjMwMDE5MjEsIm5iZiI6MTc2MzAwMTYyMSwicGF0aCI6Ii80NDkxMDQ1MS81MTM2MzE3MTgtN2ViYmVmNzItMDVkZC00NGYyLTlhOGItNzdkZjg0MWMwZGE2Lm1vdj9YLUFtei1BbGdvcml0aG09QVdTNC1ITUFDLVNIQTI1NiZYLUFtei1DcmVkZW50aWFsPUFLSUFWQ09EWUxTQTUzUFFLNFpBJTJGMjAyNTExMTMlMkZ1cy1lYXN0LTElMkZzMyUyRmF3czRfcmVxdWVzdCZYLUFtei1EYXRlPTIwMjUxMTEzVDAyNDAyMVomWC1BbXotRXhwaXJlcz0zMDAmWC1BbXotU2lnbmF0dXJlPWU0NDk2ZjBmZDNjNWZjYWFlM2JmM2FiNjZiYzAwMTJiN2FlMTlkYmM3NDMwMmQyNzE5MjBmNDlhZGE0OTkzNjEmWC1BbXotU2lnbmVkSGVhZGVycz1ob3N0In0.1MQP5CRCTH5j8FinmxjJKcygJwu9oG55nNmo9FSaq_g)
 
 These metrics do not change nor do they get updated super often. Could that mean that populating a database schema with 
 these values is potentially more scalable and efficient?
