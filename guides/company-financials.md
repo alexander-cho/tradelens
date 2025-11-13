@@ -44,7 +44,9 @@ this is to pass the metrics as a list in the url parameters as something like:
 This is defined in the `GetFundamentalData` method in the corresponding controller class:
 `backend/src/API/Controllers/CompaniesController.cs`
 
-'vid'
+<video src="images/tradelens-sofi-company-dashboard.mp4" controls width="800">
+  Your browser does not support the video tag.
+</video>
 
 These metrics do not change nor do they get updated super often. Could that mean that populating a database schema with 
 these values is potentially more scalable and efficient?
