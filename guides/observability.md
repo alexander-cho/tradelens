@@ -1,4 +1,4 @@
-# Observability
+# Closely Monitor Your System
 
 This app in a development environment currently runs in local containers: the client application inside the wwwroot
 directory in the backend web api, and two supporting services- a postgres database and a redis cache. Getting insight

@@ -119,14 +119,17 @@ public class CompanyFundamentalsService : ICompanyFundamentalsService
                     {
                         case "revenue":
                             List<ValueDataAtEachPeriod> revenueData = [];
-                            foreach (var i in incomeStatementData.PeriodData)
+                            if (incomeStatementData != null)
                             {
-                                revenueData.Add(new ValueDataAtEachPeriod
+                                foreach (var i in incomeStatementData.PeriodData)
                                 {
-                                    Period = i.Period,
-                                    FiscalYear = i.FiscalYear,
-                                    Value = i.Revenue
-                                });
+                                    revenueData.Add(new ValueDataAtEachPeriod
+                                    {
+                                        Period = i.Period,
+                                        FiscalYear = i.FiscalYear,
+                                        Value = i.Revenue
+                                    });
+                                }
                             }
 
                             revenueData.Reverse();
@@ -142,14 +145,17 @@ public class CompanyFundamentalsService : ICompanyFundamentalsService
                             break;
                         case "netIncome":
                             List<ValueDataAtEachPeriod> netIncomeData = [];
-                            foreach (var i in incomeStatementData.PeriodData)
+                            if (incomeStatementData != null)
                             {
-                                netIncomeData.Add(new ValueDataAtEachPeriod
+                                foreach (var i in incomeStatementData.PeriodData)
                                 {
-                                    Period = i.Period,
-                                    FiscalYear = i.FiscalYear,
-                                    Value = i.NetIncome
-                                });
+                                    netIncomeData.Add(new ValueDataAtEachPeriod
+                                    {
+                                        Period = i.Period,
+                                        FiscalYear = i.FiscalYear,
+                                        Value = i.NetIncome
+                                    });
+                                }
                             }
 
                             netIncomeData.Reverse();
@@ -165,14 +171,17 @@ public class CompanyFundamentalsService : ICompanyFundamentalsService
                             break;
                         case "grossProfit":
                             List<ValueDataAtEachPeriod> grossProfitData = [];
-                            foreach (var i in incomeStatementData.PeriodData)
+                            if (incomeStatementData != null)
                             {
-                                grossProfitData.Add(new ValueDataAtEachPeriod
+                                foreach (var i in incomeStatementData.PeriodData)
                                 {
-                                    Period = i.Period,
-                                    FiscalYear = i.FiscalYear,
-                                    Value = i.GrossProfit
-                                });
+                                    grossProfitData.Add(new ValueDataAtEachPeriod
+                                    {
+                                        Period = i.Period,
+                                        FiscalYear = i.FiscalYear,
+                                        Value = i.GrossProfit
+                                    });
+                                }
                             }
 
                             grossProfitData.Reverse();
@@ -193,14 +202,17 @@ public class CompanyFundamentalsService : ICompanyFundamentalsService
                     {
                         case "totalAssets":
                             List<ValueDataAtEachPeriod> totalAssetsData = [];
-                            foreach (var i in balanceSheetData.PeriodData)
+                            if (balanceSheetData != null)
                             {
-                                totalAssetsData.Add(new ValueDataAtEachPeriod
+                                foreach (var i in balanceSheetData.PeriodData)
                                 {
-                                    Period = i.Period,
-                                    FiscalYear = i.FiscalYear,
-                                    Value = i.TotalAssets
-                                });
+                                    totalAssetsData.Add(new ValueDataAtEachPeriod
+                                    {
+                                        Period = i.Period,
+                                        FiscalYear = i.FiscalYear,
+                                        Value = i.TotalAssets
+                                    });
+                                }
                             }
 
                             totalAssetsData.Reverse();
@@ -216,14 +228,17 @@ public class CompanyFundamentalsService : ICompanyFundamentalsService
                             break;
                         case "totalLiabilities":
                             List<ValueDataAtEachPeriod> totalLiabilitiesData = [];
-                            foreach (var i in balanceSheetData.PeriodData)
+                            if (balanceSheetData != null)
                             {
-                                totalLiabilitiesData.Add(new ValueDataAtEachPeriod
+                                foreach (var i in balanceSheetData.PeriodData)
                                 {
-                                    Period = i.Period,
-                                    FiscalYear = i.FiscalYear,
-                                    Value = i.TotalLiabilities
-                                });
+                                    totalLiabilitiesData.Add(new ValueDataAtEachPeriod
+                                    {
+                                        Period = i.Period,
+                                        FiscalYear = i.FiscalYear,
+                                        Value = i.TotalLiabilities
+                                    });
+                                }
                             }
 
                             totalLiabilitiesData.Reverse();
@@ -239,14 +254,17 @@ public class CompanyFundamentalsService : ICompanyFundamentalsService
                             break;
                         case "totalStockholdersEquity":
                             List<ValueDataAtEachPeriod> totalStockholdersEquityData = [];
-                            foreach (var i in balanceSheetData.PeriodData)
+                            if (balanceSheetData != null)
                             {
-                                totalStockholdersEquityData.Add(new ValueDataAtEachPeriod
+                                foreach (var i in balanceSheetData.PeriodData)
                                 {
-                                    Period = i.Period,
-                                    FiscalYear = i.FiscalYear,
-                                    Value = i.TotalStockholdersEquity
-                                });
+                                    totalStockholdersEquityData.Add(new ValueDataAtEachPeriod
+                                    {
+                                        Period = i.Period,
+                                        FiscalYear = i.FiscalYear,
+                                        Value = i.TotalStockholdersEquity
+                                    });
+                                }
                             }
 
                             totalStockholdersEquityData.Reverse();
@@ -267,14 +285,17 @@ public class CompanyFundamentalsService : ICompanyFundamentalsService
                     {
                         case "freeCashFlow":
                             List<ValueDataAtEachPeriod> freeCashFlowData = [];
-                            foreach (var i in cashFlowData.PeriodData)
+                            if (cashFlowData != null)
                             {
-                                freeCashFlowData.Add(new ValueDataAtEachPeriod
+                                foreach (var i in cashFlowData.PeriodData)
                                 {
-                                    Period = i.Period,
-                                    FiscalYear = i.FiscalYear,
-                                    Value = i.FreeCashFlow
-                                });
+                                    freeCashFlowData.Add(new ValueDataAtEachPeriod
+                                    {
+                                        Period = i.Period,
+                                        FiscalYear = i.FiscalYear,
+                                        Value = i.FreeCashFlow
+                                    });
+                                }
                             }
 
                             freeCashFlowData.Reverse();
@@ -290,14 +311,17 @@ public class CompanyFundamentalsService : ICompanyFundamentalsService
                             break;
                         case "stockBasedCompensation":
                             List<ValueDataAtEachPeriod> stockBasedCompensationData= [];
-                            foreach (var i in cashFlowData.PeriodData)
+                            if (cashFlowData != null)
                             {
-                                stockBasedCompensationData.Add(new ValueDataAtEachPeriod
+                                foreach (var i in cashFlowData.PeriodData)
                                 {
-                                    Period = i.Period,
-                                    FiscalYear = i.FiscalYear,
-                                    Value = i.StockBasedCompensation
-                                });
+                                    stockBasedCompensationData.Add(new ValueDataAtEachPeriod
+                                    {
+                                        Period = i.Period,
+                                        FiscalYear = i.FiscalYear,
+                                        Value = i.StockBasedCompensation
+                                    });
+                                }
                             }
 
                             stockBasedCompensationData.Reverse();
@@ -313,14 +337,17 @@ public class CompanyFundamentalsService : ICompanyFundamentalsService
                             break;
                         case "cashAtEndOfPeriod":
                             List<ValueDataAtEachPeriod> cashAtEndOfPeriodData= [];
-                            foreach (var i in cashFlowData.PeriodData)
+                            if (cashFlowData != null)
                             {
-                                cashAtEndOfPeriodData.Add(new ValueDataAtEachPeriod
+                                foreach (var i in cashFlowData.PeriodData)
                                 {
-                                    Period = i.Period,
-                                    FiscalYear = i.FiscalYear,
-                                    Value = i.CashAtEndOfPeriod
-                                });
+                                    cashAtEndOfPeriodData.Add(new ValueDataAtEachPeriod
+                                    {
+                                        Period = i.Period,
+                                        FiscalYear = i.FiscalYear,
+                                        Value = i.CashAtEndOfPeriod
+                                    });
+                                }
                             }
 
                             cashAtEndOfPeriodData.Reverse();
