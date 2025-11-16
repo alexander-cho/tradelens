@@ -28,7 +28,7 @@ public class CompaniesController : ControllerBase
     (
         [FromQuery] string ticker,
         [FromQuery] string period,
-        // explicitly define to get from query, or returns 415
+        // explicitly define to get from query, or else returns 415
         [FromQuery] List<string> metric
     )
     {
