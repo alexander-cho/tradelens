@@ -34,6 +34,7 @@ public static class DatabaseMigrationExtensions
     
             await DbContextSeed.SeedPostsAsync(context);
             await DbContextSeed.SeedCompanyData(context);
+            await DbContextSeed.SeedCompanyMetricsAsync(context);
         }
         catch (Exception exception)
         {

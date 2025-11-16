@@ -1,0 +1,2 @@
+Gross Booking Value
+Nights and Seats Booked (Could show up as Nights and Experiences Booked)

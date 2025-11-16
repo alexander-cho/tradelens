@@ -60,4 +60,54 @@ public static class DbContextSeed
             await context.SaveChangesAsync();
         }
     }
+    
+    public static async Task SeedCompanyMetricsAsync(TradelensDbContext context)
+    {
+        if (!context.CompanyMetrics.Any())
+        {
+            var basePath = "../Infrastructure/Data/SeedData/CompanyFundamentalsSecParse";
+        
+            if (!Directory.Exists(basePath))
+            {
+                Console.WriteLine($"Metrics seed directory not found: {basePath}");
+                return;
+            }
+        
+            var allMetrics = new List<CompanyMetric>();
+        
+            // get all ticker directories
+            var tickerDirs = Directory.GetDirectories(basePath);
+        
+            foreach (var tickerDir in tickerDirs)
+            {
+                // get all JSON files in this ticker's directory
+                var jsonFiles = Directory.GetFiles(tickerDir, "*.json");
+            
+                foreach (var file in jsonFiles)
+                {
+                    try
+                    {
+                        var metricsData = await File.ReadAllTextAsync(file);
+                        var metrics = JsonSerializer.Deserialize<List<CompanyMetric>>(metricsData);
+                    
+                        if (metrics != null && metrics.Any())
+                        {
+                            allMetrics.AddRange(metrics);
+                            Console.WriteLine($"Loaded {metrics.Count} metrics from {Path.GetFileName(file)}");
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"Error reading {file}: {ex.Message}");
+                    }
+                }
+            }
+        
+            if (allMetrics.Any())
+            {
+                context.CompanyMetrics.AddRange(allMetrics);
+                await context.SaveChangesAsync();
+            }
+        }
+    }
 }

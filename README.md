@@ -9,3 +9,14 @@ cache certain API responses to save API calls and faster response times (time an
 - for the time being, stock/options contract charts since we are limited to a measly 5 per minute.
 
 better UI for charts - think of client side rendering maybe
+
+
+##### local postgres container
+
+docker run -d \
+--name tradelens-db-dev \
+-e POSTGRES_USER=postgres \
+-e POSTGRES_PASSWORD=postgres \
+-e POSTGRES_DB=tradelens-db-dev \
+-p 5434:5432 \
+postgres:17.2-alpine3.21
