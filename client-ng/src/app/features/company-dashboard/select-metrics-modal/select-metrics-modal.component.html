@@ -5,7 +5,7 @@
                [(ngModel)]="userSelectedMetrics"
                nzMode="multiple"
                class="w-full">
-      @for (metric of metricsList; track $index) {
+      @for (metric of metricsList(); track $index) {
         <nz-option [nzValue]="metric" [nzLabel]="metric">{{ metric }}</nz-option>
       }
     </nz-select>

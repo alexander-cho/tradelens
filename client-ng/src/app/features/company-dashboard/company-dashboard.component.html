@@ -5,12 +5,23 @@
 <div class="flex justify-between items-center py-2">
   <button nz-button nzType="default">Reset Charts</button>
 
-  <nz-radio-group [ngModel]="period()" (ngModelChange)="period.set($event)">
-    <label nz-radio-button nzValue="quarter">Quarterly</label>
-    <label nz-radio-button nzValue="annual">Yearly</label>
-  </nz-radio-group>
+  @if (ticker() == 'SOFI') {
+    <nz-radio-group [ngModel]="interval()" (ngModelChange)="interval.set($event)">
+      <label nz-radio-button nzValue="quarterly">Quarterly</label>
+      <label nz-radio-button nzValue="annual">Yearly</label>
+    </nz-radio-group>
+  } @else {
+    <nz-radio-group [ngModel]="period()" (ngModelChange)="period.set($event)">
+      <label nz-radio-button nzValue="quarter">Quarterly</label>
+      <label nz-radio-button nzValue="annual">Yearly</label>
+    </nz-radio-group>
+  }
 
-  <button nz-button nzType="default" (click)="openSelectMetricsModal()">Edit Charts</button>
+  @if (ticker() == 'SOFI') {
+    <button nz-button nzType="default" (click)="openSelectMetricsModal()">Edit Charts</button>
+  } @else {
+    <button nz-button nzType="default" (click)="openSelectMetricsModalFmp()">Edit Charts</button>
+  }
 </div>
 
 <!-- tracking by $index causes problems for fundamentalData which is a dynamic collection -->
@@ -22,7 +33,8 @@
           <app-company-metric-chart
             [ticker]="ticker()"
             [metricName]="metric.metricName"
-            [data]="metric.data">
+            [data]="metric.data"
+            [childMetrics]="metric.childMetrics">
           </app-company-metric-chart>
         </div>
       </div>

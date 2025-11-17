@@ -56,7 +56,7 @@
     "Period": "Q4",
     "Year": 2024,
     "Interval": "quarterly",
-    "Metric": "ResearchAndDevelopment",
+    "Metric": "TechnologyAndProductDevelopment",
     "ParentMetric": "OperatingExpenses",
     "Value": 148986000,
     "Section": "Financials",

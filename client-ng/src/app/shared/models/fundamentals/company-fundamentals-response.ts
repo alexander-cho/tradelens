@@ -4,6 +4,12 @@ export type CompanyFundamentalsResponse = {
 
 export type Metric = {
   metricName: string;
+  data?: ValueDataAtEachPeriod[];
+  childMetrics?: ChildMetricGroup[];
+}
+
+export type ChildMetricGroup = {
+  metricName: string;
   data: ValueDataAtEachPeriod[];
 }
 

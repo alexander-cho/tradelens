@@ -56,7 +56,7 @@
     "Period": "FY",
     "Year": 2023,
     "Interval": "annual",
-    "Metric": "ResearchAndDevelopment",
+    "Metric": "TechnologyAndProductDevelopment",
     "ParentMetric": "OperatingExpenses",
     "Value": 511419000,
     "Section": "Financials",

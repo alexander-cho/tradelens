@@ -31,6 +31,7 @@ export class CompanyDashboardService {
     if (to) {
       params = params.append('to', to);
     }
+
     return this.http.get<BarAggregates>(this.baseUrl + 'bar-aggregates', { params });
   }
 
@@ -44,6 +45,7 @@ export class CompanyDashboardService {
     if (ticker) {
       params = params.append('ticker', ticker);
     }
+
     return this.http.get<RelatedCompanies>(this.baseUrl + 'companies/related-companies', { params });
   }
 
@@ -59,6 +61,32 @@ export class CompanyDashboardService {
         params = params.append('metric', companyMetric);
       }
     }
+
     return this.http.get<CompanyFundamentalsResponse>(this.baseUrl + 'companies', { params });
+  }
+
+  public getCompanyMetrics(ticker: string | undefined, interval: string, metric: string[]): Observable<CompanyFundamentalsResponse> {
+    let params = new HttpParams();
+    if (ticker) {
+      params = params
+        .append('ticker', ticker)
+        .append('interval', interval);
+    }
+    if (metric) {
+      for (const companyMetric of metric) {
+        params = params.append('metric', companyMetric);
+      }
+    }
+
+    return this.http.get<CompanyFundamentalsResponse>(this.baseUrl + 'companymetrics', { params });
+  }
+
+  public getParentMetricsAssociatedWithTicker(ticker: string): Observable<string[]> {
+    let params = new HttpParams();
+    if (ticker) {
+      params = params.append('ticker', ticker);
+    }
+
+    return this.http.get<string[]>(this.baseUrl + 'companymetrics/metrics', { params })
   }
 }
