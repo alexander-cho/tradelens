@@ -44,6 +44,9 @@
     <_ContentIncludedByDefault Remove="wwwroot\chunk-RKY2M6OY.js" />
     <_ContentIncludedByDefault Remove="wwwroot\main-WAZIVFYI.js" />
     <_ContentIncludedByDefault Remove="wwwroot\styles-S43UNL6L.css" />
+    <_ContentIncludedByDefault Remove="wwwroot\chunk-NFZVV6WV.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\chunk-THU32ZGA.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\main-L7BK65CN.js" />
   </ItemGroup>
   
   <ItemGroup>
