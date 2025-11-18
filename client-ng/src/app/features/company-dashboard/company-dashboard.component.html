@@ -5,7 +5,7 @@
 <div class="flex justify-between items-center py-2">
   <button nz-button nzType="default">Reset Charts</button>
 
-  @if (ticker() == 'SOFI') {
+  @if (ticker() == 'SOFI' || ticker() == 'PLTR') {
     <nz-radio-group [ngModel]="interval()" (ngModelChange)="interval.set($event)">
       <label nz-radio-button nzValue="quarterly">Quarterly</label>
       <label nz-radio-button nzValue="annual">Yearly</label>
@@ -17,7 +17,7 @@
     </nz-radio-group>
   }
 
-  @if (ticker() == 'SOFI') {
+  @if (ticker() == 'SOFI' || ticker() == 'PLTR') {
     <button nz-button nzType="default" (click)="openSelectMetricsModal()">Edit Charts</button>
   } @else {
     <button nz-button nzType="default" (click)="openSelectMetricsModalFmp()">Edit Charts</button>

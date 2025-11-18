@@ -1,0 +1,2 @@
+GrossBookingValue
+NightsAndSeatsBooked (Could show up as NightsAndExperiencesBooked, but use 'NightsAndSeatsBooked')

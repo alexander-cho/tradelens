@@ -70,7 +70,7 @@ export class CompanyDashboardComponent {
   });
 
   getUserRequestedCompanyFundamentalData() {
-    if (this.ticker() == 'SOFI') {
+    if (this.ticker() == 'SOFI' || this.ticker() == 'PLTR') {
       this.companyDashboardService.getParentMetricsAssociatedWithTicker(this.ticker()).subscribe({
         next: response => {
           this.availableMetrics.set(response);
