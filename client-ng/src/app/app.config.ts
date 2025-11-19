@@ -1,5 +1,5 @@
 import { ApplicationConfig, provideBrowserGlobalErrorListeners, provideZonelessChangeDetection } from '@angular/core';
-import { provideRouter, withComponentInputBinding } from '@angular/router';
+import { provideRouter, withComponentInputBinding, withInMemoryScrolling } from '@angular/router';
 import { routes } from './app.routes';
 import { en_US, provideNzI18n } from 'ng-zorro-antd/i18n';
 import { registerLocaleData } from '@angular/common';
@@ -28,13 +28,13 @@ import {
 
 registerLocaleData(en);
 
-const icons: IconDefinition[] = [ LockOutline, UserOutline, MenuFoldOutline, MenuUnfoldOutline, FundTwoTone, ReadOutline, AreaChartOutline, BarChartOutline, BookOutline, GlobalOutline, ShopOutline, DollarOutline, BankOutline ];
+const icons: IconDefinition[] = [LockOutline, UserOutline, MenuFoldOutline, MenuUnfoldOutline, FundTwoTone, ReadOutline, AreaChartOutline, BarChartOutline, BookOutline, GlobalOutline, ShopOutline, DollarOutline, BankOutline];
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZonelessChangeDetection(),
-    provideRouter(routes, withComponentInputBinding()),
-    provideHttpClient(withInterceptors([ authInterceptor ])),
+    provideRouter(routes, withComponentInputBinding(), withInMemoryScrolling({ scrollPositionRestoration: 'enabled' })),
+    provideHttpClient(withInterceptors([authInterceptor])),
     provideBrowserGlobalErrorListeners(),
     provideNzI18n(en_US),
     provideAnimationsAsync(),

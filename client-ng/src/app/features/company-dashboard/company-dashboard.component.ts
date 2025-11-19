@@ -148,4 +148,18 @@ export class CompanyDashboardComponent {
       }
     });
   }
+
+  resetCharts() {
+    console.log('Resetting charts to default');
+    this.selectedMetrics.set(['Revenue', 'NetIncome', 'OperatingExpenses',
+      'TotalLiabilities', 'CashAndDebt', 'SharesOutstanding',
+      'AdjustedEbitda', 'TotalStockholdersEquity', 'TotalAssets']);
+  }
+
+  resetChartsFmp() {
+    console.log('Resetting charts to FMP default');
+    this.selectedMetricsFmp.set(['revenue', 'netIncome', 'grossProfit',
+      'totalAssets', 'totalLiabilities', 'totalStockholdersEquity',
+      'freeCashFlow', 'stockBasedCompensation', 'cashAtEndOfPeriod']);
+  }
 }
