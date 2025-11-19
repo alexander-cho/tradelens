@@ -1,4 +1,4 @@
-import { Component, inject, model, ModelSignal } from '@angular/core';
+import { Component, inject, model, ModelSignal, WritableSignal } from '@angular/core';
 import { NzButtonComponent } from "ng-zorro-antd/button";
 import { NzOptionComponent, NzSelectComponent } from "ng-zorro-antd/select";
 import { NZ_MODAL_DATA, NzModalRef } from 'ng-zorro-antd/modal';
@@ -21,7 +21,7 @@ export class SelectMetricsModalComponent {
   // inject data passed through nzData in modalService.create() call in parent component
   data = inject(NZ_MODAL_DATA);
 
-  metricsList: string[] = this.data.availableMetrics;
+  metricsList: WritableSignal<string[]> = this.data.availableMetrics;
   userSelectedMetrics: ModelSignal<string[]> = model<string[]>(this.data.selectedMetrics);
 
   applyMetricsSelect() {

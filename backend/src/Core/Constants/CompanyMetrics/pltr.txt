@@ -1,0 +1,5 @@
+USRevenue: [USCommercialRevenue, USGovernmentRevenue]
+DealsClosed: [AtLeastOneMillionDollars, AtLeastFiveMillionDollars, AtLeastTenMillionDollars]
+USCommercialTotalContractValue
+USCommercialRemainingDealValue
+RevenueBySegment (of Total): [GovernmentRevenue, CommercialRevenue]

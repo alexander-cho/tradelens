@@ -23,21 +23,21 @@
           <nz-icon nzType="shop"/>
           <span>Companies</span>
         </li>
-        <li nz-menu-item>
-          <nz-icon nzType="bank"/>
-          <span>Crypto</span>
+        <li nz-menu-item routerLink="/options">
+          <nz-icon nzType="bar-chart"/>
+          <span>Max Pain</span>
         </li>
         <li nz-menu-item routerLink="/chart-engine">
           <nz-icon nzType="area-chart"/>
           <span>Chart Engine</span>
         </li>
-        <li nz-menu-item routerLink="/options">
-          <nz-icon nzType="bar-chart"/>
-          <span>Max Pain</span>
-        </li>
         <li nz-menu-item routerLink="/congress">
           <nz-icon nzType="book"/>
           <span>Congress</span>
+        </li>
+        <li nz-menu-item>
+          <nz-icon nzType="bank"/>
+          <span>Crypto</span>
         </li>
         <li nz-menu-item>
           <nz-icon nzType="dollar"/>
@@ -47,6 +47,17 @@
           <nz-icon nzType="global"/>
           <span>Macro</span>
         </li>
+        @if (authService.currentUser()) {
+          <li nz-menu-item routerLink="/">
+            <nz-icon nzType="user" nzTheme="outline"/>
+            <span class="text-blue-500">Logout</span>
+          </li>
+        } @else {
+          <li nz-menu-item routerLink="/login">
+            <nz-icon nzType="user" nzTheme="outline"/>
+            <span class="text-blue-500">Login</span>
+          </li>
+        }
       </ul>
     </nz-sider>
     <nz-layout>
@@ -56,11 +67,7 @@
           [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"
           (click)="isCollapsed = !isCollapsed"
         />
-        @if (authService.currentUser()) {
-          <a (click)="logout()" routerLink="/" class="font-medium text-blue-500 focus:outline-none">Logout</a>
-        } @else {
-          <a routerLink="/login" class="font-medium text-blue-500 focus:outline-none">Login</a>
-        }
+        <a routerLink="/auth/landing" class="font-medium text-blue-500 focus:outline-none">(Landing Page)</a>
       </nz-header>
       <nz-content class="pt-4">
         <router-outlet></router-outlet>

@@ -56,7 +56,7 @@
     "Period": "FY",
     "Year": 2024,
     "Interval": "annual",
-    "Metric": "ResearchAndDevelopment",
+    "Metric": "TechnologyAndProductDevelopment",
     "ParentMetric": "OperatingExpenses",
     "Value": 551787000,
     "Section": "Financials",

@@ -32,17 +32,11 @@ StockBasedCompensation,
 **KPI**
 (Can find in section like Management’s Discussion and Analysis of Financial Condition and Results of Operations, Key Business Metrics, or similar)
 
-TotalDeposits
-NetInterestMargin (as a Percent),
-Members,
-GalileoAccounts (Could be listed as Technology Platform accounts),
-Products: [Lending, FinancialServices],
-RevenueBySegment: [Lending, TechnologyPlatform, FinancialServices],
-ContributionProfit: [Lending, TechnologyPlatform, FinancialServices],
-LendingProducts: [PersonalLoans, StudentLoans, HomeLoans],
-FinancialServicesProducts: [Money, Invest, CreditCard, ReferredLoans, Relay, AtWork],
-NetChargeOffRates: [PersonalLoans, StudentLoans] (as a Percent),
-OriginationVolume: [PersonalLoans, StudentLoans, HomeLoans]
+USRevenue: [USCommercialRevenue, USGovernmentRevenue]
+DealsClosed: [AtLeastOneMillionDollars, AtLeastFiveMillionDollars, AtLeastTenMillionDollars]
+USCommercialTotalContractValue
+USCommercialRemainingDealValue
+RevenueBySegment (of Total): [GovernmentRevenue, CommercialRevenue]
 
 
 So each CompanyMetric will become a json object with the attributes

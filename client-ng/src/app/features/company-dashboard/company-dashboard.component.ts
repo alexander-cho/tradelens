@@ -41,11 +41,21 @@ export class CompanyDashboardComponent {
 
   period: WritableSignal<string> = signal('quarter');
 
+  // NEWER WAY TO GET METRICS; period => interval
+  interval: WritableSignal<string> = signal('quarterly');
+  // NEWER WAY TO GET METRICS
+
   // if amount of availableMetrics gets longer, have to change how many selected to initially render
-  availableMetrics: string[] = ['revenue', 'netIncome', 'grossProfit',
+  availableMetricsFmp: WritableSignal<string[]> = signal(['revenue', 'netIncome', 'grossProfit',
     'totalAssets', 'totalLiabilities', 'totalStockholdersEquity',
-    'freeCashFlow', 'stockBasedCompensation', 'cashAtEndOfPeriod'];
-  selectedMetrics: WritableSignal<string[]> = signal(this.availableMetrics);
+    'freeCashFlow', 'stockBasedCompensation', 'cashAtEndOfPeriod']);
+  selectedMetricsFmp: WritableSignal<string[]> = signal(this.availableMetricsFmp());
+
+  // For example, SOFI, where we get the metrics from the DB
+  availableMetrics: WritableSignal<string[]> = signal(['Revenue', 'NetIncome', 'OperatingExpenses',
+    'TotalLiabilities', 'CashAndDebt', 'SharesOutstanding',
+    'AdjustedEbitda', 'TotalStockholdersEquity', 'TotalAssets']);
+  selectedMetrics: WritableSignal<string[]> = signal(this.availableMetrics());
 
   // on initial load, the period is set as 'annual' (Yearly) and there will be x amount of pre-selected metrics,
   // 6 or 9, around ones that all companies have in common, e.g. revenue, etc.
@@ -60,12 +70,58 @@ export class CompanyDashboardComponent {
   });
 
   getUserRequestedCompanyFundamentalData() {
-    this.companyDashboardService.getCompanyFundamentalData(this.ticker(), this.period(), this.selectedMetrics()).subscribe({
-      next: response => {
-        this.fundamentalData.set(response);
-        console.log('Backend returned:', response.metricData);
+    if (this.ticker() == 'SOFI' || this.ticker() == 'PLTR') {
+      this.companyDashboardService.getParentMetricsAssociatedWithTicker(this.ticker()).subscribe({
+        next: response => {
+          this.availableMetrics.set(response);
+          console.log('Available metrics for ' + this.ticker() + ' ' + this.availableMetrics());
+        },
+        error: err => console.log(err)
+      });
+
+      this.companyDashboardService.getCompanyMetrics(this.ticker(), this.interval(), this.selectedMetrics()).subscribe({
+        next: response => {
+          this.fundamentalData.set(response);
+          console.log('interval: ' + this.interval());
+          console.log('ticker: ' + this.ticker());
+          console.log('selected Metrics: ' + this.selectedMetrics());
+          console.log('Backend returned:', response.metricData);
+        },
+        error: err => console.log(err)
+      });
+    } else {
+      this.companyDashboardService.getCompanyFundamentalData(this.ticker(), this.period(), this.selectedMetricsFmp()).subscribe({
+        next: response => {
+          this.fundamentalData.set(response);
+          console.log('Backend returned:', response.metricData);
+          console.log('Available metrics for ' + this.ticker() + this.availableMetricsFmp());
+        },
+        error: err => console.log(err)
+      });
+    }
+  }
+
+  openSelectMetricsModalFmp() {
+    const modalRef = this.modalService.create({
+      nzTitle: 'Select Metrics',
+      nzContent: SelectMetricsModalComponent,
+      nzWidth: '600px',
+      nzData: {
+        // parent -> modal
+        availableMetrics: this.availableMetricsFmp,
+        selectedMetrics: this.selectedMetricsFmp()
       },
-      error: err => console.log(err)
+      nzFooter: null
+    });
+
+    // modal -> parent
+    // listens for modal close event, which 'result' is { selectedMetrics: [...] }
+    modalRef.afterClose.subscribe({
+      next: result => {
+        if (result) {
+          this.selectedMetricsFmp.set(result.selectedMetrics);
+        }
+      }
     });
   }
 
@@ -91,5 +147,19 @@ export class CompanyDashboardComponent {
         }
       }
     });
+  }
+
+  resetCharts() {
+    console.log('Resetting charts to default');
+    this.selectedMetrics.set(['Revenue', 'NetIncome', 'OperatingExpenses',
+      'TotalLiabilities', 'CashAndDebt', 'SharesOutstanding',
+      'AdjustedEbitda', 'TotalStockholdersEquity', 'TotalAssets']);
+  }
+
+  resetChartsFmp() {
+    console.log('Resetting charts to FMP default');
+    this.selectedMetricsFmp.set(['revenue', 'netIncome', 'grossProfit',
+      'totalAssets', 'totalLiabilities', 'totalStockholdersEquity',
+      'freeCashFlow', 'stockBasedCompensation', 'cashAtEndOfPeriod']);
   }
 }
