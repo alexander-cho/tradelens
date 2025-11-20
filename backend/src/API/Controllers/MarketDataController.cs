@@ -1,5 +1,6 @@
 using API.RequestHelpers;
 using Core.Interfaces;
+using Core.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
@@ -17,8 +18,15 @@ public class MarketDataController : ControllerBase
     
     [HttpGet("market-status")]
     [Cache(1000)]
-    public async Task<ActionResult<string>> GetMarketStatus()
+    public async Task<ActionResult<MarketStatusModel>> GetMarketStatus()
     {
         return Ok(await this._marketDataService.GetMarketStatusAsync());
+    }
+
+    [HttpGet("earnings-calendar")]
+    [Cache(1000)]
+    public async Task<ActionResult<EarningsCalendarModel>> GetEarningsCalendar([FromQuery] string from, string to)
+    {
+        return Ok(await this._marketDataService.GetEarningsCalendarAsync(from, to));
     }
 }

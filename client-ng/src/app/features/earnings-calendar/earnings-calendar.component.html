@@ -1,3 +1,4 @@
-<div>
-  show earnings week/month calendars
-</div>
+@for (earning of earningsCalendar(); track $index) {
+  {{ earning.symbol }} reports on {{ earning.date }} | Estimated EPS: {{ earning.epsEstimated }}, Estimated Revenue: {{ earning.revenueEstimated }}
+  <br>
+}
