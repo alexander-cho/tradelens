@@ -4,9 +4,9 @@
 
 <div class="flex justify-between items-center py-2">
   @if (ticker() == 'SOFI' || ticker() == 'PLTR') {
-    <button nz-button nzType="default" nzDanger (click)="resetCharts()">Reset Charts</button>
+    <button nz-button nzType="primary" nzDanger (click)="resetCharts()">Reset Charts</button>
   } @else {
-    <button nz-button nzType="default" nzDanger (click)="resetChartsFmp()">Reset Charts</button>
+    <button nz-button nzType="primary" nzDanger (click)="resetChartsFmp()">Reset Charts</button>
   }
 
   @if (ticker() == 'SOFI' || ticker() == 'PLTR') {
