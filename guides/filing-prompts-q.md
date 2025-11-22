@@ -29,35 +29,38 @@ DepreciationAndAmortization
 TotalStockholdersEquity,
 StockBasedCompensation,
 
+
 **KPI**
 (Can find in section like Management’s Discussion and Analysis of Financial Condition and Results of Operations, Key Business Metrics, or similar)
 
-USRevenue: [USCommercialRevenue, USGovernmentRevenue]
-DealsClosed: [AtLeastOneMillionDollars, AtLeastFiveMillionDollars, AtLeastTenMillionDollars]
-USCommercialTotalContractValue
-USCommercialRemainingDealValue
-RevenueBySegment (of Total): [GovernmentRevenue, CommercialRevenue]
+MonthlyActivePlatformConsumers
+Trips
+GrossBookings
+RevenueBySegment: [Rides, Eats, Freight, OtherBets]
+AdjustedEbitdaBySegment: [Rides, Eats, Freight, OtherBets]
+GrossBookingsBySegment: [Rides, Eats, Freight, OtherBets]
 
 
-So each CompanyMetric will become a json object with the attributes
+So each CompanyMetric will become a JSON object with the attributes
 
 Ticker,Period,Year,Interval,Metric,ParentMetric,Value,Section,SourcedFrom,PeriodEndDate,Unit
 
 Ticker,Period,Year,Interval,SourcedFrom,PeriodEndDate will all be common since they are coming from this same document
 e.g. SOFI, Q3, 2025, quarterly, 10-Q, 2025-09-30
 
-For the Metric, ParentMetric keep as PascalCase as defined above
+For 'Metric', 'ParentMetric' keep as PascalCase as defined above
 
-For the Values could you get the raw number, without rounding (i.e. thousands, millions)
-Unit can be (Dollars, Percent, etc.) where applicable
+For 'Value' attribute, get the FULL number, instead of rounded one
+
+'Unit' can be (Dollars, Percent, etc.) where applicable
 
 Some of the names may show up a little bit differently e.g. "Research And Development" vs "Technology And Product Development"
 
-For the Parent Metric, for example
+For the ParentMetric, for example
 Operating Expenses: [ResearchAndDevelopment, SalesAndMarketing, GeneralAndAdministrative]
-each one in the list will be its own CompanyMetric object, with ParentMetric Pointing to OperatingExpenses
-If it's just a single one like Revenue, or SharesOutstanding, parent metric is the same.
+each one in the list will be its own 'Metric' object, with 'ParentMetric' pointing to OperatingExpenses
+If it's just a single one like Revenue, or SharesOutstanding, ParentMetric is the same.
 
-The Section attribute will point to whether it came from **Financials** or **KPI**
+The 'Section' attribute will point to whether it came from **Financials** or **KPI**
 
 If you can't find the matching metric, you do not have to create an object for it, don't force it.

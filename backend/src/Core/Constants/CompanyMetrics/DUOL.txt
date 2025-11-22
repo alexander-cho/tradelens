@@ -1,0 +1,6 @@
+RevenueBreakdownMinusSubscriptions: [Advertising, DuolingoEnglishTest, InAppPurchases, Other]
+MonthlyActiveUsers
+DailyActiveUsers
+PaidSubscribers
+SubscriptionBookings
+TotalBookings

@@ -3,13 +3,13 @@
 </nz-card>
 
 <div class="flex justify-between items-center py-2">
-  @if (ticker() == 'SOFI' || ticker() == 'PLTR') {
+  @if (ticker() == 'SOFI' || ticker() == 'PLTR' || ticker() == 'DUOL'  || ticker() == 'UBER') {
     <button nz-button nzType="default" nzDanger (click)="resetCharts()">Reset Charts</button>
   } @else {
     <button nz-button nzType="default" nzDanger (click)="resetChartsFmp()">Reset Charts</button>
   }
 
-  @if (ticker() == 'SOFI' || ticker() == 'PLTR') {
+  @if (ticker() == 'SOFI' || ticker() == 'PLTR' || ticker() == 'DUOL'  || ticker() == 'UBER') {
     <nz-radio-group [ngModel]="interval()" (ngModelChange)="interval.set($event)">
       <label nz-radio-button nzValue="quarterly">Quarterly</label>
       <label nz-radio-button nzValue="annual">Yearly</label>
@@ -21,7 +21,7 @@
     </nz-radio-group>
   }
 
-  @if (ticker() == 'SOFI' || ticker() == 'PLTR') {
+  @if (ticker() == 'SOFI' || ticker() == 'PLTR' || ticker() == 'DUOL'  || ticker() == 'UBER') {
     <button nz-button nzType="primary" (click)="openSelectMetricsModal()">Edit Charts</button>
   } @else {
     <button nz-button nzType="primary" (click)="openSelectMetricsModalFmp()">Edit Charts</button>

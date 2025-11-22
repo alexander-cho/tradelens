@@ -1,0 +1,9 @@
+RevenueBySegment: [OnlineRevenue, WholesaleRevenue]
+Subscribers
+MonthlyOnlineRevenuePerAverageSubscriber
+NetOrders
+AverageOrderValue (may be listed as "AOV")
+
+
+*NetOrders and AverageOrderValue have reportedly been discontinued since q1 2025 (?), probably don't need to look for it
+if it's not there*
