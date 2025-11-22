@@ -103,7 +103,7 @@ public static class DbContextSeed
                 }
             }
         
-            if (allMetrics.Any())
+            if (allMetrics.Count > 0)
             {
                 context.CompanyMetrics.AddRange(allMetrics);
                 await context.SaveChangesAsync();
