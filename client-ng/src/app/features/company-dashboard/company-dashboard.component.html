@@ -4,13 +4,13 @@
 
 <div class="flex justify-between items-center py-2">
   @if (ticker() == 'SOFI' || ticker() == 'PLTR' || ticker() == 'DUOL'  || ticker() == 'UBER') {
-    <button nz-button nzType="default" nzDanger (click)="resetCharts()">Reset Charts</button>
+    <button nz-button nzType="primary" nzDanger (click)="resetCharts()">Reset Charts</button>
   } @else {
     <button nz-button nzType="primary" nzDanger (click)="resetChartsFmp()">Reset Charts</button>
   }
 
   @if (ticker() == 'SOFI' || ticker() == 'PLTR' || ticker() == 'DUOL'  || ticker() == 'UBER') {
-    <nz-radio-group [ngModel]="interval()" (ngModelChange)="interval.set($event)">
+    <nz-radio-group nzButtonStyle="solid" [ngModel]="interval()" (ngModelChange)="interval.set($event)">
       <label nz-radio-button nzValue="quarterly">Quarterly</label>
       <label nz-radio-button nzValue="annual">Annual</label>
     </nz-radio-group>
