@@ -114,6 +114,22 @@ export class StockPriceChartSnapshotComponent implements OnInit {
       return '';
     });
 
+    const createGradient = (ctx: any, chartArea: any) => {
+      const gradient = ctx.createLinearGradient(0, chartArea.bottom, 0, chartArea.top);
+
+      // Define a dark/opaque color for the bottom (e.g., matching your dark card)
+      const bottomColor = 'rgba(37, 42, 65, 0.2)'; // Very subtle dark/transparent
+
+      // Define the main line color, but with high transparency for the top
+      const topColor = 'rgba(0, 250, 0, 0.6)'; // Light green, subtle opacity
+
+      // Add color stops for the gradient
+      gradient.addColorStop(0, bottomColor); // Start (bottom) is transparent/dark
+      gradient.addColorStop(1, topColor);    // End (top) is semi-transparent green
+
+      return gradient;
+    };
+
     this.chart = new Chart('stockPriceChart', {
       type: 'line',
       data: {
@@ -121,10 +137,19 @@ export class StockPriceChartSnapshotComponent implements OnInit {
         datasets: [
           {
             data: barAggregatesRead.results.map(x => x.c),
-            borderWidth: 3,
-            backgroundColor: 'rgba(0, 250, 0, 0.7)',
+            borderWidth: 2,
+            // 1. Set the background color to the gradient function
+            backgroundColor: function(context) {
+              const chart = context.chart;
+              const { ctx, chartArea } = chart;
+              if (!chartArea) {
+                return;
+              }
+              return createGradient(ctx, chartArea);
+            },
             borderColor: 'rgba(0, 250, 0, 0.7)',
-            pointRadius: 0
+            pointRadius: 0,
+            fill: 'origin'
           }
         ],
       },

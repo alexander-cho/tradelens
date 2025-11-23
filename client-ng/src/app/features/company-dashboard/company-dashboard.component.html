@@ -10,14 +10,14 @@
   }
 
   @if (ticker() == 'SOFI' || ticker() == 'PLTR') {
-    <nz-radio-group [ngModel]="interval()" (ngModelChange)="interval.set($event)">
+    <nz-radio-group nzButtonStyle="solid" [ngModel]="interval()" (ngModelChange)="interval.set($event)">
       <label nz-radio-button nzValue="quarterly">Quarterly</label>
-      <label nz-radio-button nzValue="annual">Yearly</label>
+      <label nz-radio-button nzValue="annual">Annual</label>
     </nz-radio-group>
   } @else {
-    <nz-radio-group [ngModel]="period()" (ngModelChange)="period.set($event)">
+    <nz-radio-group nzButtonStyle="solid" [ngModel]="period()" (ngModelChange)="period.set($event)">
       <label nz-radio-button nzValue="quarter">Quarterly</label>
-      <label nz-radio-button nzValue="annual">Yearly</label>
+      <label nz-radio-button nzValue="annual">Annual</label>
     </nz-radio-group>
   }
 

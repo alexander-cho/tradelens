@@ -48,7 +48,7 @@
           <span>Macro</span>
         </li>
         @if (authService.currentUser()) {
-          <li nz-menu-item routerLink="/">
+          <li nz-menu-item (click)="logout()" routerLink="/">
             <nz-icon nzType="user" nzTheme="outline"/>
             <span class="text-blue-500">Logout</span>
           </li>
@@ -68,6 +68,7 @@
           (click)="isCollapsed = !isCollapsed"
         />
         <a routerLink="/auth/landing" class="font-medium text-blue-500 focus:outline-none">(Landing Page)</a>
+        <a routerLink="/" class="font-medium text-blue-500 focus:outline-none ml-6">(Go Home)</a>
       </nz-header>
       <nz-content class="pt-4">
         <router-outlet></router-outlet>

@@ -186,8 +186,8 @@ export class OptionsMetricChartComponent {
           {
             label: `SMV (${ selectedIvCallOrPutRead })`,
             data: metricDataRead.filter(x => x.optionType === selectedIvCallOrPutRead).map(x => (x.data as ImpliedVolatility).smvVol),
-            borderColor: 'rgba(0, 0, 0, 1)',
-            backgroundColor: 'rgba(0, 0, 0, 1)'
+            borderColor: 'rgba(255, 255, 255, 1)',
+            backgroundColor: 'rgba(255, 255, 255, 1)'
           }
         ],
       },
@@ -234,8 +234,8 @@ export class OptionsMetricChartComponent {
           {
             label: `Volume/OI Ratio (${ selectedUnusualCallOrPutRead })`,
             data: metricDataRead.filter(x => x.optionType === selectedUnusualCallOrPutRead).map(x => (x.data as Activity).unusualActivity),
-            borderColor: 'rgba(0, 0, 0, 1)',
-            backgroundColor: 'rgba(0, 0, 0, 1)',
+            borderColor: 'rgba(255, 255, 255, 1)',
+            backgroundColor: 'rgba(255, 255, 255, 1)',
             type: 'line',
             yAxisID: 'y'
           },
