@@ -22,7 +22,7 @@ nz-layout nz-layout {
 
 // Make the header fixed/sticky
 nz-header {
-  background: #fff;
+  background-color: #252841;
   padding: 0;
   position: fixed !important;
   top: 0;
@@ -30,7 +30,7 @@ nz-header {
   left: 200px; // Start after the sidebar
   z-index: 99;
   transition: left 0.2s;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
 // Adjust header position when sidebar is collapsed
@@ -44,12 +44,22 @@ nz-content {
   margin-top: 64px; // Space for fixed header
   padding: 16px; // Add some padding
   min-height: calc(100vh - 64px); // Fill viewport minus header
-  background: #f0f2f5; // Light background (optional)
+  background: #171a2b;
 }
 
 // Make router-outlet content fill available space
 nz-content > * {
   flex: 1;
+}
+
+::ng-deep .ant-card {
+  background-color: #252a41 !important;
+  border: none;
+  opacity: 0.90;
+}
+
+::ng-deep h1 {
+  color: #f1f3f3 !important;
 }
 
 .trigger {
@@ -58,6 +68,7 @@ nz-content > * {
   padding: 0 24px;
   cursor: pointer;
   transition: color 0.3s;
+  color: #fff;
 }
 
 .trigger:hover {
@@ -67,6 +78,7 @@ nz-content > * {
 nz-footer {
   text-align: center;
   padding: 24px 0;
+  background-color: #252841;
 }
 
 // sidebar logo configs (collapsed vs open)

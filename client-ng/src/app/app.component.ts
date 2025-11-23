@@ -27,7 +27,7 @@ import { AuthService } from './core/services/auth.service';
     NzHeaderComponent,
     NzContentComponent,
     NzFooterComponent,
-    RouterLink,
+    RouterLink
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
