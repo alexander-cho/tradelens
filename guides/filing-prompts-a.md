@@ -32,12 +32,12 @@ StockBasedCompensation,
 **KPI**
 (Can find in section like Management’s Discussion and Analysis of Financial Condition and Results of Operations, Key Business Metrics, or similar)
 
-MonthlyActivePlatformConsumers
-Trips
-GrossBookings
-RevenueBySegment: [Rides, Eats, Freight, OtherBets]
-AdjustedEbitdaBySegment: [Rides, Eats, Freight, OtherBets]
-GrossBookingsBySegment: [Rides, Eats, Freight, OtherBets]
+RevenueBreakdownMinusSubscriptions: [Advertising, DuolingoEnglishTest, InAppPurchases, Other]
+MonthlyActiveUsers
+DailyActiveUsers
+PaidSubscribers
+SubscriptionBookings
+TotalBookings
 
 
 So each CompanyMetric will become a JSON object with the attributes
