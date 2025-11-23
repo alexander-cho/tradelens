@@ -35,7 +35,7 @@ import { AuthService } from './core/services/auth.service';
 export class AppComponent {
   title = signal("TradeLens");
   protected authService = inject(AuthService);
-  isCollapsed = false;
+  isCollapsed = true;
 
   showNavbar = true;
   private hiddenRoutes = ['/login', '/auth/register', '/auth/landing'];
