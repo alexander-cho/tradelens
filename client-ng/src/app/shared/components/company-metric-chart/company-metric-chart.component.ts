@@ -111,19 +111,7 @@ export class CompanyMetricChartComponent implements AfterViewInit {
           aspectRatio: 1.3
         },
       });
-    } else if (childMetricsRead != null) {
-      // generate the necessary colors for each individual child metric
-      const generateUniqueColors = (numChildMetrics: number): string[] => {
-        let colorsList: string[] = [];
-        for (let i = 0; i < numChildMetrics; i++) {
-          const barColor = barchartColors[Math.floor(Math.random() * barchartColors.length)];
-          colorsList.push(barColor);
-        }
-        return colorsList;
-      }
-
-      const uniqueBarColors = generateUniqueColors(childMetricsRead.length);
-
+    } else if (childMetricsRead != null && metricNameRead != 'EPS') {
       this.chart = new Chart(metricNameRead, {
         type: 'bar',
         data: {
@@ -152,6 +140,44 @@ export class CompanyMetricChartComponent implements AfterViewInit {
             y: {
               beginAtZero: true,
               stacked: true
+            },
+          },
+          plugins: {
+            title: {
+              text: `${ this.ticker() } ${ metricNameRead }`,
+              display: false
+            }
+          },
+          // width / height
+          aspectRatio: 1.3
+        },
+      });
+    } else if (childMetricsRead != null && metricNameRead == 'EPS') {
+      this.chart = new Chart(metricNameRead, {
+        type: 'bar',
+        data: {
+          labels: childMetricsRead[0].data.map(x => x.period + ' ' + x.fiscalYear),
+          // datasets: [
+          //   {
+          //     label: childMetricsRead[0].metricName,
+          //     data: childMetricsRead[0].data.map(x => x.value),
+          //     borderWidth: 1,
+          //     backgroundColor: 'rgb(' + (Math.floor(Math.random() * 256)) + ',' + (Math.floor(Math.random() * 256)) + ',' + (Math.floor(Math.random() * 256)) + ')'
+          //   }
+          // ],
+          datasets: childMetricsRead.map(childMetric => ({
+            label: childMetric.metricName,
+            data: childMetric.data.map(x => x.value),
+            borderWidth: 1,
+            backgroundColor: 'rgb(' + (Math.floor(Math.random() * 256)) + ',' + (Math.floor(Math.random() * 256)) + ',' + (Math.floor(Math.random() * 256)) + ')'
+          }))
+        },
+        options: {
+          scales: {
+            x: {
+            },
+            y: {
+              beginAtZero: true
             },
           },
           plugins: {
