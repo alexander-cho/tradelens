@@ -127,4 +127,23 @@ public class FmpClient : IFmpClient
             throw new InvalidOperationException("Failed to fetch revenue product segmentation", ex);
         }
     }
+
+    public async Task<IEnumerable<EarningsCalendarDto>> GetEarningsCalendarAsync(string from, string to)
+    {
+        try
+        {
+            var client = _httpClientFactory.CreateClient("Fmp");
+
+            var response = await client.GetAsync($"earnings-calendar?from={from}&to={to}&apikey={_fmpApiKey}");
+            response.EnsureSuccessStatusCode();
+
+            var result = await response.Content.ReadFromJsonAsync<IEnumerable<EarningsCalendarDto>>();
+
+            return result ?? [];
+        }
+        catch (HttpRequestException ex)
+        {
+            throw new InvalidOperationException("Failed to fetch earnings for selected date range", ex);
+        }
+    }
 }

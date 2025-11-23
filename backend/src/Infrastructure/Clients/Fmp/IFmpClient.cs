@@ -10,4 +10,5 @@ public interface IFmpClient
     Task<IEnumerable<BalanceSheetDto>> GetBalanceSheetStatementAsync(string symbol, int limit, string period);
     Task<IEnumerable<CashFlowStatementDto>> GetCashFlowStatementAsync(string symbol, int limit, string period);
     Task<IEnumerable<RevenueSegmentationDto>> GetRevenueProductSegmentationAsync();
+    Task<IEnumerable<EarningsCalendarDto>> GetEarningsCalendarAsync(string from, string to);
 }
