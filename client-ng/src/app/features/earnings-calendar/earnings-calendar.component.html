@@ -1,4 +1,5 @@
+<nz-card>
 @for (earning of earningsCalendar(); track $index) {
-  {{ earning.symbol }} reports on {{ earning.date }} | Estimated EPS: {{ earning.epsEstimated }}, Estimated Revenue: {{ earning.revenueEstimated }}
-  <br>
+  <h1>{{ earning.symbol }} reports on {{ earning.date }} | Estimated EPS: {{ earning.epsEstimated }}, Estimated Revenue: {{ earning.revenueEstimated }}</h1>
 }
+</nz-card>
