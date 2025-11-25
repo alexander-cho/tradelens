@@ -2,58 +2,62 @@
   <app-company-profile [ticker]="ticker()"></app-company-profile>
 </nz-card>
 
-<div class="flex justify-between items-center py-2">
-  @if (ticker() == 'SOFI' || ticker() == 'PLTR' || ticker() == 'DUOL'  || ticker() == 'UBER') {
-    <button nz-button nzType="primary" nzDanger (click)="resetCharts()">
-      <nz-icon nzType="redo" nzTheme="outline" />
-      Reset Charts
-    </button>
-  } @else {
-    <button nz-button nzType="primary" nzDanger (click)="resetChartsFmp()">
-      <nz-icon nzType="redo" nzTheme="outline" />
-      Reset Charts
-    </button>
-  }
+<div class="grid grid-cols-3 py-2">
+  <div>
+    @if (ticker() == 'SOFI' || ticker() == 'PLTR' || ticker() == 'DUOL' || ticker() == 'UBER') {
+      <button nz-button nzType="primary" nzDanger (click)="resetCharts()">
+        <nz-icon nzType="redo" nzTheme="outline"/>
+        Reset Charts
+      </button>
+    } @else {
+      <button nz-button nzType="primary" nzDanger (click)="resetChartsFmp()">
+        <nz-icon nzType="redo" nzTheme="outline"/>
+        Reset Charts
+      </button>
+    }
+  </div>
 
-  @if (ticker() == 'SOFI' || ticker() == 'PLTR' || ticker() == 'DUOL'  || ticker() == 'UBER') {
-    <nz-radio-group nzButtonStyle="solid" [ngModel]="interval()" (ngModelChange)="interval.set($event)">
-      <label nz-radio-button nzValue="quarterly">Quarterly</label>
-      <label nz-radio-button nzValue="annual">Annual</label>
-    </nz-radio-group>
-  } @else {
-    <nz-radio-group nzButtonStyle="solid" [ngModel]="period()" (ngModelChange)="period.set($event)">
-      <label nz-radio-button nzValue="quarter">Quarterly</label>
-      <label nz-radio-button nzValue="annual">Annual</label>
-    </nz-radio-group>
-  }
+  <div class="flex items-center justify-center">
+    @if (ticker() == 'SOFI' || ticker() == 'PLTR' || ticker() == 'DUOL' || ticker() == 'UBER') {
+      <nz-radio-group nzButtonStyle="solid" [ngModel]="interval()" (ngModelChange)="interval.set($event)">
+        <label nz-radio-button nzValue="quarterly">Quarterly</label>
+        <label nz-radio-button nzValue="annual">Annual</label>
+      </nz-radio-group>
+    } @else {
+      <nz-radio-group nzButtonStyle="solid" [ngModel]="period()" (ngModelChange)="period.set($event)">
+        <label nz-radio-button nzValue="quarter">Quarterly</label>
+        <label nz-radio-button nzValue="annual">Annual</label>
+      </nz-radio-group>
+    }
+  </div>
 
-  @if (ticker() == 'SOFI' || ticker() == 'PLTR' || ticker() == 'DUOL'  || ticker() == 'UBER') {
-    <button nz-button nzType="primary" (click)="openSelectMetricsModal()">
-      <nz-icon nzType="edit" nzTheme="outline" />
-      Edit Charts
-    </button>
-  } @else {
-    <button nz-button nzType="primary" (click)="openSelectMetricsModalFmp()">
-      <nz-icon nzType="edit" nzTheme="outline" />
-      Edit Charts
-    </button>
-  }
+  <div class="flex justify-end">
+    @if (ticker() == 'SOFI' || ticker() == 'PLTR' || ticker() == 'DUOL' || ticker() == 'UBER') {
+      <button nz-button nzType="primary" (click)="openSelectMetricsModal()">
+        <nz-icon nzType="edit" nzTheme="outline"/>
+        Edit Charts
+      </button>
+    } @else {
+      <button nz-button nzType="primary" (click)="openSelectMetricsModalFmp()">
+        <nz-icon nzType="edit" nzTheme="outline"/>
+        Edit Charts
+      </button>
+    }
+  </div>
 </div>
 
 <!-- tracking by $index causes problems for fundamentalData which is a dynamic collection -->
-<div class="gutter-example">
-  <div nz-row [nzGutter]="[16, 16]">
-    @for (metric of fundamentalData()?.metricData; track metric.metricName) {
-      <div nz-col class="gutter-row" [nzSpan]="24 / 3">
-        <div class="grid-config">
-          <app-company-metric-chart
-            [ticker]="ticker()"
-            [metricName]="metric.metricName"
-            [data]="metric.data"
-            [childMetrics]="metric.childMetrics">
-          </app-company-metric-chart>
-        </div>
+<div nz-row [nzGutter]="[16, 16]">
+  @for (metric of fundamentalData()?.metricData; track metric.metricName) {
+    <div nz-col class="gutter-row" [nzSpan]="24 / 3">
+      <div class="grid-config">
+        <app-company-metric-chart
+          [ticker]="ticker()"
+          [metricName]="metric.metricName"
+          [data]="metric.data"
+          [childMetrics]="metric.childMetrics">
+        </app-company-metric-chart>
       </div>
-    }
-  </div>
+    </div>
+  }
 </div>

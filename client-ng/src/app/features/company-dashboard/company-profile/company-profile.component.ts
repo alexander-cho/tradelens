@@ -56,10 +56,7 @@ export class CompanyProfileComponent implements OnInit {
 
   private getCompanyProfile() {
     this.companyDashboardService.getCompanyProfile(this.ticker()).subscribe({
-      next: response => {
-        this.companyProfile.set(response);
-        console.log('Company profile loaded:', this.companyProfile());
-      },
+      next: response => this.companyProfile.set(response),
       error: err => console.log(err)
     });
   }
