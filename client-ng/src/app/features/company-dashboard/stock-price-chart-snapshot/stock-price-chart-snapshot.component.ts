@@ -33,11 +33,11 @@ export class StockPriceChartSnapshotComponent implements OnInit {
 
   setChartOptionsEffect = effect(() => {
     if (this.selectedChartOption() == '1m') {
-      this.from.set('2025-09-22');
+      this.from.set('2025-10-25');
       this.timespan.set('day');
       this.getBars();
     } else if (this.selectedChartOption() == '3m') {
-      this.from.set('2025-07-22');
+      this.from.set('2025-08-25');
       this.timespan.set('day');
       this.getBars();
     } else if (this.selectedChartOption() == 'ytd') {
@@ -45,11 +45,11 @@ export class StockPriceChartSnapshotComponent implements OnInit {
       this.timespan.set('day');
       this.getBars();
     } else if (this.selectedChartOption() == '1y') {
-      this.from.set('2024-10-22');
+      this.from.set('2024-11-25');
       this.timespan.set('week');
       this.getBars();
     } else if (this.selectedChartOption() == '5y') {
-      this.from.set('2020-10-22');
+      this.from.set('2020-11-25');
       this.timespan.set('week');
       this.getBars();
     }
@@ -91,13 +91,22 @@ export class StockPriceChartSnapshotComponent implements OnInit {
     return yyyy + '-' + mmStr + '-' + ddStr;
   }
 
+  isPriceUp(): boolean {
+    const aggregates = this.barAggregates();
+    if (aggregates?.results && aggregates.results.length > 1) {
+      return aggregates.results[0].c < aggregates.results[aggregates.results.length - 1].c;
+    }
+    return false;
+  }
+
   createChart() {
     const barAggregatesRead = this.barAggregates();
     if (!barAggregatesRead) {
       return;
     }
 
-    console.log(barAggregatesRead);
+    const isPositive = this.isPriceUp();
+    const color = isPositive ? 'rgba(0, 250, 0, 0.7)' : 'rgba(250, 0, 0, 0.7)';
 
     this.chart?.destroy();
 
@@ -114,16 +123,19 @@ export class StockPriceChartSnapshotComponent implements OnInit {
       return '';
     });
 
-    const createGradient = (ctx: any, chartArea: any) => {
+    const createGradient = (ctx: any, chartArea: any, isPositive: boolean) => {
       const gradient = ctx.createLinearGradient(0, chartArea.bottom, 0, chartArea.top);
 
       const bottomColor = 'rgba(37, 42, 65, 0.4)'; // very subtle (almost transparent)
 
-      const topColor = 'rgba(0, 250, 0, 0.7)'; // lightly subtle opacity
+      const topColorGreen = 'rgba(0, 250, 0, 0.7)'; // lightly subtle opacity green
+      const topColorRed = 'rgba(250, 0, 0, 0.7)'; // lightly subtle opacity red
+
+      const topColor = isPositive ? topColorGreen : topColorRed;
 
       // color stops for the gradient
       gradient.addColorStop(0, bottomColor); // start (bottom) is transparent/dark
-      gradient.addColorStop(1, topColor);    // end (top) is semi-transparent green
+      gradient.addColorStop(1, topColor);    // end (top) is semi-transparent green or red
 
       return gradient;
     };
@@ -137,15 +149,15 @@ export class StockPriceChartSnapshotComponent implements OnInit {
             data: barAggregatesRead.results.map(x => x.c),
             borderWidth: 2,
             // 1. Set the background color to the gradient function
-            backgroundColor: function(context) {
+            backgroundColor: function (context) {
               const chart = context.chart;
               const { ctx, chartArea } = chart;
               if (!chartArea) {
                 return;
               }
-              return createGradient(ctx, chartArea);
+              return createGradient(ctx, chartArea, isPositive);
             },
-            borderColor: 'rgba(0, 250, 0, 0.7)',
+            borderColor: color,
             pointRadius: 0,
             fill: 'origin'
           }
