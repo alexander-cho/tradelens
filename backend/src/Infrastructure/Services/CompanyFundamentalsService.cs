@@ -396,7 +396,7 @@ public class CompanyFundamentalsService : ICompanyFundamentalsService
         return cashFlowStatements;
     }
 
-    public async Task<IEnumerable<CompanyProfile>> GetCompanyProfileDataAsync(string symbol)
+    public async Task<CompanyProfile> GetCompanyProfileDataAsync(string symbol)
     {
         var companyProfileDto = await _fmpClient.GetCompanyProfileDataAsync(symbol);
 
@@ -405,12 +405,11 @@ public class CompanyFundamentalsService : ICompanyFundamentalsService
             throw new InvalidOperationException($"Company profile data for {symbol} was not available");
         }
         
-        var companyProfile = CompanyProfileMapper.ToCompanyProfile(companyProfileDto);
-
-        return companyProfile;
+        return CompanyProfileMapper.ToCompanyProfile(companyProfileDto)
+               ?? throw new InvalidOperationException($"Company profile data for {symbol} was empty");
     }
 
-    public async Task<IEnumerable<KeyMetricsTtm>> GetKeyMetricsTtmAsync(string symbol)
+    public async Task<KeyMetricsTtm> GetKeyMetricsTtmAsync(string symbol)
     {
         var keyMetricsTtmDto = await _fmpClient.GetKeyMetricsTtmAsync(symbol);
 
@@ -419,12 +418,11 @@ public class CompanyFundamentalsService : ICompanyFundamentalsService
             throw new InvalidOperationException($"Key metrics TTM data for {symbol} was not available");
         }
         
-        var keyMetricsTtm = KeyMetricsMapper.ToKeyMetricsTtm(keyMetricsTtmDto);
-
-        return keyMetricsTtm;
+        return KeyMetricsMapper.ToKeyMetricsTtm(keyMetricsTtmDto)
+               ?? throw new InvalidOperationException($"Key metrics for {symbol} was empty");
     }
 
-    public async Task<IEnumerable<FinancialRatiosTtm>> GetFinancialRatiosTtmAsync(string symbol)
+    public async Task<FinancialRatiosTtm> GetFinancialRatiosTtmAsync(string symbol)
     {
         var financialRatiosTtmDto = await _fmpClient.GetFinancialRatiosTtmAsync(symbol);
 
@@ -433,8 +431,7 @@ public class CompanyFundamentalsService : ICompanyFundamentalsService
             throw new InvalidOperationException($"Company profile data for {symbol} was not available");
         }
         
-        var financialRatiosTtm = FinancialRatiosMapper.ToFinancialRatiosTtm(financialRatiosTtmDto);
-
-        return financialRatiosTtm;
+        return FinancialRatiosMapper.ToFinancialRatiosTtm(financialRatiosTtmDto)
+               ?? throw new InvalidOperationException($"Financial ratios for {symbol} was empty");
     }
 }

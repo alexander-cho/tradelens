@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { BarAggregates, RelatedCompanies } from '../../shared/models/polygon';
 import { Stock } from '../../shared/models/stock';
 import { CompanyFundamentalsResponse } from '../../shared/models/fundamentals/company-fundamentals-response';
+import { CompanyProfile, FinancialRatios, KeyMetrics } from '../../shared/models/fundamentals/company-profile';
 
 @Injectable({
   providedIn: 'root'
@@ -63,6 +64,33 @@ export class CompanyDashboardService {
     }
 
     return this.http.get<CompanyFundamentalsResponse>(this.baseUrl + 'companies', { params });
+  }
+
+  public getCompanyProfile(ticker: string): Observable<CompanyProfile> {
+    let params = new HttpParams();
+    if (ticker) {
+      params = params.append('ticker', ticker);
+    }
+
+    return this.http.get<CompanyProfile>(this.baseUrl + 'companies/company-profile', { params });
+  }
+
+  public getKeyMetrics(ticker: string): Observable<KeyMetrics> {
+    let params = new HttpParams();
+    if (ticker) {
+      params = params.append('ticker', ticker);
+    }
+
+    return this.http.get<KeyMetrics>(this.baseUrl + 'companies/key-metrics', { params });
+  }
+
+  public getFinancialRatios(ticker: string): Observable<FinancialRatios> {
+    let params = new HttpParams();
+    if (ticker) {
+      params = params.append('ticker', ticker);
+    }
+
+    return this.http.get<FinancialRatios>(this.baseUrl + 'companies/financial-ratios', { params });
   }
 
   public getCompanyMetrics(ticker: string | undefined, interval: string, metric: string[]): Observable<CompanyFundamentalsResponse> {

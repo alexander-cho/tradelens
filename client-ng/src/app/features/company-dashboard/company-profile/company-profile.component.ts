@@ -5,23 +5,29 @@ import { Stock } from '../../../shared/models/stock';
 import { Router } from '@angular/router';
 import { RelatedCompanies } from '../../../shared/models/polygon';
 import { NzCardComponent } from 'ng-zorro-antd/card';
+import { CompanyProfile, FinancialRatios, KeyMetrics } from '../../../shared/models/fundamentals/company-profile';
+import { DecimalPipe } from '@angular/common';
 
 @Component({
   selector: 'app-company-profile',
   imports: [
     StockPriceChartSnapshotComponent,
-    NzCardComponent
+    NzCardComponent,
+    DecimalPipe
   ],
   templateUrl: './company-profile.component.html',
   styleUrl: './company-profile.component.scss'
 })
 export class CompanyProfileComponent implements OnInit {
-  ticker: InputSignal<string> = input.required<string>();
-  stock: WritableSignal<Stock | undefined> = signal(undefined);
-  relatedCompanies: WritableSignal<RelatedCompanies | undefined> = signal(undefined);
+  protected ticker: InputSignal<string> = input.required<string>();
+  protected stock: WritableSignal<Stock | undefined> = signal(undefined);
+  protected relatedCompanies: WritableSignal<RelatedCompanies | undefined> = signal(undefined);
+  protected companyProfile: WritableSignal<CompanyProfile | undefined> = signal(undefined);
+  protected keyMetrics: WritableSignal<KeyMetrics | undefined> = signal(undefined);
+  protected financialRatios: WritableSignal<FinancialRatios | undefined> = signal(undefined);
 
-  companyDashboardService = inject(CompanyDashboardService);
-  router = inject(Router);
+  private companyDashboardService = inject(CompanyDashboardService);
+  private router = inject(Router);
 
   ngOnInit() {
     this.companyDashboardService.getStockByTicker(this.ticker()).subscribe({
@@ -34,11 +40,39 @@ export class CompanyProfileComponent implements OnInit {
         this.router.navigateByUrl('/companies');
       }
     });
+
+    this.getCompanyProfile();
+    this.getKeyMetrics();
+    this.getFinancialRatios();
   }
 
-  getRelatedCompanies() {
+  private getRelatedCompanies() {
     this.companyDashboardService.getRelatedCompanies(this.ticker()).subscribe({
       next: response => this.relatedCompanies.set(response),
+      error: err => console.log(err)
+    });
+  }
+
+  private getCompanyProfile() {
+    this.companyDashboardService.getCompanyProfile(this.ticker()).subscribe({
+      next: response => {
+        this.companyProfile.set(response);
+        console.log('Company profile loaded:', this.companyProfile());
+      },
+      error: err => console.log(err)
+    });
+  }
+
+  private getKeyMetrics() {
+    this.companyDashboardService.getKeyMetrics(this.ticker()).subscribe({
+      next: response => this.keyMetrics.set(response),
+      error: err => console.log(err)
+    });
+  }
+
+  private getFinancialRatios() {
+    this.companyDashboardService.getFinancialRatios(this.ticker()).subscribe({
+      next: response => this.financialRatios.set(response),
       error: err => console.log(err)
     });
   }
