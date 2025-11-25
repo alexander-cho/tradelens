@@ -395,4 +395,46 @@ public class CompanyFundamentalsService : ICompanyFundamentalsService
 
         return cashFlowStatements;
     }
+
+    public async Task<IEnumerable<CompanyProfile>> GetCompanyProfileDataAsync(string symbol)
+    {
+        var companyProfileDto = await _fmpClient.GetCompanyProfileDataAsync(symbol);
+
+        if (companyProfileDto == null)
+        {
+            throw new InvalidOperationException($"Company profile data for {symbol} was not available");
+        }
+        
+        var companyProfile = CompanyProfileMapper.ToCompanyProfile(companyProfileDto);
+
+        return companyProfile;
+    }
+
+    public async Task<IEnumerable<KeyMetricsTtm>> GetKeyMetricsTtmAsync(string symbol)
+    {
+        var keyMetricsTtmDto = await _fmpClient.GetKeyMetricsTtmAsync(symbol);
+
+        if (keyMetricsTtmDto == null)
+        {
+            throw new InvalidOperationException($"Key metrics TTM data for {symbol} was not available");
+        }
+        
+        var keyMetricsTtm = KeyMetricsMapper.ToKeyMetricsTtm(keyMetricsTtmDto);
+
+        return keyMetricsTtm;
+    }
+
+    public async Task<IEnumerable<FinancialRatiosTtm>> GetFinancialRatiosTtmAsync(string symbol)
+    {
+        var financialRatiosTtmDto = await _fmpClient.GetFinancialRatiosTtmAsync(symbol);
+
+        if (financialRatiosTtmDto == null)
+        {
+            throw new InvalidOperationException($"Company profile data for {symbol} was not available");
+        }
+        
+        var financialRatiosTtm = FinancialRatiosMapper.ToFinancialRatiosTtm(financialRatiosTtmDto);
+
+        return financialRatiosTtm;
+    }
 }

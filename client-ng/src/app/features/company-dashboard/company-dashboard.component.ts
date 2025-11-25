@@ -12,6 +12,7 @@ import { NzRadioComponent, NzRadioGroupComponent } from 'ng-zorro-antd/radio';
 import { FormsModule } from '@angular/forms';
 import { CompanyProfileComponent } from './company-profile/company-profile.component';
 import { NzCardComponent } from 'ng-zorro-antd/card';
+import { NzIconDirective } from 'ng-zorro-antd/icon';
 
 @Component({
   selector: 'app-company-dashboard',
@@ -25,6 +26,7 @@ import { NzCardComponent } from 'ng-zorro-antd/card';
     FormsModule,
     CompanyProfileComponent,
     NzCardComponent,
+    NzIconDirective,
   ],
   providers: [NzModalService],
   templateUrl: './company-dashboard.component.html',

@@ -59,4 +59,25 @@ public class CompaniesController : ControllerBase
     {
         return await _companyFundamentalsService.GetCashFlowStatementAsync(ticker, limit: 5, period);
     }
+    
+    [Cache(10000)]
+    [HttpGet("company-profile")]
+    public async Task<ActionResult<IEnumerable<CompanyProfile>>> GetCompanyProfile([FromQuery] string symbol)
+    {
+        return Ok(await _companyFundamentalsService.GetCompanyProfileDataAsync(symbol));
+    }
+    
+    [Cache(10000)]
+    [HttpGet("key-metrics")]
+    public async Task<ActionResult<IEnumerable<KeyMetricsTtm>>> GetKeyMetrics([FromQuery] string symbol)
+    {
+        return Ok(await _companyFundamentalsService.GetKeyMetricsTtmAsync(symbol));
+    }
+    
+    [Cache(10000)]
+    [HttpGet("financial-ratios")]
+    public async Task<ActionResult<IEnumerable<FinancialRatiosTtm>>> GetFinancialRatios([FromQuery] string symbol)
+    {
+        return Ok(await _companyFundamentalsService.GetFinancialRatiosTtmAsync(symbol));
+    }
 }

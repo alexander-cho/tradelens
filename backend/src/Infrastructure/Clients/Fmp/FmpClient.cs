@@ -128,7 +128,7 @@ public class FmpClient : IFmpClient
         }
     }
 
-    public async Task<IEnumerable<EarningsCalendarDto>> GetEarningsCalendarAsync(string from, string to)
+    public async Task<IEnumerable<CompanyProfileDto>?> GetCompanyProfileDataAsync(string symbol)
     {
         try
         {

@@ -4,9 +4,15 @@
 
 <div class="flex justify-between items-center py-2">
   @if (ticker() == 'SOFI' || ticker() == 'PLTR' || ticker() == 'DUOL'  || ticker() == 'UBER') {
-    <button nz-button nzType="primary" nzDanger (click)="resetCharts()">Reset Charts</button>
+    <button nz-button nzType="primary" nzDanger (click)="resetCharts()">
+      <nz-icon nzType="redo" nzTheme="outline" />
+      Reset Charts
+    </button>
   } @else {
-    <button nz-button nzType="primary" nzDanger (click)="resetChartsFmp()">Reset Charts</button>
+    <button nz-button nzType="primary" nzDanger (click)="resetChartsFmp()">
+      <nz-icon nzType="redo" nzTheme="outline" />
+      Reset Charts
+    </button>
   }
 
   @if (ticker() == 'SOFI' || ticker() == 'PLTR' || ticker() == 'DUOL'  || ticker() == 'UBER') {
@@ -22,9 +28,15 @@
   }
 
   @if (ticker() == 'SOFI' || ticker() == 'PLTR' || ticker() == 'DUOL'  || ticker() == 'UBER') {
-    <button nz-button nzType="primary" (click)="openSelectMetricsModal()">Edit Charts</button>
+    <button nz-button nzType="primary" (click)="openSelectMetricsModal()">
+      <nz-icon nzType="edit" nzTheme="outline" />
+      Edit Charts
+    </button>
   } @else {
-    <button nz-button nzType="primary" (click)="openSelectMetricsModalFmp()">Edit Charts</button>
+    <button nz-button nzType="primary" (click)="openSelectMetricsModalFmp()">
+      <nz-icon nzType="edit" nzTheme="outline" />
+      Edit Charts
+    </button>
   }
 </div>
 
