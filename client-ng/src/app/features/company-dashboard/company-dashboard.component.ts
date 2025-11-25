@@ -34,30 +34,30 @@ import { NzIconDirective } from 'ng-zorro-antd/icon';
 })
 export class CompanyDashboardComponent {
   // get ticker from url path, as defined in routes
-  ticker = input.required<string>();
+  public ticker = input.required<string>();
 
-  companyDashboardService = inject(CompanyDashboardService);
-  modalService = inject(NzModalService);
+  private companyDashboardService = inject(CompanyDashboardService);
+  private modalService = inject(NzModalService);
 
-  fundamentalData: WritableSignal<CompanyFundamentalsResponse | undefined> = signal(undefined);
+  protected fundamentalData: WritableSignal<CompanyFundamentalsResponse | undefined> = signal(undefined);
 
-  period: WritableSignal<string> = signal('quarter');
+  protected period: WritableSignal<string> = signal('quarter');
 
   // NEWER WAY TO GET METRICS; period => interval
-  interval: WritableSignal<string> = signal('quarterly');
+  protected interval: WritableSignal<string> = signal('quarterly');
   // NEWER WAY TO GET METRICS
 
   // if amount of availableMetrics gets longer, have to change how many selected to initially render
-  availableMetricsFmp: WritableSignal<string[]> = signal(['revenue', 'netIncome', 'grossProfit',
+  protected availableMetricsFmp: WritableSignal<string[]> = signal(['revenue', 'netIncome', 'grossProfit',
     'totalAssets', 'totalLiabilities', 'totalStockholdersEquity',
     'freeCashFlow', 'stockBasedCompensation', 'cashAtEndOfPeriod']);
-  selectedMetricsFmp: WritableSignal<string[]> = signal(this.availableMetricsFmp());
+  protected selectedMetricsFmp: WritableSignal<string[]> = signal(this.availableMetricsFmp());
 
   // For example, SOFI, where we get the metrics from the DB
-  availableMetrics: WritableSignal<string[]> = signal(['Revenue', 'NetIncome', 'OperatingExpenses',
+  protected availableMetrics: WritableSignal<string[]> = signal(['Revenue', 'NetIncome', 'OperatingExpenses',
     'TotalLiabilities', 'CashAndDebt', 'SharesOutstanding',
     'AdjustedEbitda', 'TotalStockholdersEquity', 'TotalAssets']);
-  selectedMetrics: WritableSignal<string[]> = signal(this.availableMetrics());
+  protected selectedMetrics: WritableSignal<string[]> = signal(this.availableMetrics());
 
   // on initial load, the period is set as 'annual' (Yearly) and there will be x amount of pre-selected metrics,
   // 6 or 9, around ones that all companies have in common, e.g. revenue, etc.
@@ -71,7 +71,7 @@ export class CompanyDashboardComponent {
     }
   });
 
-  getUserRequestedCompanyFundamentalData() {
+  private getUserRequestedCompanyFundamentalData() {
     if (this.ticker() == 'SOFI' || this.ticker() == 'PLTR' || this.ticker() == 'DUOL' || this.ticker() == 'UBER') {
       this.companyDashboardService.getParentMetricsAssociatedWithTicker(this.ticker()).subscribe({
         next: response => {
@@ -103,7 +103,7 @@ export class CompanyDashboardComponent {
     }
   }
 
-  openSelectMetricsModalFmp() {
+  protected openSelectMetricsModalFmp() {
     const modalRef = this.modalService.create({
       nzTitle: 'Select Metrics',
       nzContent: SelectMetricsModalComponent,
@@ -127,7 +127,7 @@ export class CompanyDashboardComponent {
     });
   }
 
-  openSelectMetricsModal() {
+  protected openSelectMetricsModal() {
     const modalRef = this.modalService.create({
       nzTitle: 'Select Metrics',
       nzContent: SelectMetricsModalComponent,
@@ -151,14 +151,14 @@ export class CompanyDashboardComponent {
     });
   }
 
-  resetCharts() {
+  protected resetCharts() {
     console.log('Resetting charts to default');
     this.selectedMetrics.set(['Revenue', 'NetIncome', 'OperatingExpenses',
       'TotalLiabilities', 'CashAndDebt', 'SharesOutstanding',
       'AdjustedEbitda', 'TotalStockholdersEquity', 'TotalAssets']);
   }
 
-  resetChartsFmp() {
+  protected resetChartsFmp() {
     console.log('Resetting charts to FMP default');
     this.selectedMetricsFmp.set(['revenue', 'netIncome', 'grossProfit',
       'totalAssets', 'totalLiabilities', 'totalStockholdersEquity',

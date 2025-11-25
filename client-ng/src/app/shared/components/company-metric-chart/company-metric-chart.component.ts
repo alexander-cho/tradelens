@@ -1,4 +1,4 @@
-import { Component, effect, input, InputSignal, AfterViewInit } from '@angular/core';
+import { Component, effect, input, InputSignal, AfterViewInit, computed, Signal } from '@angular/core';
 import { ChildMetricGroup, ValueDataAtEachPeriod } from '../../models/fundamentals/company-fundamentals-response';
 import { Chart, ScriptableContext } from 'chart.js/auto';
 import { NzCardComponent } from 'ng-zorro-antd/card';
@@ -16,6 +16,40 @@ export class CompanyMetricChartComponent implements AfterViewInit {
   ticker: InputSignal<string | undefined> = input<string>();
   metricName: InputSignal<string | undefined> = input<string>();
   data: InputSignal<ValueDataAtEachPeriod[] | undefined> = input<ValueDataAtEachPeriod[]>();
+
+  // modify later and use transformMetricName()
+  spacedMetricName: Signal<string | undefined> = computed(() => {
+    // split metric names between uppercase letters
+    const splitMetricName = this.metricName()?.split('');
+    let newMetricName = '';
+    if (splitMetricName != null) {
+      for (let i = 0; i < splitMetricName.length; i++) {
+        // check for uppercase letters, except for the first one
+        if (i !== 0 && splitMetricName[i] === splitMetricName[i].toUpperCase() && splitMetricName[i] !== splitMetricName[i].toLowerCase()) {
+          newMetricName = newMetricName + ' ' + splitMetricName[i];
+        } else {
+          newMetricName = newMetricName + '' + splitMetricName[i];
+        }
+      }
+    }
+    return newMetricName;
+  });
+
+  transformMetricName = (originalMetric: string) => {
+    const splitMetricName = originalMetric.split('');
+    let newMetricName = '';
+    if (splitMetricName != null) {
+      for (let i = 0; i < splitMetricName.length; i++) {
+        // check for uppercase letters, except for the first one
+        if (i !== 0 && splitMetricName[i] === splitMetricName[i].toUpperCase() && splitMetricName[i] !== splitMetricName[i].toLowerCase()) {
+          newMetricName = newMetricName + ' ' + splitMetricName[i];
+        } else {
+          newMetricName = newMetricName + '' + splitMetricName[i];
+        }
+      }
+    }
+    return newMetricName;
+  };
 
   // new way needs a way for null data or null childMetrics depending on structure
   childMetrics: InputSignal<ChildMetricGroup[] | undefined> = input<ChildMetricGroup[]>();
@@ -43,10 +77,13 @@ export class CompanyMetricChartComponent implements AfterViewInit {
   createChart() {
     const barColor = barchartColors[Math.floor(Math.random() * barchartColors.length)];
     const metricNameRead = this.metricName();
+
+    const metricDisplayName = this.spacedMetricName();
+
     const dataRead = this.data();
     const childMetricsRead = this.childMetrics();
 
-    if (!metricNameRead || (!dataRead && !childMetricsRead)) {
+    if (!metricDisplayName || (!dataRead && !childMetricsRead)) {
       return;
     }
 
@@ -72,15 +109,15 @@ export class CompanyMetricChartComponent implements AfterViewInit {
     this.chart?.destroy();
 
     if (dataRead != null) {
-      this.chart = new Chart(metricNameRead, {
+      this.chart = new Chart(metricDisplayName, {
         type: 'bar',
         data: {
           labels: dataRead.map(x => x.period + ' ' + x.fiscalYear),
           datasets: [
             {
-              label: metricNameRead,
+              label: metricDisplayName,
               data: dataRead.map(x => x.value),
-              backgroundColor: function(context: ScriptableContext<'bar'>) {
+              backgroundColor: function (context: ScriptableContext<'bar'>) {
                 const chart = context.chart;
                 const { ctx, chartArea } = chart;
                 if (!chartArea) {
@@ -124,14 +161,14 @@ export class CompanyMetricChartComponent implements AfterViewInit {
 
       const uniqueBarColors = generateUniqueColors(childMetricsRead.length);
 
-      this.chart = new Chart(metricNameRead, {
+      this.chart = new Chart(metricDisplayName, {
         type: 'bar',
         data: {
           labels: childMetricsRead[0].data.map(x => x.period + ' ' + x.fiscalYear),
           datasets: childMetricsRead.map((childMetric, index) => ({
-            label: childMetric.metricName,
+            label: this.transformMetricName(childMetric.metricName),
             data: childMetric.data.map(x => x.value),
-            backgroundColor: function(context: ScriptableContext<'bar'>) {
+            backgroundColor: function (context: ScriptableContext<'bar'>) {
               const chart = context.chart;
               const { ctx, chartArea } = chart;
               if (!chartArea) {

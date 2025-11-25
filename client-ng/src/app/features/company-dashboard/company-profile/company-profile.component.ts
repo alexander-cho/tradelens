@@ -19,7 +19,8 @@ import { DecimalPipe } from '@angular/common';
   styleUrl: './company-profile.component.scss'
 })
 export class CompanyProfileComponent implements OnInit {
-  protected ticker: InputSignal<string> = input.required<string>();
+  public ticker: InputSignal<string> = input.required<string>();
+
   protected stock: WritableSignal<Stock | undefined> = signal(undefined);
   protected relatedCompanies: WritableSignal<RelatedCompanies | undefined> = signal(undefined);
   protected companyProfile: WritableSignal<CompanyProfile | undefined> = signal(undefined);
