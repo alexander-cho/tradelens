@@ -13,4 +13,5 @@ public interface IFmpClient
     Task<IEnumerable<CompanyProfileDto>?> GetCompanyProfileDataAsync(string symbol);
     Task<IEnumerable<KeyMetricsTtmDto>?> GetKeyMetricsTtmAsync(string symbol);
     Task<IEnumerable<FinancialRatiosTtmDto>?> GetFinancialRatiosTtmAsync(string symbol);
+    Task<IEnumerable<EarningsCalendarDto>> GetEarningsCalendarAsync(string from, string to);
 }

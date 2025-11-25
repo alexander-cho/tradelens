@@ -1,5 +1,6 @@
 using Infrastructure.Clients.Finnhub;
 using Infrastructure.Clients.Fmp;
+using Infrastructure.Clients.Fred;
 using Infrastructure.Clients.Polygon;
 using Infrastructure.Clients.Tradier;
 
@@ -14,6 +15,7 @@ public static class RegisterDataFetchingExtensions
             .AddScoped<IFmpClient, FmpClient>()
             .AddScoped<IFinnhubClient, FinnhubClient>()
             .AddScoped<ITradierClient, TradierClient>()
+            .AddScoped<IFredClient, FredClient>()
             ;
         
         return services;
