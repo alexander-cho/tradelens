@@ -134,6 +134,63 @@ public class FmpClient : IFmpClient
         {
             var client = _httpClientFactory.CreateClient("Fmp");
 
+            var response = await client.GetAsync($"profile?symbol={symbol}&apikey={_fmpApiKey}");
+            response.EnsureSuccessStatusCode();
+
+            var result = await response.Content.ReadFromJsonAsync<IEnumerable<CompanyProfileDto>>();
+
+            return result ?? [];
+        }
+        catch (HttpRequestException ex)
+        {
+            throw new InvalidOperationException($"Failed to fetch company profile for {symbol}", ex);
+        }
+    }
+    
+    public async Task<IEnumerable<KeyMetricsTtmDto>?> GetKeyMetricsTtmAsync(string symbol)
+    {
+        try
+        {
+            var client = _httpClientFactory.CreateClient("Fmp");
+
+            var response = await client.GetAsync($"key-metrics-ttm?symbol={symbol}&apikey={_fmpApiKey}");
+            response.EnsureSuccessStatusCode();
+
+            var result = await response.Content.ReadFromJsonAsync<IEnumerable<KeyMetricsTtmDto>>();
+
+            return result ?? [];
+        }
+        catch (HttpRequestException ex)
+        {
+            throw new InvalidOperationException($"Failed to fetch key metrics for {symbol}", ex);
+        }
+    }
+    
+    public async Task<IEnumerable<FinancialRatiosTtmDto>?> GetFinancialRatiosTtmAsync(string symbol)
+    {
+        try
+        {
+            var client = _httpClientFactory.CreateClient("Fmp");
+
+            var response = await client.GetAsync($"ratios-ttm?symbol={symbol}&apikey={_fmpApiKey}");
+            response.EnsureSuccessStatusCode();
+
+            var result = await response.Content.ReadFromJsonAsync<IEnumerable<FinancialRatiosTtmDto>>();
+
+            return result ?? [];
+        }
+        catch (HttpRequestException ex)
+        {
+            throw new InvalidOperationException($"Failed to fetch financial ratios for {symbol}", ex);
+        }
+    }
+    
+    public async Task<IEnumerable<EarningsCalendarDto>> GetEarningsCalendarAsync(string from, string to)
+    {
+        try
+        {
+            var client = _httpClientFactory.CreateClient("Fmp");
+
             var response = await client.GetAsync($"earnings-calendar?from={from}&to={to}&apikey={_fmpApiKey}");
             response.EnsureSuccessStatusCode();
 
