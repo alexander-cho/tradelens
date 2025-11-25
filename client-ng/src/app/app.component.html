@@ -2,7 +2,7 @@
   <nz-layout>
     <nz-sider nzCollapsible [(nzCollapsed)]="isCollapsed" [nzTrigger]="null">
       <div class="logo" [class.logo-collapsed]="isCollapsed">
-        <nz-icon nzType="fund" nzTheme="twotone" routerLink="/"/>
+        <nz-icon nzType="layout" nzTheme="twotone" routerLink="/"/>
         @if (!isCollapsed) {
           <span class="logo-text" routerLink="/">TradeLens</span>
         }
@@ -36,11 +36,11 @@
           <span>Congress</span>
         </li>
         <li nz-menu-item routerLink="/crypto">
-          <nz-icon nzType="bank"/>
+          <nz-icon nzType="dollar"/>
           <span>Crypto</span>
         </li>
         <li nz-menu-item routerLink="/earnings-calendar">
-          <nz-icon nzType="dollar"/>
+          <nz-icon nzType="bank"/>
           <span>Earnings Calendar</span>
         </li>
         <li nz-menu-item routerLink="/macro">

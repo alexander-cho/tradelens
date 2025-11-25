@@ -117,15 +117,13 @@ export class StockPriceChartSnapshotComponent implements OnInit {
     const createGradient = (ctx: any, chartArea: any) => {
       const gradient = ctx.createLinearGradient(0, chartArea.bottom, 0, chartArea.top);
 
-      // Define a dark/opaque color for the bottom (e.g., matching your dark card)
-      const bottomColor = 'rgba(37, 42, 65, 0.2)'; // Very subtle dark/transparent
+      const bottomColor = 'rgba(37, 42, 65, 0.4)'; // very subtle (almost transparent)
 
-      // Define the main line color, but with high transparency for the top
-      const topColor = 'rgba(0, 250, 0, 0.6)'; // Light green, subtle opacity
+      const topColor = 'rgba(0, 250, 0, 0.7)'; // lightly subtle opacity
 
-      // Add color stops for the gradient
-      gradient.addColorStop(0, bottomColor); // Start (bottom) is transparent/dark
-      gradient.addColorStop(1, topColor);    // End (top) is semi-transparent green
+      // color stops for the gradient
+      gradient.addColorStop(0, bottomColor); // start (bottom) is transparent/dark
+      gradient.addColorStop(1, topColor);    // end (top) is semi-transparent green
 
       return gradient;
     };

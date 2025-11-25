@@ -58,8 +58,16 @@ nz-content > * {
   opacity: 0.90;
 }
 
+::ng-deep .ant-card-body {
+  padding: 16px;
+}
+
 ::ng-deep h1 {
   color: #f1f3f3 !important;
+}
+
+::ng-deep h2 {
+  color: #BDBDBD !important;
 }
 
 .trigger {

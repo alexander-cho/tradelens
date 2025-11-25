@@ -10,4 +10,7 @@ public interface ICompanyFundamentalsService
     Task<IncomeStatement> GetIncomeStatementAsync(string ticker, int limit, string period);
     Task<BalanceSheet> GetBalanceSheetAsync(string ticker, int limit, string period);
     Task<CashFlowStatement> GetCashFlowStatementAsync(string ticker, int limit, string period);
+    Task<IEnumerable<CompanyProfile>> GetCompanyProfileDataAsync(string symbol);
+    Task<IEnumerable<KeyMetricsTtm>> GetKeyMetricsTtmAsync(string symbol);
+    Task<IEnumerable<FinancialRatiosTtm>> GetFinancialRatiosTtmAsync(string symbol);
 }
