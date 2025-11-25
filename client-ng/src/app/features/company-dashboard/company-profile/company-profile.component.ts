@@ -6,14 +6,15 @@ import { Router } from '@angular/router';
 import { RelatedCompanies } from '../../../shared/models/polygon';
 import { NzCardComponent } from 'ng-zorro-antd/card';
 import { CompanyProfile, FinancialRatios, KeyMetrics } from '../../../shared/models/fundamentals/company-profile';
-import { DecimalPipe } from '@angular/common';
+import { DecimalPipe, NgOptimizedImage } from '@angular/common';
 
 @Component({
   selector: 'app-company-profile',
   imports: [
     StockPriceChartSnapshotComponent,
     NzCardComponent,
-    DecimalPipe
+    DecimalPipe,
+    NgOptimizedImage
   ],
   templateUrl: './company-profile.component.html',
   styleUrl: './company-profile.component.scss'
