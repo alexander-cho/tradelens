@@ -28,6 +28,12 @@ public static class HttpClientFactoryExtensions
             client.DefaultRequestHeaders.Add("Accept", "application/json");
             client.DefaultRequestHeaders.Add("Authorization", $"Bearer {configuration["DataApiKeys:TradierApiKey"]}");
         });
+
+        services.AddHttpClient("Fred", client =>
+        {
+            client.BaseAddress = new Uri("https://api.stlouisfed.org/fred/");
+            client.DefaultRequestHeaders.Add("Accept", "application/json");
+        });
         
         return services;
     }

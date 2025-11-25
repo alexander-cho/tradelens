@@ -22,7 +22,7 @@ export class OptionsService {
       params = params.append('greeks', greeks);
     }
 
-    return this.http.get<OptionsChain>(this.baseUrl + 'options/options-chain', { params })
+    return this.http.get<OptionsChain>(this.baseUrl + 'options/options-chain', { params });
   }
 
   public getExpirations(ticker: string): Observable<ExpiryData> {
@@ -41,6 +41,6 @@ export class OptionsService {
       params = params.append('greeks', greeks);
     }
 
-    return this.http.get<CallsAndPutsCashSums>(this.baseUrl + 'options/cash-values', { params })
+    return this.http.get<CallsAndPutsCashSums>(this.baseUrl + 'options/cash-values', { params });
   }
 }
