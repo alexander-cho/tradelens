@@ -3,7 +3,6 @@ import { StockPriceChartSnapshotComponent } from "../stock-price-chart-snapshot/
 import { CompanyDashboardService } from '../../../core/services/company-dashboard.service';
 import { Stock } from '../../../shared/models/stock';
 import { Router } from '@angular/router';
-import { RelatedCompanies } from '../../../shared/models/polygon';
 import { NzCardComponent } from 'ng-zorro-antd/card';
 import { CompanyProfile, FinancialRatios, KeyMetrics } from '../../../shared/models/fundamentals/company-profile';
 import { DecimalPipe, NgOptimizedImage } from '@angular/common';
@@ -23,7 +22,7 @@ export class CompanyProfileComponent implements OnInit {
   public ticker: InputSignal<string> = input.required<string>();
 
   protected stock: WritableSignal<Stock | undefined> = signal(undefined);
-  protected relatedCompanies: WritableSignal<RelatedCompanies | undefined> = signal(undefined);
+  protected relatedCompanies: WritableSignal<string[] | undefined> = signal(undefined);
   protected companyProfile: WritableSignal<CompanyProfile | undefined> = signal(undefined);
   protected keyMetrics: WritableSignal<KeyMetrics | undefined> = signal(undefined);
   protected financialRatios: WritableSignal<FinancialRatios | undefined> = signal(undefined);
@@ -50,7 +49,10 @@ export class CompanyProfileComponent implements OnInit {
 
   private getRelatedCompanies() {
     this.companyDashboardService.getRelatedCompanies(this.ticker()).subscribe({
-      next: response => this.relatedCompanies.set(response),
+      next: response => {
+        this.relatedCompanies.set(response);
+        console.log("Related companies: ", this.relatedCompanies());
+      },
       error: err => console.log(err)
     });
   }

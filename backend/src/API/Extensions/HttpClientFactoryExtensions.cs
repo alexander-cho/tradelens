@@ -6,7 +6,7 @@ public static class HttpClientFactoryExtensions
     {
         services.AddHttpClient("Polygon", client =>
         {
-            client.BaseAddress = new Uri("https://api.polygon.io/");
+            client.BaseAddress = new Uri("https://api.massive.com/");
             client.DefaultRequestHeaders.Add("Accept", "application/json");
         });
         

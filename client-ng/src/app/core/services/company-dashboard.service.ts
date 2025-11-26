@@ -2,7 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { BarAggregates, RelatedCompanies } from '../../shared/models/polygon';
+import { BarAggregates } from '../../shared/models/polygon';
 import { Stock } from '../../shared/models/stock';
 import { CompanyFundamentalsResponse } from '../../shared/models/fundamentals/company-fundamentals-response';
 import { CompanyProfile, FinancialRatios, KeyMetrics } from '../../shared/models/fundamentals/company-profile';
@@ -41,13 +41,13 @@ export class CompanyDashboardService {
     return this.http.get<Stock>(this.baseUrl + 'stocks/' + ticker);
   }
 
-  public getRelatedCompanies(ticker: string | undefined): Observable<RelatedCompanies> {
+  public getRelatedCompanies(ticker: string | undefined): Observable<string[]> {
     let params = new HttpParams();
     if (ticker) {
       params = params.append('ticker', ticker);
     }
 
-    return this.http.get<RelatedCompanies>(this.baseUrl + 'companies/related-companies', { params });
+    return this.http.get<string[]>(this.baseUrl + 'companies/related-companies', { params });
   }
 
   public getCompanyFundamentalData(ticker: string | undefined, period: string, metric: string[]): Observable<CompanyFundamentalsResponse> {

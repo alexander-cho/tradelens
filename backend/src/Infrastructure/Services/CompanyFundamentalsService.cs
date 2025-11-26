@@ -20,7 +20,7 @@ public class CompanyFundamentalsService : ICompanyFundamentalsService
         _fmpClient = fmpClient;
     }
 
-    public async Task<RelatedCompaniesModel> GetRelatedCompaniesAsync(string ticker)
+    public async Task<HashSet<string>> GetRelatedCompaniesAsync(string ticker)
     {
         var relatedCompaniesDto = await _polygonClient.GetRelatedCompaniesAsync(ticker);
         if (relatedCompaniesDto == null)
@@ -28,9 +28,13 @@ public class CompanyFundamentalsService : ICompanyFundamentalsService
             throw new InvalidOperationException($"Related companies data for {ticker} was not available");
         }
 
-        var relatedCompanies = RelatedCompaniesMapper.ToRelatedCompaniesDomainModel(relatedCompaniesDto);
+        var relatedCompaniesModel = RelatedCompaniesMapper.ToRelatedCompaniesDomainModel(relatedCompaniesDto);
+        var relatedCompanies = RelatedCompaniesMapper.ToRelatedCompanies(relatedCompaniesModel);
 
-        return relatedCompanies;
+        // some tickers appear more than once
+        var uniqueCompanies = new HashSet<string>(relatedCompanies);
+
+        return uniqueCompanies;
     }
 
     public async Task<CompanyFundamentalsResponse> GetCompanyFundamentalMetricsAsync(string ticker, string period,

@@ -79,8 +79,8 @@
   <nz-card class="flex-1">
     <h1 class="text-xl">Users Also Search For</h1>
     <div class="columns-2 gap-4">
-      @for (relatedCompany of relatedCompanies()?.results; track $index) {
-        <h1 class="text-sm"><a href="/companies/{{relatedCompany.ticker}}">{{ relatedCompany.ticker }}</a></h1>
+      @for (relatedCompany of relatedCompanies(); track $index) {
+        <h1 class="text-sm"><a href="/companies/{{relatedCompany}}">{{ relatedCompany }}</a></h1>
       }
     </div>
   </nz-card>

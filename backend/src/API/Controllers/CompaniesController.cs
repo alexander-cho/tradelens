@@ -37,7 +37,7 @@ public class CompaniesController : ControllerBase
 
     [Cache(1000)]
     [HttpGet("related-companies")]
-    public async Task<ActionResult<RelatedCompaniesModel>> GetRelatedCompanies([FromQuery] string ticker)
+    public async Task<ActionResult<HashSet<string>>> GetRelatedCompanies([FromQuery] string ticker)
     {
         return await _companyFundamentalsService.GetRelatedCompaniesAsync(ticker);
     }
