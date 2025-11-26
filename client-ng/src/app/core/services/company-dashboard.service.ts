@@ -106,7 +106,7 @@ export class CompanyDashboardService {
       }
     }
 
-    return this.http.get<CompanyFundamentalsResponse>(this.baseUrl + 'companymetrics', { params });
+    return this.http.get<CompanyFundamentalsResponse>(this.baseUrl + 'company-metrics', { params });
   }
 
   public getParentMetricsAssociatedWithTicker(ticker: string): Observable<string[]> {
@@ -115,6 +115,10 @@ export class CompanyDashboardService {
       params = params.append('ticker', ticker);
     }
 
-    return this.http.get<string[]>(this.baseUrl + 'companymetrics/metrics', { params })
+    return this.http.get<string[]>(this.baseUrl + 'company-metrics/metrics', { params })
+  }
+
+  public getAvailableCompanies(): Observable<string[]> {
+    return this.http.get<string[]>(this.baseUrl + 'company-metrics/available-companies')
   }
 }

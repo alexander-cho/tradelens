@@ -1,4 +1,4 @@
-import { Component, effect, inject, input, signal, WritableSignal } from '@angular/core';
+import { Component, effect, inject, input, OnInit, signal, WritableSignal } from '@angular/core';
 import { CompanyDashboardService } from '../../core/services/company-dashboard.service';
 import { CompanyFundamentalsResponse } from '../../shared/models/fundamentals/company-fundamentals-response';
 import {
@@ -32,7 +32,7 @@ import { NzIconDirective } from 'ng-zorro-antd/icon';
   templateUrl: './company-dashboard.component.html',
   styleUrl: './company-dashboard.component.scss'
 })
-export class CompanyDashboardComponent {
+export class CompanyDashboardComponent implements OnInit {
   // get ticker from url path, as defined in routes
   public ticker = input.required<string>();
 
@@ -40,6 +40,12 @@ export class CompanyDashboardComponent {
   private modalService = inject(NzModalService);
 
   protected fundamentalData: WritableSignal<CompanyFundamentalsResponse | undefined> = signal(undefined);
+
+  // do not run metricsChangeEffect as soon as component initializes
+  private shouldRunMetricsChangeEffect: WritableSignal<boolean> = signal(false);
+
+  // get list of companies with available metrics to know which modals/metrics, etc. to show
+  protected availableCompanies: WritableSignal<string[] | undefined> = signal(undefined);
 
   protected period: WritableSignal<string> = signal('quarter');
 
@@ -59,20 +65,33 @@ export class CompanyDashboardComponent {
     'AdjustedEbitda', 'TotalStockholdersEquity', 'TotalAssets']);
   protected selectedMetrics: WritableSignal<string[]> = signal(this.availableMetrics());
 
+  ngOnInit() {
+    this.companyDashboardService.getAvailableCompanies().subscribe({
+      next: response => {
+        this.availableCompanies.set(response);
+
+        // fetch metrics data AFTER we know which companies are available
+        this.getUserRequestedCompanyFundamentalData();
+
+        // change to true so metricsChangeEffect can listen for subsequent changes
+        this.shouldRunMetricsChangeEffect.set(true);
+      },
+      error: err => console.log(err)
+    });
+  }
+
   // on initial load, the period is set as 'annual' (Yearly) and there will be x amount of pre-selected metrics,
   // 6 or 9, around ones that all companies have in common, e.g. revenue, etc.
   // update metrics reactively
   metricsChangeEffect = effect(() => {
-    const changedPeriod = this.period();
-    const changedMetricsList = this.selectedMetrics();
-
-    if (changedPeriod || changedMetricsList) {
+    if (this.shouldRunMetricsChangeEffect()) {
       this.getUserRequestedCompanyFundamentalData();
     }
   });
 
   private getUserRequestedCompanyFundamentalData() {
-    if (this.ticker() == 'SOFI' || this.ticker() == 'PLTR' || this.ticker() == 'DUOL' || this.ticker() == 'UBER') {
+    const availableCompanies: string[] | undefined = this.availableCompanies();
+    if (availableCompanies != null && availableCompanies.includes(this.ticker())) {
       this.companyDashboardService.getParentMetricsAssociatedWithTicker(this.ticker()).subscribe({
         next: response => {
           this.availableMetrics.set(response);
@@ -91,7 +110,7 @@ export class CompanyDashboardComponent {
         },
         error: err => console.log(err)
       });
-    } else {
+    } else if (!availableCompanies?.includes(this.ticker())) {
       this.companyDashboardService.getCompanyFundamentalData(this.ticker(), this.period(), this.selectedMetricsFmp()).subscribe({
         next: response => {
           this.fundamentalData.set(response);

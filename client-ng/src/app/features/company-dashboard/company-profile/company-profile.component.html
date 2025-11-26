@@ -1,7 +1,9 @@
 <h1 class="text-3xl flex items-center gap-4">
-  <a href="{{companyProfile()?.website}}">
-    <img ngSrc="{{companyProfile()?.image}}" width="36" height="36" alt="{{companyProfile()?.symbol}}">
-  </a>
+  @if (companyProfile()?.image) {
+    <a href="{{companyProfile()?.website}}">
+      <img [ngSrc]="companyProfile()!.image" width="36" height="36" alt="{{companyProfile()?.symbol}}">
+    </a>
+  }
   {{ stock()?.companyName }} ({{ companyProfile()?.exchange }}: {{ stock()?.ticker }})
 </h1>
 

@@ -4,7 +4,7 @@
 
 <div class="grid grid-cols-3 py-2">
   <div>
-    @if (ticker() == 'SOFI' || ticker() == 'PLTR' || ticker() == 'DUOL' || ticker() == 'UBER') {
+    @if (availableCompanies()?.includes(ticker())) {
       <button nz-button nzType="primary" nzDanger (click)="resetCharts()">
         <nz-icon nzType="redo" nzTheme="outline"/>
         Reset Charts
@@ -18,7 +18,7 @@
   </div>
 
   <div class="flex items-center justify-center">
-    @if (ticker() == 'SOFI' || ticker() == 'PLTR' || ticker() == 'DUOL' || ticker() == 'UBER') {
+    @if (availableCompanies()?.includes(ticker())) {
       <nz-radio-group nzButtonStyle="solid" [ngModel]="interval()" (ngModelChange)="interval.set($event)">
         <label nz-radio-button nzValue="quarterly">Quarterly</label>
         <label nz-radio-button nzValue="annual">Annual</label>
@@ -32,7 +32,7 @@
   </div>
 
   <div class="flex justify-end">
-    @if (ticker() == 'SOFI' || ticker() == 'PLTR' || ticker() == 'DUOL' || ticker() == 'UBER') {
+    @if (availableCompanies()?.includes(ticker())) {
       <button nz-button nzType="primary" (click)="openSelectMetricsModal()">
         <nz-icon nzType="edit" nzTheme="outline"/>
         Edit Charts
