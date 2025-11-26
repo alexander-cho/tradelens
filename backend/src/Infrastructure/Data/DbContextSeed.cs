@@ -8,16 +8,16 @@ public static class DbContextSeed
 {
     public static async Task SeedPostsAsync(TradelensDbContext context)
     {
-        // var path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+        var path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
         
         // read data from posts.json seed file if DB is empty
         if (!context.Posts.Any())
         {
             // in production
-            // var postsData = await File.ReadAllTextAsync(path + @"/Data/SeedData/posts.json");
+            var postsData = await File.ReadAllTextAsync(path + @"/Data/SeedData/posts.json");
             
             // in development
-            var postsData = await File.ReadAllTextAsync("../Infrastructure/Data/SeedData/posts.json");
+            // var postsData = await File.ReadAllTextAsync("../Infrastructure/Data/SeedData/posts.json");
             
             // for docker-compose (?)
             // var path = Path.Combine("Infrastructure", "Data", "SeedData", "posts.json");
@@ -38,13 +38,13 @@ public static class DbContextSeed
 
     public static async Task SeedCompanyData(TradelensDbContext context)
     {
-        // var path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+        var path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
         
         if (!context.Stocks.Any())
         {
-            // var stocksData = await File.ReadAllTextAsync(path + @"/Data/SeedData/tickers.json");
+            var stocksData = await File.ReadAllTextAsync(path + @"/Data/SeedData/tickers.json");
             
-            var stocksData = await File.ReadAllTextAsync("../Infrastructure/Data/SeedData/tickers.json");
+            // var stocksData = await File.ReadAllTextAsync("../Infrastructure/Data/SeedData/tickers.json");
             
             // var path = Path.Combine("Infrastructure", "Data", "SeedData", "tickers.json");
             // var stocksData = await File.ReadAllTextAsync(path);
