@@ -15,33 +15,33 @@
         <!--          <li nz-menu-item>Alex</li>-->
         <!--        </ul>-->
         <!--      </li>-->
-        <li nz-menu-item routerLink="/feed">
-          <nz-icon routerLink="/feed" nzType="read"/>
-          <span>Feed</span>
-        </li>
-        <li nz-menu-item routerLink="/companies">
+<!--        <li nz-menu-item routerLink="/feed">-->
+<!--          <nz-icon routerLink="/feed" nzType="read"/>-->
+<!--          <span>Feed</span>-->
+<!--        </li>-->
+        <li nz-menu-item routerLink="/companies" routerLinkActive="ant-menu-item-selected" [routerLinkActiveOptions]="{ exact: true }">
           <nz-icon nzType="shop"/>
           <span>Companies</span>
         </li>
-        <li nz-menu-item routerLink="/options">
+        <li nz-menu-item routerLink="/options" routerLinkActive="ant-menu-item-selected" [routerLinkActiveOptions]="{ exact: true }">
           <nz-icon nzType="bar-chart"/>
           <span>Max Pain</span>
         </li>
-        <li nz-menu-item routerLink="/chart-engine">
+        <li nz-menu-item routerLink="/chart-engine" routerLinkActive="ant-menu-item-selected" [routerLinkActiveOptions]="{ exact: true }">
           <nz-icon nzType="area-chart"/>
           <span>Chart Engine</span>
         </li>
-        <li nz-menu-item routerLink="/congress">
-          <nz-icon nzType="book"/>
-          <span>Congress</span>
-        </li>
-        <li nz-menu-item routerLink="/earnings-calendar">
-          <nz-icon nzType="bank"/>
+        <li nz-menu-item routerLink="/earnings-calendar" routerLinkActive="ant-menu-item-selected" [routerLinkActiveOptions]="{ exact: true }">
+          <nz-icon nzType="calendar"/>
           <span>Earnings Calendar</span>
         </li>
-        <li nz-menu-item routerLink="/macro">
+        <li nz-menu-item routerLink="/macro" routerLinkActive="ant-menu-item-selected" [routerLinkActiveOptions]="{ exact: true }">
           <nz-icon nzType="global"/>
           <span>Macro</span>
+        </li>
+        <li nz-menu-item routerLink="/congress" routerLinkActive="ant-menu-item-selected" [routerLinkActiveOptions]="{ exact: true }">
+          <nz-icon nzType="book"/>
+          <span>Congress</span>
         </li>
         <li nz-menu-item routerLink="/">
           <nz-icon nzType="dollar"/>
@@ -50,12 +50,12 @@
         @if (authService.currentUser()) {
           <li nz-menu-item (click)="logout()" routerLink="/">
             <nz-icon nzType="user" nzTheme="outline"/>
-            <span class="text-blue-500">Logout</span>
+            <span>Logout</span>
           </li>
         } @else {
           <li nz-menu-item routerLink="/login">
             <nz-icon nzType="user" nzTheme="outline"/>
-            <span class="text-blue-500">Login</span>
+            <span>Login</span>
           </li>
         }
       </ul>
@@ -67,8 +67,8 @@
           [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"
           (click)="isCollapsed = !isCollapsed"
         />
-        <a routerLink="/auth/landing" class="font-medium text-blue-500 focus:outline-none">(Landing Page)</a>
-        <a routerLink="/" class="font-medium text-blue-500 focus:outline-none ml-6">(Go Home)</a>
+        <a routerLink="/auth/landing" class="font-medium text-blue-500 focus:outline-none">Landing Page</a>
+        <a routerLink="/" class="font-medium text-blue-500 focus:outline-none ml-6">Go Home</a>
       </nz-header>
       <nz-content class="pt-4">
         <router-outlet></router-outlet>

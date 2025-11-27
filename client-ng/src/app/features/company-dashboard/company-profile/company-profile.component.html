@@ -1,11 +1,17 @@
-<h1 class="text-3xl flex items-center gap-4">
-  @if (companyProfile()?.image) {
-    <a href="{{companyProfile()?.website}}">
-      <img [ngSrc]="companyProfile()!.image" width="36" height="36" alt="{{companyProfile()?.symbol}}">
-    </a>
-  }
-  {{ stock()?.companyName }} ({{ companyProfile()?.exchange }}: {{ stock()?.ticker }})
-</h1>
+<div class="flex justify-between items-start">
+  <h1 class="text-3xl flex items-center gap-4">
+    @if (companyProfile()?.image) {
+      <a href="{{companyProfile()?.website}}">
+        <img [ngSrc]="companyProfile()!.image" width="36" height="36" alt="{{companyProfile()?.symbol}}">
+      </a>
+    }
+    {{ stock()?.companyName }} ({{ companyProfile()?.exchange }}: {{ stock()?.ticker }})
+  </h1>
+  <button nz-button nzType="primary">
+    <nz-icon nzType="plus-circle" nzTheme="outline" />
+    More
+  </button>
+</div>
 
 <div class="grid grid-cols-3 gap-y-0 w-2/3">
   <h2 class="text-xs">Market Cap: ${{ companyProfile()?.marketCap | number : '1.0-0' }}</h2>
@@ -24,7 +30,11 @@
   </h2>
   <h2 class="text-xs">Enterprise Value: ${{ keyMetrics()?.enterpriseValueTtm | number : '1.0-0' }}</h2>
   <h2 class="text-xs">Volume: {{ companyProfile()?.volume | number : '1.0-0' }}</h2>
-  <h2 class="text-xs">Dividend: {{ companyProfile()?.lastDividend }}</h2>
+  @if (companyProfile()?.lastDividend == 0) {
+    <h2 class="text-xs">Dividend: ---</h2>
+  } @else {
+    <h2 class="text-xs">Dividend: ${{ companyProfile()?.lastDividend }}</h2>
+  }
 </div>
 
 <div class="flex gap-4">

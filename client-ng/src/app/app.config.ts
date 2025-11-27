@@ -23,16 +23,37 @@ import {
   GlobalOutline,
   ShopOutline,
   DollarOutline,
-  BankOutline,
   LayoutTwoTone,
   EditOutline,
-  RedoOutline
+  RedoOutline,
+  CalendarOutline,
+  ArrowsAltOutline,
+  PlusCircleOutline
 } from '@ant-design/icons-angular/icons';
 import { Chart, Filler } from 'chart.js/auto';
 
 registerLocaleData(en);
 
-const icons: IconDefinition[] = [LockOutline, UserOutline, MenuFoldOutline, MenuUnfoldOutline, FundTwoTone, ReadOutline, AreaChartOutline, BarChartOutline, BookOutline, GlobalOutline, ShopOutline, DollarOutline, BankOutline, LayoutTwoTone, EditOutline, RedoOutline];
+const icons: IconDefinition[] = [
+  LockOutline,
+  UserOutline,
+  MenuFoldOutline,
+  MenuUnfoldOutline,
+  FundTwoTone,
+  ReadOutline,
+  AreaChartOutline,
+  BarChartOutline,
+  BookOutline,
+  GlobalOutline,
+  ShopOutline,
+  DollarOutline,
+  LayoutTwoTone,
+  EditOutline,
+  RedoOutline,
+  CalendarOutline,
+  ArrowsAltOutline,
+  PlusCircleOutline
+];
 
 // global chart color config
 Chart.defaults.color = '#B3B3B3';

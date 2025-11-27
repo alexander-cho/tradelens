@@ -20,3 +20,8 @@ docker run -d \
 -e POSTGRES_DB=tradelens-db-dev \
 -p 5434:5432 \
 postgres:17.2-alpine3.21
+
+docker run -d \
+--name redis-dev \
+-p 6380:6379 \
+redis:latest
