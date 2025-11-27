@@ -35,10 +35,6 @@
           <nz-icon nzType="book"/>
           <span>Congress</span>
         </li>
-        <li nz-menu-item routerLink="/crypto">
-          <nz-icon nzType="dollar"/>
-          <span>Crypto</span>
-        </li>
         <li nz-menu-item routerLink="/earnings-calendar">
           <nz-icon nzType="bank"/>
           <span>Earnings Calendar</span>
@@ -46,6 +42,10 @@
         <li nz-menu-item routerLink="/macro">
           <nz-icon nzType="global"/>
           <span>Macro</span>
+        </li>
+        <li nz-menu-item routerLink="/">
+          <nz-icon nzType="dollar"/>
+          <span>TBD</span>
         </li>
         @if (authService.currentUser()) {
           <li nz-menu-item (click)="logout()" routerLink="/">
