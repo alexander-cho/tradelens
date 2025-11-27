@@ -5,12 +5,12 @@ namespace Core.Interfaces;
 
 public interface ICompanyFundamentalsService
 {
-    Task<RelatedCompaniesModel> GetRelatedCompaniesAsync(string ticker);
+    Task<HashSet<string>> GetRelatedCompaniesAsync(string ticker);
     Task<CompanyFundamentalsResponse> GetCompanyFundamentalMetricsAsync(string ticker, string period, List<string> metric);
     Task<IncomeStatement> GetIncomeStatementAsync(string ticker, int limit, string period);
     Task<BalanceSheet> GetBalanceSheetAsync(string ticker, int limit, string period);
     Task<CashFlowStatement> GetCashFlowStatementAsync(string ticker, int limit, string period);
-    Task<IEnumerable<CompanyProfile>> GetCompanyProfileDataAsync(string symbol);
-    Task<IEnumerable<KeyMetricsTtm>> GetKeyMetricsTtmAsync(string symbol);
-    Task<IEnumerable<FinancialRatiosTtm>> GetFinancialRatiosTtmAsync(string symbol);
+    Task<CompanyProfile> GetCompanyProfileDataAsync(string symbol);
+    Task<KeyMetricsTtm> GetKeyMetricsTtmAsync(string symbol);
+    Task<FinancialRatiosTtm> GetFinancialRatiosTtmAsync(string symbol);
 }

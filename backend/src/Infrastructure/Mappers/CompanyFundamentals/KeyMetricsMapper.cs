@@ -5,15 +5,19 @@ namespace Infrastructure.Mappers.CompanyFundamentals;
 
 public static class KeyMetricsMapper
 {
-    public static IEnumerable<KeyMetricsTtm> ToKeyMetricsTtm(IEnumerable<KeyMetricsTtmDto> dtos)
+    public static KeyMetricsTtm? ToKeyMetricsTtm(IEnumerable<KeyMetricsTtmDto>? dtos)
     {
-        return dtos.Select(dto => new KeyMetricsTtm
+        var dto = dtos?.FirstOrDefault();
+        if (dto == null) return null;
+
+        return new KeyMetricsTtm
         {
             Symbol = dto.Symbol,
             EnterpriseValueTtm = dto.EnterpriseValueTtm,
             ReturnOnInvestedCapitalTtm = dto.ReturnOnInvestedCapitalTtm,
             CurrentRatio = dto.CurrentRatio,
             NetDebtToEbitdaTtm = dto.NetDebtToEbitdaTtm
-        });
+        };
     }
+
 }

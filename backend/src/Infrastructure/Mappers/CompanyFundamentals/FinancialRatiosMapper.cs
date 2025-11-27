@@ -5,9 +5,12 @@ namespace Infrastructure.Mappers.CompanyFundamentals;
 
 public static class FinancialRatiosMapper
 {
-    public static IEnumerable<FinancialRatiosTtm> ToFinancialRatiosTtm(IEnumerable<FinancialRatiosTtmDto> dtos)
+    public static FinancialRatiosTtm? ToFinancialRatiosTtm(IEnumerable<FinancialRatiosTtmDto>? dtos)
     {
-        return dtos.Select(dto => new FinancialRatiosTtm
+        var dto = dtos?.FirstOrDefault();
+        if (dto == null) return null;
+
+        return new FinancialRatiosTtm
         {
             Symbol = dto.Symbol,
             DebtToEquityRatioTtm = dto.DebtToEquityRatioTtm,
@@ -17,6 +20,6 @@ public static class FinancialRatiosMapper
             PriceToSalesRatioTtm = dto.PriceToSalesRatioTtm,
             PriceToBookRatioTtm = dto.PriceToBookRatioTtm,
             PriceToFreeCashFlowRatioTtm = dto.PriceToFreeCashFlowRatioTtm
-        });
+        };
     }
 }

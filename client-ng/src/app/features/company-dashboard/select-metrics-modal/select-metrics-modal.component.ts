@@ -16,7 +16,7 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './select-metrics-modal.component.scss'
 })
 export class SelectMetricsModalComponent {
-  modalRef = inject(NzModalRef<SelectMetricsModalComponent>);
+  private modalRef = inject(NzModalRef<SelectMetricsModalComponent>);
 
   // inject data passed through nzData in modalService.create() call in parent component
   data = inject(NZ_MODAL_DATA);

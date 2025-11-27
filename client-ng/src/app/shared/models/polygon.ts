@@ -16,13 +16,3 @@ export type Bar = {
   t: number;
   n: number;
 }
-
-export type RelatedCompanies = {
-  ticker: string;
-  status: string;
-  results: RelatedCompany[];
-}
-
-export type RelatedCompany = {
-  ticker: string;
-}

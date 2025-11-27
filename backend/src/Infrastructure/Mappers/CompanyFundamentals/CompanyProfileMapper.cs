@@ -5,9 +5,12 @@ namespace Infrastructure.Mappers.CompanyFundamentals;
 
 public static class CompanyProfileMapper
 {
-    public static IEnumerable<CompanyProfile> ToCompanyProfile(IEnumerable<CompanyProfileDto> companyProfileDtos)
+    public static CompanyProfile? ToCompanyProfile(IEnumerable<CompanyProfileDto>? dtos)
     {
-        return companyProfileDtos.Select(dto => new CompanyProfile
+        var dto = dtos?.FirstOrDefault();
+        if (dto == null) return null;
+    
+        return new CompanyProfile
         {
             Symbol = dto.Symbol,
             Price = dto.Price,
@@ -20,6 +23,6 @@ public static class CompanyProfileMapper
             Exchange = dto.Exchange,
             Website = dto.Website,
             Image = dto.Image
-        });
+        };
     }
 }

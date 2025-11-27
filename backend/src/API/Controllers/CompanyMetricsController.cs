@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace API.Controllers;
 
-[Route("api/[controller]")]
+[Route("api/company-metrics")]
 [ApiController]
 public class CompanyMetricsController : ControllerBase
 {
@@ -55,5 +55,16 @@ public class CompanyMetricsController : ControllerBase
             .ToListAsync();
 
         return await metricsList;
+    }
+
+    [HttpGet("available-companies")]
+    public async Task<ActionResult<IEnumerable<string>>> GetCompaniesWithMetricsAvailable()
+    {
+        var companiesList = _dbContext.CompanyMetrics
+            .Select(x => x.Ticker)
+            .Distinct()
+            .ToListAsync();
+
+        return await companiesList;
     }
 }
