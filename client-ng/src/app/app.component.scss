@@ -6,6 +6,22 @@ nz-sider {
   height: 100vh;
   z-index: 100;
   overflow-y: auto;
+  background-color: #252841;
+  border-right: 1px solid black;
+}
+
+.ant-menu-dark {
+  background-color: #252841;
+}
+
+// so the selected item does not get filled in default blue
+.ant-menu-dark .ant-menu-item-selected {
+  background-color: transparent !important;
+}
+
+// set text color when selected
+.ant-menu-dark .ant-menu-item-selected .anticon {
+  color: #3b82f6 !important;
 }
 
 // Push the inner layout to the right to avoid sidebar overlap
