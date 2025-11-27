@@ -24,6 +24,17 @@ nz-sider {
   color: #3b82f6 !important;
 }
 
+:host ::ng-deep .ant-input-affix-wrapper {
+  background: #2a2d40;
+  color: #ffffff;
+  border: 1px solid gray;
+}
+
+:host ::ng-deep input[nz-input] {
+  background-color: #2a2d40;
+  color: #ffffff;              // text color
+}
+
 // Push the inner layout to the right to avoid sidebar overlap
 nz-layout nz-layout {
   margin-left: 200px; // Width of expanded sidebar

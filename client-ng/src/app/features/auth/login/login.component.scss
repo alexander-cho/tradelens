@@ -1,14 +1,3 @@
 .login-container {
   background: #171a2b;
 }
-
-:host ::ng-deep .ant-input-affix-wrapper {
-  background: #2a2d40;
-  color: #ffffff;
-  border: 1px solid gray;
-}
-
-:host ::ng-deep input[nz-input] {
-  background-color: #2a2d40;
-  color: #ffffff;              // text color
-}
