@@ -1,5 +1,11 @@
 <nz-card>
   {{ marketStatus()?.isOpen }}
-
-  {{ availableCompanies() }}
 </nz-card>
+<br>
+
+@for (profile of availableCompanyProfiles(); track $index) {
+  <nz-card>
+    <h1 routerLink="/companies/{{ profile.symbol }}">{{ profile.symbol }}</h1>
+  </nz-card>
+  <br>
+}
