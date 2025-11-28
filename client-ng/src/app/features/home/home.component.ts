@@ -4,13 +4,10 @@ import { MarketStatus } from '../../shared/models/finnhub';
 import { CompanyDashboardService } from '../../core/services/company-dashboard.service';
 import { NzCardComponent } from 'ng-zorro-antd/card';
 import { CompanyProfile } from '../../shared/models/fundamentals/company-profile';
-import { forkJoin, switchMap } from 'rxjs';
 import { RouterLink } from '@angular/router';
 import { NgOptimizedImage } from '@angular/common';
-import {
-  CompanyMetricChartComponent
-} from '../../shared/components/company-metric-chart/company-metric-chart.component';
 import { NzColDirective, NzRowDirective } from 'ng-zorro-antd/grid';
+import { forkJoin, switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-home',
@@ -18,7 +15,6 @@ import { NzColDirective, NzRowDirective } from 'ng-zorro-antd/grid';
     NzCardComponent,
     RouterLink,
     NgOptimizedImage,
-    CompanyMetricChartComponent,
     NzColDirective,
     NzRowDirective
   ],
@@ -61,6 +57,6 @@ export class HomeComponent implements OnInit {
     ).subscribe({
       next: response => this.availableCompanyProfiles.set(response),
       error: err => console.log(err)
-    })
+    });
   }
 }

@@ -69,6 +69,9 @@
         />
         <a routerLink="/auth/landing" class="font-medium text-blue-500 focus:outline-none">Landing Page</a>
         <a routerLink="/" class="font-medium text-blue-500 focus:outline-none ml-6">Go Home</a>
+        @if (router.url.startsWith("/companies/")) {
+          <a routerLink="/companies" class="font-medium text-blue-500 focus:outline-none ml-6">Search Companies</a>
+        }
       </nz-header>
       <nz-content class="pt-4">
         <router-outlet></router-outlet>
