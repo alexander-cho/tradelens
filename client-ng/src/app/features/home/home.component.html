@@ -1,11 +1,30 @@
-<nz-card>
-  {{ marketStatus()?.isOpen }}
-</nz-card>
-<br>
+<div class="flex justify-between">
+  <div class="grid w-2/3">
+    <div nz-row [nzGutter]="[16, 16]">
+      @for (profile of availableCompanyProfiles(); track $index) {
+        <div nz-col class="gutter-row" [nzSpan]="24 / 3">
+          <div class="grid-config">
+            <nz-card routerLink="/companies/{{profile.symbol}}" class="company-card flex flex-col items-center justify-center text-center">
+              <img ngSrc="{{profile.image}}" width="64" height="64" alt="{{profile.symbol}}" class="mx-auto">
+              <h1 class="text-2xl pt-2">{{ profile.symbol }}</h1>
+              <h2 class="text-lg">{{ profile.companyName }}</h2>
+            </nz-card>
+          </div>
+        </div>
+      }
+    </div>
+  </div>
 
-@for (profile of availableCompanyProfiles(); track $index) {
-  <nz-card>
-    <h1 routerLink="/companies/{{ profile.symbol }}">{{ profile.symbol }}</h1>
-  </nz-card>
-  <br>
-}
+  <div class="pl-2 grid w-1/3">
+    <br>
+    <nz-card>
+      <h1 class="text-lg">market open: {{ marketStatus()?.isOpen }}</h1>
+    </nz-card>
+    <br>
+
+    <nz-card>
+      <h1 class="text-lg">something else</h1>
+    </nz-card>
+    <br>
+  </div>
+</div>

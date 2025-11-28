@@ -69,7 +69,7 @@ nz-header {
 //// And make it fill remaining space
 nz-content {
   margin-top: 64px; // Space for fixed header
-  padding: 16px; // Add some padding
+  padding: 12px; // Add some padding
   min-height: calc(100vh - 64px); // Fill viewport minus header
   background: #171a2b;
 }

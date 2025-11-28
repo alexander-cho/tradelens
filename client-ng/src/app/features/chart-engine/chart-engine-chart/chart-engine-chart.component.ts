@@ -24,14 +24,16 @@ export class ChartEngineChartComponent {
     this.chart?.destroy();
 
     this.chart = new Chart("adhoc-chart", {
-      type: 'bar',
+      type: 'line',
       data: {
         labels: this.xAxisDataLabelsFromParent(),
         datasets: [
           {
             label: this.yLabelFromParent(),
             data: this.yDataFromParent() as number[],
-            borderWidth: 1,
+            // borderWidth: 1,
+            borderColor: '#DB2504',
+            backgroundColor: '#DB2504',
           }
         ],
       },

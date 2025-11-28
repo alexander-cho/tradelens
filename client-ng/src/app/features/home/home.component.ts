@@ -6,12 +6,21 @@ import { NzCardComponent } from 'ng-zorro-antd/card';
 import { CompanyProfile } from '../../shared/models/fundamentals/company-profile';
 import { forkJoin, switchMap } from 'rxjs';
 import { RouterLink } from '@angular/router';
+import { NgOptimizedImage } from '@angular/common';
+import {
+  CompanyMetricChartComponent
+} from '../../shared/components/company-metric-chart/company-metric-chart.component';
+import { NzColDirective, NzRowDirective } from 'ng-zorro-antd/grid';
 
 @Component({
   selector: 'app-home',
   imports: [
     NzCardComponent,
-    RouterLink
+    RouterLink,
+    NgOptimizedImage,
+    CompanyMetricChartComponent,
+    NzColDirective,
+    NzRowDirective
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
