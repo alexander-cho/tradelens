@@ -2,6 +2,7 @@ using Core.Constants;
 using Core.Interfaces;
 using Core.Models;
 using Core.Models.CompanyFundamentals;
+using Infrastructure.Clients.Finnhub;
 using Infrastructure.Clients.Fmp;
 using Infrastructure.Clients.Polygon;
 using Infrastructure.Mappers;
@@ -13,11 +14,13 @@ public class CompanyFundamentalsService : ICompanyFundamentalsService
 {
     private readonly IPolygonClient _polygonClient;
     private readonly IFmpClient _fmpClient;
+    private readonly IFinnhubClient _finnhubClient;
 
-    public CompanyFundamentalsService(IPolygonClient polygonClient, IFmpClient fmpClient)
+    public CompanyFundamentalsService(IPolygonClient polygonClient, IFmpClient fmpClient, IFinnhubClient finnhubClient)
     {
         _polygonClient = polygonClient;
         _fmpClient = fmpClient;
+        _finnhubClient = finnhubClient;
     }
 
     public async Task<HashSet<string>> GetRelatedCompaniesAsync(string ticker)
@@ -432,10 +435,24 @@ public class CompanyFundamentalsService : ICompanyFundamentalsService
 
         if (financialRatiosTtmDto == null)
         {
-            throw new InvalidOperationException($"Company profile data for {symbol} was not available");
+            throw new InvalidOperationException($"Financial ratios data for {symbol} was not available");
         }
         
         return FinancialRatiosMapper.ToFinancialRatiosTtm(financialRatiosTtmDto)
                ?? throw new InvalidOperationException($"Financial ratios for {symbol} was empty");
+    }
+
+    public async Task<FinnhubCompanyProfile> GetFinnhubCompanyProfileAsync(string symbol)
+    {
+        var finnhubCompanyProfileDto = await _finnhubClient.GetCompanyProfileAsync(symbol);
+
+        if (finnhubCompanyProfileDto == null)
+        {
+            throw new InvalidOperationException($"Company profile data for {symbol} was not available");
+        }
+
+        var finnhubCompanyProfile = FinnhubCompanyProfileMapper.ToDomainModel(finnhubCompanyProfileDto);
+
+        return finnhubCompanyProfile;
     }
 }

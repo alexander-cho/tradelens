@@ -80,4 +80,11 @@ public class CompaniesController : ControllerBase
     {
         return Ok(await _companyFundamentalsService.GetFinancialRatiosTtmAsync(ticker));
     }
+    
+    [Cache(10000)]
+    [HttpGet("company-profile-finnhub")]
+    public async Task<ActionResult<FinnhubCompanyProfile>> GetFinnhubCompanyProfile([FromQuery] string ticker)
+    {
+        return Ok(await _companyFundamentalsService.GetFinnhubCompanyProfileAsync(ticker));
+    }
 }

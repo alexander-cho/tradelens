@@ -3,7 +3,7 @@ import { HomeService } from '../../core/services/home.service';
 import { MarketStatus } from '../../shared/models/finnhub';
 import { CompanyDashboardService } from '../../core/services/company-dashboard.service';
 import { NzCardComponent } from 'ng-zorro-antd/card';
-import { CompanyProfile } from '../../shared/models/fundamentals/company-profile';
+import { FinnhubCompanyProfile } from '../../shared/models/fundamentals/finnhub-company-profile';
 import { RouterLink } from '@angular/router';
 import { NgOptimizedImage } from '@angular/common';
 import { NzColDirective, NzRowDirective } from 'ng-zorro-antd/grid';
@@ -26,7 +26,7 @@ export class HomeComponent implements OnInit {
   private companyDashboardService = inject(CompanyDashboardService);
 
   protected marketStatus: WritableSignal<MarketStatus | undefined> = signal(undefined);
-  protected availableCompanyProfiles: WritableSignal<CompanyProfile[] | undefined> = signal(undefined);
+  protected availableCompanyProfiles: WritableSignal<FinnhubCompanyProfile[] | undefined> = signal(undefined);
 
   ngOnInit() {
     this.getMarketStatus();
@@ -50,7 +50,7 @@ export class HomeComponent implements OnInit {
       switchMap(availableCompanies => {
         return forkJoin(
           availableCompanies.map(company => {
-            return this.companyDashboardService.getCompanyProfile(company);
+            return this.homeService.getFinnhubCompanyProfile(company);
           })
         )
       })
