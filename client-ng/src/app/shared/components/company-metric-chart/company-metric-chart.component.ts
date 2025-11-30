@@ -3,6 +3,7 @@ import { ChildMetricGroup, ValueDataAtEachPeriod } from '../../models/fundamenta
 import { Chart, ScriptableContext } from 'chart.js/auto';
 import { NzCardComponent } from 'ng-zorro-antd/card';
 import { barchartColors } from '../../utils/barchart-colors';
+import { nonstackedMetrics } from '../../utils/nonstacked-metrics';
 
 @Component({
   selector: 'app-company-metric-chart',
@@ -20,35 +21,43 @@ export class CompanyMetricChartComponent implements AfterViewInit {
   // modify later and use transformMetricName()
   spacedMetricName: Signal<string | undefined> = computed(() => {
     // split metric names between uppercase letters
-    const splitMetricName = this.metricName()?.split('');
-    let newMetricName = '';
-    if (splitMetricName != null) {
-      for (let i = 0; i < splitMetricName.length; i++) {
-        // check for uppercase letters, except for the first one
-        if (i !== 0 && splitMetricName[i] === splitMetricName[i].toUpperCase() && splitMetricName[i] !== splitMetricName[i].toLowerCase()) {
-          newMetricName = newMetricName + ' ' + splitMetricName[i];
-        } else {
-          newMetricName = newMetricName + '' + splitMetricName[i];
+    if (this.metricName() != 'EPS') {
+      const splitMetricName = this.metricName()?.split('');
+      let newMetricName = '';
+      if (splitMetricName != null) {
+        for (let i = 0; i < splitMetricName.length; i++) {
+          // check for uppercase letters, except for the first one
+          if (i !== 0 && splitMetricName[i] === splitMetricName[i].toUpperCase() && splitMetricName[i] !== splitMetricName[i].toLowerCase()) {
+            newMetricName = newMetricName + ' ' + splitMetricName[i];
+          } else {
+            newMetricName = newMetricName + '' + splitMetricName[i];
+          }
         }
       }
+      return newMetricName;
     }
-    return newMetricName;
+    return 'EPS';
   });
 
-  transformMetricName = (originalMetric: string) => {
-    const splitMetricName = originalMetric.split('');
-    let newMetricName = '';
-    if (splitMetricName != null) {
-      for (let i = 0; i < splitMetricName.length; i++) {
-        // check for uppercase letters, except for the first one
-        if (i !== 0 && splitMetricName[i] === splitMetricName[i].toUpperCase() && splitMetricName[i] !== splitMetricName[i].toLowerCase()) {
-          newMetricName = newMetricName + ' ' + splitMetricName[i];
-        } else {
-          newMetricName = newMetricName + '' + splitMetricName[i];
+  // separate utils!
+  protected transformMetricName = (originalMetric: string) => {
+    if(originalMetric != 'EPS') {
+      const splitMetricName = originalMetric.split('');
+      let newMetricName = '';
+      if (splitMetricName != null) {
+        for (let i = 0; i < splitMetricName.length; i++) {
+          // check for uppercase letters, except for the first one
+          if (i !== 0 && splitMetricName[i] === splitMetricName[i].toUpperCase() && splitMetricName[i] !== splitMetricName[i].toLowerCase()) {
+            newMetricName = newMetricName + ' ' + splitMetricName[i];
+          } else {
+            newMetricName = newMetricName + '' + splitMetricName[i];
+          }
         }
       }
+      return newMetricName;
+    } else {
+      return 'EPS';
     }
-    return newMetricName;
   };
 
   // new way needs a way for null data or null childMetrics depending on structure
@@ -108,6 +117,10 @@ export class CompanyMetricChartComponent implements AfterViewInit {
 
     this.chart?.destroy();
 
+    // for chart creation with child metrics, consider using a signal for { stacked: true/false } depending on which metric
+    // represents a collective versus separate: for example, Cash vs Debt should not be stacked since they are separate
+    // rather than additive like Operating Expenses = S&M + R&D + G&A. This list of metrics will be in /shared/utils/
+
     if (dataRead != null) {
       this.chart = new Chart(metricDisplayName, {
         type: 'bar',
@@ -145,7 +158,7 @@ export class CompanyMetricChartComponent implements AfterViewInit {
             }
           },
           // width / height
-          aspectRatio: 1.3
+          aspectRatio: 1.18
         },
       });
     } else if (childMetricsRead != null) {
@@ -161,46 +174,89 @@ export class CompanyMetricChartComponent implements AfterViewInit {
 
       const uniqueBarColors = generateUniqueColors(childMetricsRead.length);
 
-      this.chart = new Chart(metricDisplayName, {
-        type: 'bar',
-        data: {
-          labels: childMetricsRead[0].data.map(x => x.period + ' ' + x.fiscalYear),
-          datasets: childMetricsRead.map((childMetric, index) => ({
-            label: this.transformMetricName(childMetric.metricName),
-            data: childMetric.data.map(x => x.value),
-            backgroundColor: function (context: ScriptableContext<'bar'>) {
-              const chart = context.chart;
-              const { ctx, chartArea } = chart;
-              if (!chartArea) {
-                return;
+      if (!nonstackedMetrics.includes(metricDisplayName)) {
+        this.chart = new Chart(metricDisplayName, {
+          type: 'bar',
+          data: {
+            labels: childMetricsRead[0].data.map(x => x.period + ' ' + x.fiscalYear),
+            datasets: childMetricsRead.map((childMetric, index) => ({
+              label: this.transformMetricName(childMetric.metricName),
+              data: childMetric.data.map(x => x.value),
+              backgroundColor: function (context: ScriptableContext<'bar'>) {
+                const chart = context.chart;
+                const { ctx, chartArea } = chart;
+                if (!chartArea) {
+                  return;
+                }
+                return createGradient(ctx, chartArea, uniqueBarColors[index]);
+              },
+              borderColor: uniqueBarColors[index],
+              borderWidth: 2,
+              borderRadius: 0.5,
+            }))
+          },
+          options: {
+            scales: {
+              x: {
+                stacked: true
+              },
+              y: {
+                beginAtZero: true,
+                stacked: true
+              },
+            },
+            plugins: {
+              title: {
+                text: `${ this.ticker() } ${ metricNameRead }`,
+                display: false
               }
-              return createGradient(ctx, chartArea, uniqueBarColors[index]);
             },
-            borderColor: uniqueBarColors[index],
-            borderWidth: 2,
-            borderRadius: 0.5,
-          }))
-        },
-        options: {
-          scales: {
-            x: {
-              stacked: true
-            },
-            y: {
-              beginAtZero: true,
-              stacked: true
-            },
+            // width / height
+            aspectRatio: 1.18
           },
-          plugins: {
-            title: {
-              text: `${ this.ticker() } ${ metricNameRead }`,
-              display: false
-            }
+        });
+      } else {
+        this.chart = new Chart(metricDisplayName, {
+          type: 'bar',
+          data: {
+            labels: childMetricsRead[0].data.map(x => x.period + ' ' + x.fiscalYear),
+            datasets: childMetricsRead.map((childMetric, index) => ({
+              label: this.transformMetricName(childMetric.metricName),
+              data: childMetric.data.map(x => x.value),
+              backgroundColor: function (context: ScriptableContext<'bar'>) {
+                const chart = context.chart;
+                const { ctx, chartArea } = chart;
+                if (!chartArea) {
+                  return;
+                }
+                return createGradient(ctx, chartArea, uniqueBarColors[index]);
+              },
+              borderColor: uniqueBarColors[index],
+              borderWidth: 2,
+              borderRadius: 0.5,
+            }))
           },
-          // width / height
-          aspectRatio: 1.3
-        },
-      });
+          options: {
+            scales: {
+              x: {
+                stacked: false
+              },
+              y: {
+                beginAtZero: true,
+                stacked: false
+              },
+            },
+            plugins: {
+              title: {
+                text: `${ this.ticker() } ${ metricNameRead }`,
+                display: false
+              }
+            },
+            // width / height
+            aspectRatio: 1.18
+          },
+        });
+      }
     }
   }
 }

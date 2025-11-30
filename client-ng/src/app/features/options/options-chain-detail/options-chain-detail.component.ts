@@ -8,7 +8,6 @@ import { OptionChainRow, OptionMetricData } from '../../../shared/models/options
 import {
   OptionsMetricChartComponent
 } from '../../../shared/components/options-metric-chart/options-metric-chart.component';
-import { NzButtonComponent } from 'ng-zorro-antd/button';
 
 @Component({
   selector: 'app-options-chain-detail',
@@ -18,7 +17,6 @@ import { NzButtonComponent } from 'ng-zorro-antd/button';
     NzRadioGroupComponent,
     FormsModule,
     OptionsMetricChartComponent,
-    NzButtonComponent
   ],
   templateUrl: './options-chain-detail.component.html',
   styleUrl: './options-chain-detail.component.scss'

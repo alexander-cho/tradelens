@@ -47,17 +47,21 @@
 </div>
 
 <!-- tracking by $index causes problems for fundamentalData which is a dynamic collection -->
-<div nz-row [nzGutter]="[16, 16]">
-  @for (metric of fundamentalData()?.metricData; track metric.metricName) {
-    <div nz-col class="gutter-row" [nzSpan]="24 / 3">
-      <div class="grid-config">
-        <app-company-metric-chart
-          [ticker]="ticker()"
-          [metricName]="metric.metricName"
-          [data]="metric.data"
-          [childMetrics]="metric.childMetrics">
-        </app-company-metric-chart>
+@if (selectedMetrics().length == 0) {
+  <h1 class="text-2xl mx-auto">Select some metrics (replace)</h1>
+} @else {
+  <div nz-row [nzGutter]="[16, 16]">
+    @for (metric of fundamentalData()?.metricData; track metric.metricName) {
+      <div nz-col class="gutter-row" [nzSpan]="24 / 3">
+        <div class="grid-config">
+          <app-company-metric-chart
+            [ticker]="ticker()"
+            [metricName]="metric.metricName"
+            [data]="metric.data"
+            [childMetrics]="metric.childMetrics">
+          </app-company-metric-chart>
+        </div>
       </div>
-    </div>
-  }
-</div>
+    }
+  </div>
+}
