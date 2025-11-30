@@ -1,4 +1,4 @@
-<nz-radio-group [ngModel]="selectedMetric()" (ngModelChange)="onMetricChangeEvent($event)">
+<nz-radio-group [ngModel]="selectedMetric()" (ngModelChange)="onMetricChangeEvent($event)" nzButtonStyle="solid">
   <label nz-radio-button nzValue="optionsChain">Options Chain</label>
   <label nz-radio-button nzValue="openInterest">Open Interest</label>
   <label nz-radio-button nzValue="volume">Volume</label>
@@ -6,10 +6,6 @@
   <label nz-radio-button nzValue="impliedVolatility">Implied Volatility</label>
   <label nz-radio-button nzValue="activity">Unusual Activity</label>
 </nz-radio-group>
-
-<button nz-button nzType="primary">Max Pain</button>
-
-<br>
 
 @if (selectedMetric() === "optionsChain") {
   <nz-table>

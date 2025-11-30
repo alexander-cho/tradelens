@@ -13,4 +13,5 @@ public interface ICompanyFundamentalsService
     Task<CompanyProfile> GetCompanyProfileDataAsync(string symbol);
     Task<KeyMetricsTtm> GetKeyMetricsTtmAsync(string symbol);
     Task<FinancialRatiosTtm> GetFinancialRatiosTtmAsync(string symbol);
+    Task<FinnhubCompanyProfile> GetFinnhubCompanyProfileAsync(string symbol);
 }

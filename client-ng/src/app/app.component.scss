@@ -10,6 +10,18 @@ nz-sider {
   border-right: 1px solid black;
 }
 
+////////////// SELECT DROPDOWN ///////////////
+
+::ng-deep .ant-select-selector {
+  background-color: #252841 !important;
+}
+
+::ng-deep .ant-select-arrow{
+  color: #D6D6D6 !important;
+}
+
+//////////////////////////////////////////////
+
 .ant-menu-dark {
   background-color: #252841;
 }
@@ -27,12 +39,96 @@ nz-sider {
 :host ::ng-deep .ant-input-affix-wrapper {
   background: #2a2d40;
   color: #ffffff;
-  border: 1px solid gray;
+  border: #606060;
 }
 
 :host ::ng-deep input[nz-input] {
   background-color: #2a2d40;
   color: #ffffff;              // text color
+}
+
+/* --- BUTTONS (Reset, Filter, Sort) --- */
+:host ::ng-deep .ant-btn-default {
+  background-color: #414A66 !important;
+  border-color: #606060 !important;
+  color: #ffffff !important;
+}
+
+/* Base style for the container */
+:host ::ng-deep .ant-pagination-item {
+  background-color: #414A66 !important;
+  border: 1px solid #606060;
+}
+
+/* 1. set default (inactive) numbers color */
+:host ::ng-deep .ant-pagination-item a {
+  color: #D6D6D6 !important;
+}
+
+:host ::ng-deep .ant-pagination-item-active a {
+  color: #0097F0 !important;
+}
+
+:host ::ng-deep .ant-pagination-item:hover a {
+  /* This rule is more specific than the default rule (1) and will override it */
+  color: #0097F0 !important;
+}
+
+/* --- PAGINATOR CONTROLS (< and >) --- */
+:host ::ng-deep .ant-pagination-prev .ant-pagination-item-link,
+:host ::ng-deep .ant-pagination-next .ant-pagination-item-link {
+  background-color: #414A66 !important;
+  border-color: #606060 !important;
+  color: #D6D6D6 !important;
+}
+
+::ng-deep .ant-pagination-options-size-changer .ant-select-selector {
+  /* Customize the select input */
+  background-color: #414A66 !important;
+  border-color: #606060 !important;
+}
+
+::ng-deep .ant-pagination-options-size-changer .ant-select-arrow {
+  /* Customize the dropdown arrow */
+  color: #D6D6D6;
+}
+
+::ng-deep .ant-select-selection-placeholder,
+::ng-deep .ant-select-selection-item {
+  color: #D6D6D6 !important;
+}
+
+::ng-deep .ant-select-selection-item:hover {
+  color: whitesmoke !important;
+}
+
+::ng-deep .ant-pagination-options-size-changer .ant-select-selection-item {
+  /* Customize the displayed page size text */
+  color: #D6D6D6;
+}
+
+::ng-deep .ant-select-item-option {
+  background-color: #414A66 !important;
+  color: #D6D6D6 !important;
+  border: none;
+}
+
+
+/* --- TABLE --- */
+:host ::ng-deep .ant-table-container {
+  padding: 12px;
+}
+::ng-deep .ant-table {
+  background-color: #2a2d40;
+}
+::ng-deep .ant-table th {
+  color: #D6D6D6;
+}
+::ng-deep .ant-table td {
+  color: #D6D6D6;
+}
+::ng-deep .ant-table tr:hover td {
+  color: black;
 }
 
 // Push the inner layout to the right to avoid sidebar overlap
@@ -69,7 +165,7 @@ nz-header {
 //// And make it fill remaining space
 nz-content {
   margin-top: 64px; // Space for fixed header
-  padding: 16px; // Add some padding
+  padding: 12px; // Add some padding
   min-height: calc(100vh - 64px); // Fill viewport minus header
   background: #171a2b;
 }

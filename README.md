@@ -10,8 +10,9 @@ cache certain API responses to save API calls and faster response times (time an
 
 better UI for charts - think of client side rendering maybe
 
+![UBER Dashboard](guides/images/uber.png)
 
-##### local postgres container
+##### local postgres dev container
 
 docker run -d \
 --name tradelens-db-dev \
@@ -20,6 +21,8 @@ docker run -d \
 -e POSTGRES_DB=tradelens-db-dev \
 -p 5434:5432 \
 postgres:17.2-alpine3.21
+
+##### local redis dev container
 
 docker run -d \
 --name redis-dev \

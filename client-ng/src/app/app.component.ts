@@ -41,7 +41,7 @@ export class AppComponent {
   showNavbar = true;
   private hiddenRoutes = ['/login', '/auth/register', '/auth/landing'];
 
-  constructor(private router: Router) {
+  constructor(protected router: Router) {
     this.router.events
       .pipe(filter(event => event instanceof NavigationEnd))
       .subscribe((event: NavigationEnd) => {

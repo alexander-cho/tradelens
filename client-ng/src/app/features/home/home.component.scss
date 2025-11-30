@@ -1,0 +1,17 @@
+.company-card {
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+}
+
+.company-card:hover {
+  transform: scale(1.05) translateY(-1px);
+  background-color: #4D5485 !important;
+}
+
+.company-card-hover {
+  display: none;
+}
+
+.company-card:hover .company-card-hover {
+  display: block;
+}

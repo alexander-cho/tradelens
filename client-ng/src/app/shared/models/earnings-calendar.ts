@@ -1,4 +1,4 @@
-export type EarningsCalendarModel = {
+export type EarningsCalendar = {
   symbol: string;
   date: string;
   epsActual: number;
