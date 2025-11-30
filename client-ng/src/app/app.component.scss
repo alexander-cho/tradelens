@@ -114,7 +114,7 @@ nz-sider {
 }
 
 
-/* --- TABLE --- */
+/////////////// TABLE ////////////////
 :host ::ng-deep .ant-table-container {
   padding: 12px;
 }
@@ -130,6 +130,35 @@ nz-sider {
 ::ng-deep .ant-table tr:hover td {
   color: black;
 }
+//////////////////////////////////////
+
+
+/////////////// MODAL ////////////////
+::ng-deep .ant-modal-title {
+  background-color: #2a2d40;
+  color: #D6D6D6;
+}
+
+::ng-deep .ant-modal-header {
+  background-color: #2a2d40;
+}
+
+::ng-deep .ant-modal-content {
+  background-color: #2a2d40;
+}
+
+::ng-deep .ant-modal-close {
+  color: #D6D6D6 !important;
+}
+//////////////////////////////////////
+
+
+/////////// CHECKBOX GROUP ////////////
+::ng-deep .ant-checkbox-group label {
+  color: #D6D6D6;
+}
+//////////////////////////////////////
+
 
 // Push the inner layout to the right to avoid sidebar overlap
 nz-layout nz-layout {
@@ -182,7 +211,7 @@ nz-content > * {
 }
 
 ::ng-deep .ant-card-body {
-  padding: 16px;
+  padding: 12px;
 }
 
 ::ng-deep h1 {

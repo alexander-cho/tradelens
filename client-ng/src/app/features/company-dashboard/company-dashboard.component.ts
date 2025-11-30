@@ -126,7 +126,7 @@ export class CompanyDashboardComponent implements OnInit {
     const modalRef = this.modalService.create({
       nzTitle: 'Select Metrics',
       nzContent: SelectMetricsModalComponent,
-      nzWidth: '600px',
+      nzWidth: '1000px',
       nzData: {
         // parent -> modal
         availableMetrics: this.availableMetricsFmp,
@@ -150,7 +150,7 @@ export class CompanyDashboardComponent implements OnInit {
     const modalRef = this.modalService.create({
       nzTitle: 'Select Metrics',
       nzContent: SelectMetricsModalComponent,
-      nzWidth: '600px',
+      nzWidth: '1000px',
       nzData: {
         // parent -> modal
         availableMetrics: this.availableMetrics,
