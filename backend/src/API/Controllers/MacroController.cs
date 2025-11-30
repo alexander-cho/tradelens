@@ -17,16 +17,9 @@ public class MacroController : ControllerBase
     }
 
     [Cache(10000)]
-    [HttpGet("margin-balance")]
-    public async Task<ActionResult<MarginBalanceModel>> GetMarginBalance()
+    [HttpGet("series-observations")]
+    public async Task<ActionResult<SeriesObservations>> GetSeriesObservations([FromQuery] string seriesId)
     {
-        return Ok(await _macroService.GetMarginBalanceAsync());
-    }
-    
-    [Cache(10000)]
-    [HttpGet("money-market")]
-    public async Task<ActionResult<MoneyMarketFundsModel>> GetMoneyMarketFunds()
-    {
-        return Ok(await _macroService.GetMoneyMarketFundsAsync());
+        return Ok(await _macroService.GetSeriesObservationsDataAsync(seriesId));
     }
 }

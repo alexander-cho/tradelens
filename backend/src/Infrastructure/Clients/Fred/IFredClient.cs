@@ -4,6 +4,6 @@ namespace Infrastructure.Clients.Fred;
 
 public interface IFredClient
 {
-    Task<MarginBalanceDto?> GetMarginBalanceAsync();
-    Task<MoneyMarketFundsDto?> GetMoneyMarketFundsAsync();
+    Task<SeriesDto?> GetSeriesAsync(string seriesId);
+    Task<SeriesObservationsDto?> GetSeriesObservationsAsync(string seriesId);
 }

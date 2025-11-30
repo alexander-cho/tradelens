@@ -1,4 +1,8 @@
 <nz-card>
+  <app-macro-chart></app-macro-chart>
+</nz-card>
+
+<nz-card>
   <h1>Security Brokers and Dealers; Receivables Due from Customers (Margin Loans and Other Receivables)</h1>
   @for (dataPoint of marginBalance()?.observations; track $index) {
     <h1>{{ dataPoint.date }} : {{ dataPoint.value }}</h1>

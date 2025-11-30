@@ -17,6 +17,8 @@ export class CompanyMetricChartComponent implements AfterViewInit {
   ticker: InputSignal<string | undefined> = input<string>();
   metricName: InputSignal<string | undefined> = input<string>();
   data: InputSignal<ValueDataAtEachPeriod[] | undefined> = input<ValueDataAtEachPeriod[]>();
+  // new way needs to check for null data or null childMetrics depending on structure
+  childMetrics: InputSignal<ChildMetricGroup[] | undefined> = input<ChildMetricGroup[]>();
 
   // modify later and use transformMetricName()
   spacedMetricName: Signal<string | undefined> = computed(() => {
@@ -59,9 +61,6 @@ export class CompanyMetricChartComponent implements AfterViewInit {
       return 'EPS';
     }
   };
-
-  // new way needs a way for null data or null childMetrics depending on structure
-  childMetrics: InputSignal<ChildMetricGroup[] | undefined> = input<ChildMetricGroup[]>();
 
   chart?: Chart;
 
@@ -158,7 +157,7 @@ export class CompanyMetricChartComponent implements AfterViewInit {
             }
           },
           // width / height
-          aspectRatio: 1.18
+          aspectRatio: 1.25
         },
       });
     } else if (childMetricsRead != null) {
@@ -212,7 +211,7 @@ export class CompanyMetricChartComponent implements AfterViewInit {
               }
             },
             // width / height
-            aspectRatio: 1.18
+            aspectRatio: 1.25
           },
         });
       } else {
@@ -253,7 +252,7 @@ export class CompanyMetricChartComponent implements AfterViewInit {
               }
             },
             // width / height
-            aspectRatio: 1.18
+            aspectRatio: 1.25
           },
         });
       }

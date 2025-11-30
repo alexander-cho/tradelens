@@ -15,41 +15,41 @@ public class FredClient : IFredClient
         this._fredApiKey = configuration["DataApiKeys:FredApiKey"];
     }
 
-    public async Task<MarginBalanceDto?> GetMarginBalanceAsync()
+    public async Task<SeriesDto?> GetSeriesAsync(string seriesId)
     {
         try
         {
             var client = _httpClientFactory.CreateClient("Fred");
             
-            var response = await client.GetAsync($"series/observations?series_id=BOGZ1FL663067003Q&api_key={_fredApiKey}&file_type=json");
+            var response = await client.GetAsync($"series?series_id={seriesId}&api_key={_fredApiKey}&file_type=json");
             response.EnsureSuccessStatusCode();
 
-            var result = await response.Content.ReadFromJsonAsync<MarginBalanceDto>();
+            var result = await response.Content.ReadFromJsonAsync<SeriesDto>();
 
             return result;
         }
         catch (HttpRequestException ex)
         {
-            throw new InvalidOperationException("Failed to fetch Security Brokers and Dealers; Receivables Due from Customers (Margin Loans and Other Receivables); Asset, Level", ex);
+            throw new InvalidOperationException($"Failed to get series data for series Id {seriesId}", ex);
         }
     }
-
-    public async Task<MoneyMarketFundsDto?> GetMoneyMarketFundsAsync()
+    
+    public async Task<SeriesObservationsDto?> GetSeriesObservationsAsync(string seriesId)
     {
         try
         {
             var client = _httpClientFactory.CreateClient("Fred");
             
-            var response = await client.GetAsync($"series/observations?series_id=MMMFFAQ027S&api_key={_fredApiKey}&file_type=json");
+            var response = await client.GetAsync($"series/observations?series_id={seriesId}&api_key={_fredApiKey}&file_type=json");
             response.EnsureSuccessStatusCode();
 
-            var result = await response.Content.ReadFromJsonAsync<MoneyMarketFundsDto>();
+            var result = await response.Content.ReadFromJsonAsync<SeriesObservationsDto>();
 
             return result;
         }
         catch (HttpRequestException ex)
         {
-            throw new InvalidOperationException("Failed to fetch Money Market Funds; Total Financial Assets, Level", ex);
+            throw new InvalidOperationException($"Failed to get series observations data for series Id {seriesId}", ex);
         }
     }
 }

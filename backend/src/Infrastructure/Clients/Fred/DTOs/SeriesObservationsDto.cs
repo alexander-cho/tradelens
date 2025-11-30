@@ -2,7 +2,7 @@ using System.Text.Json.Serialization;
 
 namespace Infrastructure.Clients.Fred.DTOs;
 
-public record MarginBalanceDto(
+public record SeriesObservationsDto(
     [property: JsonPropertyName("realtime_start")]
     string RealtimeStart,
     [property: JsonPropertyName("realtime_end")]
@@ -23,13 +23,13 @@ public record MarginBalanceDto(
     int Count,
     int Offset,
     int Limit,
-    IReadOnlyList<DataPoint> Observations
+    IReadOnlyList<DataPointDto> Observations
 );
 
 /// <summary>
 /// Represents an individual observation (data point) within the FRED response.
 /// </summary>
-public record DataPoint(
+public record DataPointDto(
     [property: JsonPropertyName("realtime_start")]
     string RealtimeStart,
     [property: JsonPropertyName("realtime_end")]
