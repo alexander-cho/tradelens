@@ -16,10 +16,10 @@ public static class FinnhubCompanyProfileMapper
             FinnhubIndustry = dto.FinnhubIndustry,
             Ipo = dto.Ipo,
             Logo = dto.Logo,
-            MarketCapitalization = dto.MarketCapitalization,
+            MarketCapitalization = dto.MarketCapitalization * 1_000_000,
             Name = dto.Name,
             Phone = dto.Phone,
-            ShareOutstanding = dto.ShareOutstanding,
+            ShareOutstanding = dto.ShareOutstanding * 1_000_000,
             Ticker = dto.Ticker,
             Weburl = dto.Weburl
         };

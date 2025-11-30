@@ -7,3 +7,11 @@
   transform: scale(1.05) translateY(-1px);
   background-color: #4D5485 !important;
 }
+
+.company-card-hover {
+  display: none;
+}
+
+.company-card:hover .company-card-hover {
+  display: block;
+}

@@ -5,7 +5,7 @@ import { CompanyDashboardService } from '../../core/services/company-dashboard.s
 import { NzCardComponent } from 'ng-zorro-antd/card';
 import { FinnhubCompanyProfile } from '../../shared/models/fundamentals/finnhub-company-profile';
 import { RouterLink } from '@angular/router';
-import { NgOptimizedImage } from '@angular/common';
+import { DatePipe, DecimalPipe, NgOptimizedImage } from '@angular/common';
 import { NzColDirective, NzRowDirective } from 'ng-zorro-antd/grid';
 import { forkJoin, switchMap } from 'rxjs';
 
@@ -16,7 +16,9 @@ import { forkJoin, switchMap } from 'rxjs';
     RouterLink,
     NgOptimizedImage,
     NzColDirective,
-    NzRowDirective
+    NzRowDirective,
+    DecimalPipe,
+    DatePipe
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'

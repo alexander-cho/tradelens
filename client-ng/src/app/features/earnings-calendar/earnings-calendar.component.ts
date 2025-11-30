@@ -1,6 +1,6 @@
 import { Component, inject, OnInit, signal, WritableSignal } from '@angular/core';
 import { EarningsCalendarService } from '../../core/services/earnings-calendar.service';
-import { EarningsCalendarModel } from '../../shared/models/earnings-calendar-model';
+import { EarningsCalendar } from '../../shared/models/earnings-calendar';
 import { NzCardComponent } from 'ng-zorro-antd/card';
 
 @Component({
@@ -16,7 +16,7 @@ export class EarningsCalendarComponent implements OnInit {
 
   protected from: WritableSignal<string> = signal("2025-11-01");
   protected to: WritableSignal<string> = signal("2025-11-30");
-  protected earningsCalendar: WritableSignal<EarningsCalendarModel[] | undefined> = signal(undefined);
+  protected earningsCalendar: WritableSignal<EarningsCalendar[] | undefined> = signal(undefined);
 
   ngOnInit() {
     this.getEarningsCalendar();
