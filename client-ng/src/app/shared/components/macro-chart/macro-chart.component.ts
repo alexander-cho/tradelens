@@ -1,40 +1,52 @@
-import { Component, input, InputSignal, OnInit } from '@angular/core';
+import { AfterViewInit, Component, effect, input, InputSignal, OnInit } from '@angular/core';
 import { Chart } from 'chart.js/auto';
-import { ValueDataAtEachPeriod } from '../../models/fundamentals/company-fundamentals-response';
+import { FredDataPoint } from '../../models/macro';
 
 @Component({
   selector: 'app-macro-chart',
-  imports: [],
+  imports: [
+
+  ],
   templateUrl: './macro-chart.component.html',
   styleUrl: './macro-chart.component.scss'
 })
-export class MacroChartComponent implements OnInit {
+export class MacroChartComponent implements AfterViewInit {
 
-  data: InputSignal<string[] | undefined> = input<string[]>();
+  data: InputSignal<FredDataPoint[] | undefined> = input<FredDataPoint[]>();
   chart?: Chart;
 
-  ngOnInit() {
-    this.createOiVolChart();
+  ngAfterViewInit() {
+    this.createMacroChart();
+    console.log(this.data());
   }
 
-  createOiVolChart() {
-    // const metricChoiceRead = this.metricChoice();
-    // const metricDataRead = this.metricData();
-    //
-    // if (!metricDataRead || !metricChoiceRead) {
-    //   return;
-    // }
+  chartChangeEffect = effect(() => {
+    // listen for changes here
+    this.data();
+
+    // only recreate if chart already exists (means this is an update, not initial render)
+    if (this.chart) {
+      this.createMacroChart();
+    }
+  });
+
+  createMacroChart() {
+    const dataRead = this.data();
+
+    if (!dataRead) {
+      return;
+    }
 
     this.chart?.destroy();
 
     this.chart = new Chart('marginChart', {
       type: 'line',
       data: {
-        labels: ['1', '2', '3' ,'4'],
+        labels: dataRead.map(x => x.date),
         datasets: [
           {
             label: 'margin',
-            data: [12341234, 23452345, 34563456, 45674567],
+            data: dataRead.map(x => x.value),
             borderWidth: 1,
             backgroundColor: 'rgba(0, 250, 0, 0.7)'
           }

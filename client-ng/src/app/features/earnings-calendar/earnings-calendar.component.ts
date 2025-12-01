@@ -14,8 +14,8 @@ import { NzCardComponent } from 'ng-zorro-antd/card';
 export class EarningsCalendarComponent implements OnInit {
   private earningsCalendarService = inject(EarningsCalendarService);
 
-  protected from: WritableSignal<string> = signal("2025-11-01");
-  protected to: WritableSignal<string> = signal("2025-11-30");
+  protected from: WritableSignal<string> = signal("2025-12-01");
+  protected to: WritableSignal<string> = signal("2025-12-15");
   protected earningsCalendar: WritableSignal<EarningsCalendar[] | undefined> = signal(undefined);
 
   ngOnInit() {
