@@ -17,4 +17,5 @@ export type ValueDataAtEachPeriod = {
   period: string;
   fiscalYear: string;
   value: number;
+  periodEndDate: string;
 }

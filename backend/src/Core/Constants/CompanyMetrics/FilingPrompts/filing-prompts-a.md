@@ -6,7 +6,6 @@ Here are the metrics I am looking for. Since this is yearly, you will get the ye
 
 (Can find in section like Condensed Consolidated Statements of Operations and Comprehensive Income, or similar)
 Revenue,
-GrossProfit,
 NetIncome,
 InterestIncome,
 NoninterestIncome
@@ -19,25 +18,27 @@ SharesOutstanding
 (Can find in section like Condensed Consolidated Balance Sheets, or similar)
 TotalAssets,
 TotalLiabilities,
+TotalStockholdersEquity,
 CashAndDebt: [CashAndCashEquivalents, Debt],
 
 (Can find in section like Condensed Consolidated Statements of Cash Flows, or similar)
-FreeCashFlow,
+FreeCashFlow, (exclude if not visible, especially for financial companies),
 DepreciationAndAmortization
 
 (Can find in section like Condensed Consolidated Statements of Stockholders’ Equity, or similar)
-TotalStockholdersEquity,
 StockBasedCompensation,
 
 **KPI**
 (Can find in section like Management’s Discussion and Analysis of Financial Condition and Results of Operations, Key Business Metrics, or similar)
 
-RevenueBreakdownMinusSubscriptions: [Advertising, DuolingoEnglishTest, InAppPurchases, Other]
-MonthlyActiveUsers
-DailyActiveUsers
-PaidSubscribers
-SubscriptionBookings
-TotalBookings
+FundedCustomers
+TotalPlatformAssets (could be AUC but keep TotalPlatformAssets)
+NetDeposits
+AverageRevenuePerUser
+GoldSubscribers
+AssetsBreakdown: [Equites, Cryptocurrencies, OptionsAndFutures, RegisteredInvestmentAdvisorAssets, CashHeld, Receivables]
+RevenueBreakdown: [TransactionBased, NetInterest, Other]
+TransactionBasedRevenueBreakdown: [Options, Cryptocurrencies, Equities, Other]
 
 
 So each CompanyMetric will become a JSON object with the attributes

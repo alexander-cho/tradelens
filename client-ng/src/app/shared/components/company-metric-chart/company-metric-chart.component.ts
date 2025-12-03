@@ -21,7 +21,7 @@ export class CompanyMetricChartComponent implements AfterViewInit {
   childMetrics: InputSignal<ChildMetricGroup[] | undefined> = input<ChildMetricGroup[]>();
 
   // modify later and use transformMetricName()
-  spacedMetricName: Signal<string | undefined> = computed(() => {
+  protected spacedMetricName: Signal<string | undefined> = computed(() => {
     // split metric names between uppercase letters
     if (this.metricName() != 'EPS') {
       const splitMetricName = this.metricName()?.split('');
@@ -42,7 +42,7 @@ export class CompanyMetricChartComponent implements AfterViewInit {
   });
 
   // separate utils!
-  protected transformMetricName = (originalMetric: string) => {
+  private transformMetricName = (originalMetric: string) => {
     if(originalMetric != 'EPS') {
       const splitMetricName = originalMetric.split('');
       let newMetricName = '';
@@ -62,7 +62,43 @@ export class CompanyMetricChartComponent implements AfterViewInit {
     }
   };
 
-  chart?: Chart;
+  // create a list/mapping of unique period combinations, this will go into a separate utils too
+  private createMasterTimeline = (childMetricsList: ChildMetricGroup[]): {
+    periodEndDates: string[],
+    labels: string[]
+  } => {
+    // create map: periodEndDate -> "Q1 2025" display label
+    const periodMap = new Map<string, string>();
+    childMetricsList.forEach(childMetric => {
+      childMetric.data.forEach(x => {
+        const dateKey = x.periodEndDate;
+        const displayLabel = x.period + ' ' + x.fiscalYear;
+        if (!periodMap.has(dateKey)) {
+          periodMap.set(dateKey, displayLabel);
+        }
+      });
+      console.log('Adding this metrics with these periods to the map: ', childMetric.metricName, periodMap);
+    });
+    const sortedDates: string[] = Array.from(periodMap.keys()).sort((a, b) => {
+      return new Date(a).getTime() - new Date(b).getTime();
+    });
+    return {
+      periodEndDates: sortedDates,
+      labels : sortedDates.map(date => periodMap.get(date)!)
+    }
+  }
+
+  // now for each childMetricsGroup's data value ValueDataAtEachPeriod, check if there is a matching PeriodEndDate with
+  // each PeriodEndDate in the master timeline (separate utils)
+  private alignDataToTimeline = (childMetricData: ChildMetricGroup, masterTimeline: string[]): (number | null)[] => {
+    return masterTimeline.map(date =>{
+      // for THIS date in the master timeline, find if this child metric has data
+      const dataPoint: ValueDataAtEachPeriod | undefined = childMetricData.data.find(d => d.periodEndDate === date);
+      return dataPoint ? dataPoint.value : null;
+    });
+  }
+
+  protected chart?: Chart;
 
   // after component's view (template) is fully initialized and rendered into the DOM, create chart
   // or else Chart.js won't be able to find the canvas element and will throw an error
@@ -82,7 +118,7 @@ export class CompanyMetricChartComponent implements AfterViewInit {
     }
   });
 
-  createChart() {
+  private createChart() {
     const barColor = barchartColors[Math.floor(Math.random() * barchartColors.length)];
     const metricNameRead = this.metricName();
 
@@ -171,16 +207,22 @@ export class CompanyMetricChartComponent implements AfterViewInit {
         return colorsList;
       }
 
-      const uniqueBarColors = generateUniqueColors(childMetricsRead.length);
+      const uniqueBarColors: string[] = generateUniqueColors(childMetricsRead.length);
+
+      const masterTimeline = this.createMasterTimeline(childMetricsRead);
+      console.log('Master timeline length:', masterTimeline.labels.length);
+      console.log('Master timeline labels:', masterTimeline.labels);
 
       if (!nonstackedMetrics.includes(metricDisplayName)) {
         this.chart = new Chart(metricDisplayName, {
           type: 'bar',
           data: {
-            labels: childMetricsRead[0].data.map(x => x.period + ' ' + x.fiscalYear),
+            // labels: childMetricsRead[0].data.map(x => x.period + ' ' + x.fiscalYear),
+            labels: masterTimeline.labels,
             datasets: childMetricsRead.map((childMetric, index) => ({
               label: this.transformMetricName(childMetric.metricName),
-              data: childMetric.data.map(x => x.value),
+              // data: childMetric.data.map(x => x.value),
+              data: this.alignDataToTimeline(childMetric, masterTimeline.periodEndDates),
               backgroundColor: function (context: ScriptableContext<'bar'>) {
                 const chart = context.chart;
                 const { ctx, chartArea } = chart;
@@ -218,10 +260,12 @@ export class CompanyMetricChartComponent implements AfterViewInit {
         this.chart = new Chart(metricDisplayName, {
           type: 'bar',
           data: {
-            labels: childMetricsRead[0].data.map(x => x.period + ' ' + x.fiscalYear),
+            // labels: childMetricsRead[0].data.map(x => x.period + ' ' + x.fiscalYear),
+            labels: masterTimeline.labels,
             datasets: childMetricsRead.map((childMetric, index) => ({
               label: this.transformMetricName(childMetric.metricName),
-              data: childMetric.data.map(x => x.value),
+              // data: childMetric.data.map(x => x.value),
+              data: this.alignDataToTimeline(childMetric, masterTimeline.periodEndDates),
               backgroundColor: function (context: ScriptableContext<'bar'>) {
                 const chart = context.chart;
                 const { ctx, chartArea } = chart;
