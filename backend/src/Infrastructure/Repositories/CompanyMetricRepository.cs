@@ -12,7 +12,7 @@ public class CompanyMetricRepository : ICompanyMetricRepository
     {
         _context = context;
     }
-    public async Task<IEnumerable<string>> GetListOfPossibleMetricsAsync(string ticker)
+    public Task<IEnumerable<string>> GetListOfPossibleMetricsAsync(string ticker)
     {
         var query = _context.CompanyMetrics.AsQueryable();
 

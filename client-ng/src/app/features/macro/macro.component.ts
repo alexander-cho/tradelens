@@ -1,37 +1,31 @@
 import { Component, inject, OnInit, signal, WritableSignal } from '@angular/core';
 import { MacroService } from '../../core/services/macro.service';
-import { MarginBalance } from '../../shared/models/macro';
+import { SeriesObservations } from '../../shared/models/macro';
 import { NzCardComponent } from 'ng-zorro-antd/card';
+import { MacroChartComponent } from '../../shared/components/macro-chart/macro-chart.component';
 
 @Component({
   selector: 'app-macro',
   imports: [
-    NzCardComponent
+    NzCardComponent,
+    MacroChartComponent
   ],
   templateUrl: './macro.component.html',
   styleUrl: './macro.component.scss'
 })
 export class MacroComponent implements OnInit {
-  macroService = inject(MacroService);
+  private macroService = inject(MacroService);
 
-  marginBalance: WritableSignal<MarginBalance | undefined> = signal(undefined);
-  moneyMarketFunds: WritableSignal<MarginBalance | undefined> = signal(undefined);
+  protected seriesObservations: WritableSignal<SeriesObservations | undefined> = signal(undefined);
+  protected seriesId: WritableSignal<string> = signal('BOGZ1FL663067003Q');
 
   ngOnInit() {
-    this.getMarginBalance();
-    this.getMoneyMarketFunds();
+    this.getSeriesObservations();
   }
 
-  getMarginBalance() {
-    this.macroService.getMarginBalance().subscribe({
-      next: response => this.marginBalance.set(response),
-      error: err => console.log(err)
-    });
-  }
-
-  getMoneyMarketFunds() {
-    this.macroService.getMoneyMarketFunds().subscribe({
-      next: response => this.moneyMarketFunds.set(response),
+  private getSeriesObservations() {
+    this.macroService.getSeriesObservations(this.seriesId()).subscribe({
+      next: response => this.seriesObservations.set(response),
       error: err => console.log(err)
     })
   }

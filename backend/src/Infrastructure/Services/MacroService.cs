@@ -14,31 +14,20 @@ public class MacroService : IMacroService
         _fredClient = fredClient;
     }
     
-    public async Task<MarginBalanceModel> GetMarginBalanceAsync()
+    // combine series/ and series/observations
+    public async Task<SeriesObservations> GetSeriesObservationsDataAsync(string seriesId)
     {
-        var marginBalanceDto = await _fredClient.GetMarginBalanceAsync();
+        var seriesDto = await _fredClient.GetSeriesAsync(seriesId);
+        var seriesDataDto = seriesDto?.Seriess.ElementAt(0);
+        var seriesObservationsDto = await _fredClient.GetSeriesObservationsAsync(seriesId);
         
-        if (marginBalanceDto == null)
+        if (seriesDataDto == null || seriesObservationsDto == null)
         {
             throw new InvalidOperationException("Market status data was not available");
         }
 
-        var marginBalance = MarginBalanceMapper.ToMarginBalanceModel(marginBalanceDto);
+        var seriesObservations = SeriesObservationsMapper.ToSeriesObservations(seriesDataDto, seriesObservationsDto);
 
-        return marginBalance;
-    }
-
-    public async Task<MoneyMarketFundsModel> GetMoneyMarketFundsAsync()
-    {
-        var moneyMarketFundsDto = await _fredClient.GetMoneyMarketFundsAsync();
-        
-        if (moneyMarketFundsDto == null)
-        {
-            throw new InvalidOperationException("Market status data was not available");
-        }
-
-        var moneyMarketFunds = MoneyMarketFundsMapper.ToMoneyMarketFundsModel(moneyMarketFundsDto);
-
-        return moneyMarketFunds;
+        return seriesObservations;
     }
 }

@@ -1,16 +1,8 @@
-export type MarginBalance = {
-  observationStart: string;
-  observationEnd: string;
+export type SeriesObservations = {
+  id: string;
+  title: string;
+  frequency: string;
   units: string;
-  count: number;
-  observations: FredDataPoint[];
-}
-
-export type MoneyMarketFunds = {
-  observationStart: string;
-  observationEnd: string;
-  units: string;
-  count: number;
   observations: FredDataPoint[];
 }
 

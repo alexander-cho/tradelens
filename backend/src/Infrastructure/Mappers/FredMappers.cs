@@ -8,46 +8,32 @@ public static class FredMappers
     
 }
 
-public static class MarginBalanceMapper
+public static class SeriesObservationsMapper
 {
-    public static MarginBalanceModel ToMarginBalanceModel(MarginBalanceDto marginLoansDto)
+    public static SeriesObservations ToSeriesObservations(SeriesDataDto seriesDataDto,
+        SeriesObservationsDto seriesObservationsDto)
     {
-        return new MarginBalanceModel
+        return new SeriesObservations
         {
-            ObservationStart = marginLoansDto.ObservationStart,
-            ObservationEnd = marginLoansDto.ObservationEnd,
-            Units = marginLoansDto.Units,
-            Count = marginLoansDto.Count,
-            Observations = marginLoansDto.Observations.Select(DataPointMapper.ToDataPointModel).ToList()
-        };
-    }
-}
-
-public static class MoneyMarketFundsMapper
-{
-    public static MoneyMarketFundsModel ToMoneyMarketFundsModel(MoneyMarketFundsDto moneyMarketFundsDto)
-    {
-        return new MoneyMarketFundsModel
-        {
-            ObservationStart = moneyMarketFundsDto.ObservationStart,
-            ObservationEnd = moneyMarketFundsDto.ObservationEnd,
-            Units = moneyMarketFundsDto.Units,
-            Count = moneyMarketFundsDto.Count,
-            Observations = moneyMarketFundsDto.Observations.Select(DataPointMapper.ToDataPointModel).ToList()
+            Id = seriesDataDto.Id,
+            Title = seriesDataDto.Title,
+            Frequency = seriesDataDto.Frequency,
+            Units = seriesDataDto.Units,
+            Observations = seriesObservationsDto.Observations.Select(DataPointMapper.ToDataPointModel).ToList()
         };
     }
 }
 
 internal static class DataPointMapper
 {
-    internal static DataPointModel ToDataPointModel(DataPoint dataPoint)
+    internal static DataPoint ToDataPointModel(DataPointDto dataPointDto)
     {
-        return new DataPointModel
+        return new DataPoint
         {
-            Date = dataPoint.Date,
-            Value = ParseValue(dataPoint.Value),
-            RealtimeStart = dataPoint.RealtimeStart,
-            RealtimeEnd = dataPoint.RealtimeEnd
+            Date = dataPointDto.Date,
+            Value = ParseValue(dataPointDto.Value),
+            RealtimeStart = dataPointDto.RealtimeStart,
+            RealtimeEnd = dataPointDto.RealtimeEnd
         };
     }
 

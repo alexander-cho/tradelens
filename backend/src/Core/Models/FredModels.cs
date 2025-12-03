@@ -4,25 +4,16 @@ public class FredModels
 {
 }
 
-public class MarginBalanceModel
+public class SeriesObservations
 {
-    public required string ObservationStart { get; init; }
-    public required string ObservationEnd { get; init; }
-    public required string Units { get; init; }
-    public int Count { get; init; }
-    public IReadOnlyList<DataPointModel> Observations { get; init; } = new List<DataPointModel>();
+    public string? Id { get; init; }
+    public string? Title { get; init; }
+    public string? Frequency { get; init; }
+    public string? Units { get; init; }
+    public IReadOnlyList<DataPoint> Observations { get; init; } = new List<DataPoint>();
 }
 
-public class MoneyMarketFundsModel
-{
-    public required string ObservationStart { get; init; }
-    public required string ObservationEnd { get; init; }
-    public required string Units { get; init; }
-    public int Count { get; init; }
-    public IReadOnlyList<DataPointModel> Observations { get; init; } = new List<DataPointModel>();
-}
-
-public class DataPointModel
+public class DataPoint
 {
     public required string Date { get; init; }
 

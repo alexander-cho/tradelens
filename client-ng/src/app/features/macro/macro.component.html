@@ -1,16 +1,16 @@
+<app-macro-chart [data]="seriesObservations()?.observations"></app-macro-chart>
+
+<br>
+
 <nz-card>
-  <h1>Security Brokers and Dealers; Receivables Due from Customers (Margin Loans and Other Receivables)</h1>
-  @for (dataPoint of marginBalance()?.observations; track $index) {
-    <h1>{{ dataPoint.date }} : {{ dataPoint.value }}</h1>
-  }
+  <h1 class="text-md">Current id: {{ seriesObservations()?.id }}</h1>
 </nz-card>
 
 <br>
-<br>
 
 <nz-card>
-  <h1>Total Amount in Money Market Funds</h1>
-  @for (dataPoint of moneyMarketFunds()?.observations; track $index) {
+  <h1>{{ seriesObservations()?.title }}</h1>
+  @for (dataPoint of seriesObservations()?.observations; track $index) {
     <h1>{{ dataPoint.date }} : {{ dataPoint.value }}</h1>
   }
 </nz-card>
