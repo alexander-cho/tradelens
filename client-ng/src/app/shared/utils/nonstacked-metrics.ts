@@ -1,7 +1,7 @@
-export const nonstackedMetrics: string[] = [
+export const NONSTACKED_METRICS = new Set([
   'EPS',
-  'Cash And Debt',
+  'CashAndDebt',
 
   // SOFI
-  'Net Charge Off Rates'
-];
+  'NetChargeOffRates'
+]);

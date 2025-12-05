@@ -1,3 +1,4 @@
+using API.RequestHelpers;
 using Core.Models;
 using Core.Specifications;
 using Infrastructure.Clients.Polygon;
@@ -18,6 +19,7 @@ public class BarAggregatesController : ControllerBase
     }
     
     [HttpGet]
+    [Cache(1000)]
     public async Task<ActionResult<BarAggregatesModel>> GetBarAggregates([FromQuery] PolygonBarAggSpecParams polygonBarAggSpecParams)
     {
         var barAggregatesDto = await this._polygonClient.GetBarAggregatesAsync(polygonBarAggSpecParams);

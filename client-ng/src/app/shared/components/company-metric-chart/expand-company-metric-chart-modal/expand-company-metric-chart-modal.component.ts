@@ -1,34 +1,30 @@
-import { Component, effect, input, InputSignal, AfterViewInit, computed, Signal, inject } from '@angular/core';
-import { ChildMetricGroup, ValueDataAtEachPeriod } from '../../models/fundamentals/company-fundamentals-response';
+import { AfterViewInit, Component, computed, inject, Signal, signal, WritableSignal } from '@angular/core';
+import { NZ_MODAL_DATA } from 'ng-zorro-antd/modal';
+import { ChildMetricGroup, ValueDataAtEachPeriod } from '../../../models/fundamentals/company-fundamentals-response';
 import { Chart, ScriptableContext } from 'chart.js/auto';
-import { NzCardComponent } from 'ng-zorro-antd/card';
-import { BARCHART_COLORS } from '../../utils/barchart-colors';
-import { NONSTACKED_METRICS } from '../../utils/nonstacked-metrics';
-import { METRIC_DISPLAY_OVERRIDES } from '../../utils/metric-display-names';
-import { NzIconDirective } from 'ng-zorro-antd/icon';
-import { NzModalService } from 'ng-zorro-antd/modal';
-import {
-  ExpandCompanyMetricChartModalComponent
-} from './expand-company-metric-chart-modal/expand-company-metric-chart-modal.component';
+import { BARCHART_COLORS } from '../../../utils/barchart-colors';
+import { NONSTACKED_METRICS } from '../../../utils/nonstacked-metrics';
+import { METRIC_DISPLAY_OVERRIDES } from '../../../utils/metric-display-names';
 
 @Component({
-  selector: 'app-company-metric-chart',
-  imports: [
-    NzCardComponent,
-    NzIconDirective
-  ],
-  providers: [NzModalService],
-  templateUrl: './company-metric-chart.component.html',
-  styleUrl: './company-metric-chart.component.scss'
+  selector: 'app-expand-company-metric-chart-modal',
+  imports: [],
+  templateUrl: './expand-company-metric-chart-modal.component.html',
+  styleUrl: './expand-company-metric-chart-modal.component.scss'
 })
-export class CompanyMetricChartComponent implements AfterViewInit {
-  ticker: InputSignal<string | undefined> = input<string>();
-  metricName: InputSignal<string | undefined> = input<string>();
-  data: InputSignal<ValueDataAtEachPeriod[] | undefined> = input<ValueDataAtEachPeriod[]>();
-  // new way needs to check for null data or null childMetrics depending on structure
-  childMetrics: InputSignal<ChildMetricGroup[] | undefined> = input<ChildMetricGroup[]>();
+export class ExpandCompanyMetricChartModalComponent implements AfterViewInit {
+  data = inject(NZ_MODAL_DATA);
 
-  private modalService = inject(NzModalService);
+  ticker: WritableSignal<string> = signal<string>(this.data.tickerSymbol);
+  metricName: WritableSignal<string> = signal<string>(this.data.metricNameForModal);
+  valueData: WritableSignal<ValueDataAtEachPeriod[] | undefined> = signal<ValueDataAtEachPeriod[] | undefined>(this.data.dataForModal);
+  childMetrics: WritableSignal<ChildMetricGroup[] | undefined> = signal<ChildMetricGroup[] | undefined>(this.data.childMetricsForModal);
+
+  protected chart?: Chart;
+
+  ngAfterViewInit() {
+    this.createChart();
+  }
 
   // modify later and use transformMetricName() for the inner logic here
   protected spacedMetricName: Signal<string | undefined> = computed(() => {
@@ -50,6 +46,12 @@ export class CompanyMetricChartComponent implements AfterViewInit {
     }
     return newMetricName;
   });
+
+  // use this to give the expanded chart a different chart canvas id. or else it will try to use the same id from the
+  // chart that you clicked the expand arrow on from the dashboard view, which is already in use.
+  protected metricNameForExpandedChart: Signal<string | undefined> = computed(() => {
+    return this.spacedMetricName() + 'expanded';
+  })
 
   // separate utils!
   private transformMetricName = (originalMetric: string) => {
@@ -106,37 +108,17 @@ export class CompanyMetricChartComponent implements AfterViewInit {
     });
   }
 
-  protected chart?: Chart;
-
-  // after component's view (template) is fully initialized and rendered into the DOM, create chart
-  // or else Chart.js won't be able to find the canvas element and will throw an error
-  ngAfterViewInit() {
-    this.createChart();
-  }
-
-  chartChangeEffect = effect(() => {
-    // listen for changes here
-    this.metricName();
-    this.data();
-    this.childMetrics();
-
-    // only recreate if chart already exists (means this is an update, not initial render)
-    if (this.chart) {
-      this.createChart();
-    }
-  });
-
   private createChart() {
     const barColor = BARCHART_COLORS[Math.floor(Math.random() * BARCHART_COLORS.length)];
     const metricNameRead = this.metricName();
 
     const metricDisplayName = this.spacedMetricName();
-    const chartCanvasId = this.spacedMetricName();
+    const chartCanvasId = this.metricNameForExpandedChart();
 
-    const dataRead = this.data();
+    const dataRead = this.valueData();
     const childMetricsRead = this.childMetrics();
 
-    if (!metricDisplayName || !chartCanvasId || (!dataRead && !childMetricsRead)) {
+    if (!chartCanvasId || !metricDisplayName || (!dataRead && !childMetricsRead)) {
       return;
     }
 
@@ -202,7 +184,7 @@ export class CompanyMetricChartComponent implements AfterViewInit {
             }
           },
           // width / height
-          aspectRatio: 1.25
+          aspectRatio: 1.7
         },
       });
     } else if (childMetricsRead != null) {
@@ -260,7 +242,7 @@ export class CompanyMetricChartComponent implements AfterViewInit {
               }
             },
             // width / height
-            aspectRatio: 1.25
+            aspectRatio: 1.7
           },
         });
       } else {
@@ -303,26 +285,10 @@ export class CompanyMetricChartComponent implements AfterViewInit {
               }
             },
             // width / height
-            aspectRatio: 1.25
+            aspectRatio: 1.7
           },
         });
       }
     }
-  }
-
-  protected expandCompanyMetricChart() {
-    this.modalService.create({
-      nzTitle: this.ticker() + ' ' + this.spacedMetricName(),
-      nzContent: ExpandCompanyMetricChartModalComponent,
-      nzWidth: '1000px',
-      nzData: {
-        // parent -> modal
-        tickerForModal: this.ticker(),
-        metricNameForModal: this.metricName(),
-        dataForModal: this.data()!,
-        childMetricsForModal: this.childMetrics()!
-      },
-      nzFooter: null
-    });
   }
 }

@@ -1,0 +1,17 @@
+<!--<h1 class="text-lg">{{ ticker() }}</h1>-->
+<!--<h1 class="text-lg">{{ metricName() }}</h1>-->
+
+<!--@for (point of valueData()!; track $index) {-->
+<!--  <h1 class="text-sm">{{ point.period }} {{ point.fiscalYear }}: {{ point.value }}</h1>-->
+<!--}-->
+
+<!--@for (metric of childMetrics()!; track $index) {-->
+<!--  <h1 class="text-lg">{{ metric.metricName }}</h1>-->
+<!--  @for (point of metric.data; track $index) {-->
+<!--    <h1 class="text-sm">{{ point.period }} {{ point.fiscalYear }}: {{ point.value }}</h1>-->
+<!--  }-->
+<!--}-->
+
+<div class="mx-auto">
+  <canvas [id]="metricNameForExpandedChart()"></canvas>
+</div>

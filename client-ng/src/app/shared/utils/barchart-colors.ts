@@ -1,4 +1,4 @@
-export const barchartColors: string[] = [
+export const BARCHART_COLORS: string[] = [
   // --- Main Colors ---
   'rgba(45, 170, 255)',  // Electric Blue
   'rgba(0, 230, 118)',   // Neon Green
