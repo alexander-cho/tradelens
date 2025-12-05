@@ -1,29 +1,55 @@
-import { AfterViewInit, Component, computed, inject, Signal, signal, WritableSignal } from '@angular/core';
+import { AfterViewInit, Component, computed, effect, inject, Signal, signal, WritableSignal } from '@angular/core';
 import { NZ_MODAL_DATA } from 'ng-zorro-antd/modal';
 import { ChildMetricGroup, ValueDataAtEachPeriod } from '../../../models/fundamentals/company-fundamentals-response';
 import { Chart, ScriptableContext } from 'chart.js/auto';
 import { BARCHART_COLORS } from '../../../utils/barchart-colors';
 import { NONSTACKED_METRICS } from '../../../utils/nonstacked-metrics';
 import { METRIC_DISPLAY_OVERRIDES } from '../../../utils/metric-display-names';
+import { CompanyDashboardService } from '../../../../core/services/company-dashboard.service';
+import { NzRadioComponent, NzRadioGroupComponent } from 'ng-zorro-antd/radio';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-expand-company-metric-chart-modal',
-  imports: [],
+  imports: [
+    NzRadioComponent,
+    NzRadioGroupComponent,
+    FormsModule
+  ],
   templateUrl: './expand-company-metric-chart-modal.component.html',
   styleUrl: './expand-company-metric-chart-modal.component.scss'
 })
 export class ExpandCompanyMetricChartModalComponent implements AfterViewInit {
   data = inject(NZ_MODAL_DATA);
 
-  ticker: WritableSignal<string> = signal<string>(this.data.tickerSymbol);
+  private companyDashboardService = inject(CompanyDashboardService);
+
+  ticker: WritableSignal<string | undefined> = signal<string | undefined>(this.data.tickerForModal);
   metricName: WritableSignal<string> = signal<string>(this.data.metricNameForModal);
-  valueData: WritableSignal<ValueDataAtEachPeriod[] | undefined> = signal<ValueDataAtEachPeriod[] | undefined>(this.data.dataForModal);
-  childMetrics: WritableSignal<ChildMetricGroup[] | undefined> = signal<ChildMetricGroup[] | undefined>(this.data.childMetricsForModal);
+  valueData: WritableSignal<ValueDataAtEachPeriod[] | undefined> = signal<ValueDataAtEachPeriod[] | undefined>(undefined);
+  childMetrics: WritableSignal<ChildMetricGroup[] | undefined> = signal<ChildMetricGroup[] | undefined>(undefined);
+  interval: WritableSignal<string> = signal<string>('quarterly');
 
   protected chart?: Chart;
 
   ngAfterViewInit() {
-    this.createChart();
+    this.getMetricsAndCreateChart();
+  }
+
+  chartChangeEffect = effect(() => {
+    this.interval();
+    this.getMetricsAndCreateChart();
+  });
+
+  getMetricsAndCreateChart() {
+    this.companyDashboardService.getCompanyMetrics(this.ticker(), this.interval(), [this.metricName()]).subscribe({
+      next: response => {
+        this.valueData.set(response.metricData[0].data);
+        this.childMetrics.set(response.metricData[0].childMetrics)
+        this.createChart();
+      },
+      error: err => console.log(err)
+    });
   }
 
   // modify later and use transformMetricName() for the inner logic here
@@ -48,7 +74,7 @@ export class ExpandCompanyMetricChartModalComponent implements AfterViewInit {
   });
 
   // use this to give the expanded chart a different chart canvas id. or else it will try to use the same id from the
-  // chart that you clicked the expand arrow on from the dashboard view, which is already in use.
+  // chart that the user clicked the expand arrow on from the dashboard view, which is already in use.
   protected metricNameForExpandedChart: Signal<string | undefined> = computed(() => {
     return this.spacedMetricName() + 'expanded';
   })
@@ -94,14 +120,14 @@ export class ExpandCompanyMetricChartModalComponent implements AfterViewInit {
     });
     return {
       periodEndDates: sortedDates,
-      labels : sortedDates.map(date => periodMap.get(date)!)
+      labels: sortedDates.map(date => periodMap.get(date)!)
     }
   }
 
   // now for each childMetricsGroup's data value ValueDataAtEachPeriod, check if there is a matching PeriodEndDate with
   // each PeriodEndDate in the master timeline (separate utils)
   private alignDataToTimeline = (childMetricData: ChildMetricGroup, masterTimeline: string[]): (number | null)[] => {
-    return masterTimeline.map(date =>{
+    return masterTimeline.map(date => {
       // for THIS date in the master timeline, find if this child metric has data
       const dataPoint: ValueDataAtEachPeriod | undefined = childMetricData.data.find(d => d.periodEndDate === date);
       return dataPoint ? dataPoint.value : null;
@@ -171,6 +197,8 @@ export class ExpandCompanyMetricChartModalComponent implements AfterViewInit {
           ],
         },
         options: {
+          responsive: true,
+          maintainAspectRatio: false,
           scales: {
             x: {},
             y: {
@@ -182,9 +210,7 @@ export class ExpandCompanyMetricChartModalComponent implements AfterViewInit {
               text: `${ this.ticker() } ${ metricNameRead }`,
               display: false
             }
-          },
-          // width / height
-          aspectRatio: 1.7
+          }
         },
       });
     } else if (childMetricsRead != null) {
@@ -226,6 +252,8 @@ export class ExpandCompanyMetricChartModalComponent implements AfterViewInit {
             }))
           },
           options: {
+            responsive: true,
+            maintainAspectRatio: false,
             scales: {
               x: {
                 stacked: true
@@ -240,9 +268,7 @@ export class ExpandCompanyMetricChartModalComponent implements AfterViewInit {
                 text: `${ this.ticker() } ${ metricNameRead }`,
                 display: false
               }
-            },
-            // width / height
-            aspectRatio: 1.7
+            }
           },
         });
       } else {
@@ -269,6 +295,8 @@ export class ExpandCompanyMetricChartModalComponent implements AfterViewInit {
             }))
           },
           options: {
+            responsive: true,
+            maintainAspectRatio: false,
             scales: {
               x: {
                 stacked: false
@@ -283,9 +311,7 @@ export class ExpandCompanyMetricChartModalComponent implements AfterViewInit {
                 text: `${ this.ticker() } ${ metricNameRead }`,
                 display: false
               }
-            },
-            // width / height
-            aspectRatio: 1.7
+            }
           },
         });
       }

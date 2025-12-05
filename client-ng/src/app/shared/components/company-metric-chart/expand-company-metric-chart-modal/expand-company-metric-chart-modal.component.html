@@ -1,17 +1,10 @@
-<!--<h1 class="text-lg">{{ ticker() }}</h1>-->
-<!--<h1 class="text-lg">{{ metricName() }}</h1>-->
+<div class="w-full">
+  <nz-radio-group nzButtonStyle="solid" nzSize="small" [ngModel]="interval()" (ngModelChange)="interval.set($event)">
+    <label nz-radio-button nzValue="quarterly">Quarterly</label>
+    <label nz-radio-button nzValue="annual">Annual</label>
+  </nz-radio-group>
 
-<!--@for (point of valueData()!; track $index) {-->
-<!--  <h1 class="text-sm">{{ point.period }} {{ point.fiscalYear }}: {{ point.value }}</h1>-->
-<!--}-->
-
-<!--@for (metric of childMetrics()!; track $index) {-->
-<!--  <h1 class="text-lg">{{ metric.metricName }}</h1>-->
-<!--  @for (point of metric.data; track $index) {-->
-<!--    <h1 class="text-sm">{{ point.period }} {{ point.fiscalYear }}: {{ point.value }}</h1>-->
-<!--  }-->
-<!--}-->
-
-<div class="mx-auto">
-  <canvas [id]="metricNameForExpandedChart()"></canvas>
+  <div class="relative w-full h-[60vh] mt-4">
+    <canvas [id]="metricNameForExpandedChart()"></canvas>
+  </div>
 </div>
