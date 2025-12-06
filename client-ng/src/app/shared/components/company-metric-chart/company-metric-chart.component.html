@@ -1,7 +1,9 @@
 <nz-card>
   <div class="flex justify-between">
     <h1 class="text-xl">{{ spacedMetricName() }}</h1>
-    <h1 class="text-xl cursor-pointer"><nz-icon (click)="expandCompanyMetricChart()" nzType="arrows-alt" nzTheme="outline"/></h1>
+    <h1 class="text-xl cursor-pointer">
+      <nz-icon (click)="expandCompanyMetricChart()" nzType="arrows-alt" nzTheme="outline"/>
+    </h1>
   </div>
   <canvas [id]="spacedMetricName()"></canvas>
 </nz-card>

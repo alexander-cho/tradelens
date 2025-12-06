@@ -1,4 +1,14 @@
-import { AfterViewInit, Component, computed, effect, inject, Signal, signal, WritableSignal } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  computed,
+  effect,
+  inject,
+  OnInit,
+  Signal,
+  signal,
+  WritableSignal
+} from '@angular/core';
 import { NZ_MODAL_DATA } from 'ng-zorro-antd/modal';
 import { ChildMetricGroup, ValueDataAtEachPeriod } from '../../../models/fundamentals/company-fundamentals-response';
 import { Chart, ScriptableContext } from 'chart.js/auto';
@@ -8,18 +18,24 @@ import { METRIC_DISPLAY_OVERRIDES } from '../../../utils/metric-display-names';
 import { CompanyDashboardService } from '../../../../core/services/company-dashboard.service';
 import { NzRadioComponent, NzRadioGroupComponent } from 'ng-zorro-antd/radio';
 import { FormsModule } from '@angular/forms';
+import { NzIconDirective } from 'ng-zorro-antd/icon';
+import { RouterLink } from '@angular/router';
+import { NzMarks, NzSliderComponent } from 'ng-zorro-antd/slider';
 
 @Component({
   selector: 'app-expand-company-metric-chart-modal',
   imports: [
     NzRadioComponent,
     NzRadioGroupComponent,
-    FormsModule
+    FormsModule,
+    NzIconDirective,
+    RouterLink,
+    NzSliderComponent
   ],
   templateUrl: './expand-company-metric-chart-modal.component.html',
   styleUrl: './expand-company-metric-chart-modal.component.scss'
 })
-export class ExpandCompanyMetricChartModalComponent implements AfterViewInit {
+export class ExpandCompanyMetricChartModalComponent implements OnInit, AfterViewInit {
   data = inject(NZ_MODAL_DATA);
 
   private companyDashboardService = inject(CompanyDashboardService);
@@ -29,27 +45,106 @@ export class ExpandCompanyMetricChartModalComponent implements AfterViewInit {
   valueData: WritableSignal<ValueDataAtEachPeriod[] | undefined> = signal<ValueDataAtEachPeriod[] | undefined>(undefined);
   childMetrics: WritableSignal<ChildMetricGroup[] | undefined> = signal<ChildMetricGroup[] | undefined>(undefined);
   interval: WritableSignal<string> = signal<string>('quarterly');
+  from: WritableSignal<string | undefined> = signal<string | undefined>(undefined);
+  to: WritableSignal<string | undefined> = signal<string | undefined>(undefined);
+  fullTimeline: WritableSignal<{ periodEndDates: string[], labels: string[] } | undefined> = signal<{
+    periodEndDates: string[],
+    labels: string[]
+  } | undefined>(undefined);
+  sliderRange: WritableSignal<number[] | undefined> = signal<number[] | undefined>(undefined);
+
+  sliderTimelineMarks: Signal<NzMarks | null> = computed(() => {
+    if (!this.fullTimeline()) {
+      return null;
+    }
+
+    const marks: NzMarks = {};
+    this.fullTimeline()?.labels.forEach((label, index) => {
+      if (this.interval() == 'quarterly') {
+        if (index % 4 == 0) {
+          marks[index] = label;
+        }
+      } else if (this.interval() == 'annual') {
+        marks[index] = label;
+      }
+    });
+    // add the last period end date label if not divisible by 5
+    const lastIndex = this.fullTimeline()?.labels.length! - 1;
+    marks[lastIndex] = this.fullTimeline()!.labels[lastIndex];
+    return marks;
+  });
 
   protected chart?: Chart;
+
+  ngOnInit() {
+    this.sliderRange.set([0, this.fullTimeline()!.periodEndDates.length - 1]);
+  }
 
   ngAfterViewInit() {
     this.getMetricsAndCreateChart();
   }
 
+  // Upon component open, we need to get the full period timeline to create the slider with min/max.
+  // If interval changes, need to re-create full period timeline.
+  // To do this, call getCompanyMetrics() service method without specifying the from and to query params.
+
   chartChangeEffect = effect(() => {
-    this.interval();
+    this.from();
+    this.to();
     this.getMetricsAndCreateChart();
   });
 
+  intervalChangeEffect = effect(() => {
+    this.interval();
+    this.getFullTimelineAndCreateChart();
+  });
+
+  onSliderChange(indices: number[]) {
+    this.from.set(this.fullTimeline()?.periodEndDates[indices[0]]);
+    this.to.set(this.fullTimeline()?.periodEndDates[indices[1]]);
+  }
+
   getMetricsAndCreateChart() {
-    this.companyDashboardService.getCompanyMetrics(this.ticker(), this.interval(), [this.metricName()]).subscribe({
+    this.companyDashboardService.getCompanyMetrics(this.ticker(), this.interval(), [this.metricName()], this.from(), this.to()).subscribe({
       next: response => {
         this.valueData.set(response.metricData[0].data);
-        this.childMetrics.set(response.metricData[0].childMetrics)
+        this.childMetrics.set(response.metricData[0].childMetrics);
         this.createChart();
       },
       error: err => console.log(err)
     });
+  }
+
+  getFullTimelineAndCreateChart() {
+    this.companyDashboardService.getCompanyMetrics(this.ticker(), this.interval(), [this.metricName()]).subscribe({
+      next: response => {
+        this.valueData.set(response.metricData[0].data);
+        this.childMetrics.set(response.metricData[0].childMetrics);
+        this.getFullTimeline();
+        this.resetSliderRangeForNewTimeline();
+        this.createChart();
+      },
+      error: err => console.log(err)
+    });
+  }
+
+  resetSliderRangeForNewTimeline() {
+    const timelineLength = this.fullTimeline()?.periodEndDates.length;
+    if (timelineLength) {
+      this.sliderRange.set([0, timelineLength - 1]);
+      // reset from/to values as well to match
+      this.from.set(this.fullTimeline()?.periodEndDates[0]);
+      this.to.set(this.fullTimeline()?.periodEndDates[timelineLength - 1]);
+    }
+  }
+
+  // get indexable timeline with period end dates and labels to create slider
+  getFullTimeline() {
+    if (this.valueData() != null) {
+      this.fullTimeline.set(this.createTimelineForSingleMetric(this.valueData()!));
+    } else {
+      this.fullTimeline.set(this.createMasterTimeline(this.childMetrics()!));
+    }
   }
 
   // modify later and use transformMetricName() for the inner logic here
@@ -97,6 +192,23 @@ export class ExpandCompanyMetricChartModalComponent implements AfterViewInit {
       }
     }
     return newMetricName;
+  }
+
+  private createTimelineForSingleMetric = (valueDataList: ValueDataAtEachPeriod[]): {
+    periodEndDates: string[],
+    labels: string[]
+  } => {
+    const periodEndDates: string[] = [];
+    const labels: string[] = [];
+    valueDataList.forEach(valueDataPoint => {
+      periodEndDates.push(valueDataPoint.periodEndDate);
+      let quarterFiscalYear = valueDataPoint.period + ' ' + valueDataPoint.fiscalYear;
+      labels.push(quarterFiscalYear);
+    });
+    return {
+      periodEndDates: periodEndDates,
+      labels: labels
+    }
   }
 
   // create a list/mapping of unique period combinations, this will go into a separate utils too

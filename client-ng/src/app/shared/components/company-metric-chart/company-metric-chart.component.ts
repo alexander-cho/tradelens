@@ -314,7 +314,7 @@ export class CompanyMetricChartComponent implements AfterViewInit {
     this.modalService.create({
       nzTitle: this.spacedMetricName() + ' (' + this.ticker() + ')',
       nzContent: ExpandCompanyMetricChartModalComponent,
-      nzWidth: '1000px',
+      nzWidth: '1200px',
       nzData: {
         // parent -> modal
         tickerForModal: this.ticker(),
