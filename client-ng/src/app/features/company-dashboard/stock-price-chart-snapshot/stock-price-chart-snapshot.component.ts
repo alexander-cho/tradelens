@@ -29,7 +29,7 @@ export class StockPriceChartSnapshotComponent implements OnInit {
   companyDashboardService = inject(CompanyDashboardService);
 
   barAggregates: WritableSignal<BarAggregates | undefined> = signal(undefined);
-  selectedChartOption: WritableSignal<string> = signal('1d');
+  selectedChartOption: WritableSignal<string> = signal('1m');
 
   setChartOptionsEffect = effect(() => {
     if (this.selectedChartOption() == '1d') {

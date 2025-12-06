@@ -93,7 +93,7 @@ export class CompanyDashboardService {
     return this.http.get<FinancialRatios>(this.baseUrl + 'companies/financial-ratios', { params });
   }
 
-  public getCompanyMetrics(ticker: string | undefined, interval: string, metric: string[]): Observable<CompanyFundamentalsResponse> {
+  public getCompanyMetrics(ticker: string | undefined, interval: string, metric: string[], from?: string, to?: string): Observable<CompanyFundamentalsResponse> {
     let params = new HttpParams();
     if (ticker) {
       params = params
@@ -104,6 +104,14 @@ export class CompanyDashboardService {
       for (const companyMetric of metric) {
         params = params.append('metric', companyMetric);
       }
+    }
+
+    if (from) {
+      params = params.append('from', from);
+    }
+
+    if (to) {
+      params = params.append('to', to);
     }
 
     return this.http.get<CompanyFundamentalsResponse>(this.baseUrl + 'company-metrics', { params });

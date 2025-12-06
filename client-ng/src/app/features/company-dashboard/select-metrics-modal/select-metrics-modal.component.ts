@@ -4,6 +4,7 @@ import { NZ_MODAL_DATA, NzModalRef } from 'ng-zorro-antd/modal';
 import { FormsModule } from '@angular/forms';
 import { NzCheckboxComponent, NzCheckboxGroupComponent } from 'ng-zorro-antd/checkbox';
 import { NzColDirective, NzRowDirective } from 'ng-zorro-antd/grid';
+import { METRIC_DISPLAY_OVERRIDES } from '../../../shared/utils/metric-display-names';
 
 @Component({
   selector: 'app-select-metrics-modal',
@@ -36,24 +37,23 @@ export class SelectMetricsModalComponent {
 
   // separate utils!
   protected transformMetricName = (originalMetric: string) => {
-    if(originalMetric != 'EPS') {
-      const splitMetricName = originalMetric.split('');
-      let newMetricName = '';
-      if (splitMetricName != null) {
-        for (let i = 0; i < splitMetricName.length; i++) {
-          // check for uppercase letters, except for the first one
-          if (i !== 0 && splitMetricName[i] === splitMetricName[i].toUpperCase() && splitMetricName[i] !== splitMetricName[i].toLowerCase()) {
-            newMetricName = newMetricName + ' ' + splitMetricName[i];
-          } else {
-            newMetricName = newMetricName + '' + splitMetricName[i];
-          }
+    if (METRIC_DISPLAY_OVERRIDES[originalMetric]) {
+      return METRIC_DISPLAY_OVERRIDES[originalMetric];
+    }
+    const splitMetricName = originalMetric.split('');
+    let newMetricName = '';
+    if (splitMetricName != null) {
+      for (let i = 0; i < splitMetricName.length; i++) {
+        // check for uppercase letters, except for the first one
+        if (i !== 0 && splitMetricName[i] === splitMetricName[i].toUpperCase() && splitMetricName[i] !== splitMetricName[i].toLowerCase()) {
+          newMetricName = newMetricName + ' ' + splitMetricName[i];
+        } else {
+          newMetricName = newMetricName + '' + splitMetricName[i];
         }
       }
-      return newMetricName;
-    } else {
-      return 'EPS';
     }
-  };
+    return newMetricName;
+  }
 
   protected clearMetricSelections() {
     this.userSelectedMetrics.set([]);

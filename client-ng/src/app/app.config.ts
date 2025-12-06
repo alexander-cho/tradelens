@@ -28,7 +28,8 @@ import {
   RedoOutline,
   CalendarOutline,
   ArrowsAltOutline,
-  PlusCircleOutline
+  PlusCircleOutline,
+  CloudDownloadOutline
 } from '@ant-design/icons-angular/icons';
 import { Chart, Filler } from 'chart.js/auto';
 
@@ -52,7 +53,8 @@ const icons: IconDefinition[] = [
   RedoOutline,
   CalendarOutline,
   ArrowsAltOutline,
-  PlusCircleOutline
+  PlusCircleOutline,
+  CloudDownloadOutline
 ];
 
 // global chart color config

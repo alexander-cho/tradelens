@@ -1,0 +1,28 @@
+<div class="w-full">
+  <div class="flex justify-between items-end">
+    <nz-radio-group nzButtonStyle="solid" nzSize="small" [ngModel]="interval()" (ngModelChange)="interval.set($event)">
+      <label nz-radio-button nzValue="quarterly">Quarterly</label>
+      <label nz-radio-button nzValue="annual">Annual</label>
+    </nz-radio-group>
+    <nz-slider class="w-2/3"
+               nzRange
+               [nzMin]="0"
+               [nzMax]="fullTimeline()?.labels?.length! - 1"
+               [nzMarks]="sliderTimelineMarks()"
+               [(ngModel)]="sliderRange"
+               (ngModelChange)="onSliderChange($event)"
+               nzTooltipVisible="never">
+    </nz-slider>
+  </div>
+
+  <div class="relative w-full h-[60vh] mt-4">
+    <canvas [id]="metricNameForExpandedChart()"></canvas>
+  </div>
+
+  <div class="flex justify-between items-end">
+    <div class="text-xl cursor-pointer download-icon">
+      <nz-icon nzType="cloud-download" nzTheme="outline"/>
+    </div>
+    <a class="text-md chart-engine-label" routerLink="/">Chart Engine</a>
+  </div>
+</div>

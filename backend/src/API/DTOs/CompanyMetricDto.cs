@@ -75,6 +75,7 @@ public class MetricDataPoint
     public string? Period { get; set; }
     public int FiscalYear { get; set; }
     public decimal Value { get; set; }
+    public DateOnly PeriodEndDate { get; set; }
 }
 
 public static class CompanyMetricMapper
@@ -105,7 +106,8 @@ public static class CompanyMetricMapper
                     {
                         Period = cm.Period,
                         FiscalYear = cm.Year,
-                        Value = cm.Value
+                        Value = cm.Value,
+                        PeriodEndDate = cm.PeriodEndDate
                     }).ToList()
                 };
                 
@@ -125,7 +127,8 @@ public static class CompanyMetricMapper
                         {
                             Period = cm.Period,
                             FiscalYear = cm.Year,
-                            Value = cm.Value 
+                            Value = cm.Value,
+                            PeriodEndDate = cm.PeriodEndDate
                         }).ToList()
                     };
                     childMetricsList.Add(childMetricGroup);

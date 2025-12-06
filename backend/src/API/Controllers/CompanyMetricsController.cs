@@ -24,24 +24,35 @@ public class CompanyMetricsController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<CompanyMetricDto>> GetMetrics(
         // [FromQuery] CompanyMetricSpecParams companyMetricSpecParams
-        [FromQuery]
-        string ticker,
-        [FromQuery]
-        string interval,
-        [FromQuery]
-        List<string> metric
+        [FromQuery] string ticker,
+        [FromQuery] string interval,
+        [FromQuery] DateOnly? from,
+        [FromQuery] DateOnly? to,
+        [FromQuery] List<string> metric
     )
     {
-        var companyMetrics = await _dbContext.CompanyMetrics
+        var query = _dbContext.CompanyMetrics
             .Where(x => x.Ticker == ticker)
             .Where(x => x.Interval == interval)
-            .Where(x => metric.Contains(x.ParentMetric))
+            .Where(x => metric.Contains(x.ParentMetric));
+
+        if (from.HasValue)
+        {
+            query = query.Where(x => x.PeriodEndDate >= from);
+        }
+
+        if (to.HasValue)
+        {
+            query = query.Where(x => x.PeriodEndDate <= to);
+        }
+
+        var companyMetrics = await query
             .OrderBy(x => x.ParentMetric)
             .ThenBy(x => x.PeriodEndDate)
             .ToListAsync();
 
         var companyMetricsAsDto = CompanyMetricMapper.ToCompanyMetricDto(companyMetrics);
-        
+
         return companyMetricsAsDto;
     }
 

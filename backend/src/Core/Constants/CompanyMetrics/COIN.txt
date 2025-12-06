@@ -1,0 +1,10 @@
+RevenueBreakdown: [Transaction, SubscriptionAndServices, Other]
+MonthlyTransactingUsers
+AssetsOnPlatform
+TradingVolume
+AssetsOnPlatformBreakdown: [Bitcoin, Ethereum, XRP, Solana, USDC, Other]
+TradingVolumeBreakdown: [Consumer, Institutional]
+TradingVolumeByCryptoAsset: [Bitcoin, Ethereum, XRP, USDT, Other] (Percent)
+TransactionRevenueBreakdown: [Consumer, Institutional, Other]
+TransactionRevenueByCryptoAsset: [Bitcoin, XRP, Ethereum, Solana, Other] (Percent)
+SubscriptionAndServicesRevenueBreakdown: [Stablecoin, BlockchainRewards, InterestAndFinanceFeeIncome, Other]

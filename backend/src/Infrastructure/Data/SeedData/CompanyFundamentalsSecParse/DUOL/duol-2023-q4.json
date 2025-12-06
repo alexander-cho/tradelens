@@ -279,7 +279,7 @@
     "Interval": "quarterly",
     "Metric": "Other",
     "ParentMetric": "RevenueBreakdownMinusSubscriptions",
-    "Value": -9129000,
+    "Value": 320000,
     "Section": "KPI",
     "SourcedFrom": "10-K",
     "PeriodEndDate": "2023-12-31",
