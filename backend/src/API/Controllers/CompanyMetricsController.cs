@@ -78,4 +78,56 @@ public class CompanyMetricsController : ControllerBase
 
         return await companiesList;
     }
+    
+    // query by Metric (child metric) for functionalities like the chart engine
+    [HttpGet("all-metrics")]
+    public async Task<ActionResult<CompanyMetricDto>> GetAllMetrics(
+        // [FromQuery] CompanyMetricSpecParams companyMetricSpecParams
+        [FromQuery] string ticker,
+        [FromQuery] string interval,
+        [FromQuery] DateOnly? from,
+        [FromQuery] DateOnly? to,
+        [FromQuery] string metric
+    )
+    {
+        var query = _dbContext.CompanyMetrics
+            .Where(x => x.Ticker == ticker)
+            .Where(x => x.Interval == interval)
+            .Where(x => metric.Contains(x.ParentMetric + "_" + x.Metric));
+
+        // foreach (var metricName in metric)
+        // {
+        //     
+        // }
+
+        if (from.HasValue)
+        {
+            query = query.Where(x => x.PeriodEndDate >= from);
+        }
+
+        if (to.HasValue)
+        {
+            query = query.Where(x => x.PeriodEndDate <= to);
+        }
+
+        var companyMetrics = await query
+            .OrderBy(x => x.ParentMetric)
+            .ThenBy(x => x.PeriodEndDate)
+            .ToListAsync();
+
+        var companyMetricsAsDto = CompanyMetricMapper.ToCompanyMetricDto(companyMetrics);
+
+        return companyMetricsAsDto;
+    }
+
+    [HttpGet("available-metrics")] public async Task<ActionResult<IEnumerable<string>>> GetAllMetricsAssociatedWithTicker([FromQuery] string ticker)
+    {
+        var metricsList = _dbContext.CompanyMetrics
+            .Where(x => x.Ticker == ticker)
+            .Select(x => x.ParentMetric + "_" + x.Metric)
+            .Distinct()
+            .ToListAsync();
+
+        return await metricsList;
+    }
 }

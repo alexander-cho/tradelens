@@ -22,8 +22,8 @@ import {
   styleUrl: './company-metric-chart.component.scss'
 })
 export class CompanyMetricChartComponent implements AfterViewInit {
-  ticker: InputSignal<string | undefined> = input<string>();
-  metricName: InputSignal<string | undefined> = input<string>();
+  ticker: InputSignal<string | undefined> = input<string | undefined>(undefined);
+  metricName: InputSignal<string | undefined> = input<string | undefined>(undefined);
   data: InputSignal<ValueDataAtEachPeriod[] | undefined> = input<ValueDataAtEachPeriod[]>();
   // new way needs to check for null data or null childMetrics depending on structure
   childMetrics: InputSignal<ChildMetricGroup[] | undefined> = input<ChildMetricGroup[]>();

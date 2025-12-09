@@ -14,9 +14,33 @@ nz-sider {
 
 ::ng-deep .ant-select-selector {
   background-color: #252841 !important;
+  border-color: #252841 !important; // Add this to match selector border
 }
 
 ::ng-deep .ant-select-arrow{
+  color: #D6D6D6 !important;
+}
+
+::ng-deep .ant-select-clear {
+  background-color: #252841 !important;
+  color: #D6D6D6 !important;
+}
+
+::ng-deep .ant-select-item-option:hover {
+  background-color: #252841 !important;
+}
+
+// Target the dropdown container
+::ng-deep .ant-select-dropdown {
+  background-color: #252841 !important;
+  border: none !important; // Remove the border
+}
+
+::ng-deep .ant-select-dropdown-content {
+  border-radius: 0 !important;
+}
+
+::ng-deep .ant-select-show-search {
   color: #D6D6D6 !important;
 }
 
