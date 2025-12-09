@@ -1,6 +1,6 @@
 @if (showNavbar) {
   <nz-layout>
-    <nz-sider nzCollapsible [(nzCollapsed)]="isCollapsed" [nzTrigger]="null">
+    <nz-sider nzCollapsible [(nzCollapsed)]="isCollapsed" [nzCollapsedWidth]="48" [nzTrigger]="null">
       <div class="logo" [class.logo-collapsed]="isCollapsed">
         <nz-icon nzType="layout" nzTheme="twotone" routerLink="/"/>
         @if (!isCollapsed) {

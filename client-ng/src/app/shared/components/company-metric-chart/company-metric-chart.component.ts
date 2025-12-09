@@ -202,7 +202,7 @@ export class CompanyMetricChartComponent implements AfterViewInit {
             }
           },
           // width / height
-          aspectRatio: 1.25
+          aspectRatio: 1.2
         },
       });
     } else if (childMetricsRead != null) {
@@ -260,7 +260,7 @@ export class CompanyMetricChartComponent implements AfterViewInit {
               }
             },
             // width / height
-            aspectRatio: 1.25
+            aspectRatio: 1.2
           },
         });
       } else {
@@ -303,7 +303,7 @@ export class CompanyMetricChartComponent implements AfterViewInit {
               }
             },
             // width / height
-            aspectRatio: 1.25
+            aspectRatio: 1.2
           },
         });
       }
