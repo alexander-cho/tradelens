@@ -1,3 +1,23 @@
 .ant-card {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0);
 }
+
+.reset-charts-button {
+  width: 100%;
+  display: block;
+}
+
+.edit-charts-button {
+  width: 100%;
+  display: block;
+}
+
+// push left column (Reset button) from the right (4px for half of gutter + 1px for button border width = 5px)
+.grid.grid-cols-3 > div:first-child {
+  padding-right: 5px;
+}
+
+// push right column (Edit button) from the left
+.grid.grid-cols-3 > div:last-child {
+  padding-left: 5px;
+}

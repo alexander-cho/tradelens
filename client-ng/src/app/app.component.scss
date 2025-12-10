@@ -7,7 +7,7 @@ nz-sider {
   z-index: 100;
   overflow-y: auto;
   background-color: #252841;
-  border-right: 1px solid black;
+  //border-right: 0.5px solid #171a2b;
 }
 
 ////////////// SELECT DROPDOWN ///////////////
@@ -220,7 +220,7 @@ nz-header {
 //// And make it fill remaining space
 nz-content {
   margin-top: 48px; // Space for fixed header
-  padding: 12px; // Add some padding
+  padding: 8px; // Add some padding
   min-height: calc(100vh - 48px); // Fill viewport minus header
   background: #171a2b;
 }
