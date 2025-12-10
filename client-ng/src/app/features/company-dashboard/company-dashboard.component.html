@@ -5,12 +5,12 @@
 <div class="grid grid-cols-3 py-2">
   <div>
     @if (availableCompanies()?.includes(ticker())) {
-      <button nz-button nzType="primary" nzDanger (click)="resetCharts()">
+      <button class="reset-charts-button" nz-button nzType="primary" nzDanger (click)="resetCharts()">
         <nz-icon nzType="redo" nzTheme="outline"/>
         Reset Charts
       </button>
     } @else {
-      <button nz-button nzType="primary" nzDanger (click)="resetChartsFmp()">
+      <button class="reset-charts-button" nz-button nzType="primary" nzDanger (click)="resetChartsFmp()">
         <nz-icon nzType="redo" nzTheme="outline"/>
         Reset Charts
       </button>
@@ -33,12 +33,12 @@
 
   <div class="flex justify-end">
     @if (availableCompanies()?.includes(ticker())) {
-      <button nz-button nzType="primary" (click)="openSelectMetricsModal()">
+      <button class="edit-charts-button" nz-button nzType="primary" (click)="openSelectMetricsModal()">
         <nz-icon nzType="edit" nzTheme="outline"/>
         Edit Charts
       </button>
     } @else {
-      <button nz-button nzType="primary" (click)="openSelectMetricsModalFmp()">
+      <button class="edit-charts-button" nz-button nzType="primary" (click)="openSelectMetricsModalFmp()">
         <nz-icon nzType="edit" nzTheme="outline"/>
         Edit Charts
       </button>
@@ -50,7 +50,7 @@
 @if (selectedMetrics().length == 0) {
   <h1 class="text-2xl mx-auto">Select some metrics (replace)</h1>
 } @else {
-  <div nz-row [nzGutter]="[16, 16]">
+  <div nz-row [nzGutter]="[8, 8]">
     @for (metric of fundamentalData()?.metricData; track metric.metricName) {
       <div nz-col class="gutter-row" [nzSpan]="24 / 3">
         <div class="grid-config">

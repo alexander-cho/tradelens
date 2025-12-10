@@ -7,7 +7,7 @@ nz-sider {
   z-index: 100;
   overflow-y: auto;
   background-color: #252841;
-  border-right: 1px solid black;
+  //border-right: 0.5px solid #171a2b;
 }
 
 ////////////// SELECT DROPDOWN ///////////////
@@ -193,7 +193,7 @@ nz-layout nz-layout {
 
 // Adjust margin when sidebar is collapsed
 ::ng-deep .ant-layout-sider-collapsed + nz-layout {
-  margin-left: 80px !important; // Width of collapsed sidebar
+  margin-left: 48px !important; // Width of collapsed sidebar
 }
 
 // Make the header fixed/sticky
@@ -207,19 +207,21 @@ nz-header {
   z-index: 99;
   transition: left 0.2s;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  height: 48px;
+  line-height: 48px;
 }
 
 // Adjust header position when sidebar is collapsed
 ::ng-deep .ant-layout-sider-collapsed ~ nz-layout nz-header {
-  left: 80px !important;
+  left: 48px !important;
 }
 
 //// Add top margin to content so it doesn't hide under fixed header
 //// And make it fill remaining space
 nz-content {
-  margin-top: 64px; // Space for fixed header
-  padding: 12px; // Add some padding
-  min-height: calc(100vh - 64px); // Fill viewport minus header
+  margin-top: 48px; // Space for fixed header
+  padding: 8px; // Add some padding
+  min-height: calc(100vh - 48px); // Fill viewport minus header
   background: #171a2b;
 }
 
@@ -248,7 +250,7 @@ nz-content > * {
 
 .trigger {
   font-size: 18px;
-  line-height: 64px;
+  line-height: 48px;
   padding: 0 24px;
   cursor: pointer;
   transition: color 0.3s;
@@ -261,13 +263,16 @@ nz-content > * {
 
 nz-footer {
   text-align: center;
-  padding: 24px 0;
   background-color: #252841;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 // sidebar logo configs (collapsed vs open)
 .logo {
-  height: 64px;
+  height: 48px;
   display: flex;
   align-items: center;
   padding: 0 24px;
