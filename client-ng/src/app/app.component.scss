@@ -198,7 +198,7 @@ nz-layout nz-layout {
 
 // Make the header fixed/sticky
 nz-header {
-  background-color: #252841;
+  background-color: #171a2b;
   padding: 0;
   position: fixed !important;
   top: 0;
@@ -206,9 +206,10 @@ nz-header {
   left: 200px; // Start after the sidebar
   z-index: 99;
   transition: left 0.2s;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  //box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
   height: 48px;
   line-height: 48px;
+  border-bottom: 0.5px solid rgba(150, 150, 150, 0.7);
 }
 
 // Adjust header position when sidebar is collapsed

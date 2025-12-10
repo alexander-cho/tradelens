@@ -9,6 +9,7 @@ import { CompanyFundamentalsResponse } from '../../shared/models/fundamentals/co
 import { BARCHART_COLORS } from '../../shared/utils/barchart-colors';
 import { NzButtonComponent } from 'ng-zorro-antd/button';
 import { NzRadioComponent, NzRadioGroupComponent } from 'ng-zorro-antd/radio';
+import { Chart, ChartTypeRegistry } from 'chart.js/auto';
 
 // import { NzInputDirective } from 'ng-zorro-antd/input';
 
@@ -29,10 +30,12 @@ import { NzRadioComponent, NzRadioGroupComponent } from 'ng-zorro-antd/radio';
   styleUrl: './chart-engine.component.scss'
 })
 export class ChartEngineComponent implements OnInit {
+  private companyDashboardService: CompanyDashboardService = inject(CompanyDashboardService);
+
   protected ticker: WritableSignal<string | undefined> = signal<string | undefined>(undefined);
 
-  protected availableCompanies: WritableSignal<string[] |  undefined> = signal<string[] |  undefined>(undefined);
-  protected availableMetrics: WritableSignal<string[] |  undefined> = signal<string[] |  undefined>(undefined);
+  protected availableCompanies: WritableSignal<string[] | undefined> = signal<string[] | undefined>(undefined);
+  protected availableMetrics: WritableSignal<string[] | undefined> = signal<string[] | undefined>(undefined);
   protected selectedMetric: WritableSignal<string | undefined> = signal<string | undefined>(undefined);
   // protected selectedMetrics: WritableSignal<string[] | undefined> = signal<string[] | undefined>(undefined);
 
@@ -40,13 +43,13 @@ export class ChartEngineComponent implements OnInit {
 
   protected selectedColor: WritableSignal<string | undefined> = signal<string | undefined>(undefined);
 
-  protected metricData: WritableSignal<CompanyFundamentalsResponse | undefined> = signal<CompanyFundamentalsResponse | undefined>(undefined);
+  protected companyMetricsResponse: WritableSignal<CompanyFundamentalsResponse | undefined> = signal<CompanyFundamentalsResponse | undefined>(undefined);
 
   protected interval: WritableSignal<string> = signal('quarterly');
 
-  private companyDashboardService = inject(CompanyDashboardService);
+  protected colorsList: string[] = BARCHART_COLORS;
 
-  protected colorsList = BARCHART_COLORS;
+  protected chart?: Chart;
 
   ngOnInit() {
     this.getAvailableCompanies();
@@ -63,7 +66,7 @@ export class ChartEngineComponent implements OnInit {
     this.companyDashboardService.getAllMetricNamesAssociatedWithTicker(this.ticker()!).subscribe({
       next: response => {
         this.availableMetrics.set(response);
-        console.log('Metrics for', this.ticker(), ': \n',this.availableMetrics());
+        console.log('Metrics for', this.ticker(), ': \n', this.availableMetrics());
       },
       error: err => console.log(err)
     });
@@ -72,8 +75,8 @@ export class ChartEngineComponent implements OnInit {
   protected getDataForSelectedMetric() {
     this.companyDashboardService.getAllMetrics(this.ticker(), 'quarterly', this.selectedMetric()!).subscribe({
       next: response => {
-        this.metricData.set(response);
-        console.log('Metrics data for', this.ticker(), this.selectedMetric(), ': \n', this.metricData());
+        this.companyMetricsResponse.set(response);
+        console.log('Metrics data for', this.ticker(), this.selectedMetric(), ': \n', this.companyMetricsResponse());
       },
       error: err => console.log(err)
     });
@@ -85,5 +88,54 @@ export class ChartEngineComponent implements OnInit {
 
   protected getSelectedChartType() {
     console.log(this.selectedChartType());
+  }
+
+  protected createChart() {
+    const metricDisplayName = this.selectedMetric();
+    const dataRead = this.companyMetricsResponse()?.metricData[0].data;
+    const selectedChartType: string | undefined = this.selectedChartType();
+
+    if (!metricDisplayName || !dataRead) {
+      return;
+    }
+
+    this.chart?.destroy();
+
+    this.chart = new Chart("chart-engine", {
+      // type: (selectedChartType: keyof ChartTypeRegistry): ChartTypeRegistry,
+      type: 'line',
+      data: {
+        labels: dataRead.map(x => x.period + ' ' + x.fiscalYear),
+        datasets: [
+          {
+            label: metricDisplayName,
+            data: dataRead.map(x => x.value),
+            // borderWidth: 1,
+            borderColor: '#DB2504',
+            backgroundColor: '#DB2504',
+          }
+        ],
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          x: {},
+          y: {
+            beginAtZero: true
+          },
+        },
+        plugins: {
+          title: {
+            text: metricDisplayName,
+            display: true
+          }
+        }
+      },
+    });
+  }
+
+  destroyChart() {
+    this.chart?.destroy();
   }
 }
