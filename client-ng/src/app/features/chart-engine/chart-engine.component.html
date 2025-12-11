@@ -15,7 +15,7 @@
   <nz-option nzLabel="Line Chart" nzValue="line">Line Chart</nz-option>
 </nz-select>
 
-@if (availableMetrics()) {
+<!--@if (availableMetrics()) {-->
   <nz-select class="select-metrics"
              nzShowSearch
              nzPlaceHolder="Select Metrics"
@@ -26,7 +26,7 @@
       <nz-option nzLabel="{{metric}}" nzValue="{{metric}}">{{ metric }}</nz-option>
     }
   </nz-select>
-}
+<!--}-->
 
 <nz-select class="select-colors"
            nzPlaceHolder="Select Colors"
@@ -37,16 +37,15 @@
   }
 </nz-select>
 
-<button nz-button nzType="default" (click)="getSelectedColor()">Check color</button>
-<button nz-button nzType="default" (click)="getSelectedChartType()">Check chart type</button>
+@if (ticker() && selectedColor() && selectedMetric() && selectedChartType()) {
+  <button nz-button nzType="default" (click)="createChart()">Create chart</button>
+}
+
+<div class="relative w-full h-[70vh]">
+  <canvas id="chart-engine">{{ chart }}</canvas>
+</div>
 
 <nz-radio-group nzButtonStyle="solid" [ngModel]="interval()" (ngModelChange)="interval.set($event)">
   <label nz-radio-button nzValue="quarterly">Quarterly</label>
   <label nz-radio-button nzValue="annual">Annual</label>
 </nz-radio-group>
-
-<button nz-button nzType="default" (click)="createChart()">Create chart</button>
-
-<div class="relative w-full h-[70vh]">
-  <canvas id="chart-engine">{{ chart }}</canvas>
-</div>

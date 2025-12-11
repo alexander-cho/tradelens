@@ -41,7 +41,7 @@ export class ChartEngineComponent implements OnInit {
   protected selectedMetric: WritableSignal<string | undefined> = signal<string | undefined>(undefined);
   // protected selectedMetrics: WritableSignal<string[] | undefined> = signal<string[] | undefined>(undefined);
 
-  protected selectedChartType: WritableSignal<string | undefined> = signal<string | undefined>(undefined);
+  protected selectedChartType: WritableSignal<keyof ChartTypeRegistry | undefined> = signal<keyof ChartTypeRegistry | undefined>(undefined);
 
   protected selectedColor: WritableSignal<string | undefined> = signal<string | undefined>(undefined);
 
@@ -65,6 +65,11 @@ export class ChartEngineComponent implements OnInit {
   }
 
   protected getListOfAvailableMetricsTemp() {
+    // clear available metrics if user changes ticker
+    this.selectedMetric.set(undefined);
+
+    this.chart?.destroy();
+
     this.companyMetricsService.getAllMetricNamesAssociatedWithTicker(this.ticker()!).subscribe({
       next: response => {
         this.availableMetrics.set(response);
@@ -75,21 +80,13 @@ export class ChartEngineComponent implements OnInit {
   }
 
   protected getDataForSelectedMetric() {
-    this.companyMetricsService.getAllMetrics(this.ticker(), 'quarterly', this.selectedMetric()!).subscribe({
+    this.companyMetricsService.getAllMetrics(this.ticker(), this.interval(), this.selectedMetric()!).subscribe({
       next: response => {
         this.companyMetricsResponse.set(response);
         console.log('Metrics data for', this.ticker(), this.selectedMetric(), ': \n', this.companyMetricsResponse());
       },
       error: err => console.log(err)
     });
-  }
-
-  protected getSelectedColor() {
-    console.log(this.selectedColor());
-  }
-
-  protected getSelectedChartType() {
-    console.log(this.selectedChartType());
   }
 
   protected createChart() {
@@ -104,8 +101,7 @@ export class ChartEngineComponent implements OnInit {
     this.chart?.destroy();
 
     this.chart = new Chart("chart-engine", {
-      // type: (selectedChartType: keyof ChartTypeRegistry): ChartTypeRegistry,
-      type: 'line',
+      type: this.selectedChartType()!,
       data: {
         labels: dataRead.data.map(x => x.period + ' ' + x.fiscalYear),
         datasets: [
