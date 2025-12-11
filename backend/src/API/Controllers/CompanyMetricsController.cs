@@ -21,8 +21,8 @@ public class CompanyMetricsController : ControllerBase
         _dbContext = dbContext;
     }
 
-    [HttpGet]
-    public async Task<ActionResult<CompanyMetricDto>> GetMetrics(
+    [HttpGet("grouped-parent")]
+    public async Task<ActionResult<CompanyMetricWithParentDto>> GetMetricsGroupedByParent(
         // [FromQuery] CompanyMetricSpecParams companyMetricSpecParams
         [FromQuery] string ticker,
         [FromQuery] string interval,
@@ -51,7 +51,7 @@ public class CompanyMetricsController : ControllerBase
             .ThenBy(x => x.PeriodEndDate)
             .ToListAsync();
 
-        var companyMetricsAsDto = CompanyMetricMapper.ToCompanyMetricDto(companyMetrics);
+        var companyMetricsAsDto = CompanyMetricWithParentMapper.ToCompanyMetricDto(companyMetrics);
 
         return companyMetricsAsDto;
     }
@@ -78,7 +78,7 @@ public class CompanyMetricsController : ControllerBase
 
         return await companiesList;
     }
-    
+
     // query by Metric (child metric) for functionalities like the chart engine
     [HttpGet("all-metrics")]
     public async Task<ActionResult<CompanyMetricDto>> GetAllMetrics(
@@ -92,13 +92,22 @@ public class CompanyMetricsController : ControllerBase
     {
         var query = _dbContext.CompanyMetrics
             .Where(x => x.Ticker == ticker)
-            .Where(x => x.Interval == interval)
-            .Where(x => metric.Contains(x.ParentMetric + "_" + x.Metric));
+            .Where(x => x.Interval == interval);
 
         // foreach (var metricName in metric)
         // {
         //     
         // }
+        
+        if (metric.Contains('_'))
+        {
+            var splitMetricToSend = metric.Split('_');
+            query = query.Where(x => x.ParentMetric == splitMetricToSend[0] && x.Metric == splitMetricToSend[1]);
+        }
+        else
+        {
+            query = query.Where(x => x.ParentMetric == metric && x.Metric == metric);
+        }
 
         if (from.HasValue)
         {
@@ -120,7 +129,8 @@ public class CompanyMetricsController : ControllerBase
         return companyMetricsAsDto;
     }
 
-    [HttpGet("available-metrics")] public async Task<ActionResult<IEnumerable<string>>> GetAllMetricsAssociatedWithTicker([FromQuery] string ticker)
+    [HttpGet("available-metrics")]
+    public async Task<ActionResult<IEnumerable<string>>> GetAllMetricsAssociatedWithTicker([FromQuery] string ticker)
     {
         var metricsList = _dbContext.CompanyMetrics
             .Where(x => x.Ticker == ticker)
@@ -128,6 +138,18 @@ public class CompanyMetricsController : ControllerBase
             .Distinct()
             .ToListAsync();
 
-        return await metricsList;
+        var metrics = await metricsList;
+
+        var cleanedMetrics = metrics.Select(x =>
+        {
+            var splitMetric = x.Split('_');
+            if (splitMetric[0] == splitMetric[1])
+            {
+                return splitMetric[0];
+            }
+            return x;
+        }).ToList();
+
+        return cleanedMetrics;
     }
 }

@@ -5,11 +5,12 @@ import { NzModalService } from 'ng-zorro-antd/modal';
 // import { ChartEngineChartComponent } from './chart-engine-chart/chart-engine-chart.component';
 import { CompanyDashboardService } from '../../core/services/company-dashboard.service';
 import { NzOptionComponent, NzSelectComponent } from 'ng-zorro-antd/select';
-import { CompanyFundamentalsResponse } from '../../shared/models/fundamentals/company-fundamentals-response';
 import { BARCHART_COLORS } from '../../shared/utils/barchart-colors';
 import { NzButtonComponent } from 'ng-zorro-antd/button';
 import { NzRadioComponent, NzRadioGroupComponent } from 'ng-zorro-antd/radio';
 import { Chart, ChartTypeRegistry } from 'chart.js/auto';
+import { CompanyMetricsService } from '../../core/services/company-metrics.service';
+import { CompanyMetricDto } from '../../shared/models/fundamentals/company-metric-dto';
 
 // import { NzInputDirective } from 'ng-zorro-antd/input';
 
@@ -31,6 +32,7 @@ import { Chart, ChartTypeRegistry } from 'chart.js/auto';
 })
 export class ChartEngineComponent implements OnInit {
   private companyDashboardService: CompanyDashboardService = inject(CompanyDashboardService);
+  private companyMetricsService: CompanyMetricsService = inject(CompanyMetricsService);
 
   protected ticker: WritableSignal<string | undefined> = signal<string | undefined>(undefined);
 
@@ -43,7 +45,7 @@ export class ChartEngineComponent implements OnInit {
 
   protected selectedColor: WritableSignal<string | undefined> = signal<string | undefined>(undefined);
 
-  protected companyMetricsResponse: WritableSignal<CompanyFundamentalsResponse | undefined> = signal<CompanyFundamentalsResponse | undefined>(undefined);
+  protected companyMetricsResponse: WritableSignal<CompanyMetricDto | undefined> = signal<CompanyMetricDto | undefined>(undefined);
 
   protected interval: WritableSignal<string> = signal('quarterly');
 
@@ -63,7 +65,7 @@ export class ChartEngineComponent implements OnInit {
   }
 
   protected getListOfAvailableMetricsTemp() {
-    this.companyDashboardService.getAllMetricNamesAssociatedWithTicker(this.ticker()!).subscribe({
+    this.companyMetricsService.getAllMetricNamesAssociatedWithTicker(this.ticker()!).subscribe({
       next: response => {
         this.availableMetrics.set(response);
         console.log('Metrics for', this.ticker(), ': \n', this.availableMetrics());
@@ -73,7 +75,7 @@ export class ChartEngineComponent implements OnInit {
   }
 
   protected getDataForSelectedMetric() {
-    this.companyDashboardService.getAllMetrics(this.ticker(), 'quarterly', this.selectedMetric()!).subscribe({
+    this.companyMetricsService.getAllMetrics(this.ticker(), 'quarterly', this.selectedMetric()!).subscribe({
       next: response => {
         this.companyMetricsResponse.set(response);
         console.log('Metrics data for', this.ticker(), this.selectedMetric(), ': \n', this.companyMetricsResponse());
@@ -91,8 +93,8 @@ export class ChartEngineComponent implements OnInit {
   }
 
   protected createChart() {
-    const metricDisplayName = this.selectedMetric();
-    const dataRead = this.companyMetricsResponse()?.metricData[0].data;
+    const dataRead = this.companyMetricsResponse();
+    const metricDisplayName = this.companyMetricsResponse()?.metricName;
     const selectedChartType: string | undefined = this.selectedChartType();
 
     if (!metricDisplayName || !dataRead) {
@@ -105,14 +107,14 @@ export class ChartEngineComponent implements OnInit {
       // type: (selectedChartType: keyof ChartTypeRegistry): ChartTypeRegistry,
       type: 'line',
       data: {
-        labels: dataRead.map(x => x.period + ' ' + x.fiscalYear),
+        labels: dataRead.data.map(x => x.period + ' ' + x.fiscalYear),
         datasets: [
           {
             label: metricDisplayName,
-            data: dataRead.map(x => x.value),
+            data: dataRead.data.map(x => x.value),
             // borderWidth: 1,
-            borderColor: '#DB2504',
-            backgroundColor: '#DB2504',
+            borderColor: this.selectedColor(),
+            backgroundColor: this.selectedColor(),
           }
         ],
       },

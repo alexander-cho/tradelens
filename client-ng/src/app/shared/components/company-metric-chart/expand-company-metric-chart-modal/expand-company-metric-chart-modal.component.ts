@@ -105,7 +105,7 @@ export class ExpandCompanyMetricChartModalComponent implements OnInit, AfterView
   }
 
   getMetricsAndCreateChart() {
-    this.companyDashboardService.getCompanyMetrics(this.ticker(), this.interval(), [this.metricName()], this.from(), this.to()).subscribe({
+    this.companyDashboardService.getCompanyMetricsGroupedByParent(this.ticker(), this.interval(), [this.metricName()], this.from(), this.to()).subscribe({
       next: response => {
         this.valueData.set(response.metricData[0].data);
         this.childMetrics.set(response.metricData[0].childMetrics);
@@ -116,7 +116,7 @@ export class ExpandCompanyMetricChartModalComponent implements OnInit, AfterView
   }
 
   getFullTimelineAndCreateChart() {
-    this.companyDashboardService.getCompanyMetrics(this.ticker(), this.interval(), [this.metricName()]).subscribe({
+    this.companyDashboardService.getCompanyMetricsGroupedByParent(this.ticker(), this.interval(), [this.metricName()]).subscribe({
       next: response => {
         this.valueData.set(response.metricData[0].data);
         this.childMetrics.set(response.metricData[0].childMetrics);

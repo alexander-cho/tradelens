@@ -93,7 +93,7 @@ export class CompanyDashboardService {
     return this.http.get<FinancialRatios>(this.baseUrl + 'companies/financial-ratios', { params });
   }
 
-  public getCompanyMetrics(ticker: string | undefined, interval: string, metric: string[], from?: string, to?: string): Observable<CompanyFundamentalsResponse> {
+  public getCompanyMetricsGroupedByParent(ticker: string | undefined, interval: string, metric: string[], from?: string, to?: string): Observable<CompanyFundamentalsResponse> {
     let params = new HttpParams();
     if (ticker) {
       params = params
@@ -114,7 +114,7 @@ export class CompanyDashboardService {
       params = params.append('to', to);
     }
 
-    return this.http.get<CompanyFundamentalsResponse>(this.baseUrl + 'company-metrics', { params });
+    return this.http.get<CompanyFundamentalsResponse>(this.baseUrl + 'company-metrics/grouped-parent', { params });
   }
 
   public getParentMetricsAssociatedWithTicker(ticker: string): Observable<string[]> {
@@ -128,36 +128,5 @@ export class CompanyDashboardService {
 
   public getAvailableCompanies(): Observable<string[]> {
     return this.http.get<string[]>(this.baseUrl + 'company-metrics/available-companies')
-  }
-
-  public getAllMetrics(ticker: string | undefined, interval: string, metric: string, from?: string, to?: string): Observable<CompanyFundamentalsResponse> {
-    let params = new HttpParams();
-    if (ticker) {
-      params = params
-        .append('ticker', ticker)
-        .append('interval', interval);
-    }
-    if (metric) {
-      params = params.append('metric', metric);
-    }
-
-    if (from) {
-      params = params.append('from', from);
-    }
-
-    if (to) {
-      params = params.append('to', to);
-    }
-
-    return this.http.get<CompanyFundamentalsResponse>(this.baseUrl + 'company-metrics/all-metrics', { params });
-  }
-
-  public getAllMetricNamesAssociatedWithTicker(ticker: string): Observable<string[]> {
-    let params = new HttpParams();
-    if (ticker) {
-      params = params.append('ticker', ticker);
-    }
-
-    return this.http.get<string[]>(this.baseUrl + 'company-metrics/available-metrics', { params })
   }
 }
