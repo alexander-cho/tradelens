@@ -1,6 +1,6 @@
 <div class="flex h-full flex-col">
   <div class="flex justify-between w-full gap-2">
-    <nz-select class="select-ticker"
+    <nz-select class="select-tickers"
                nzShowSearch
                nzPlaceHolder="Select a company"
                [(ngModel)]="ticker"
@@ -43,6 +43,8 @@
     @if (ticker() && selectedColor() && selectedMetric() && selectedChartType() && interval()) {
       <button nz-button nzType="default" (click)="getDataAndCreateChart()">Create chart</button>
     }
+
+    <button nz-button nzDanger nzType="primary" (click)="resetAll()">Reset</button>
   </div>
 
   <div class="h-full w-full mt-2 mb-2">

@@ -37,9 +37,10 @@ export class ChartEngineComponent implements OnInit {
   private companyDashboardService: CompanyDashboardService = inject(CompanyDashboardService);
   private companyMetricsService: CompanyMetricsService = inject(CompanyMetricsService);
 
+  protected availableCompanies: WritableSignal<string[] | undefined> = signal<string[] | undefined>(undefined);
+
   protected ticker: WritableSignal<string | undefined> = signal<string | undefined>(undefined);
 
-  protected availableCompanies: WritableSignal<string[] | undefined> = signal<string[] | undefined>(undefined);
   protected availableMetrics: WritableSignal<string[] | undefined> = signal<string[] | undefined>(undefined);
   protected selectedMetric: WritableSignal<string | undefined> = signal<string | undefined>(undefined);
   // protected selectedMetrics: WritableSignal<string[] | undefined> = signal<string[] | undefined>(undefined);
@@ -183,6 +184,20 @@ export class ChartEngineComponent implements OnInit {
   protected onSliderChange(indices: number[]) {
     this.from.set(this.fullTimeline()?.periodEndDates[indices[0]]);
     this.to.set(this.fullTimeline()?.periodEndDates[indices[1]]);
+  }
+
+  protected resetAll() {
+    this.ticker.set(undefined);
+    this.availableMetrics.set(undefined);
+    this.selectedMetric.set(undefined);
+    this.selectedColor.set(undefined);
+    this.selectedChartType.set(undefined);
+    this.companyMetricsResponse.set(undefined);
+    this.from.set(undefined);
+    this.to.set(undefined);
+    this.fullTimeline.set(undefined);
+    this.sliderRange.set(undefined);
+    this.chart?.destroy();
   }
 
   protected createChart() {
