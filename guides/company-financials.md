@@ -2,7 +2,7 @@
 
 Blocking out the noise and focusing on what really matters when it comes to investing in good public companies can be 
 difficult but extremely rewarding financially. Now, what really matters? Is it the fact that the CTO sold 2,745 shares
-last month to fund god knows what, a new boat? Is it when an analyst at a big bank reiterates a bearish price 
+last month to fund who knows what, a new boat? Is it when an analyst at a big bank reiterates a bearish price 
 target the morning after the company reports blowout quarterly earnings and raises guidance? Or could it be that some 
 guy on YouTube with laser eyes in his profile picture says the stock just formed a *double bearish hammerhead quad 
 witching shooting star doji with bearish MACD divergence in Mercury retrograde*™ and the stock is going to zero? 

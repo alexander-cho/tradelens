@@ -12,7 +12,7 @@ photo, there are 8 bars for it alright, but they're in the wrong positions. I ch
 a mistake, and it was fine as seen below-here is the latest quarter:
 
 ```json
-  {
+{
   "Ticker": "DUOL",
   "Period": "Q3",
   "Year": 2025,

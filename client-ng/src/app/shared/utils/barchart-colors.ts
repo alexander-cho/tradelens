@@ -41,3 +41,15 @@ export const BARCHART_COLORS: string[] = [
   'rgba(124, 252, 0)',   // Acid Green
   'rgba(255, 100, 180)'  // Blazing Pink
 ];
+
+export const CHART_ENGINE_COLORS: Record<string, string> = {
+  'Green': 'rgba(0, 230, 118)',   // Neon Green
+  'Red': 'rgba(255, 60, 60)',   // Ruby Red
+  'Blue': 'rgba(45, 170, 255)',  // Electric Blue
+  'Pink': 'rgba(255, 80, 203)',  // Vivid Pink
+  'Gold': 'rgba(255, 202, 40)',  // Warm Gold
+  'Purple': 'rgba(137, 80, 250)',  // Deep Purple
+  'Cyan': 'rgba(0, 255, 238)',   // Bright Cyan
+  'Orange': 'rgba(255, 110, 64)',  // Safety Orange
+  'Magenta': 'rgba(255, 0, 150)',   // Dark Magenta
+}

@@ -100,7 +100,7 @@ export class CompanyDashboardComponent implements OnInit {
         error: err => console.log(err)
       });
 
-      this.companyDashboardService.getCompanyMetrics(this.ticker(), this.interval(), this.selectedMetrics()).subscribe({
+      this.companyDashboardService.getCompanyMetricsGroupedByParent(this.ticker(), this.interval(), this.selectedMetrics()).subscribe({
         next: response => {
           this.fundamentalData.set(response);
           console.log('interval: ' + this.interval());

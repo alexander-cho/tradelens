@@ -27,7 +27,13 @@ nz-sider {
 }
 
 ::ng-deep .ant-select-item-option:hover {
+  background-color: #414A66 !important;
+}
+
+::ng-deep .ant-select-item-option {
   background-color: #252841 !important;
+  color: #D6D6D6 !important;
+  border: none;
 }
 
 // Target the dropdown container
@@ -42,6 +48,10 @@ nz-sider {
 
 ::ng-deep .ant-select-show-search {
   color: #D6D6D6 !important;
+}
+
+::ng-deep .ant-select-item-option-selected {
+  color: #3b82f6 !important;
 }
 
 //////////////////////////////////////////////
@@ -131,12 +141,6 @@ nz-sider {
   color: #D6D6D6;
 }
 
-::ng-deep .ant-select-item-option {
-  background-color: #414A66 !important;
-  color: #D6D6D6 !important;
-  border: none;
-}
-
 
 /////////////// TABLE ////////////////
 :host ::ng-deep .ant-table-container {
@@ -198,7 +202,7 @@ nz-layout nz-layout {
 
 // Make the header fixed/sticky
 nz-header {
-  background-color: #252841;
+  background-color: #171a2b;
   padding: 0;
   position: fixed !important;
   top: 0;
@@ -206,9 +210,10 @@ nz-header {
   left: 200px; // Start after the sidebar
   z-index: 99;
   transition: left 0.2s;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  //box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
   height: 48px;
   line-height: 48px;
+  border-bottom: 0.5px solid rgba(150, 150, 150, 0.7);
 }
 
 // Adjust header position when sidebar is collapsed
@@ -302,3 +307,12 @@ nz-footer {
 .logo-collapsed .logo-text {
   display: none;
 }
+
+
+/////////////// SLIDER ////////////////
+
+::ng-deep .ant-slider-mark-text {
+  color: #D6D6D6 !important;
+}
+
+///////////////////////////////////////
