@@ -16,8 +16,6 @@ COPY src .
 WORKDIR /src/API
 RUN dotnet build "API.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
-COPY src/Infrastructure/Data/SeedData /app/Infrastructure/Data/SeedData
-
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
 RUN dotnet publish "API.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
@@ -25,5 +23,4 @@ RUN dotnet publish "API.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAp
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-COPY --from=build /app/Infrastructure/Data/SeedData /app/Infrastructure/Data/SeedData
 ENTRYPOINT ["dotnet", "API.dll"]

@@ -402,3 +402,4 @@ FodyWeavers.xsd
 .vscode/
 .env
 appsettings.json
+appsettings.Production.json
