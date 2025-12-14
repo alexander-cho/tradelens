@@ -50,6 +50,10 @@ nz-sider {
   color: #D6D6D6 !important;
 }
 
+::ng-deep .ant-select-item-option-selected {
+  color: #3b82f6 !important;
+}
+
 //////////////////////////////////////////////
 
 .ant-menu-dark {
