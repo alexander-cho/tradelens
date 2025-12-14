@@ -2,7 +2,8 @@ import { Component, inject, signal } from '@angular/core';
 import { NavigationEnd, Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { filter } from 'rxjs';
 import { NzIconModule } from 'ng-zorro-antd/icon';
-import { NzMenuDirective, NzMenuItemComponent,
+import {
+  NzMenuDirective, NzMenuItemComponent,
   // NzSubMenuComponent
 } from 'ng-zorro-antd/menu';
 import {
@@ -55,6 +56,6 @@ export class AppComponent {
         this.authService.currentUser.set(null);
         this.router.navigateByUrl('/');
       }
-    })
+    });
   }
 }

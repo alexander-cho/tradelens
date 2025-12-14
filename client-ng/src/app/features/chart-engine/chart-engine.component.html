@@ -1,51 +1,77 @@
-<nz-select class="select-ticker"
-           nzShowSearch
-           nzPlaceHolder="Select a company"
-           [(ngModel)]="ticker"
-           (ngModelChange)="getListOfAvailableMetricsTemp()">
-  @for (company of availableCompanies(); track $index) {
-    <nz-option nzLabel="{{company}}" nzValue="{{company}}">{{ company }}</nz-option>
-  }
-</nz-select>
+<div class="flex h-full flex-col">
+  <div class="flex justify-between w-full gap-2">
+    <nz-select class="select-ticker"
+               nzShowSearch
+               nzPlaceHolder="Select a company"
+               [(ngModel)]="ticker"
+               (ngModelChange)="getListOfAvailableMetricsTemp()">
+      @for (company of availableCompanies(); track $index) {
+        <nz-option nzLabel="{{company}}" nzValue="{{company}}">{{ company }}</nz-option>
+      }
+    </nz-select>
 
-<nz-select class="select-chart-type"
-           nzPlaceHolder="Select Chart Type"
-           [(ngModel)]="selectedChartType">
-  <nz-option nzLabel="Bar Chart" nzValue="bar">Bar Chart</nz-option>
-  <nz-option nzLabel="Line Chart" nzValue="line">Line Chart</nz-option>
-</nz-select>
-
-<!--@if (availableMetrics()) {-->
-  <nz-select class="select-metrics"
-             nzShowSearch
-             nzPlaceHolder="Select Metrics"
-             [(ngModel)]="selectedMetric"
-             (ngModelChange)="getDataForSelectedMetric()">
-    <!--             nzMode="multiple"-->
-    @for (metric of availableMetrics(); track $index) {
-      <nz-option nzLabel="{{metric}}" nzValue="{{metric}}">{{ metric }}</nz-option>
+    @if (availableMetrics()) {
+      <nz-select class="select-metrics"
+                 nzShowSearch
+                 nzPlaceHolder="Select Metrics"
+                 [(ngModel)]="selectedMetric"
+                 (ngModelChange)="onMetricChange()">
+        <!--             (ngModelChange)="getDataForSelectedMetric()">-->
+        <!--             nzMode="multiple"-->
+        @for (metric of availableMetrics(); track $index) {
+          <nz-option nzLabel="{{metric}}" nzValue="{{metric}}">{{ metric }}</nz-option>
+        }
+      </nz-select>
     }
-  </nz-select>
-<!--}-->
 
-<nz-select class="select-colors"
-           nzPlaceHolder="Select Colors"
-           [(ngModel)]="selectedColor">
-  <!--             nzMode="multiple"-->
-  @for (color of colorsList; track $index) {
-    <nz-option nzLabel="{{color}}" nzValue="{{color}}">{{ color }}</nz-option>
-  }
-</nz-select>
+    <nz-select class="select-chart-type"
+               nzPlaceHolder="Select Chart Type"
+               [(ngModel)]="selectedChartType">
+      <nz-option nzLabel="Bar Chart" nzValue="bar">Bar Chart</nz-option>
+      <nz-option nzLabel="Line Chart" nzValue="line">Line Chart</nz-option>
+    </nz-select>
 
-@if (ticker() && selectedColor() && selectedMetric() && selectedChartType()) {
-  <button nz-button nzType="default" (click)="createChart()">Create chart</button>
-}
+    <nz-select class="select-colors"
+               nzPlaceHolder="Select Colors"
+               [(ngModel)]="selectedColor">
+      <!--             nzMode="multiple"-->
+      @for (color of colorsList | keyvalue; track $index) {
+        <nz-option nzLabel="{{color.key}}" nzValue="{{color.value}}"></nz-option>
+      }
+    </nz-select>
 
-<div class="relative w-full h-[70vh]">
-  <canvas id="chart-engine">{{ chart }}</canvas>
+    @if (ticker() && selectedColor() && selectedMetric() && selectedChartType() && interval()) {
+      <button nz-button nzType="default" (click)="getDataAndCreateChart()">Create chart</button>
+    }
+  </div>
+
+  <div class="h-full w-full mt-2 mb-2">
+    <nz-card class="h-full w-full">
+      <div class="flex-1 flex flex-col w-full">
+        <h1 class="text-xl">{{ selectedMetric() }}</h1>
+        <div class="flex-1 h-full w-full">
+          <canvas class="h-full w-full" id="chart-engine">{{ chart }}</canvas>
+        </div>
+      </div>
+    </nz-card>
+  </div>
+
+  <div class="flex justify-between w-full pr-8">
+    <nz-radio-group nzButtonStyle="solid" [(ngModel)]="interval" (ngModelChange)="onIntervalChange()">
+      <label nz-radio-button nzValue="quarterly">Quarterly</label>
+      <label nz-radio-button nzValue="annual">Annual</label>
+    </nz-radio-group>
+
+    @if (fullTimeline() && sliderRange()) {
+      <nz-slider class="w-3/4"
+                 nzRange
+                 [nzMin]="0"
+                 [nzMax]="fullTimeline()?.labels?.length! - 1"
+                 [nzMarks]="sliderTimelineMarks()"
+                 [(ngModel)]="sliderRange"
+                 (ngModelChange)="onSliderChange($event)"
+                 nzTooltipVisible="never">
+      </nz-slider>
+    }
+  </div>
 </div>
-
-<nz-radio-group nzButtonStyle="solid" [ngModel]="interval()" (ngModelChange)="interval.set($event)">
-  <label nz-radio-button nzValue="quarterly">Quarterly</label>
-  <label nz-radio-button nzValue="annual">Annual</label>
-</nz-radio-group>

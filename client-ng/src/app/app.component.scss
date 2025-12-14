@@ -27,7 +27,13 @@ nz-sider {
 }
 
 ::ng-deep .ant-select-item-option:hover {
+  background-color: #414A66 !important;
+}
+
+::ng-deep .ant-select-item-option {
   background-color: #252841 !important;
+  color: #D6D6D6 !important;
+  border: none;
 }
 
 // Target the dropdown container
@@ -129,12 +135,6 @@ nz-sider {
 ::ng-deep .ant-pagination-options-size-changer .ant-select-selection-item {
   /* Customize the displayed page size text */
   color: #D6D6D6;
-}
-
-::ng-deep .ant-select-item-option {
-  background-color: #414A66 !important;
-  color: #D6D6D6 !important;
-  border: none;
 }
 
 
@@ -303,3 +303,12 @@ nz-footer {
 .logo-collapsed .logo-text {
   display: none;
 }
+
+
+/////////////// SLIDER ////////////////
+
+::ng-deep .ant-slider-mark-text {
+  color: #D6D6D6 !important;
+}
+
+///////////////////////////////////////
