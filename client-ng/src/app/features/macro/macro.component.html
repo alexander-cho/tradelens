@@ -1,16 +1,22 @@
-<app-macro-chart [data]="seriesObservations()?.observations"></app-macro-chart>
+<div class="h-full w-full">
+  <nz-card class="h-full w-full">
+    <div class="flex-1 flex flex-col w-full">
+      <div class="flex justify-between">
+        <h1 class="text-xl">{{ seriesObservations()?.title }}</h1>
 
-<br>
-
-<nz-card>
-  <h1 class="text-md">Current id: {{ seriesObservations()?.id }}</h1>
-</nz-card>
-
-<br>
-
-<nz-card>
-  <h1>{{ seriesObservations()?.title }}</h1>
-  @for (dataPoint of seriesObservations()?.observations; track $index) {
-    <h1>{{ dataPoint.date }} : {{ dataPoint.value }}</h1>
-  }
-</nz-card>
+        <nz-select class="select-colors"
+                   nzPlaceHolder="Select Colors"
+                   [(ngModel)]="seriesId"
+                   (ngModelChange)="getSeriesObservationsAndCreateChart()">
+          <!--             nzMode="multiple"-->
+          @for (series of seriesList | keyvalue; track $index) {
+            <nz-option nzLabel="{{series.key}}" nzValue="{{series.value}}"></nz-option>
+          }
+        </nz-select>
+      </div>
+      <div class="flex-1 h-full w-full">
+        <canvas class="h-full w-full" id="macroChart">{{ chart }}</canvas>
+      </div>
+    </div>
+  </nz-card>
+</div>
