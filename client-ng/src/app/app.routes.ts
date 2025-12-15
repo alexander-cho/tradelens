@@ -12,6 +12,7 @@ import { OptionsChainDetailComponent } from './features/options/options-chain-de
 import { ChartEngineComponent } from './features/chart-engine/chart-engine.component';
 import { EarningsCalendarComponent } from './features/earnings-calendar/earnings-calendar.component';
 import { MacroComponent } from './features/macro/macro.component';
+import { BrokerageComponent } from './features/brokerage/brokerage.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -26,5 +27,6 @@ export const routes: Routes = [
   { path: 'options/:ticker/:expiration', component: OptionsChainDetailComponent },
   { path: 'chart-engine', component: ChartEngineComponent },
   { path: 'earnings-calendar', component: EarningsCalendarComponent },
-  { path: 'macro', component: MacroComponent }
+  { path: 'macro', component: MacroComponent },
+  { path: 'brokerage', component: BrokerageComponent }
 ];

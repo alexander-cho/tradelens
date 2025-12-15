@@ -43,9 +43,9 @@
           <nz-icon nzType="book"/>
           <span>Congress</span>
         </li>
-        <li nz-menu-item routerLink="/">
+        <li nz-menu-item routerLink="/brokerage">
           <nz-icon nzType="dollar"/>
-          <span>TBD</span>
+          <span>Brokerage</span>
         </li>
         @if (authService.currentUser()) {
           <li nz-menu-item (click)="logout()" routerLink="/">
