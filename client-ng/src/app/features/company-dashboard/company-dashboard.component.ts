@@ -1,4 +1,4 @@
-import { Component, effect, inject, input, OnInit, signal, WritableSignal } from '@angular/core';
+import { Component, inject, input, OnInit, signal, WritableSignal } from '@angular/core';
 import { CompanyDashboardService } from '../../core/services/company-dashboard.service';
 import { CompanyFundamentalsResponse } from '../../shared/models/fundamentals/company-fundamentals-response';
 import {
@@ -42,7 +42,7 @@ export class CompanyDashboardComponent implements OnInit {
   protected fundamentalData: WritableSignal<CompanyFundamentalsResponse | undefined> = signal(undefined);
 
   // do not run metricsChangeEffect as soon as component initializes
-  private shouldRunMetricsChangeEffect: WritableSignal<boolean> = signal(false);
+  // private shouldRunMetricsChangeEffect: WritableSignal<boolean> = signal(false);
 
   // get list of companies with available metrics to know which modals/metrics, etc. to show
   protected availableCompanies: WritableSignal<string[] | undefined> = signal(undefined);
@@ -60,34 +60,21 @@ export class CompanyDashboardComponent implements OnInit {
   protected selectedMetricsFmp: WritableSignal<string[]> = signal(this.availableMetricsFmp());
 
   // For example, SOFI, where we get the metrics from the DB
-  protected availableMetrics: WritableSignal<string[]> = signal(['Revenue', 'NetIncome', 'OperatingExpenses',
+  protected availableMetrics: WritableSignal<string[] | undefined> = signal(undefined);
+  protected selectedMetrics: WritableSignal<string[]> = signal(['Revenue', 'NetIncome', 'OperatingExpenses',
     'TotalLiabilities', 'CashAndDebt', 'SharesOutstanding',
     'AdjustedEbitda', 'TotalStockholdersEquity', 'TotalAssets']);
-  protected selectedMetrics: WritableSignal<string[]> = signal(this.availableMetrics());
 
   ngOnInit() {
+    // fetch metrics data AFTER we know which companies are available, so that we know whether to fetch from DB or FMP API
     this.companyDashboardService.getAvailableCompanies().subscribe({
       next: response => {
         this.availableCompanies.set(response);
-
-        // fetch metrics data AFTER we know which companies are available
         this.getUserRequestedCompanyFundamentalData();
-
-        // change to true so metricsChangeEffect can listen for subsequent changes
-        this.shouldRunMetricsChangeEffect.set(true);
       },
       error: err => console.log(err)
     });
   }
-
-  // on initial load, the period is set as 'annual' (Yearly) and there will be x amount of pre-selected metrics,
-  // 6 or 9, around ones that all companies have in common, e.g. revenue, etc.
-  // update metrics reactively
-  metricsChangeEffect = effect(() => {
-    if (this.shouldRunMetricsChangeEffect()) {
-      this.getUserRequestedCompanyFundamentalData();
-    }
-  });
 
   private getUserRequestedCompanyFundamentalData() {
     const availableCompanies: string[] | undefined = this.availableCompanies();
@@ -95,7 +82,6 @@ export class CompanyDashboardComponent implements OnInit {
       this.companyDashboardService.getParentMetricsAssociatedWithTicker(this.ticker()).subscribe({
         next: response => {
           this.availableMetrics.set(response);
-          console.log('Available metrics for ' + this.ticker() + ' ' + this.availableMetrics());
         },
         error: err => console.log(err)
       });
@@ -103,10 +89,6 @@ export class CompanyDashboardComponent implements OnInit {
       this.companyDashboardService.getCompanyMetricsGroupedByParent(this.ticker(), this.interval(), this.selectedMetrics()).subscribe({
         next: response => {
           this.fundamentalData.set(response);
-          console.log('interval: ' + this.interval());
-          console.log('ticker: ' + this.ticker());
-          console.log('selected Metrics: ' + this.selectedMetrics());
-          console.log('Backend returned:', response.metricData);
         },
         error: err => console.log(err)
       });
@@ -114,8 +96,6 @@ export class CompanyDashboardComponent implements OnInit {
       this.companyDashboardService.getCompanyFundamentalData(this.ticker(), this.period(), this.selectedMetricsFmp()).subscribe({
         next: response => {
           this.fundamentalData.set(response);
-          console.log('Backend returned:', response.metricData);
-          console.log('Available metrics for ' + this.ticker() + this.availableMetricsFmp());
         },
         error: err => console.log(err)
       });
@@ -141,12 +121,13 @@ export class CompanyDashboardComponent implements OnInit {
       next: result => {
         if (result) {
           this.selectedMetricsFmp.set(result.selectedMetrics);
+          this.getUserRequestedCompanyFundamentalData();
         }
       }
     });
   }
 
-  protected openSelectMetricsModal() {
+  protected openSelectMetricsModal(): void {
     const modalRef = this.modalService.create({
       nzTitle: 'Select Metrics',
       nzContent: SelectMetricsModalComponent,
@@ -165,20 +146,19 @@ export class CompanyDashboardComponent implements OnInit {
       next: result => {
         if (result) {
           this.selectedMetrics.set(result.selectedMetrics);
+          this.getUserRequestedCompanyFundamentalData();
         }
       }
     });
   }
 
-  protected resetCharts() {
-    console.log('Resetting charts to default');
+  protected resetCharts(): void {
     this.selectedMetrics.set(['Revenue', 'NetIncome', 'OperatingExpenses',
       'TotalLiabilities', 'CashAndDebt', 'SharesOutstanding',
       'AdjustedEbitda', 'TotalStockholdersEquity', 'TotalAssets']);
   }
 
-  protected resetChartsFmp() {
-    console.log('Resetting charts to FMP default');
+  protected resetChartsFmp(): void {
     this.selectedMetricsFmp.set(['revenue', 'netIncome', 'grossProfit',
       'totalAssets', 'totalLiabilities', 'totalStockholdersEquity',
       'freeCashFlow', 'stockBasedCompensation', 'cashAtEndOfPeriod']);
