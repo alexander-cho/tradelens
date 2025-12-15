@@ -1,6 +1,5 @@
 using API.RequestHelpers;
 using Core.Interfaces;
-using Core.Models;
 using Core.Models.CompanyFundamentals;
 using Microsoft.AspNetCore.Mvc;
 
@@ -40,24 +39,6 @@ public class CompaniesController : ControllerBase
     public async Task<ActionResult<HashSet<string>>> GetRelatedCompanies([FromQuery] string ticker)
     {
         return await _companyFundamentalsService.GetRelatedCompaniesAsync(ticker);
-    }
-
-    [HttpGet("income-statement")]
-    public async Task<ActionResult<IncomeStatement>> GetIncomeStatement([FromQuery] string ticker, string period)
-    {
-        return await _companyFundamentalsService.GetIncomeStatementAsync(ticker, limit: 5, period);
-    }
-
-    [HttpGet("balance-sheet")]
-    public async Task<ActionResult<BalanceSheet>> GetBalanceSheet([FromQuery] string ticker, string period)
-    {
-        return await _companyFundamentalsService.GetBalanceSheetAsync(ticker, limit: 5, period);
-    }
-
-    [HttpGet("cash-flow")]
-    public async Task<ActionResult<CashFlowStatement>> GetCashFlowStatement([FromQuery] string ticker, string period)
-    {
-        return await _companyFundamentalsService.GetCashFlowStatementAsync(ticker, limit: 5, period);
     }
     
     [Cache(10000)]
