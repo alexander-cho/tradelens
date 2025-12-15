@@ -19,12 +19,12 @@
 
   <div class="flex items-center justify-center">
     @if (availableCompanies()?.includes(ticker())) {
-      <nz-radio-group nzButtonStyle="solid" [ngModel]="interval()" (ngModelChange)="interval.set($event)">
+      <nz-radio-group nzButtonStyle="solid" [(ngModel)]="interval" (ngModelChange)="getUserRequestedCompanyFundamentalData()">
         <label nz-radio-button nzValue="quarterly">Quarterly</label>
         <label nz-radio-button nzValue="annual">Annual</label>
       </nz-radio-group>
     } @else {
-      <nz-radio-group nzButtonStyle="solid" [ngModel]="period()" (ngModelChange)="period.set($event)">
+      <nz-radio-group nzButtonStyle="solid" [(ngModel)]="period" (ngModelChange)="getUserRequestedCompanyFundamentalData()">
         <label nz-radio-button nzValue="quarter">Quarterly</label>
         <label nz-radio-button nzValue="annual">Annual</label>
       </nz-radio-group>

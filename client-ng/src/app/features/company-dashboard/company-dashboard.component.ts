@@ -76,7 +76,7 @@ export class CompanyDashboardComponent implements OnInit {
     });
   }
 
-  private getUserRequestedCompanyFundamentalData() {
+  protected getUserRequestedCompanyFundamentalData() {
     const availableCompanies: string[] | undefined = this.availableCompanies();
     if (availableCompanies != null && availableCompanies.includes(this.ticker())) {
       this.companyDashboardService.getParentMetricsAssociatedWithTicker(this.ticker()).subscribe({
@@ -156,11 +156,13 @@ export class CompanyDashboardComponent implements OnInit {
     this.selectedMetrics.set(['Revenue', 'NetIncome', 'OperatingExpenses',
       'TotalLiabilities', 'CashAndDebt', 'SharesOutstanding',
       'AdjustedEbitda', 'TotalStockholdersEquity', 'TotalAssets']);
+    this.getUserRequestedCompanyFundamentalData()
   }
 
   protected resetChartsFmp() {
     this.selectedMetricsFmp.set(['revenue', 'netIncome', 'grossProfit',
       'totalAssets', 'totalLiabilities', 'totalStockholdersEquity',
       'freeCashFlow', 'stockBasedCompensation', 'cashAtEndOfPeriod']);
+    this.getUserRequestedCompanyFundamentalData();
   }
 }
