@@ -25,8 +25,8 @@ export class SelectMetricsModalComponent {
   // inject data passed through nzData in modalService.create() call in parent component
   data = inject(NZ_MODAL_DATA);
 
-  metricsList: WritableSignal<string[]> = this.data.availableMetrics;
-  userSelectedMetrics: ModelSignal<string[]> = model<string[]>(this.data.selectedMetrics);
+  protected metricsList: WritableSignal<string[]> = this.data.availableMetrics;
+  protected userSelectedMetrics: ModelSignal<string[]> = model<string[]>(this.data.selectedMetrics);
 
   protected applyMetricsSelect() {
     this.modalRef.close({

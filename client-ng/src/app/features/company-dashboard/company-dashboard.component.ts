@@ -127,7 +127,7 @@ export class CompanyDashboardComponent implements OnInit {
     });
   }
 
-  protected openSelectMetricsModal(): void {
+  protected openSelectMetricsModal() {
     const modalRef = this.modalService.create({
       nzTitle: 'Select Metrics',
       nzContent: SelectMetricsModalComponent,
@@ -152,13 +152,13 @@ export class CompanyDashboardComponent implements OnInit {
     });
   }
 
-  protected resetCharts(): void {
+  protected resetCharts() {
     this.selectedMetrics.set(['Revenue', 'NetIncome', 'OperatingExpenses',
       'TotalLiabilities', 'CashAndDebt', 'SharesOutstanding',
       'AdjustedEbitda', 'TotalStockholdersEquity', 'TotalAssets']);
   }
 
-  protected resetChartsFmp(): void {
+  protected resetChartsFmp() {
     this.selectedMetricsFmp.set(['revenue', 'netIncome', 'grossProfit',
       'totalAssets', 'totalLiabilities', 'totalStockholdersEquity',
       'freeCashFlow', 'stockBasedCompensation', 'cashAtEndOfPeriod']);
