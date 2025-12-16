@@ -1,5 +1,40 @@
-USRevenue: [USCommercialRevenue, USGovernmentRevenue]
-DealsClosed: [AtLeastOneMillionDollars, AtLeastFiveMillionDollars, AtLeastTenMillionDollars]
+(Can find in section like Condensed Consolidated Statements of Operations and Comprehensive Income, or similar)
+Revenue,
+CostOfRevenue,
+GrossProfit,
+OperatingExpenses: [SalesAndMarketing, ResearchAndDevelopment, GeneralAndAdministrative],
+InterestIncome,
+NetIncome,
+NoninterestIncome (maybe not there)
+EPS: [Basic, Diluted]
+
+
+(Can find in section like Condensed Consolidated Balance Sheets, or similar)
+TotalAssets,
+TotalLiabilities,
+TotalStockholdersEquity
+CashAndDebt: [CashAndCashEquivalents, Debt], (could be marked as "Long term debt" or similar leave, if there is no debt)
+
+
+(Can find in section like Condensed Consolidated Statements of Stockholders’ Equity, or similar)
+StockBasedCompensation,
+SharesOutstanding
+
+
+
+RevenueBreakdown: [GovernmentRevenue, CommercialRevenue]
+
+
+AdjustedEbitda
+USRevenue: [Commercial, Government]
+DealsClosedBySize: [AtLeastOneMillionDollars, AtLeastFiveMillionDollars, AtLeastTenMillionDollars]
+RemainingPerformanceObligations: [LongTerm, ShortTerm]
+USCommercialCustomerCount
+CustomerCount: [Commercial, Total]
 USCommercialTotalContractValue
 USCommercialRemainingDealValue
-RevenueBySegment (of Total): [GovernmentRevenue, CommercialRevenue]
+NetDollarRetentionRate
+
+
+
+AverageRevenuePerTop20Customers (Q1 2021 presentation)

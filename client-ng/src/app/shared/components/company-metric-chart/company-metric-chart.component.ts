@@ -199,6 +199,9 @@ export class CompanyMetricChartComponent implements AfterViewInit {
             title: {
               text: `${ this.ticker() } ${ metricNameRead }`,
               display: false
+            },
+            legend: {
+              display: false
             }
           },
           // width / height
