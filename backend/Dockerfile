@@ -1,6 +1,10 @@
 FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS base
-USER app
 WORKDIR /app
+
+# error building image: error building stage: failed to execute command: identifying uid and gid for user app: 
+# user app is not a uid and does not exist on the system
+# https://docs.digitalocean.com/support/why-am-i-receiving-a-user-does-not-exist-error-when-building-my-docker-app-on-app-platform/
+USER app
 EXPOSE 6501
 
 FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
