@@ -1,5 +1,5 @@
 <nz-card>
-  <nz-radio-group [ngModel]="chamber()" (ngModelChange)="onChamberSelectChange($event)">
+  <nz-radio-group nzButtonStyle="solid" [ngModel]="chamber()" (ngModelChange)="onChamberSelectChange($event)">
     <label nz-radio-button nzValue="house">House</label>
     <label nz-radio-button nzValue="senate">Senate</label>
   </nz-radio-group>

@@ -17,12 +17,15 @@ public static class DbContextSeed
             // var postsData = await File.ReadAllTextAsync(path + @"/Data/SeedData/posts.json");
             
             // in development
-            var postsData = await File.ReadAllTextAsync("../Infrastructure/Data/SeedData/posts.json");
+            // var postsData = await File.ReadAllTextAsync("../Infrastructure/Data/SeedData/posts.json");
             
             // for docker-compose (?)
             // var path = Path.Combine("Infrastructure", "Data", "SeedData", "posts.json");
             // var postsData = await File.ReadAllTextAsync(path);
             
+            var path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            var filePath = Path.Combine(path!, "Data", "SeedData", "posts.json");
+            var postsData = await File.ReadAllTextAsync(filePath);
             var posts = JsonSerializer.Deserialize<List<Post>>(postsData);
             
             // if there is no data
@@ -36,7 +39,7 @@ public static class DbContextSeed
         }
     }
 
-    public static async Task SeedCompanyData(TradelensDbContext context)
+    public static async Task SeedStocksAsync(TradelensDbContext context)
     {
         // var path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
         
@@ -44,11 +47,14 @@ public static class DbContextSeed
         {
             // var stocksData = await File.ReadAllTextAsync(path + @"/Data/SeedData/tickers.json");
             
-            var stocksData = await File.ReadAllTextAsync("../Infrastructure/Data/SeedData/tickers.json");
+            // var stocksData = await File.ReadAllTextAsync("../Infrastructure/Data/SeedData/tickers.json");
             
             // var path = Path.Combine("Infrastructure", "Data", "SeedData", "tickers.json");
             // var stocksData = await File.ReadAllTextAsync(path);
             
+            var path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            var filePath = Path.Combine(path!, "Data", "SeedData", "tickers.json");
+            var stocksData = await File.ReadAllTextAsync(filePath);
             var stocks = JsonSerializer.Deserialize<List<Stock>>(stocksData);
     
             if (stocks == null)
@@ -58,6 +64,58 @@ public static class DbContextSeed
     
             context.Stocks.AddRange(stocks);
             await context.SaveChangesAsync();
+        }
+    }
+    
+    public static async Task SeedCompanyMetricsAsync(TradelensDbContext context)
+    {
+        if (!context.CompanyMetrics.Any())
+        {
+            var path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            // var basePath = "../Infrastructure/Data/SeedData/CompanyFundamentalsSecParse";
+            var basePath = Path.Combine(path!, "Data", "SeedData", "CompanyFundamentalsSecParse");
+            
+            if (!Directory.Exists(basePath))
+            {
+                Console.WriteLine($"Metrics seed directory not found: {basePath}");
+                return;
+            }
+        
+            var allMetrics = new List<CompanyMetric>();
+        
+            // get all ticker directories
+            var tickerDirs = Directory.GetDirectories(basePath);
+        
+            foreach (var tickerDir in tickerDirs)
+            {
+                // get all JSON files in this ticker's directory
+                var jsonFiles = Directory.GetFiles(tickerDir, "*.json");
+            
+                foreach (var file in jsonFiles)
+                {
+                    try
+                    {
+                        var metricsData = await File.ReadAllTextAsync(file);
+                        var metrics = JsonSerializer.Deserialize<List<CompanyMetric>>(metricsData);
+                    
+                        if (metrics != null && metrics.Any())
+                        {
+                            allMetrics.AddRange(metrics);
+                            Console.WriteLine($"Loaded {metrics.Count} metrics from {Path.GetFileName(file)}");
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"Error reading {file}: {ex.Message}");
+                    }
+                }
+            }
+        
+            if (allMetrics.Count > 0)
+            {
+                context.CompanyMetrics.AddRange(allMetrics);
+                await context.SaveChangesAsync();
+            }
         }
     }
 }

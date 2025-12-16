@@ -1,18 +1,28 @@
-<div>
-  <div class="flex justify-end px-8 py-4">
-    <nz-select nzAllowClear
-               nzPlaceHolder="Select Metrics"
-               [(ngModel)]="userSelectedMetrics"
-               nzMode="multiple"
-               class="w-full">
-      @for (metric of metricsList; track $index) {
-        <nz-option [nzValue]="metric" [nzLabel]="metric">{{ metric }}</nz-option>
-      }
-    </nz-select>
-    <button nz-button
-            (click)="applyMetricsSelect()"
-            nzType="default">
-      Select
-    </button>
-  </div>
+<nz-checkbox-group [(ngModel)]="userSelectedMetrics">
+  <nz-row>
+    @for (metric of metricsList(); track $index) {
+      <nz-col nzSpan="8">
+        <label nz-checkbox [nzValue]="metric">{{ transformMetricName(metric) }}</label>
+      </nz-col>
+    }
+  </nz-row>
+</nz-checkbox-group>
+
+<div class="flex justify-between mt-4">
+  <button nz-button
+          (click)="clearMetricSelections()"
+          nzDanger
+          nzType="primary">
+    Clear
+  </button>
+  <button nz-button
+          (click)="selectAllMetrics()"
+          nzType="default">
+    Select All
+  </button>
+  <button nz-button
+          (click)="applyMetricsSelect()"
+          nzType="primary">
+    Select
+  </button>
 </div>

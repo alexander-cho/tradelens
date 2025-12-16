@@ -1,0 +1,18 @@
+FundedCustomers
+TotalPlatformAssets (could be AUC but keep TotalPlatformAssets)
+NetDeposits
+AverageRevenuePerUser
+GoldSubscribers
+AssetsBreakdown: [Equites, Cryptocurrencies, OptionsAndFutures, RegisteredInvestmentAdvisorAssets, CashHeld, Receivables]
+RevenueBreakdown: [TransactionBased, NetInterest, Other]
+TransactionBasedRevenueBreakdown: [Options, Cryptocurrencies, Equities, Other]
+
+
+DailyAverageRevenueTrades: [Equity, Option, Crypto]
+TotalTradingVolumes: [Equity, Crypto]
+OptionsContractsTraded
+CustomerMarginBook
+
+
+RetirementAccounts
+RetirementAssetsUnderCustody

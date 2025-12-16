@@ -21,11 +21,12 @@
       }
     </nz-select>
   }
+  <div class="flex justify-end">
+    @if (selectedExpiration()) {
+      <button [routerLink]="['/options', ticker(), selectedExpiration()]" nz-button nzType="primary">Explore</button>
+    }
+  </div>
 </div>
-
-@if (selectedExpiration()) {
-  <button [routerLink]="['/options', ticker(), selectedExpiration()]" nz-button nzType="primary">Explore</button>
-}
 
 @if (maxPainData()) {
   <app-max-pain-chart

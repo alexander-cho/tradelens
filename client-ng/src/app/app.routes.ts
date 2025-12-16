@@ -10,6 +10,9 @@ import { CongressComponent } from './features/congress/congress.component';
 import { OptionsComponent } from './features/options/options.component';
 import { OptionsChainDetailComponent } from './features/options/options-chain-detail/options-chain-detail.component';
 import { ChartEngineComponent } from './features/chart-engine/chart-engine.component';
+import { EarningsCalendarComponent } from './features/earnings-calendar/earnings-calendar.component';
+import { MacroComponent } from './features/macro/macro.component';
+import { BrokerageComponent } from './features/brokerage/brokerage.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -22,5 +25,8 @@ export const routes: Routes = [
   { path: 'congress', component: CongressComponent },
   { path: 'options', component: OptionsComponent },
   { path: 'options/:ticker/:expiration', component: OptionsChainDetailComponent },
-  { path: 'chart-engine', component: ChartEngineComponent }
+  { path: 'chart-engine', component: ChartEngineComponent },
+  { path: 'earnings-calendar', component: EarningsCalendarComponent },
+  { path: 'macro', component: MacroComponent },
+  { path: 'brokerage', component: BrokerageComponent }
 ];

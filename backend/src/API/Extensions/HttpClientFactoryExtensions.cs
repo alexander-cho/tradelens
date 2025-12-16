@@ -6,7 +6,7 @@ public static class HttpClientFactoryExtensions
     {
         services.AddHttpClient("Polygon", client =>
         {
-            client.BaseAddress = new Uri("https://api.polygon.io/");
+            client.BaseAddress = new Uri("https://api.massive.com/");
             client.DefaultRequestHeaders.Add("Accept", "application/json");
         });
         
@@ -27,6 +27,12 @@ public static class HttpClientFactoryExtensions
             client.BaseAddress = new Uri("https://api.tradier.com/v1/markets/");
             client.DefaultRequestHeaders.Add("Accept", "application/json");
             client.DefaultRequestHeaders.Add("Authorization", $"Bearer {configuration["DataApiKeys:TradierApiKey"]}");
+        });
+
+        services.AddHttpClient("Fred", client =>
+        {
+            client.BaseAddress = new Uri("https://api.stlouisfed.org/fred/");
+            client.DefaultRequestHeaders.Add("Accept", "application/json");
         });
         
         return services;

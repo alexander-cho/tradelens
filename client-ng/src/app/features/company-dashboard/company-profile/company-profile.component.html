@@ -1,24 +1,97 @@
-<h1 class="text-2xl">{{ stock()?.ticker }} - {{ stock()?.companyName }}</h1>
+<div class="flex justify-between items-start">
+  <h1 class="text-3xl flex items-center gap-4">
+    @if (companyProfile()?.image) {
+      <a href="{{companyProfile()?.website}}">
+        <img [ngSrc]="companyProfile()!.image" width="36" height="36" alt="{{companyProfile()?.symbol}}">
+      </a>
+    }
+    {{ stock()?.companyName }} ({{ companyProfile()?.exchange }}: {{ stock()?.ticker }})
+  </h1>
+  <button class="more-button" nz-button nzType="primary">
+    <nz-icon nzType="plus-circle" nzTheme="outline" />
+    More
+  </button>
+</div>
+
+<div class="grid grid-cols-3 gap-y-0 w-2/3">
+  <h2 class="text-xs">Market Cap: ${{ companyProfile()?.marketCap | number : '1.0-0' }}</h2>
+  <h2 class="text-xs">
+    Stock Price:
+    ${{ companyProfile()?.price | number : '1.2-2' }}
+    <span [class]="(companyProfile()?.change ?? 0) >= 0 ? 'text-green-500' : 'text-red-500'">
+      {{ companyProfile()?.change | number : '1.2-2' }}
+      ({{ companyProfile()?.changePercentage | number : '1.2-2' }}%)
+    </span>
+  </h2>
+  <h2 class="text-xs">52-Week Range:
+    @if (companyProfile()?.range) {
+      ${{ companyProfile()!.range.split('-')[0] | number : '1.2-2' }} -
+        ${{ companyProfile()!.range.split('-')[1] | number : '1.2-2' }}
+    }
+  </h2>
+  <h2 class="text-xs">Enterprise Value: ${{ keyMetrics()?.enterpriseValueTtm | number : '1.0-0' }}</h2>
+  <h2 class="text-xs">Volume: {{ companyProfile()?.volume | number : '1.0-0' }}</h2>
+  @if (companyProfile()?.lastDividend == 0) {
+    <h2 class="text-xs">Dividend: ---</h2>
+  } @else {
+    <h2 class="text-xs">Dividend: ${{ companyProfile()?.lastDividend }}</h2>
+  }
+</div>
 
 <div class="flex gap-4">
   <nz-card class="flex-1">
-    <h1 class="text-lg">Key Metrics</h1>
+    <h1 class="text-xl mb-2">Key Metrics</h1>
+    <div class="flex justify-between">
+      <h2 class="text-sm">ROIC:</h2>
+      <h1 class="text-sm">{{ keyMetrics()?.returnOnInvestedCapitalTtm | number : '1.4-4' }}</h1>
+    </div>
+    <div class="flex justify-between">
+      <h2 class="text-sm">Debt to Equity:</h2>
+      <h1 class="text-sm">{{ financialRatios()?.debtToEquityRatioTtm | number : '1.4-4' }}</h1>
+    </div>
+    <div class="flex justify-between">
+      <h2 class="text-sm">Gross Profit Margin:</h2>
+      <h1 class="text-sm">{{ financialRatios()?.grossProfitMarginTtm | number : '1.4-4' }}</h1>
+    </div>
+    <div class="flex justify-between">
+      <h2 class="text-sm">Current Ratio:</h2>
+      <h1 class="text-sm">{{ keyMetrics()?.currentRatio | number : '1.4-4' }}</h1>
+    </div>
+    <div class="flex justify-between">
+      <h2 class="text-sm">Net Debt to EBITDA:</h2>
+      <h1 class="text-sm">{{ keyMetrics()?.netDebtToEbitdaTtm | number : '1.4-4' }}</h1>
+    </div>
   </nz-card>
 
   <nz-card class="flex-1">
-    <h1 class="text-lg">Key Ratios</h1>
-    <h1 class="text-md">P/E Ratio</h1>
-    <h1 class="text-md">Forward P/E</h1>
-    <h1 class="text-md">P/S Ratio</h1>
-    <h1 class="text-md">P/B Ratio</h1>
-    <h1 class="text-md">Price/FCF</h1>
+    <h1 class="text-xl mb-2">Key Ratios</h1>
+    <div class="flex justify-between">
+      <h2 class="text-sm">P/E Ratio:</h2>
+      <h1 class="text-sm">{{ financialRatios()?.priceToEarningsRatioTtm | number : '1.4-4' }}</h1>
+    </div>
+    <div class="flex justify-between">
+      <h2 class="text-sm">P/S Ratio:</h2>
+      <h1 class="text-sm">{{ financialRatios()?.priceToSalesRatioTtm | number : '1.4-4' }}</h1>
+    </div>
+    <div class="flex justify-between">
+      <h2 class="text-sm">P/B Ratio:</h2>
+      <h1 class="text-sm">{{ financialRatios()?.priceToBookRatioTtm | number : '1.4-4' }}</h1>
+    </div>
+    <div class="flex justify-between">
+      <h2 class="text-sm">Price/FCF:</h2>
+      <h1 class="text-sm">{{ financialRatios()?.priceToFreeCashFlowRatioTtm | number : '1.4-4' }}</h1>
+    </div>
+    <div class="flex justify-between">
+      <h2 class="text-sm">Forward PEG:</h2>
+      <h1 class="text-sm">{{ financialRatios()?.forwardPriceToEarningsGrowthRatioTtm | number : '1.4-4' }}</h1>
+    </div>
   </nz-card>
 
   <nz-card class="flex-1">
-    <h1 class="text-lg">Users Also Search For</h1>
+    <h1 class="text-xl">Users Also Search For</h1>
     <div class="columns-2 gap-4">
-      @for (relatedCompany of relatedCompanies()?.results; track $index) {
-        <h1 class="text-md"><a href="/companies/{{relatedCompany.ticker}}">{{ relatedCompany.ticker }}</a></h1>
+      @for (relatedCompany of relatedCompanies(); track $index) {
+        <h1 class="text-sm"><a href="/companies/{{relatedCompany}}">{{ relatedCompany }}</a></h1>
       }
     </div>
   </nz-card>

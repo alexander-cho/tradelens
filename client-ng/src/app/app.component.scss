@@ -6,7 +6,187 @@ nz-sider {
   height: 100vh;
   z-index: 100;
   overflow-y: auto;
+  background-color: #252841;
+  //border-right: 0.5px solid #171a2b;
 }
+
+////////////// SELECT DROPDOWN ///////////////
+
+::ng-deep .ant-select-selector {
+  background-color: #252841 !important;
+  border-color: #606060 !important;
+}
+
+::ng-deep .ant-select-arrow{
+  color: #D6D6D6 !important;
+}
+
+::ng-deep .ant-select-clear {
+  background-color: #252841 !important;
+  color: #D6D6D6 !important;
+}
+
+::ng-deep .ant-select-item-option:hover {
+  background-color: #414A66 !important;
+}
+
+::ng-deep .ant-select-item-option {
+  background-color: #252841 !important;
+  color: #D6D6D6 !important;
+  border: none;
+}
+
+// Target the dropdown container
+::ng-deep .ant-select-dropdown {
+  background-color: #252841 !important;
+  border: none !important; // Remove the border
+}
+
+::ng-deep .ant-select-dropdown-content {
+  border-radius: 0 !important;
+}
+
+::ng-deep .ant-select-show-search {
+  color: #D6D6D6 !important;
+}
+
+::ng-deep .ant-select-item-option-selected {
+  color: #3b82f6 !important;
+}
+
+//////////////////////////////////////////////
+
+.ant-menu-dark {
+  background-color: #252841;
+}
+
+// so the selected item does not get filled in default blue
+.ant-menu-dark .ant-menu-item-selected {
+  background-color: transparent !important;
+}
+
+// set text color when selected
+.ant-menu-dark .ant-menu-item-selected .anticon {
+  color: #3b82f6 !important;
+}
+
+:host ::ng-deep .ant-input-affix-wrapper {
+  background: #2a2d40;
+  color: #ffffff;
+  border: #606060;
+}
+
+:host ::ng-deep input[nz-input] {
+  background-color: #2a2d40;
+  color: #ffffff;              // text color
+}
+
+/* --- BUTTONS (Reset, Filter, Sort) --- */
+:host ::ng-deep .ant-btn-default {
+  background-color: #414A66 !important;
+  border-color: #606060 !important;
+  color: #ffffff !important;
+}
+
+/* Base style for the container */
+:host ::ng-deep .ant-pagination-item {
+  background-color: #414A66 !important;
+  border: 1px solid #606060;
+}
+
+/* 1. set default (inactive) numbers color */
+:host ::ng-deep .ant-pagination-item a {
+  color: #D6D6D6 !important;
+}
+
+:host ::ng-deep .ant-pagination-item-active a {
+  color: #0097F0 !important;
+}
+
+:host ::ng-deep .ant-pagination-item:hover a {
+  /* This rule is more specific than the default rule (1) and will override it */
+  color: #0097F0 !important;
+}
+
+/* --- PAGINATOR CONTROLS (< and >) --- */
+:host ::ng-deep .ant-pagination-prev .ant-pagination-item-link,
+:host ::ng-deep .ant-pagination-next .ant-pagination-item-link {
+  background-color: #414A66 !important;
+  border-color: #606060 !important;
+  color: #D6D6D6 !important;
+}
+
+::ng-deep .ant-pagination-options-size-changer .ant-select-selector {
+  /* Customize the select input */
+  background-color: #414A66 !important;
+  border-color: #606060 !important;
+}
+
+::ng-deep .ant-pagination-options-size-changer .ant-select-arrow {
+  /* Customize the dropdown arrow */
+  color: #D6D6D6;
+}
+
+::ng-deep .ant-select-selection-placeholder,
+::ng-deep .ant-select-selection-item {
+  color: #D6D6D6 !important;
+}
+
+::ng-deep .ant-select-selection-item:hover {
+  color: whitesmoke !important;
+}
+
+::ng-deep .ant-pagination-options-size-changer .ant-select-selection-item {
+  /* Customize the displayed page size text */
+  color: #D6D6D6;
+}
+
+
+/////////////// TABLE ////////////////
+:host ::ng-deep .ant-table-container {
+  padding: 12px;
+}
+::ng-deep .ant-table {
+  background-color: #2a2d40;
+}
+::ng-deep .ant-table th {
+  color: #D6D6D6;
+}
+::ng-deep .ant-table td {
+  color: #D6D6D6;
+}
+::ng-deep .ant-table tr:hover td {
+  color: black;
+}
+//////////////////////////////////////
+
+
+/////////////// MODAL ////////////////
+::ng-deep .ant-modal-title {
+  background-color: #2a2d40;
+  color: #D6D6D6;
+}
+
+::ng-deep .ant-modal-header {
+  background-color: #2a2d40;
+}
+
+::ng-deep .ant-modal-content {
+  background-color: #2a2d40;
+}
+
+::ng-deep .ant-modal-close {
+  color: #D6D6D6 !important;
+}
+//////////////////////////////////////
+
+
+/////////// CHECKBOX GROUP ////////////
+::ng-deep .ant-checkbox-group label {
+  color: #D6D6D6;
+}
+//////////////////////////////////////
+
 
 // Push the inner layout to the right to avoid sidebar overlap
 nz-layout nz-layout {
@@ -17,12 +197,12 @@ nz-layout nz-layout {
 
 // Adjust margin when sidebar is collapsed
 ::ng-deep .ant-layout-sider-collapsed + nz-layout {
-  margin-left: 80px !important; // Width of collapsed sidebar
+  margin-left: 48px !important; // Width of collapsed sidebar
 }
 
 // Make the header fixed/sticky
 nz-header {
-  background: #fff;
+  background-color: #171a2b;
   padding: 0;
   position: fixed !important;
   top: 0;
@@ -30,21 +210,24 @@ nz-header {
   left: 200px; // Start after the sidebar
   z-index: 99;
   transition: left 0.2s;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  //box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  height: 48px;
+  line-height: 48px;
+  border-bottom: 0.5px solid rgba(150, 150, 150, 0.7);
 }
 
 // Adjust header position when sidebar is collapsed
 ::ng-deep .ant-layout-sider-collapsed ~ nz-layout nz-header {
-  left: 80px !important;
+  left: 48px !important;
 }
 
 //// Add top margin to content so it doesn't hide under fixed header
 //// And make it fill remaining space
 nz-content {
-  margin-top: 64px; // Space for fixed header
-  padding: 16px; // Add some padding
-  min-height: calc(100vh - 64px); // Fill viewport minus header
-  background: #f0f2f5; // Light background (optional)
+  margin-top: 48px; // Space for fixed header
+  padding: 8px; // Add some padding
+  min-height: calc(100vh - 48px); // Fill viewport minus header
+  background: #171a2b;
 }
 
 // Make router-outlet content fill available space
@@ -52,12 +235,31 @@ nz-content > * {
   flex: 1;
 }
 
+::ng-deep .ant-card {
+  background-color: #252a41 !important;
+  border: none;
+  opacity: 0.90;
+}
+
+::ng-deep .ant-card-body {
+  padding: 12px;
+}
+
+::ng-deep h1 {
+  color: #f1f3f3 !important;
+}
+
+::ng-deep h2 {
+  color: #BDBDBD !important;
+}
+
 .trigger {
   font-size: 18px;
-  line-height: 64px;
+  line-height: 48px;
   padding: 0 24px;
   cursor: pointer;
   transition: color 0.3s;
+  color: #fff;
 }
 
 .trigger:hover {
@@ -66,12 +268,16 @@ nz-content > * {
 
 nz-footer {
   text-align: center;
-  padding: 24px 0;
+  background-color: #252841;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 // sidebar logo configs (collapsed vs open)
 .logo {
-  height: 64px;
+  height: 48px;
   display: flex;
   align-items: center;
   padding: 0 24px;
@@ -101,3 +307,12 @@ nz-footer {
 .logo-collapsed .logo-text {
   display: none;
 }
+
+
+/////////////// SLIDER ////////////////
+
+::ng-deep .ant-slider-mark-text {
+  color: #D6D6D6 !important;
+}
+
+///////////////////////////////////////

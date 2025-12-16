@@ -1,6 +1,5 @@
 using API.RequestHelpers;
 using Core.Interfaces;
-using Core.Models;
 using Core.Models.CompanyFundamentals;
 using Microsoft.AspNetCore.Mvc;
 
@@ -28,7 +27,7 @@ public class CompaniesController : ControllerBase
     (
         [FromQuery] string ticker,
         [FromQuery] string period,
-        // explicitly define to get from query, or returns 415
+        // explicitly define to get from query, or else returns 415
         [FromQuery] List<string> metric
     )
     {
@@ -37,26 +36,36 @@ public class CompaniesController : ControllerBase
 
     [Cache(1000)]
     [HttpGet("related-companies")]
-    public async Task<ActionResult<RelatedCompaniesModel>> GetRelatedCompanies([FromQuery] string ticker)
+    public async Task<ActionResult<HashSet<string>>> GetRelatedCompanies([FromQuery] string ticker)
     {
         return await _companyFundamentalsService.GetRelatedCompaniesAsync(ticker);
     }
-
-    [HttpGet("income-statement")]
-    public async Task<ActionResult<IncomeStatement>> GetIncomeStatement([FromQuery] string ticker, string period)
+    
+    [Cache(10000)]
+    [HttpGet("company-profile")]
+    public async Task<ActionResult<CompanyProfile>> GetCompanyProfile([FromQuery] string ticker)
     {
-        return await _companyFundamentalsService.GetIncomeStatementAsync(ticker, limit: 5, period);
+        return Ok(await _companyFundamentalsService.GetCompanyProfileDataAsync(ticker));
     }
-
-    [HttpGet("balance-sheet")]
-    public async Task<ActionResult<BalanceSheet>> GetBalanceSheet([FromQuery] string ticker, string period)
+    
+    [Cache(10000)]
+    [HttpGet("key-metrics")]
+    public async Task<ActionResult<KeyMetricsTtm>> GetKeyMetrics([FromQuery] string ticker)
     {
-        return await _companyFundamentalsService.GetBalanceSheetAsync(ticker, limit: 5, period);
+        return Ok(await _companyFundamentalsService.GetKeyMetricsTtmAsync(ticker));
     }
-
-    [HttpGet("cash-flow")]
-    public async Task<ActionResult<CashFlowStatement>> GetCashFlowStatement([FromQuery] string ticker, string period)
+    
+    [Cache(10000)]
+    [HttpGet("financial-ratios")]
+    public async Task<ActionResult<FinancialRatiosTtm>> GetFinancialRatios([FromQuery] string ticker)
     {
-        return await _companyFundamentalsService.GetCashFlowStatementAsync(ticker, limit: 5, period);
+        return Ok(await _companyFundamentalsService.GetFinancialRatiosTtmAsync(ticker));
+    }
+    
+    [Cache(10000)]
+    [HttpGet("company-profile-finnhub")]
+    public async Task<ActionResult<FinnhubCompanyProfile>> GetFinnhubCompanyProfile([FromQuery] string ticker)
+    {
+        return Ok(await _companyFundamentalsService.GetFinnhubCompanyProfileAsync(ticker));
     }
 }

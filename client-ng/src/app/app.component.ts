@@ -1,8 +1,9 @@
 import { Component, inject, signal } from '@angular/core';
-import { NavigationEnd, Router, RouterLink, RouterOutlet } from '@angular/router';
+import { NavigationEnd, Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { filter } from 'rxjs';
 import { NzIconModule } from 'ng-zorro-antd/icon';
-import { NzMenuDirective, NzMenuItemComponent,
+import {
+  NzMenuDirective, NzMenuItemComponent,
   // NzSubMenuComponent
 } from 'ng-zorro-antd/menu';
 import {
@@ -28,6 +29,7 @@ import { AuthService } from './core/services/auth.service';
     NzContentComponent,
     NzFooterComponent,
     RouterLink,
+    RouterLinkActive
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
@@ -35,12 +37,12 @@ import { AuthService } from './core/services/auth.service';
 export class AppComponent {
   title = signal("TradeLens");
   protected authService = inject(AuthService);
-  isCollapsed = false;
+  isCollapsed = true;
 
   showNavbar = true;
   private hiddenRoutes = ['/login', '/auth/register', '/auth/landing'];
 
-  constructor(private router: Router) {
+  constructor(protected router: Router) {
     this.router.events
       .pipe(filter(event => event instanceof NavigationEnd))
       .subscribe((event: NavigationEnd) => {
@@ -54,6 +56,6 @@ export class AppComponent {
         this.authService.currentUser.set(null);
         this.router.navigateByUrl('/');
       }
-    })
+    });
   }
 }

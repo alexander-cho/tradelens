@@ -33,6 +33,25 @@ public class FinnhubClient : IFinnhubClient
             throw new HttpRequestException("Failed to fetch current market status", exception);
         }
     }
+    
+    public async Task<FinnhubCompanyProfileDto?> GetCompanyProfileAsync(string symbol)
+    {
+        try
+        {
+            var client = this._httpClientFactory.CreateClient("Finnhub");
+
+            var response = await client.GetAsync($"profile2?symbol={symbol}&token={_finnhubApiKey}");
+            response.EnsureSuccessStatusCode();
+
+            var result = await response.Content.ReadFromJsonAsync<FinnhubCompanyProfileDto?>();
+
+            return result;
+        }
+        catch(HttpRequestException exception)
+        {
+            throw new HttpRequestException($"Failed to fetch company profile for {symbol}", exception);
+        }
+    }
 
     // PRO endpoint
     public Task GetCongressionalTradesByTickerAsync()

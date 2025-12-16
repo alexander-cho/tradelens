@@ -2,9 +2,10 @@ import { inject, Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { BarAggregates, RelatedCompanies } from '../../shared/models/polygon';
+import { BarAggregates } from '../../shared/models/polygon';
 import { Stock } from '../../shared/models/stock';
 import { CompanyFundamentalsResponse } from '../../shared/models/fundamentals/company-fundamentals-response';
+import { CompanyProfile, FinancialRatios, KeyMetrics } from '../../shared/models/fundamentals/company-profile';
 
 @Injectable({
   providedIn: 'root'
@@ -31,6 +32,7 @@ export class CompanyDashboardService {
     if (to) {
       params = params.append('to', to);
     }
+
     return this.http.get<BarAggregates>(this.baseUrl + 'bar-aggregates', { params });
   }
 
@@ -39,12 +41,13 @@ export class CompanyDashboardService {
     return this.http.get<Stock>(this.baseUrl + 'stocks/' + ticker);
   }
 
-  public getRelatedCompanies(ticker: string | undefined): Observable<RelatedCompanies> {
+  public getRelatedCompanies(ticker: string | undefined): Observable<string[]> {
     let params = new HttpParams();
     if (ticker) {
       params = params.append('ticker', ticker);
     }
-    return this.http.get<RelatedCompanies>(this.baseUrl + 'companies/related-companies', { params });
+
+    return this.http.get<string[]>(this.baseUrl + 'companies/related-companies', { params });
   }
 
   public getCompanyFundamentalData(ticker: string | undefined, period: string, metric: string[]): Observable<CompanyFundamentalsResponse> {
@@ -59,6 +62,71 @@ export class CompanyDashboardService {
         params = params.append('metric', companyMetric);
       }
     }
+
     return this.http.get<CompanyFundamentalsResponse>(this.baseUrl + 'companies', { params });
+  }
+
+  public getCompanyProfile(ticker: string): Observable<CompanyProfile> {
+    let params = new HttpParams();
+    if (ticker) {
+      params = params.append('ticker', ticker);
+    }
+
+    return this.http.get<CompanyProfile>(this.baseUrl + 'companies/company-profile', { params });
+  }
+
+  public getKeyMetrics(ticker: string): Observable<KeyMetrics> {
+    let params = new HttpParams();
+    if (ticker) {
+      params = params.append('ticker', ticker);
+    }
+
+    return this.http.get<KeyMetrics>(this.baseUrl + 'companies/key-metrics', { params });
+  }
+
+  public getFinancialRatios(ticker: string): Observable<FinancialRatios> {
+    let params = new HttpParams();
+    if (ticker) {
+      params = params.append('ticker', ticker);
+    }
+
+    return this.http.get<FinancialRatios>(this.baseUrl + 'companies/financial-ratios', { params });
+  }
+
+  public getCompanyMetricsGroupedByParent(ticker: string | undefined, interval: string, metric: string[], from?: string, to?: string): Observable<CompanyFundamentalsResponse> {
+    let params = new HttpParams();
+    if (ticker) {
+      params = params
+        .append('ticker', ticker)
+        .append('interval', interval);
+    }
+    if (metric) {
+      for (const companyMetric of metric) {
+        params = params.append('metric', companyMetric);
+      }
+    }
+
+    if (from) {
+      params = params.append('from', from);
+    }
+
+    if (to) {
+      params = params.append('to', to);
+    }
+
+    return this.http.get<CompanyFundamentalsResponse>(this.baseUrl + 'company-metrics/grouped-parent', { params });
+  }
+
+  public getParentMetricsAssociatedWithTicker(ticker: string): Observable<string[]> {
+    let params = new HttpParams();
+    if (ticker) {
+      params = params.append('ticker', ticker);
+    }
+
+    return this.http.get<string[]>(this.baseUrl + 'company-metrics/metrics', { params })
+  }
+
+  public getAvailableCompanies(): Observable<string[]> {
+    return this.http.get<string[]>(this.baseUrl + 'company-metrics/available-companies')
   }
 }

@@ -1,1 +1,71 @@
-{{ marketStatus()?.isOpen }}
+<div class="flex items-start justify-between">
+  <div class="grid w-2/3">
+    <div nz-row [nzGutter]="[8, 8]">
+      @for (profile of availableCompanyProfiles(); track $index) {
+        <div nz-col class="gutter-row" [nzSpan]="24 / 3">
+          <div class="grid-config">
+            <nz-card routerLink="/companies/{{profile.ticker}}" class="company-card flex flex-col items-center justify-center text-center">
+              <img ngSrc="{{profile.logo}}" width="64" height="64" alt="{{profile.ticker}}" class="mx-auto">
+              <h1 class="text-2xl pt-2">{{ profile.ticker }}</h1>
+              <h2 class="text-lg">{{ profile.name }}</h2>
+              <nz-card class="company-card-hover flex-1">
+                <div class="flex justify-between">
+                  <h2 class="text-xs">Country of Operations:</h2>
+                  <h1 class="text-xs">{{ profile.country }}</h1>
+                </div>
+                <div class="flex justify-between">
+                  <h2 class="text-xs">Industry:</h2>
+                  <h1 class="text-xs">{{ profile.finnhubIndustry }}</h1>
+                </div>
+                <div class="flex justify-between">
+                  <h2 class="text-xs">Ipo Date:</h2>
+                  <h1 class="text-xs">{{ profile.ipo | date : 'MMMM d, y' }}</h1>
+                </div>
+                <div class="flex justify-between">
+                  <h2 class="text-xs">Shares Outstanding:</h2>
+                  <h1 class="text-xs">{{ profile.shareOutstanding | number : '1.0-0' }}</h1>
+                </div>
+                <div class="flex justify-between">
+                  <h2 class="text-xs">Market Cap:</h2>
+                  <h1 class="text-xs">${{ profile.marketCapitalization | number : '1.0-0' }}</h1>
+                </div>
+              </nz-card>
+            </nz-card>
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+
+  <div class="pl-2 grid w-1/3">
+    <div class="flex-grid flex-col space-y-4">
+      <nz-card>
+        @if (marketStatus()?.isOpen === true) {
+          <h1 class="text-lg">Market open: 🟢</h1>
+        } @else {
+          <h1 class="text-lg">Market open: 🔴</h1>
+        }
+      </nz-card>
+
+      <nz-card>
+        <h1 class="text-lg">tell us what you want to see! it may appear here</h1>
+      </nz-card>
+
+      <nz-card>
+        <h1 class="text-lg">in it for the long run</h1>
+      </nz-card>
+
+      <nz-card>
+        <h1 class="text-lg">COIN, HOOD, RBLX, RIVN, ROKU, (SNAP), </h1>
+      </nz-card>
+
+      <nz-card>
+        <h1 class="text-lg">if you see any blank metrics/sections, it's because I need to pay my data provider, don't fret it's coming soon</h1>
+      </nz-card>
+
+      <nz-card>
+        <h1 class="text-lg">something else</h1>
+      </nz-card>
+    </div>
+  </div>
+</div>

@@ -1,4 +1,5 @@
 FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS base
+USER app
 WORKDIR /app
 EXPOSE 6501
 
@@ -15,8 +16,6 @@ COPY src .
 WORKDIR /src/API
 RUN dotnet build "API.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
-COPY src/Infrastructure/Data/SeedData /app/Infrastructure/Data/SeedData
-
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
 RUN dotnet publish "API.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
@@ -24,6 +23,4 @@ RUN dotnet publish "API.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAp
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-COPY --from=build /app/Infrastructure/Data/SeedData /app/Infrastructure/Data/SeedData
-USER app
 ENTRYPOINT ["dotnet", "API.dll"]

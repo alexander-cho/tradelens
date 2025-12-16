@@ -1,8 +1,8 @@
 @if (showNavbar) {
   <nz-layout>
-    <nz-sider nzCollapsible [(nzCollapsed)]="isCollapsed" [nzTrigger]="null">
+    <nz-sider nzCollapsible [(nzCollapsed)]="isCollapsed" [nzCollapsedWidth]="48" [nzTrigger]="null">
       <div class="logo" [class.logo-collapsed]="isCollapsed">
-        <nz-icon nzType="fund" nzTheme="twotone" routerLink="/"/>
+        <nz-icon nzType="layout" nzTheme="twotone" routerLink="/"/>
         @if (!isCollapsed) {
           <span class="logo-text" routerLink="/">TradeLens</span>
         }
@@ -15,38 +15,49 @@
         <!--          <li nz-menu-item>Alex</li>-->
         <!--        </ul>-->
         <!--      </li>-->
-        <li nz-menu-item routerLink="/feed">
-          <nz-icon routerLink="/feed" nzType="read"/>
-          <span>Feed</span>
-        </li>
-        <li nz-menu-item routerLink="/companies">
+<!--        <li nz-menu-item routerLink="/feed">-->
+<!--          <nz-icon routerLink="/feed" nzType="read"/>-->
+<!--          <span>Feed</span>-->
+<!--        </li>-->
+        <li nz-menu-item routerLink="/companies" routerLinkActive="ant-menu-item-selected" [routerLinkActiveOptions]="{ exact: false }">
           <nz-icon nzType="shop"/>
           <span>Companies</span>
         </li>
-        <li nz-menu-item>
-          <nz-icon nzType="bank"/>
-          <span>Crypto</span>
-        </li>
-        <li nz-menu-item routerLink="/chart-engine">
-          <nz-icon nzType="area-chart"/>
-          <span>Chart Engine</span>
-        </li>
-        <li nz-menu-item routerLink="/options">
+        <li nz-menu-item routerLink="/options" routerLinkActive="ant-menu-item-selected" [routerLinkActiveOptions]="{ exact: false }">
           <nz-icon nzType="bar-chart"/>
           <span>Max Pain</span>
         </li>
-        <li nz-menu-item routerLink="/congress">
-          <nz-icon nzType="book"/>
-          <span>Congress</span>
+        <li nz-menu-item routerLink="/chart-engine" routerLinkActive="ant-menu-item-selected" [routerLinkActiveOptions]="{ exact: false }">
+          <nz-icon nzType="area-chart"/>
+          <span>Chart Engine</span>
         </li>
-        <li nz-menu-item>
-          <nz-icon nzType="dollar"/>
+        <li nz-menu-item routerLink="/earnings-calendar" routerLinkActive="ant-menu-item-selected" [routerLinkActiveOptions]="{ exact: false }">
+          <nz-icon nzType="calendar"/>
           <span>Earnings Calendar</span>
         </li>
-        <li nz-menu-item>
+        <li nz-menu-item routerLink="/macro" routerLinkActive="ant-menu-item-selected" [routerLinkActiveOptions]="{ exact: false }">
           <nz-icon nzType="global"/>
           <span>Macro</span>
         </li>
+        <li nz-menu-item routerLink="/congress" routerLinkActive="ant-menu-item-selected" [routerLinkActiveOptions]="{ exact: false }">
+          <nz-icon nzType="book"/>
+          <span>Congress</span>
+        </li>
+        <li nz-menu-item routerLink="/brokerage">
+          <nz-icon nzType="dollar"/>
+          <span>Brokerage</span>
+        </li>
+        @if (authService.currentUser()) {
+          <li nz-menu-item (click)="logout()" routerLink="/">
+            <nz-icon nzType="user" nzTheme="outline"/>
+            <span>Logout</span>
+          </li>
+        } @else {
+          <li nz-menu-item routerLink="/login">
+            <nz-icon nzType="user" nzTheme="outline"/>
+            <span>Login</span>
+          </li>
+        }
       </ul>
     </nz-sider>
     <nz-layout>
@@ -56,13 +67,13 @@
           [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"
           (click)="isCollapsed = !isCollapsed"
         />
-        @if (authService.currentUser()) {
-          <a (click)="logout()" routerLink="/" class="font-medium text-blue-500 focus:outline-none">Logout</a>
-        } @else {
-          <a routerLink="/login" class="font-medium text-blue-500 focus:outline-none">Login</a>
+        <a routerLink="/auth/landing" class="font-medium text-blue-500 focus:outline-none">Landing Page</a>
+        <a routerLink="/" class="font-medium text-blue-500 focus:outline-none ml-6">Go Home</a>
+        @if (router.url.startsWith("/companies/")) {
+          <a routerLink="/companies" class="font-medium text-blue-500 focus:outline-none ml-6">Search Companies</a>
         }
       </nz-header>
-      <nz-content class="pt-4">
+      <nz-content>
         <router-outlet></router-outlet>
       </nz-content>
       <nz-footer class="text-center">

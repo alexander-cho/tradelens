@@ -10,8 +10,18 @@ import { NzButtonComponent } from 'ng-zorro-antd/button';
 
 @Component({
   selector: 'app-login',
-  imports: [ReactiveFormsModule, RouterLink, NzFormDirective, NzFormItemComponent, NzFormControlComponent, NzInputGroupComponent, NzColDirective, NzRowDirective, NzButtonComponent, NzInputDirective
-  // NzCheckboxComponent
+  imports: [
+    ReactiveFormsModule,
+    RouterLink,
+    NzFormDirective,
+    NzFormItemComponent,
+    NzFormControlComponent,
+    NzInputGroupComponent,
+    NzColDirective,
+    NzRowDirective,
+    NzButtonComponent,
+    NzInputDirective
+    // NzCheckboxComponent
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
