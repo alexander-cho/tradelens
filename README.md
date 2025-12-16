@@ -1,5 +1,5 @@
 # TradeLens
----
+
 #### All of your financial market data and investing needs in one place, for you to be very profitable in the long run. Zoom in on the information that actually matters.
 
 ##### Future implementation ideas
