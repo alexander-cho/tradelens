@@ -14,6 +14,7 @@ import {
   NzSiderComponent
 } from 'ng-zorro-antd/layout';
 import { AuthService } from './core/services/auth.service';
+import { NzMessageService } from 'ng-zorro-antd/message';
 
 @Component({
   selector: 'app-root',
@@ -42,6 +43,8 @@ export class AppComponent {
   protected showNavbar = true;
   private hiddenRoutes = ['/login', '/auth/register', '/auth/landing'];
 
+  private message = inject(NzMessageService);
+
   constructor(protected router: Router) {
     this.router.events
       .pipe(filter(event => event instanceof NavigationEnd))
@@ -55,6 +58,7 @@ export class AppComponent {
       next: () => {
         this.authService.currentUser.set(null);
         this.router.navigateByUrl('/');
+        this.message.info('Logged out');
       }
     });
   }

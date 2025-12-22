@@ -6,6 +6,7 @@ import { NzButtonComponent } from 'ng-zorro-antd/button';
 import { NzColDirective, NzRowDirective } from 'ng-zorro-antd/grid';
 import { NzFormControlComponent, NzFormDirective, NzFormItemComponent } from 'ng-zorro-antd/form';
 import { NzInputDirective, NzInputGroupComponent } from 'ng-zorro-antd/input';
+import { NzMessageService } from 'ng-zorro-antd/message';
 
 @Component({
   selector: 'app-register',
@@ -28,6 +29,7 @@ export class RegisterComponent {
   private formBuilder = inject(FormBuilder);
   private authService = inject(AuthService);
   private router = inject(Router);
+  private message = inject(NzMessageService);
 
   protected validationErrors: WritableSignal<string[] | undefined> = signal<string[] | undefined>(undefined);
 
@@ -44,6 +46,7 @@ export class RegisterComponent {
     this.authService.register(this.registerForm.value).subscribe({
       next: () => {
         this.router.navigateByUrl('/login');
+        this.message.success('Registration successful, please log in.');
       },
       error: errors => {
         this.validationErrors.set(Object.values(errors.error.errors).flat() as string[]);

@@ -7,7 +7,7 @@ import { NzInputDirective, NzInputGroupComponent } from 'ng-zorro-antd/input';
 import { NzColDirective, NzRowDirective } from 'ng-zorro-antd/grid';
 // import { NzCheckboxComponent } from 'ng-zorro-antd/checkbox';
 import { NzButtonComponent } from 'ng-zorro-antd/button';
-// import { NzMessageService } from 'ng-zorro-antd/message';
+import { NzMessageService } from 'ng-zorro-antd/message';
 
 @Component({
   selector: 'app-login',
@@ -31,9 +31,7 @@ export class LoginComponent {
   private formBuilder = inject(FormBuilder);
   private authService = inject(AuthService);
   private router = inject(Router);
-  // private message = inject(NzMessageService);
-
-  protected validationErrors: WritableSignal<string[] | undefined> = signal<string[] | undefined>(undefined);
+  private message = inject(NzMessageService);
 
   loginForm = this.formBuilder.group({
     email: ['', Validators.required],
@@ -46,10 +44,10 @@ export class LoginComponent {
       next: () => {
         this.authService.getUserInfo().subscribe();
         this.router.navigateByUrl('/');
-        // this.message.success('Login successful');
+        this.message.success('Login successful');
       },
       error: errors => {
-        this.validationErrors.set(errors);
+        this.message.error('Failed to login', errors);
       }
     });
   }

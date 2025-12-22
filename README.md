@@ -30,7 +30,7 @@ postgres:17.2-alpine3.21
 
 ```shell
 docker run -d \
---name redis-dev \
+--name tradelens-redis-dev \
 -p 6380:6379 \
 redis:latest
 ```
