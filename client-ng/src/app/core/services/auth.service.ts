@@ -1,8 +1,8 @@
-import { inject, Injectable, signal } from '@angular/core';
+import { inject, Injectable, signal, WritableSignal } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { User } from '../../shared/models/user';
-import { map } from 'rxjs';
+import { map, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -11,9 +11,9 @@ export class AuthService {
   private baseUrl = environment.apiUrl;
   private http = inject(HttpClient);
 
-  currentUser = signal<User | null>(null);
+  currentUser: WritableSignal<User | null> = signal<User | null>(null);
 
-  login(values: any) {
+  login(values: any): Observable<User> {
     let params = new HttpParams();
     params = params.append('useCookies', true);
     return this.http.post<User>(this.baseUrl + 'login', values, { params });
@@ -23,14 +23,13 @@ export class AuthService {
     return this.http.post(this.baseUrl + 'auth/register', values);
   }
 
-  getUserInfo() {
-    return this.http.get<User>(this.baseUrl + 'auth/user-info')
-      .pipe(
-        map(user => {
-          this.currentUser.set(user);
-          return user;
-        })
-      );
+  getUserInfo(): Observable<User> {
+    return this.http.get<User>(this.baseUrl + 'auth/user-info').pipe(
+      map(user => {
+        this.currentUser.set(user);
+        return user;
+      })
+    );
   }
 
   logout() {

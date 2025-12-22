@@ -198,6 +198,7 @@ export class ChartEngineComponent implements OnInit {
     this.fullTimeline.set(undefined);
     this.sliderRange.set(undefined);
     this.chart?.destroy();
+    this.destroyChart();
   }
 
   protected createChart() {
@@ -243,7 +244,7 @@ export class ChartEngineComponent implements OnInit {
     });
   }
 
-  destroyChart() {
+  private destroyChart() {
     this.chart?.destroy();
   }
 }

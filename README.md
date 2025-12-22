@@ -12,9 +12,9 @@ cache certain API responses to save API calls and faster response times (time an
 
 better UI for charts - think of client side rendering maybe
 
-![UBER Dashboard](guides/images/uber.png)
+![UBER Dashboard](docs/images/uber.png)
 
-##### postgres local dev container
+#### Postgres local dev container
 
 ```shell
 docker run -d \
@@ -26,11 +26,23 @@ docker run -d \
 postgres:17.2-alpine3.21
 ```
 
-##### redis local dev container
+#### Redis local dev container
 
 ```shell
 docker run -d \
 --name redis-dev \
 -p 6380:6379 \
 redis:latest
+```
+
+#### EF Core Migrations (from /backend/src/)
+
+```shell
+dotnet ef migrations add <Migration Name> -s API -p Infrastructure
+```
+`-s` flag: --startup-project; specify executable project to run (Program.cs)
+
+`-p` flag: --project; specify since migration files, DbContext lie in a separate class library
+```shell
+dotnet ef database update -s API -p Infrastructure
 ```

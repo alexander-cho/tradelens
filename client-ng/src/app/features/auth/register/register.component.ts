@@ -1,5 +1,5 @@
-import { Component, inject } from '@angular/core';
-import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { Component, inject, signal, WritableSignal } from '@angular/core';
+import { AbstractControl, FormBuilder, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { AuthService } from '../../../core/services/auth.service';
 import { Router, RouterLink } from '@angular/router';
 import { NzButtonComponent } from 'ng-zorro-antd/button';
@@ -29,13 +29,15 @@ export class RegisterComponent {
   private authService = inject(AuthService);
   private router = inject(Router);
 
-  validationErrors?: string[];
+  protected validationErrors: WritableSignal<string[] | undefined> = signal<string[] | undefined>(undefined);
 
   registerForm = this.formBuilder.group({
-    firstName: [''],
-    lastName: [''],
-    email: [''],
-    password: ['']
+    firstName: ['', Validators.required],
+    lastName: ['', Validators.required],
+    email: ['', [Validators.required,
+      // Validators.email
+    ]],
+    password: ['', Validators.required]
   });
 
   onSubmit() {
@@ -44,7 +46,7 @@ export class RegisterComponent {
         this.router.navigateByUrl('/login');
       },
       error: errors => {
-        this.validationErrors = Object.values(errors.error.errors).flat() as string[];
+        this.validationErrors.set(Object.values(errors.error.errors).flat() as string[]);
       }
     });
   }

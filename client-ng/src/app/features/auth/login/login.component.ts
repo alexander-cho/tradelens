@@ -1,5 +1,5 @@
-import { Component, inject } from '@angular/core';
-import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { Component, inject, signal, WritableSignal } from '@angular/core';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../../../core/services/auth.service';
 import { Router, RouterLink } from '@angular/router';
 import { NzFormControlComponent, NzFormDirective, NzFormItemComponent } from 'ng-zorro-antd/form';
@@ -7,6 +7,7 @@ import { NzInputDirective, NzInputGroupComponent } from 'ng-zorro-antd/input';
 import { NzColDirective, NzRowDirective } from 'ng-zorro-antd/grid';
 // import { NzCheckboxComponent } from 'ng-zorro-antd/checkbox';
 import { NzButtonComponent } from 'ng-zorro-antd/button';
+// import { NzMessageService } from 'ng-zorro-antd/message';
 
 @Component({
   selector: 'app-login',
@@ -20,7 +21,7 @@ import { NzButtonComponent } from 'ng-zorro-antd/button';
     NzColDirective,
     NzRowDirective,
     NzButtonComponent,
-    NzInputDirective
+    NzInputDirective,
     // NzCheckboxComponent
   ],
   templateUrl: './login.component.html',
@@ -29,12 +30,14 @@ import { NzButtonComponent } from 'ng-zorro-antd/button';
 export class LoginComponent {
   private formBuilder = inject(FormBuilder);
   private authService = inject(AuthService);
-
   private router = inject(Router);
+  // private message = inject(NzMessageService);
+
+  protected validationErrors: WritableSignal<string[] | undefined> = signal<string[] | undefined>(undefined);
 
   loginForm = this.formBuilder.group({
-    email: [''],
-    password: [''],
+    email: ['', Validators.required],
+    password: ['', Validators.required],
     // remember: true
   });
 
@@ -43,6 +46,10 @@ export class LoginComponent {
       next: () => {
         this.authService.getUserInfo().subscribe();
         this.router.navigateByUrl('/');
+        // this.message.success('Login successful');
+      },
+      error: errors => {
+        this.validationErrors.set(errors);
       }
     });
   }

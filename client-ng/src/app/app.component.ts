@@ -37,9 +37,9 @@ import { AuthService } from './core/services/auth.service';
 export class AppComponent {
   title = signal("TradeLens");
   protected authService = inject(AuthService);
-  isCollapsed = true;
+  protected isCollapsed = true;
 
-  showNavbar = true;
+  protected showNavbar = true;
   private hiddenRoutes = ['/login', '/auth/register', '/auth/landing'];
 
   constructor(protected router: Router) {
@@ -50,7 +50,7 @@ export class AppComponent {
       });
   }
 
-  logout() {
+  protected logout() {
     this.authService.logout().subscribe({
       next: () => {
         this.authService.currentUser.set(null);

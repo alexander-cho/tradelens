@@ -35,7 +35,7 @@
 
       <nz-form-item>
         <nz-form-control nzErrorTip="Please input your email!">
-          <nz-input-group nzPrefixIcon="user">
+          <nz-input-group nzPrefixIcon="mail">
             <input type="text" nz-input formControlName="email" required placeholder="Email address"/>
           </nz-input-group>
         </nz-form-control>
@@ -49,8 +49,18 @@
         </nz-form-control>
       </nz-form-item>
 
+      @if (validationErrors()) {
+        <div class="mb-3 p-4 text-red-400">
+          <ul class="list-disc px-3">
+            @for (error of validationErrors(); track $index) {
+              <li>{{ error }}</li>
+            }
+          </ul>
+        </div>
+      }
+
       <div class="flex flex-col items-center space-y-4">
-        <button nz-button type="submit" class="w-full" [nzType]="'primary'">
+        <button [disabled]="registerForm.invalid" nz-button type="submit" class="w-full" [nzType]="'primary'">
           Create account
         </button>
 

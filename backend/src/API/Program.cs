@@ -40,7 +40,7 @@ app.UseStaticFiles();
 app.MapControllers();
 
 // get access to provided Identity endpoints
-// overwrite url so it's not {{url}}/login, but api is there
+// overwrite url so it's not {{url}}/login, but rather {{url}}/api/login
 app.MapGroup("api").MapIdentityApi<User>();
 
 // if API server cannot handle request, gets passed to client app

@@ -1,4 +1,10 @@
-import { ApplicationConfig, provideBrowserGlobalErrorListeners, provideZonelessChangeDetection } from '@angular/core';
+import {
+  ApplicationConfig,
+  inject,
+  provideAppInitializer,
+  provideBrowserGlobalErrorListeners,
+  provideZonelessChangeDetection
+} from '@angular/core';
 import { provideRouter, withComponentInputBinding, withInMemoryScrolling } from '@angular/router';
 import { routes } from './app.routes';
 import { en_US, provideNzI18n } from 'ng-zorro-antd/i18n';
@@ -29,9 +35,12 @@ import {
   CalendarOutline,
   ArrowsAltOutline,
   PlusCircleOutline,
-  CloudDownloadOutline
+  CloudDownloadOutline,
+  MailOutline
 } from '@ant-design/icons-angular/icons';
 import { Chart, Filler } from 'chart.js/auto';
+import { InitService } from './core/services/init.service';
+import { lastValueFrom } from 'rxjs';
 
 registerLocaleData(en);
 
@@ -54,7 +63,8 @@ const icons: IconDefinition[] = [
   CalendarOutline,
   ArrowsAltOutline,
   PlusCircleOutline,
-  CloudDownloadOutline
+  CloudDownloadOutline,
+  MailOutline
 ];
 
 // global chart color config
@@ -67,6 +77,10 @@ export const appConfig: ApplicationConfig = {
     provideZonelessChangeDetection(),
     provideRouter(routes, withComponentInputBinding(), withInMemoryScrolling({ scrollPositionRestoration: 'enabled' })),
     provideHttpClient(withInterceptors([authInterceptor])),
+    provideAppInitializer(async () => {
+      const initService = inject(InitService);
+      return lastValueFrom(initService.init());
+    }),
     provideBrowserGlobalErrorListeners(),
     provideNzI18n(en_US),
     provideAnimationsAsync(),
