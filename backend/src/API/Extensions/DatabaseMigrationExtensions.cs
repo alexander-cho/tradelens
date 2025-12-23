@@ -15,7 +15,7 @@ public static class DatabaseMigrationExtensions
             using var scope = app.Services.CreateScope();
             var services = scope.ServiceProvider;
             var context = services.GetRequiredService<TradelensDbContext>();
-    
+        
             // retry policy for Npgsql exceptions
             AsyncRetryPolicy retryPolicy = Policy
                 .Handle<NpgsqlException>()
@@ -26,12 +26,12 @@ public static class DatabaseMigrationExtensions
                     {
                         Console.WriteLine($"Retry {retryCount} due to {exception.Message}");
                     });
-
+        
             await retryPolicy.ExecuteAsync(async () =>
             {
                 await context.Database.MigrateAsync();
             });
-    
+        
             await DbContextSeed.SeedPostsAsync(context);
             await DbContextSeed.SeedStocksAsync(context);
             await DbContextSeed.SeedCompanyMetricsAsync(context);
