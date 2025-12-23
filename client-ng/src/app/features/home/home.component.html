@@ -37,35 +37,53 @@
     </div>
   </div>
 
-  <div class="pl-2 grid w-1/3">
-    <div class="flex-grid flex-col space-y-4">
-      <nz-card>
-        @if (marketStatus()?.isOpen === true) {
-          <h1 class="text-lg">Market open: 🟢</h1>
-        } @else {
-          <h1 class="text-lg">Market open: 🔴</h1>
-        }
-      </nz-card>
+  <div class="flex pl-2 w-1/3">
+    <div nz-row [nzGutter]="[8, 8]">
+      <div nz-col [nzSpan]="24">
+        <nz-card>
+          @if (marketStatus()?.isOpen === true) {
+            <h1 class="text-lg">Market open: 🟢</h1>
+          } @else {
+            <h1 class="text-lg">Market open: 🔴</h1>
+          }
+        </nz-card>
+      </div>
 
-      <nz-card>
-        <h1 class="text-lg">tell us what you want to see! it may appear here</h1>
-      </nz-card>
+      <div nz-col [nzSpan]="24">
+        <nz-card>
+          <h1 class="text-lg">fear-greed index</h1>
+        </nz-card>
+      </div>
 
-      <nz-card>
-        <h1 class="text-lg">in it for the long run</h1>
-      </nz-card>
+      <div nz-col [nzSpan]="24">
+        <nz-card>
+          <h1 class="text-lg">tell us what you want to see. it may appear here</h1>
+        </nz-card>
+      </div>
 
-      <nz-card>
-        <h1 class="text-lg">COIN, HOOD, RBLX, RIVN, ROKU, (SNAP), </h1>
-      </nz-card>
+      <div nz-col [nzSpan]="24">
+        <nz-card>
+          <h2 class="text-lg">coming up:</h2>
+          <h1 class="text-lg">META, HIMS, TSLA</h1>
+        </nz-card>
+      </div>
 
-      <nz-card>
-        <h1 class="text-lg">if you see any blank metrics/sections, it's because I need to pay my data provider, don't fret it's coming soon</h1>
-      </nz-card>
+      <div nz-col [nzSpan]="24">
+        <nz-card>
+          <h1 class="text-lg">if you see any blank metrics/sections, it's because I need to pay my data provider, don't worry. it's coming soon</h1>
+        </nz-card>
+      </div>
 
-      <nz-card>
-        <h1 class="text-lg">something else</h1>
-      </nz-card>
+      <div nz-col [nzSpan]="24">
+        <nz-card>
+          <h1 class="text-lg">keep in mind, a lot of these features are works in progress</h1>
+        </nz-card>
+      </div>
+
+      <div nz-col [nzSpan]="24">
+        <nz-card>
+        </nz-card>
+      </div>
     </div>
   </div>
 </div>
