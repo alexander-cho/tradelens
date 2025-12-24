@@ -1,17 +1,18 @@
-<div class="flex w-1/2">
-  <form (ngSubmit)="onTickerSubmit()" style="display: contents">
+<div class="flex w-full justify-between gap-2">
+  <form (ngSubmit)="onTickerSubmit()" style="display: contents" class="justify-between">
     <input nz-input
            type="text"
-           class=""
+           class="ticker-input"
            placeholder="Enter a ticker symbol"
            name="ticker"
            [(ngModel)]="ticker"/>
 
-    <button nz-button nzType="primary">Get Expiration Dates</button>
+    <button class="get-expiration-dates-button" nz-button nzType="primary">Get Expiration Dates</button>
   </form>
 
   @if (expirationDates()) {
     <nz-select
+      class="expiry-select"
       nzPlaceHolder="Select an expiration date"
       [(ngModel)]="selectedExpiration"
       (ngModelChange)="onExpiryDateSelection()"
@@ -23,7 +24,9 @@
   }
   <div class="flex justify-end">
     @if (selectedExpiration()) {
-      <button [routerLink]="['/options', ticker(), selectedExpiration()]" nz-button nzType="primary">Explore</button>
+      <button class="explore-button" [routerLink]="['/options', ticker(), selectedExpiration()]" nz-button
+              nzType="primary">Explore
+      </button>
     }
   </div>
 </div>
