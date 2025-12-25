@@ -56,7 +56,7 @@ services:
       - GF_SECURITY_ADMIN_USER=user
       - GF_SECURITY_ADMIN_PASSWORD=password
     volumes:
-      - ./backend/observability/grafana/grafana.ini:/etc/grafana/grafana.ini
+      - ./config/grafana/grafana.ini:/etc/grafana/grafana.ini
   
   loki:
     container_name: loki
@@ -64,7 +64,7 @@ services:
     platform: linux/arm64
     volumes:
       # mount the loki config file
-      - ./backend/observability/loki/loki-config.yml:/mnt/config/loki-config.yml
+      - ./config/loki/loki-config.yml:/mnt/config/loki-config.yml
     ports:
       - "3100:3100"
     command: -config.file=/mnt/config/loki-config.yml
@@ -76,7 +76,7 @@ services:
       - "9080:9080"
     volumes:
       # mount the promtail config file
-      - ./backend/observability/promtail/promtail-config.yml:/mnt/config/promtail-config.yml
+      - ./config/promtail/promtail-config.yml:/mnt/config/promtail-config.yml
 #      - /var/log:/var/log
       - /var/lib/docker/containers:/var/lib/docker/containers
       - /var/run/docker.sock:/var/run/docker.sock
