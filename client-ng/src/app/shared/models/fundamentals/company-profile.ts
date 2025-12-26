@@ -43,7 +43,7 @@ export type KeyMetrics = {
   symbol: string;
   enterpriseValueTtm: number;
   returnOnInvestedCapitalTtm: number;
-  currentRatio: number;
+  evToEbitdaTtm: number;
   netDebtToEbitdaTtm: number;
 };
 
