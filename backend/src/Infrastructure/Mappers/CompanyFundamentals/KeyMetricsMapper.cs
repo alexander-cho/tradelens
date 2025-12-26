@@ -15,7 +15,7 @@ public static class KeyMetricsMapper
             Symbol = dto.Symbol,
             EnterpriseValueTtm = dto.EnterpriseValueTtm,
             ReturnOnInvestedCapitalTtm = dto.ReturnOnInvestedCapitalTtm,
-            CurrentRatio = dto.CurrentRatio,
+            EvToEbitdaTtm = dto.EvToEbitdaTtm,
             NetDebtToEbitdaTtm = dto.NetDebtToEbitdaTtm
         };
     }
