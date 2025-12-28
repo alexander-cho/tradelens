@@ -12,77 +12,86 @@ public class AuthController(SignInManager<User> signInManager) : BaseApiControll
     [HttpPost("register")]
     public async Task<ActionResult> Register(RegisterDto registerDto)
     {
-        var user = new User
+        if (User.Identity?.IsAuthenticated == false)
         {
-            FirstName = registerDto.FirstName,
-            LastName = registerDto.LastName,
-            Email = registerDto.Email,
-            UserName = registerDto.Email
-        };
-
-        var result = await signInManager.UserManager.CreateAsync(user, registerDto.Password);
-
-        // format validation errors in a way that can be handled client-side
-        //
-        // ex: attempt to register with password of just "3"
-        //
-        // BEFORE ////
-        //
-        // [
-        //     {
-        //         "code": "PasswordTooShort",
-        //         "description": "Passwords must be at least 6 characters."
-        //     },
-        //     {
-        //         "code": "PasswordRequiresNonAlphanumeric",
-        //         "description": "Passwords must have at least one non alphanumeric character."
-        //     },
-        //     {
-        //         "code": "PasswordRequiresLower",
-        //         "description": "Passwords must have at least one lowercase ('a'-'z')."
-        //     },
-        //     {
-        //         "code": "PasswordRequiresUpper",
-        //         "description": "Passwords must have at least one uppercase ('A'-'Z')."
-        //     }
-        // ]
-        //
-        //
-        // AFTER ////
-        //
-        // {    
-        //     "type": "https://tools.ietf.org/html/rfc9110#section-15.5.1",
-        //     "title": "One or more validation errors occurred.",
-        //     "status": 400,
-        //     "errors": {
-        //         "PasswordTooShort": [
-        //             "Passwords must be at least 6 characters."
-        //         ],
-        //         "PasswordRequiresLower": [
-        //             "Passwords must have at least one lowercase ('a'-'z')."
-        //         ],
-        //         "PasswordRequiresUpper": [
-        //             "Passwords must have at least one uppercase ('A'-'Z')."
-        //         ],
-        //         "PasswordRequiresNonAlphanumeric": [
-        //             "Passwords must have at least one non alphanumeric character."
-        //         ]
-        //     },
-        //     "traceId": "00-2ee08673cff7097f89b2d1281ab4045a-1853df526ec21fbc-00"
-        // }
-        //
-        //
-        if (!result.Succeeded)
-        {
-            foreach (var error in result.Errors)
+            var user = new User
             {
-                ModelState.AddModelError(error.Code, error.Description);
+                FirstName = registerDto.FirstName,
+                LastName = registerDto.LastName,
+                Email = registerDto.Email,
+                UserName = registerDto.Email
+            };
+
+            var result = await signInManager.UserManager.CreateAsync(user, registerDto.Password);
+
+            // format validation errors in a way that can be handled client-side
+            //
+            // ex: attempt to register with password of just "3"
+            //
+            // BEFORE ////
+            //
+            // [
+            //     {
+            //         "code": "PasswordTooShort",
+            //         "description": "Passwords must be at least 6 characters."
+            //     },
+            //     {
+            //         "code": "PasswordRequiresNonAlphanumeric",
+            //         "description": "Passwords must have at least one non alphanumeric character."
+            //     },
+            //     {
+            //         "code": "PasswordRequiresLower",
+            //         "description": "Passwords must have at least one lowercase ('a'-'z')."
+            //     },
+            //     {
+            //         "code": "PasswordRequiresUpper",
+            //         "description": "Passwords must have at least one uppercase ('A'-'Z')."
+            //     }
+            // ]
+            //
+            //
+            // AFTER ////
+            //
+            // {    
+            //     "type": "https://tools.ietf.org/html/rfc9110#section-15.5.1",
+            //     "title": "One or more validation errors occurred.",
+            //     "status": 400,
+            //     "errors": {
+            //         "PasswordTooShort": [
+            //             "Passwords must be at least 6 characters."
+            //         ],
+            //         "PasswordRequiresLower": [
+            //             "Passwords must have at least one lowercase ('a'-'z')."
+            //         ],
+            //         "PasswordRequiresUpper": [
+            //             "Passwords must have at least one uppercase ('A'-'Z')."
+            //         ],
+            //         "PasswordRequiresNonAlphanumeric": [
+            //             "Passwords must have at least one non alphanumeric character."
+            //         ]
+            //     },
+            //     "traceId": "00-2ee08673cff7097f89b2d1281ab4045a-1853df526ec21fbc-00"
+            // }
+            //
+            //
+            if (!result.Succeeded)
+            {
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError(error.Code, error.Description);
+                }
+
+                return ValidationProblem();
             }
+
+            return Ok();
+        }
+        else
+        {
             
-            return ValidationProblem();
         }
 
-        return Ok();
+        return NoContent();
     }
 
     [Authorize]
