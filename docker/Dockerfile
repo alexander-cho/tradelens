@@ -3,11 +3,11 @@ WORKDIR /app
 
 RUN npm install -g @angular/cli@20
 
-COPY ["client-ng/package*.json", "./ClientApp/"]
+COPY ["apps/client-ng/package*.json", "./ClientApp/"]
 RUN cd ClientApp && npm ci
 
-COPY ["client-ng/", "./ClientApp/"]
-COPY ["backend/src/API/wwwroot", "./backend/src/API/wwwroot/"]
+COPY ["apps/client-ng/", "./ClientApp/"]
+COPY ["apps/backend/src/API/wwwroot", "./backend/src/API/wwwroot/"]
 
 RUN cd ClientApp && ng build --configuration production
 
@@ -16,12 +16,12 @@ FROM mcr.microsoft.com/dotnet/sdk:10.0 AS base
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 
-COPY ["backend/src/API/API.csproj", "API/"]
-COPY ["backend/src/Core/Core.csproj", "Core/"]
-COPY ["backend/src/Infrastructure/Infrastructure.csproj", "Infrastructure/"]
+COPY ["apps/backend/src/API/API.csproj", "API/"]
+COPY ["apps/backend/src/Core/Core.csproj", "Core/"]
+COPY ["apps/backend/src/Infrastructure/Infrastructure.csproj", "Infrastructure/"]
 RUN dotnet restore "API/API.csproj"
 
-COPY ["backend/src/", "./"]
+COPY ["apps/backend/src/", "./"]
 
 COPY --from=angular-builder ["/app/backend/src/API/wwwroot", "./API/wwwroot/"]
 
