@@ -1,0 +1,29 @@
+* text=auto eol=lf
+
+
+*.cs        text
+*.csproj   text
+*.sln      text
+*.json     text
+*.yml      text
+*.yaml     text
+*.xml      text
+*.md       text
+*.sh       text
+*.ts       text
+*.html     text
+*.scss     text
+*.css      text
+*.env      text
+*.dockerfile text
+Dockerfile text
+
+
+*.png  binary
+*.jpg  binary
+*.jpeg binary
+*.gif  binary
+*.ico  binary
+*.pdf  binary
+*.zip  binary
+*.gz   binary
