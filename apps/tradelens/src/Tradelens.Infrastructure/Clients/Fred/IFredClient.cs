@@ -1,0 +1,9 @@
+using Tradelens.Infrastructure.Clients.Fred.DTOs;
+
+namespace Tradelens.Infrastructure.Clients.Fred;
+
+public interface IFredClient
+{
+    Task<SeriesDto?> GetSeriesAsync(string seriesId);
+    Task<SeriesObservationsDto?> GetSeriesObservationsAsync(string seriesId);
+}
