@@ -14,6 +14,8 @@ better UI for charts - think of client side rendering maybe
 
 ![UBER Dashboard](docs/images/uber.png)
 
+___
+
 #### Postgres local dev container
 
 ```shell
@@ -35,14 +37,22 @@ docker run -d \
 redis:latest
 ```
 
+___
+
 #### EF Core Migrations (from /backend/src/)
 
 ```shell
 dotnet ef migrations add <Migration Name> -s API -p Infrastructure
+dotnet ef database update -s API -p Infrastructure
 ```
 `-s` flag: --startup-project; specify executable project to run (Program.cs)
 
 `-p` flag: --project; specify since migration files, DbContext lie in a separate class library
-```shell
-dotnet ef database update -s API -p Infrastructure
+
+___
+
+#### .gitattributes
+
+```terminaloutput
+warning: in the working copy of '.github/workflows/deploy_azure.yml', CRLF will be replaced by LF the next time Git touches it
 ```
