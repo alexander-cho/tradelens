@@ -21,25 +21,25 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-        
+
       - name: Set up Node.js
         uses: actions/setup-node@v3
-        with: 
-          node-version: '22'
-          
+        with:
+          node-version: '24'
+
       - name: Install Angular CLI
         run: npm install -g @angular/cli@20
-        
+
       - name: Install dependencies and build client app
         run: |
           cd client-ng
           npm install
           ng build
-          
+
       - name: Set up .NET Core
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '9.x'
+          dotnet-version: '10.x'
 
       - name: Build with dotnet
         run: dotnet build ${{env.PROJECT_PATH}} --configuration Release
@@ -68,7 +68,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: .net-app
-      
+
       - name: Login to Azure
         uses: azure/login@v2
         with:
