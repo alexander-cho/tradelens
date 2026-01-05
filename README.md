@@ -1,16 +1,22 @@
 # TradeLens
 
-___
-
 ### All of your financial market data and investing needs in one place, for you to be very profitable in the long run. Zoom in on the information that actually matters.
 
 #### Future implementation ideas
+
+Check out `task.md` or `docs/`. Or submit a feature request: `.github/ISSUE_TEMPLATE/feature-request.yml`
+
+___
+
+#### Ideas and suggestions for v1
 
 cache certain API responses to save API calls and faster response times (time and money)
 - AlphaVantage Top Gainers/Losers/MostActivelyTraded are updated once a day.
 - for the time being, stock/options contract charts since we are limited to a measly 5 per minute.
 
 better UI for charts - think of client side rendering maybe
+
+___
 
 ![UBER Dashboard](docs/images/uber.png)
 
@@ -39,11 +45,11 @@ redis:latest
 
 ___
 
-#### EF Core Migrations (from /backend/src/)
+#### EF Core Migrations (from /apps/tradelens/src/)
 
 ```shell
-dotnet ef migrations add <Migration Name> -s API -p Infrastructure
-dotnet ef database update -s API -p Infrastructure
+dotnet ef migrations add <Migration Name> -s Tradelens.Api -p Tradelens.Infrastructure
+dotnet ef database update -s Tradelens.Api -p Tradelens.Infrastructure
 ```
 `-s` flag: --startup-project; specify executable project to run (Program.cs)
 
