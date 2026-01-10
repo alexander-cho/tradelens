@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Testcontainers.PostgreSql;
 
-namespace Tradelens.Api.Tests;
+namespace Tradelens.Integration.Tests;
 
 public class TradelensWebApplicationFactory : WebApplicationFactory<Program>, IAsyncLifetime
 {

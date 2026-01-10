@@ -4,7 +4,7 @@ using Tradelens.Core.Entities;
 using FluentAssertions;
 using Tradelens.Infrastructure.Data;
 
-namespace Tradelens.Api.Tests;
+namespace Tradelens.Integration.Tests;
 
 public class PostsControllerTests : IClassFixture<TradelensWebApplicationFactory>
 {

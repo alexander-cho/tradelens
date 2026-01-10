@@ -13,7 +13,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tradelens.Infrastructure", 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{DE8FCF3B-633D-4173-9A4C-9FB86D2FD43B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tradelens.Api.Tests", "tests\Tradelens.Api.Tests\Tradelens.Api.Tests.csproj", "{D106E1D5-053F-4527-9DD8-D572287B941E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tradelens.Integration.Tests", "tests\Tradelens.Integration.Tests\Tradelens.Integration.Tests.csproj", "{D106E1D5-053F-4527-9DD8-D572287B941E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tradelens.Cli", "src\Tradelens.Cli\Tradelens.Cli.csproj", "{709274D6-7A1A-4A8B-9549-C335288BC547}"
 EndProject
