@@ -11,13 +11,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tradelens.Core", "src\Trade
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tradelens.Infrastructure", "src\Tradelens.Infrastructure\Tradelens.Infrastructure.csproj", "{C33AF396-DDF4-4ED9-A860-6D4983D589E0}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{DE8FCF3B-633D-4173-9A4C-9FB86D2FD43B}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tradelens.Integration.Tests", "tests\Tradelens.Integration.Tests\Tradelens.Integration.Tests.csproj", "{D106E1D5-053F-4527-9DD8-D572287B941E}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tradelens.Cli", "src\Tradelens.Cli\Tradelens.Cli.csproj", "{709274D6-7A1A-4A8B-9549-C335288BC547}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tradelens.Unit.Tests", "tests\Tradelens.Unit.Tests\Tradelens.Unit.Tests.csproj", "{97D41341-B02A-41E2-B472-000C645F6FFF}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{DE8FCF3B-633D-4173-9A4C-9FB86D2FD43B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tradelens.Api.IntegrationTests", "tests\Tradelens.Api.IntegrationTests\Tradelens.Api.IntegrationTests.csproj", "{D106E1D5-053F-4527-9DD8-D572287B941E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tradelens.Core.UnitTests", "tests\Tradelens.Core.UnitTests\Tradelens.Core.UnitTests.csproj", "{97D41341-B02A-41E2-B472-000C645F6FFF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

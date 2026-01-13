@@ -2,7 +2,7 @@ using FluentAssertions;
 using Tradelens.Core.Entities;
 using Tradelens.Core.Specifications;
 
-namespace Tradelens.Unit.Tests.Specifications;
+namespace Tradelens.Core.UnitTests.Specifications;
 
 /// <summary>
 /// Tests for TickerListSpecification rules.

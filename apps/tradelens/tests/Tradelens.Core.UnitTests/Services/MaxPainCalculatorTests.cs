@@ -1,4 +1,4 @@
-namespace Tradelens.Unit.Tests.Services;
+namespace Tradelens.Core.UnitTests.Services;
 
 /// <summary>
 /// Things to test to verify max pain and cash value calculations are working properly:
