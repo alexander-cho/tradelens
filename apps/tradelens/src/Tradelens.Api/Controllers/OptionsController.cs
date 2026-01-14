@@ -21,7 +21,7 @@ public class OptionsController : ControllerBase
     [HttpGet("options-chain")]
     public async Task<ActionResult<OptionsChainModel>> GetOptionsChain([FromQuery] TradierOptionChainSpecParams tradierOptionChainSpecParams)
     {
-        return await _optionsService.GetOptionsChainAsync(tradierOptionChainSpecParams);
+        return Ok(await _optionsService.GetOptionsChainAsync(tradierOptionChainSpecParams));
     }
     
     [HttpGet("cash-values")]
