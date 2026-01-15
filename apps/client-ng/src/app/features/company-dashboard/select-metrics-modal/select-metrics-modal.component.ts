@@ -4,7 +4,7 @@ import { NZ_MODAL_DATA, NzModalRef } from 'ng-zorro-antd/modal';
 import { FormsModule } from '@angular/forms';
 import { NzCheckboxComponent, NzCheckboxGroupComponent } from 'ng-zorro-antd/checkbox';
 import { NzColDirective, NzRowDirective } from 'ng-zorro-antd/grid';
-import { METRIC_DISPLAY_OVERRIDES } from '../../../shared/utils/metric-display-names';
+import { METRIC_DISPLAY_OVERRIDES } from '@tradelens/charting';
 
 @Component({
   selector: 'app-select-metrics-modal',

@@ -8,6 +8,24 @@ Check out `task.md` or `docs/`. Or submit a feature request: `.github/ISSUE_TEMP
 
 ___
 
+### Repository structure
+
+The bulk of it lies under `apps/`, currently separated with the backend and the client Angular app.
+
+Core: domain and core business logic
+
+Infrastructure: data access concerns- DB, external API, file I/O, etc.
+
+Api: controllers, app entry point, helpers/logic related to request/response cycle
+
+Cli: another client, to orchestrate document fetching/parsing among other concerns → reference/call related services in inner layers
+
+___
+
+![UBER Dashboard](docs/images/uber.png)
+
+___
+
 #### Ideas and suggestions for v1
 
 cache certain API responses to save API calls and faster response times (time and money)
@@ -15,12 +33,6 @@ cache certain API responses to save API calls and faster response times (time an
 - for the time being, stock/options contract charts since we are limited to a measly 5 per minute.
 
 better UI for charts - think of client side rendering maybe
-
-___
-
-![UBER Dashboard](docs/images/uber.png)
-
-___
 
 #### Postgres local dev container
 

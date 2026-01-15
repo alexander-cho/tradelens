@@ -3,13 +3,14 @@ WORKDIR /app
 
 RUN npm install -g @angular/cli@20
 
-COPY ["apps/client-ng/package*.json", "./ClientApp/"]
-RUN cd ClientApp && npm ci
+COPY ["apps/client-ng/package*.json", "./apps/client-ng/"]
+RUN cd apps/client-ng && npm ci
 
-COPY ["apps/client-ng/", "./ClientApp/"]
-COPY ["apps/tradelens/src/Tradelens.Api/wwwroot", "./tradelens/src/Tradelens.Api/wwwroot/"]
+COPY ["packages/", "./packages/"]
+COPY ["apps/client-ng/", "./apps/client-ng/"]
+COPY ["apps/tradelens/src/Tradelens.Api/wwwroot", "./apps/tradelens/src/Tradelens.Api/wwwroot/"]
 
-RUN cd ClientApp && ng build --configuration production
+RUN cd apps/client-ng && ng build --configuration production
 
 
 FROM mcr.microsoft.com/dotnet/sdk:10.0 AS base
@@ -23,7 +24,7 @@ RUN dotnet restore "Tradelens.Api/Tradelens.Api.csproj"
 
 COPY ["apps/tradelens/src/", "./"]
 
-COPY --from=angular-builder ["/app/tradelens/src/Tradelens.Api/wwwroot", "./Tradelens.Api/wwwroot/"]
+COPY --from=angular-builder ["/app/apps/tradelens/src/Tradelens.Api/wwwroot", "./Tradelens.Api/wwwroot/"]
 
 WORKDIR /src/Tradelens.Api
 RUN dotnet publish "Tradelens.Api.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
