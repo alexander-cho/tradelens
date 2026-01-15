@@ -2,14 +2,15 @@ import { Component, effect, input, InputSignal, AfterViewInit, computed, Signal,
 import { ChildMetricGroup, ValueDataAtEachPeriod } from '../../models/fundamentals/company-fundamentals-response';
 import { Chart, ScriptableContext } from 'chart.js/auto';
 import { NzCardComponent } from 'ng-zorro-antd/card';
-import { BARCHART_COLORS } from '../../utils/barchart-colors';
-import { NONSTACKED_METRICS } from '../../utils/nonstacked-metrics';
-import { METRIC_DISPLAY_OVERRIDES } from '../../utils/metric-display-names';
 import { NzIconDirective } from 'ng-zorro-antd/icon';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import {
   ExpandCompanyMetricChartModalComponent
 } from './expand-company-metric-chart-modal/expand-company-metric-chart-modal.component';
+
+import { BARCHART_COLORS } from '../../utils/barchart-colors';
+import { NONSTACKED_METRICS } from '@tradelens/charting';
+import { METRIC_DISPLAY_OVERRIDES } from '@tradelens/charting';
 
 @Component({
   selector: 'app-company-metric-chart',

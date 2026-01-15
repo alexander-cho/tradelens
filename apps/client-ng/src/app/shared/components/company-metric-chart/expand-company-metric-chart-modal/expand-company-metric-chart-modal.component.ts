@@ -12,15 +12,16 @@ import {
 import { NZ_MODAL_DATA } from 'ng-zorro-antd/modal';
 import { ChildMetricGroup, ValueDataAtEachPeriod } from '../../../models/fundamentals/company-fundamentals-response';
 import { Chart, ScriptableContext } from 'chart.js/auto';
-import { BARCHART_COLORS } from '../../../utils/barchart-colors';
-import { NONSTACKED_METRICS } from '../../../utils/nonstacked-metrics';
-import { METRIC_DISPLAY_OVERRIDES } from '../../../utils/metric-display-names';
 import { CompanyDashboardService } from '../../../../core/services/company-dashboard.service';
 import { NzRadioComponent, NzRadioGroupComponent } from 'ng-zorro-antd/radio';
 import { FormsModule } from '@angular/forms';
 import { NzIconDirective } from 'ng-zorro-antd/icon';
 import { RouterLink } from '@angular/router';
 import { NzMarks, NzSliderComponent } from 'ng-zorro-antd/slider';
+
+import { BARCHART_COLORS } from '../../../utils/barchart-colors';
+import { NONSTACKED_METRICS } from '@tradelens/charting';
+import { METRIC_DISPLAY_OVERRIDES } from '@tradelens/charting';
 
 @Component({
   selector: 'app-expand-company-metric-chart-modal',
