@@ -13,14 +13,14 @@ to its respective page if it exists, then clicking on the green Option Chain but
 select an expiration date, and finally the user is given the option to view cash values and max pain. Any user realizes
 that things can take quite some time among the last two of the aforementioned steps.
 
-<img alt="SOFI max pain network req 2026-01-30" height="191" src="images/sofi-jan-30-26.png" width="312"/>
-<img alt="AAPL max pain network req 2026-01-09" height="191" src="images/aapl-jan-9-26.png" width="312"/>
-<img alt="QQQ max pain network req 2026-01-05" height="191" src="images/qqq-jan-5-26.png" width="312"/>
+<img alt="SOFI max pain network req 2026-01-30" height="191" src="https://github.com/user-attachments/assets/2b16da14-2422-44bb-897e-721a33c51b73" width="312"/>
+<img alt="AAPL max pain network req 2026-01-09" height="191" src="https://github.com/user-attachments/assets/a9955eef-bcd4-42f4-aaa3-91190fb9075d" width="312"/>
+<img alt="QQQ max pain network req 2026-01-05" height="191" src="https://github.com/user-attachments/assets/7c3bca54-a3b2-4918-b3e0-c135c407a7b8" width="312"/>
 
 As seen above, most responses took between an entire second or two, with the tickers with more strike prices for that 
 expiry being on the higher end of that as they are more computationally intensive. This is unacceptable for a few reasons
-other than the fact that single chart renders take so long, no dynamic functionality, and ability to easily 
-navigate between different expiry's and ticker symbols on demand.
+other than the fact that single chart renders take so long, there being no dynamic functionality, and lack of ability to
+easily navigate between different expiry's and ticker symbols on demand.
 
 Currently, what we have set up is a client layer that is concerned with making the request to the third party API,
 specifically the Tradier `Get Options Chain` endpoint at `https://api.tradier.com/v1/markets/options/chains`. This is
@@ -188,6 +188,53 @@ Now it's ready for use, we can inject the service through the constructor of any
 This is not an optimal design for a few reasons. First, we'd have to write a lot of repetitive code, likely every class 
 where we have a method to cache the response of, and within each method as well. Also, we should keep our controllers 
 as thin as possible, only concerning ourselves with the request and response, and infrastructure concerns like caching 
-away from it. 
+away from it. To solve this, we can opt to create an attribute that marks the task at the method or class level to indicate
+that the action is to be taken here. Similar to attributes that we have been using that comes with `Microsoft.AspNetCore.Mvc`,
+such as `[ApiController]` that marks a class that should serve HTTP responses.
 
-#### Trade-offs between data freshness and longer TTL
+The key (no pun intended) here is to consider the parameters of each incoming request, and the next time we receive that
+same request, we'll get the response from cache instead of going out to the DB, external, file. Let's create a class to
+do this and start with the following, in `apps/tradelens/src/Tradelens.Api/RequestHelpers/CacheAttribute.cs`.
+
+We inherit from the `Attribute` class which represents the base class for custom attributes, and we can use it to associate
+user defined custom information/logic with a target element, in this case a controller action method. 
+Also implement `IAsyncActionFilter` then we have to implement `OnActionExecutionAsync(ActionExecutingContext, ActionExecutionDelegate)`,
+where the first parameter gives us access to the request before it runs
+
+```csharp
+var cacheService = context.HttpContext.RequestServices.GetRequiredService<IResponseCacheService>();
+var cacheKey = GenerateCacheKeyFromRequest(context.HttpContext.Request);
+var cachedResponse = await cacheService.GetCachedResponseAsync(cacheKey);
+```
+
+First we use the service locator pattern as opposed to DI through the constructor, since by design attributes are applied
+to methods/classes as metadata at compile-time. We can only pass in constant values such as strings or types and not services, 
+which exist at runtime after the DI container is built. Then we generate the cache key using the request from the HTTP 
+context with a custom private method that takes the url and appends query parameters with '|' delimiters in between. Then
+look in the redis database instance to see if a response associated with that cache key exists, if it does, short circuit
+the action (e.g., do not execute controller method) and return that response. Else, we await the action execution, check
+if the return type is of `Ok(...)`, then add it to Redis, finally return response provided by the action.
+
+![caching](https://github.com/user-attachments/assets/f6d8762f-b4b2-4b2b-b9e7-1229ec417800)
+
+
+#### Performance tests
+
+`/api/options/cash-values?symbol=sofi&expiration=2026-02-20`
+4.94 KB
+First request: 458 ms
+Second (cached): 24 ms
+
+`/api/options/cash-values?symbol=spy&expiration=2026-01-23`
+20.96 KB
+First request: 1.41 s
+Second (cached): 52 ms
+___
+
+### Cache Invalidation
+
+What if a user requests the options chain for a certain ticker and that is cached, but soon after, e.g. before the TTL,
+a large buy order is filled and potentially changes the equation for cash values and even the max pain value? Or in terms
+of the database, more broadly, an entity object is added sometime between the user requesting for it via an API endpoint
+(cached) and the TTL expiration; we'd be serving stale data for however long. 
+

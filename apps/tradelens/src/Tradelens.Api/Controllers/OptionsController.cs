@@ -24,15 +24,16 @@ public class OptionsController : ControllerBase
         return Ok(await _optionsService.GetOptionsChainAsync(tradierOptionChainSpecParams));
     }
     
+    [Cache(600)]
     [HttpGet("cash-values")]
     public async Task<ActionResult<CallsAndPutsCashSums>> GetCashValuesAndMaxPain([FromQuery] TradierOptionChainSpecParams tradierOptionChainSpecParams)
     {
-        return await _optionsService.CalculateCashValuesForOneExpirationAsync(tradierOptionChainSpecParams);
+        return Ok(await _optionsService.CalculateCashValuesForOneExpirationAsync(tradierOptionChainSpecParams));
     }
 
     [HttpGet("expirations")]
     public async Task<ActionResult<ExpirationsModel>> GetExpiryListForUnderlying([FromQuery] string symbol)
     {
-        return await _optionsService.GetExpiryListForUnderlyingAsync(symbol);
+        return Ok(await _optionsService.GetExpiryListForUnderlyingAsync(symbol));
     }
 }
