@@ -2,9 +2,9 @@
 
 Something odd caught my eye earlier today.
 
-<img alt="Duolingo and logo" height="30" src="images/duolingo.png" width="200"/>
+<img alt="Duolingo and logo" height="30" src="https://github.com/user-attachments/assets/3f9b7d6d-6598-4e78-a860-342bd9b4c8aa" width="200"/>
 
-<img alt="Duolingo Revenue Minus Subscriptions Quarterly" height="250" src="images/duol-rev-minus-subs.png" width="250"/>
+<img alt="Duolingo Revenue Minus Subscriptions Quarterly" height="250" src="https://github.com/user-attachments/assets/5fdf9e5e-b8a0-4fd0-8009-bf440578800d" width="250"/>
 
 Duolingo has only reported an "In App Purchases" segment in their revenue breakdown for the past 8 quarters. In the
 above
@@ -141,7 +141,7 @@ Now using the master timeline which has the number of x-axis points (periods) ne
 Duolingo Revenue Breakdown Minus Subscriptions (Quarterly), for each childMetric list, we need to see if a PeriodEndDate for
 each point in the master timeline exists in the childMetric list.
 
-![Duolingo Revenue Breakdown Quarters Mappings](images/duol-rev-breakdown-quarters-mapping.png)
+![Duolingo Revenue Breakdown Quarters Mappings](https://github.com/user-attachments/assets/7fd59c62-e871-4bb8-826c-01d155e79a27)
 
 As seen in this graphic above, where there is no mapping between the periodEndDate of the masterTimeline and the
 ChildMetricGroup (In App Purchases in this case), we need to insert a *null* value at that time slot.
@@ -184,6 +184,6 @@ labels: masterTimeline.labels
 data: this.alignDataToTimeline(childMetric, masterTimeline.periodEndDates)
 ```
 
-<img alt="Corrected Duolingo Revenue Breakdown Quarters Mappings" height="250" src="images/corrected-duol-revenue-breakdown.png" width="250"/>
+<img alt="Corrected Duolingo Revenue Breakdown Quarters Mappings" height="250" src="https://github.com/user-attachments/assets/d4e98dcb-acac-46dc-8d4a-42144aa99763" width="250"/>
 
 Fixed.

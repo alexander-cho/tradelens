@@ -22,7 +22,7 @@ Yahoo Finance API and instantiated line charts in the html using [Plotly](https:
 manipulating pandas dataframes and figuring out the shape of the responses. Now about the data, it's not comprehensive 
 nor is it the most effective... but it *is* there for starters.
 
-![TradeLens Flask AAPL Financials](images/tradelens-flask-company-financials.png)
+![TradeLens Flask AAPL Financials](https://github.com/user-attachments/assets/9faab1f0-cb7a-4780-ac43-fb61365046f1)
 
 The charts are fully rendered server-side but lacks client-side interactivity, and the lines for each metric are plastered 
 on a single chart all at once. Some recurring pieces of feedback that I received included but were not limited to "Too plain"
@@ -90,7 +90,7 @@ a true "one-stop shop for all your financial needs," SoFi has become a force tha
 
 To even begin illustrating this, let's take a look at their stunning quarterly revenues, the most basic of metrics.
 
-![SoFi Quarterly Revenue](images/sofi-quarterly-revenue.png)
+![SoFi Quarterly Revenue](https://github.com/user-attachments/assets/455920bb-586e-4f7d-9507-ad37b3df50cb)
 
 Amazing. But wait a minute. These values are just outright wrong. SoFi did \$961.6 million in the third quarter of 2025. The
 current data shows that the past 4 quarters they passed the \$1 billion mark, which would be great as my position would be

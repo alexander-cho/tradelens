@@ -194,27 +194,29 @@ is `admin`, but as we specified otherwise in the docker compose, we will authent
 
 In order to query the logs ingested by Loki, set it as a data source inside of Grafana. Select Add Data Source
 
-![Grafana add data source](images/grafana-add-data-source.png)
+![Grafana add data source](https://github.com/user-attachments/assets/c429a148-6a1f-431a-9731-3f231e9d9b2f)
 
 Then select Loki. Now enter the url under 'Connection'. The input placeholder may say `http://localhost:3100`, but
 if you remember our promtail config url definition, use `http://loki:3100`, then scroll down and click 'Save & test'.
 
-![Add Loki](images/grafana-add-loki.png)
+![Add Loki](images/https://github.com/user-attachments/assets/13e5dcf5-76c9-4d23-bfe8-e897354b3a80)
 
 Once that is successful, to query the data, click **Explore** on the side menu, then make sure Loki is set as the default
 data source, which it should be. Here we build the LogQL command, click the 'Select label' dropdown menu, and you will see 
 quite a few labels, thanks to the Docker driver plugin that was installed earlier:
 
-![Loki labels](images/grafana-loki-docker-labels.png)
+![Loki labels](https://github.com/user-attachments/assets/f200ecfd-4ef5-4c42-8ce1-67007a9bf005)
 
 For the 'Select value' dropdown, you should be able to see all the containers running in your local system!
 
-![Loki labels](images/grafana-loki-select-container.png)
+![Loki labels](https://github.com/user-attachments/assets/3149a1b2-c24d-401c-b10e-8f95768cbbc9)
 
 The dropdown only shows containers which have logs for that selected time period so make sure to modify that:
 
-![Loki labels](images/grafana-change-time-period.png)
+![Loki labels](https://github.com/user-attachments/assets/bcdd7f57-aecb-444b-b62a-6081b459d661)
 
 If i want to filter all log records relating to dotnet inside my application container, I can use the following query:
 
 `{container_name="tradelens-app"} |= "dotnet"`
+
+![Grafana Logs Drilldown](https://github.com/user-attachments/assets/3101ecb5-1f20-4027-93fc-02ee247fe5b7)
