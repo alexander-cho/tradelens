@@ -20,7 +20,7 @@ public class BarAggregatesController : ControllerBase
     
     [HttpGet]
     [Cache(1000)]
-    public async Task<ActionResult<BarAggregatesModel>> GetBarAggregates([FromQuery] PolygonBarAggSpecParams polygonBarAggSpecParams)
+    public async Task<ActionResult<BarAggregatesModel>> GetBarAggregates([FromQuery] PolygonBarAggQueryParams polygonBarAggSpecParams)
     {
         var barAggregatesDto = await this._polygonClient.GetBarAggregatesAsync(polygonBarAggSpecParams);
         if (barAggregatesDto == null)

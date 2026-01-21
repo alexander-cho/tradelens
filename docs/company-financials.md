@@ -4,8 +4,7 @@ Blocking out the noise and focusing on what really matters when it comes to inve
 difficult but extremely rewarding financially. Now, what really matters? Is it the fact that the CTO sold 2,745 shares
 last month to fund who knows what, a new boat? Is it when an analyst at a big bank reiterates a bearish price 
 target the morning after the company reports blowout quarterly earnings and raises guidance? Or could it be that some 
-guy on YouTube with laser eyes in his profile picture says the stock just formed a *double bearish hammerhead quad 
-witching shooting star doji with bearish MACD divergence in Mercury retrograde*™ and the stock is going to zero? 
+guy on YouTube with laser eyes in his profile picture claims that the stock is going to zero? 
 Nope. It's... *drumroll*... Gross Profits. Revenue growth. Various ratios. Margins by segment. Company specific KPI's. 
 Maybe it's not exactly what you wanted to hear, but it's what will make you rich in the long term, and individual investors 
 like you and I should aim to maximize time inside the markets.
@@ -16,9 +15,9 @@ to tell a convincing story with data, in my honest opinion.
 
 ### Fast Prototype
 
-My initial python prototype (not in this repository, but you can find it [here](https://tradelens-py-327dfc1283f7.herokuapp.com/symbol/AAPL/financials)
+My initial python prototype (not in this repository, but you can find it [here](https://tradelens-py-327dfc1283f7.herokuapp.com/symbol/AAPL/financials))
 using the Flask web microframework along with Jinja2 templating was fairly quick to spin up. I sourced data from the 
-Yahoo Finance API and instantiated line charts in the html using [Plotly](https://plotly.com/python/). I had a good time 
+Yahoo Finance API and instantiated line charts in the HTML using [Plotly](https://plotly.com/python/). I spent a good amount of time
 manipulating pandas dataframes and figuring out the shape of the responses. Now about the data, it's not comprehensive 
 nor is it the most effective... but it *is* there for starters.
 
@@ -33,11 +32,11 @@ as well as fundamental data that digs much deeper into the business.
 
 For my production app, I found [Financial Modeling Prep](https://site.financialmodelingprep.com/developer/docs#income-statement)
 (FMP), which along with numerous other endpoints, their income statement API gave me a wide array of important financial
-metrics returned in a neat json structure. Using the configured HttpClientFactory as a service in my app container, and some DTO
+metrics returned in a neat JSON structure. Using the configured HttpClientFactory as a service in my app container, and some DTO
 mapping, I was able to get the response for either yearly or quarterly metrics (period) of a specific company (ticker symbol).
 `backend/src/Infrastructure/Clients/Fmp/FmpClient.cs`.
 
-I feel like part of a great user experience lies in giving them flexibility and choice, so I knew I needed functionality
+A great user experience lies in giving them flexibility and choice, so I knew I needed functionality
 for the option to get the specific metrics they want, for whichever period in less than a few clicks. The best way to 
 achieve this is to pass the metrics as a list in the url parameters as something like: 
 `GET /api/companies?ticker=SOFI&period=quarter&metric=netIncome&metric=revenue&metric=freeCashFlow`
@@ -122,7 +121,7 @@ and do the same search. The four instances that begin with "1268" are under the 
 in FY 2022 and `Research and Development Expenses` in Q2 2023.
 
 This is worse than I initially thought. FMP is either pulling dollar values incorrectly or computing random ones. In the
-Q3 2025 10-Q pdf file, searching for `961.6` reveals 8 instances of the correct revenue amount, all under the proper
+Q3 2025 10-Q PDF file, searching for `961.6` reveals 8 instances of the correct revenue amount, all under the proper
 contexts, e.g. Consolidated Statements of Operations, management discussion sections, and year-over-year comparison tables.
 This solidified my decision: I would build my own solution to programmatically parse SEC filings using LLM-based extraction,
 while understanding document structure and financial context.
