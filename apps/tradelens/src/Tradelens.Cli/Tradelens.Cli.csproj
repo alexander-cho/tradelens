@@ -1,12 +1,20 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
-    <ProjectReference Include="..\Tradelens.Core\Tradelens.Core.csproj" />
-    <ProjectReference Include="..\Tradelens.Infrastructure\Tradelens.Infrastructure.csproj" />
+    <ProjectReference Include="..\Tradelens.Core\Tradelens.Core.csproj"/>
+    <ProjectReference Include="..\Tradelens.Infrastructure\Tradelens.Infrastructure.csproj"/>
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="System.CommandLine" Version="2.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="10.0.2"/>
+  </ItemGroup>
+
+<!--  https://learn.microsoft.com/en-us/dotnet/core/extensions/configuration-->
+<!--  include, or else when using Rider IDE built in Run button, does not pick up appsettings and throws 401 unauthorized-->
+  <ItemGroup>
+    <None Update="appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
   <PropertyGroup>

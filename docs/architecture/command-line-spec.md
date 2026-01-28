@@ -1,6 +1,7 @@
 # Rich command line utility
 
 - get and parse SEC filings and investor presentations, provided with cli args. Mainly for backfilling.
+- System.Console => Spectre.Console
 
 ### SEC filings and investor presentations
 

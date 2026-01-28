@@ -45,6 +45,8 @@ export class AppComponent {
 
   private message = inject(NzMessageService);
 
+  public thisYear = new Date().getFullYear();
+
   constructor(protected router: Router) {
     this.router.events
       .pipe(filter(event => event instanceof NavigationEnd))
