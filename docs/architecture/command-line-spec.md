@@ -14,7 +14,7 @@
 Specify in command line prompt something to the tune of:
 
 ```shell
-dotnet run && edgarfacts --ticker AAPL
+dotnet run --edgarfacts AAPL
 ```
 
 This will call the following.

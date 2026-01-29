@@ -26,7 +26,7 @@ ___
 
 ___
 
-#### Ideas and suggestions for v1
+#### Ideas and suggestions from v1
 
 cache certain API responses to save API calls and faster response times (time and money)
 - AlphaVantage Top Gainers/Losers/MostActivelyTraded are updated once a day.

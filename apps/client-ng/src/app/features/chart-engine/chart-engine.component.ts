@@ -12,7 +12,7 @@ import { CompanyMetricDto } from '../../shared/models/fundamentals/company-metri
 import { KeyValuePipe } from '@angular/common';
 import { NzCardComponent } from 'ng-zorro-antd/card';
 import { NzMarks, NzSliderComponent } from 'ng-zorro-antd/slider';
-import { ValueDataAtEachPeriod } from '../../shared/models/fundamentals/company-fundamentals-response';
+import { createTimelineForSingleMetric } from '../../shared/utils/chart-utils';
 
 
 @Component({
@@ -152,31 +152,9 @@ export class ChartEngineComponent implements OnInit {
     });
   }
 
-  /*
-  * Method to get slider timeline values. When only dealing with charting one metric at a time, there's no need to create
-  * the master timeline, though the logic for that exists in the ExpandCompanyMetricChartModalComponent.
-  * This below implementation is from the aforementioned component as well, for single metric.
-  */
-  private createTimelineForSingleMetric = (valueDataList: ValueDataAtEachPeriod[]): {
-    periodEndDates: string[],
-    labels: string[]
-  } => {
-    const periodEndDates: string[] = [];
-    const labels: string[] = [];
-    valueDataList.forEach(valueDataPoint => {
-      periodEndDates.push(valueDataPoint.periodEndDate);
-      let quarterFiscalYear = valueDataPoint.period + ' ' + valueDataPoint.fiscalYear;
-      labels.push(quarterFiscalYear);
-    });
-    return {
-      periodEndDates: periodEndDates,
-      labels: labels
-    }
-  }
-
   private getFullTimeline() {
     if (this.companyMetricsResponse() != null) {
-      this.fullTimeline.set(this.createTimelineForSingleMetric(this.companyMetricsResponse()?.data!));
+      this.fullTimeline.set(createTimelineForSingleMetric(this.companyMetricsResponse()?.data!));
       this.sliderRange.set([0, this.fullTimeline()!.periodEndDates.length - 1]);
     }
   }
@@ -197,7 +175,6 @@ export class ChartEngineComponent implements OnInit {
     this.to.set(undefined);
     this.fullTimeline.set(undefined);
     this.sliderRange.set(undefined);
-    this.chart?.destroy();
     this.destroyChart();
   }
 
