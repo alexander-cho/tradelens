@@ -15,6 +15,17 @@ services:
       - ASPNETCORE_URLS=http://*:6501
     depends_on:
       - sql
+
+  worker:
+    container_name: tradelens-worker
+    build:
+      context: ..
+      dockerfile: apps/tradelens/src/Tradelens.Worker/Dockerfile
+    ports:
+      - "27017:27017"
+    depends_on:
+      - sql
+
   
   # backing services
   
