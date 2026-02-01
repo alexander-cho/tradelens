@@ -10,7 +10,7 @@ public class DbSyncWorker(ILogger<DbSyncWorker> logger) : BackgroundService
             {
                 logger.LogInformation("DbSyncWorker running at: {time}", DateTimeOffset.Now);
             }
-            await Task.Delay(1000, stoppingToken);
+            await Task.Delay(10000, stoppingToken);
         }
     }
 }
