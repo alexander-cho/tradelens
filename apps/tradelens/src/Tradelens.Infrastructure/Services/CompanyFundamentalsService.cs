@@ -1,6 +1,5 @@
 using Tradelens.Core.Constants;
 using Tradelens.Core.Interfaces;
-using Tradelens.Core.Models;
 using Tradelens.Core.Models.CompanyFundamentals;
 using Tradelens.Infrastructure.Clients.Finnhub;
 using Tradelens.Infrastructure.Clients.Fmp;

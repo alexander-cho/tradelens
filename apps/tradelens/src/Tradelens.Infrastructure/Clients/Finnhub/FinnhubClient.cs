@@ -53,6 +53,25 @@ public class FinnhubClient : IFinnhubClient
         }
     }
 
+    public async Task<IReadOnlyList<SecFilingDto>?> GetSecFilingsAsync(string symbol)
+    {
+        try
+        {
+            var client = this._httpClientFactory.CreateClient("Finnhub");
+
+            var response = await client.GetAsync($"filings?symbol={symbol}&form=10-K&token={_finnhubApiKey}");
+            response.EnsureSuccessStatusCode();
+
+            var result = await response.Content.ReadFromJsonAsync<IReadOnlyList<SecFilingDto>>();
+
+            return result;
+        }
+        catch(HttpRequestException exception)
+        {
+            throw new HttpRequestException($"Failed to fetch SEC filings list for {symbol}", exception);
+        }
+    }
+
     // PRO endpoint
     public Task GetCongressionalTradesByTickerAsync()
     {

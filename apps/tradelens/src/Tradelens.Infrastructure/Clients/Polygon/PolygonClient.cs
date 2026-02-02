@@ -1,5 +1,4 @@
 using System.Net.Http.Json;
-using Tradelens.Core.Specifications;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Tradelens.Infrastructure.Clients.Polygon.DTOs;
@@ -20,7 +19,7 @@ public class PolygonClient : IPolygonClient
         this._logger = logger;
     }
 
-    public async Task<BarAggregatesDto?> GetBarAggregatesAsync(PolygonBarAggSpecParams polygonBarAggSpecParams)
+    public async Task<BarAggregatesDto?> GetBarAggregatesAsync(PolygonBarAggQueryParams polygonBarAggSpecParams)
     {
         var client = this._httpClientFactory.CreateClient("Polygon");
         var response = await client.GetAsync(
@@ -46,4 +45,13 @@ public class PolygonClient : IPolygonClient
         var result = await response.Content.ReadFromJsonAsync<RelatedCompaniesDto>();
         return result;
     }
+}
+
+public class PolygonBarAggQueryParams
+{
+    public required string Ticker { get; set; }
+    public int Multiplier { get; set; }
+    public required string Timespan { get; set; }
+    public required string From { get; set; }
+    public required string To { get; set; }
 }

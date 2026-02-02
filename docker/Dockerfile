@@ -8,8 +8,6 @@ RUN cd apps/client-ng && npm ci
 
 COPY ["packages/", "./packages/"]
 COPY ["apps/client-ng/", "./apps/client-ng/"]
-COPY ["apps/tradelens/src/Tradelens.Api/wwwroot", "./apps/tradelens/src/Tradelens.Api/wwwroot/"]
-
 RUN cd apps/client-ng && ng build --configuration production
 
 
@@ -22,11 +20,16 @@ COPY ["apps/tradelens/src/Tradelens.Core/Tradelens.Core.csproj", "Tradelens.Core
 COPY ["apps/tradelens/src/Tradelens.Infrastructure/Tradelens.Infrastructure.csproj", "Tradelens.Infrastructure/"]
 RUN dotnet restore "Tradelens.Api/Tradelens.Api.csproj"
 
-COPY ["apps/tradelens/src/", "./"]
+# https://devops.stackexchange.com/questions/17647/azure-devops-pipeline-failure-program-does-not-contain-a-static-main-method
+# this line used to be after the below COPY commands!
+WORKDIR /src/Tradelens.Api
+
+COPY ["apps/tradelens/src/Tradelens.Api", "./"]
+COPY ["apps/tradelens/src/Tradelens.Core", "./"]
+COPY ["apps/tradelens/src/Tradelens.Infrastructure", "./"]
 
 COPY --from=angular-builder ["/app/apps/tradelens/src/Tradelens.Api/wwwroot", "./Tradelens.Api/wwwroot/"]
 
-WORKDIR /src/Tradelens.Api
 RUN dotnet publish "Tradelens.Api.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
 

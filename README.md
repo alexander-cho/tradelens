@@ -22,11 +22,11 @@ Cli: another client, to orchestrate document fetching/parsing among other concer
 
 ___
 
-![UBER Dashboard](docs/images/uber.png)
+![UBER Dashboard](https://github.com/user-attachments/assets/7d0ebd40-234c-461b-a775-434828532ed5)
 
 ___
 
-#### Ideas and suggestions for v1
+#### Ideas and suggestions from v1
 
 cache certain API responses to save API calls and faster response times (time and money)
 - AlphaVantage Top Gainers/Losers/MostActivelyTraded are updated once a day.

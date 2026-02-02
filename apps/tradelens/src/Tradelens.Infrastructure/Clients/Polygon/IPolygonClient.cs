@@ -5,6 +5,6 @@ namespace Tradelens.Infrastructure.Clients.Polygon;
 
 public interface IPolygonClient
 {
-    Task<BarAggregatesDto?> GetBarAggregatesAsync(PolygonBarAggSpecParams polygonBarAggSpecParams);
+    Task<BarAggregatesDto?> GetBarAggregatesAsync(PolygonBarAggQueryParams polygonBarAggSpecParams);
     Task<RelatedCompaniesDto?> GetRelatedCompaniesAsync(string ticker);
 }

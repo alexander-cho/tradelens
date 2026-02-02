@@ -1,30 +1,64 @@
-﻿using System.CommandLine;
-using System.CommandLine.Parsing;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Tradelens.Cli.Commands;
+using Tradelens.Infrastructure.Clients.Finnhub;
 
-namespace Tradelens.Cli;
+// https://learn.microsoft.com/en-us/dotnet/core/extensions/dependency-injection/usage
 
-class Program
+HostApplicationBuilder builder = Host.CreateApplicationBuilder(args);
+
+builder.Services.AddScoped<IFinnhubClient, FinnhubClient>();
+builder.Services.AddHttpClient("Finnhub", client =>
 {
-    static int Main(string[] args)
-    {
-        Option<int> num1 = new("--num1")
-        {
-            Description = "Number to read and display on the console."
-        };
+    client.BaseAddress = new Uri("https://finnhub.io/api/v1/stock/");
+    client.DefaultRequestHeaders.Add("Accept", "application/json");
+});
 
-        RootCommand rootCommand = new("Tradelens.Cli");
-        rootCommand.Options.Add(num1);
+builder.Services.AddScoped<EdgarFactsCommand>();
 
-        ParseResult parseResult = rootCommand.Parse(args);
-        if (parseResult.Errors.Count == 0 && parseResult.GetValue(num1) is int)
-        {
-            Console.WriteLine(parseResult.GetValue(num1));
-            return 0;
-        }
-        foreach (ParseError parseError in parseResult.Errors)
-        {
-            Console.Error.WriteLine(parseError.Message);
-        }
-        return 1;
-    }
+using IHost host = builder.Build();
+
+var command = host.Services.GetRequiredService<EdgarFactsCommand>();
+
+if (args[0] == "--edgarfacts" && args.Length == 2)
+{
+    var ticker = args[1];
+    var exitCode = await command.ExecuteAsync(ticker);
+    return exitCode;
 }
+
+return 1;
+
+// public static class Program
+// {
+//     private static int Main(string[] args)
+//     {
+//         
+//         foreach (var arg in args)
+//         {
+//             Console.WriteLine(arg);
+//         }
+//
+//         if (args[0] != "--edgarfacts")
+//         {
+//             Console.WriteLine("Get Edgar company facts.");
+//             return 1;
+//         }
+//
+//         if (args.Length != 2)
+//         {
+//             Console.WriteLine("Format: --edgarfacts <ticker>");
+//             return 1;
+//         }
+//
+//         if (args[0] == "--edgarfacts" && args[1] is not null)
+//         {
+//             var ticker = args[1];
+//             Console.WriteLine("Your input is clean, you are getting Edgar facts. You entered the ticker: " + ticker);
+//             return 0;
+//         }
+//         
+//         Console.WriteLine("Incorrect input");
+//         return 1;
+//     }
+// }

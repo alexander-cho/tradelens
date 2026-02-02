@@ -6,7 +6,7 @@ namespace Tradelens.Infrastructure.Services;
 
 public class ResponseCacheService(IConnectionMultiplexer redis) : IResponseCacheService
 {
-    private readonly IDatabase _database = redis.GetDatabase(1);
+    private readonly IDatabase _database = redis.GetDatabase(0);
     
     // convert c# object to string
     public async Task CacheResponseAsync(string cacheKey, object response, TimeSpan timeToLive)
@@ -19,17 +19,23 @@ public class ResponseCacheService(IConnectionMultiplexer redis) : IResponseCache
     public async Task<string?> GetCachedResponseAsync(string cacheKey)
     {
         var cachedResponse = await _database.StringGetAsync(cacheKey);
-
+        
         if (cachedResponse.IsNullOrEmpty)
         {
             return null;
         }
-
+        
         return cachedResponse;
     }
 
-    public Task RemoveCacheByPattern(string pattern)
+    public async Task RemoveCacheByPattern(string pattern)
     {
-        throw new NotImplementedException();
+        var server = redis.GetServer(endpoint: redis.GetEndPoints().First());
+        var keys = server.Keys(database: 1, pattern: $"*{pattern}*").ToArray();
+
+        if (keys.Length != 0)
+        {
+            await _database.KeyDeleteAsync(keys);
+        }
     }
 }
