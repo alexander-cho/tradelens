@@ -1,0 +1,80 @@
+[
+  {
+    "Ticker": "AMZN",
+    "Period": "Q4",
+    "Year": 2025,
+    "Interval": "quarterly",
+    "Metric": "Revenue",
+    "ParentMetric": "Revenue",
+    "Value": 213386000000,
+    "Section": "Financials",
+    "SourcedFrom": "8-K",
+    "PeriodEndDate": "2025-12-31",
+    "Unit": "Dollars"
+  },
+  {
+    "Ticker": "AMZN",
+    "Period": "Q4",
+    "Year": 2025,
+    "Interval": "quarterly",
+    "Metric": "NetIncome",
+    "ParentMetric": "NetIncome",
+    "Value": 21192000000,
+    "Section": "Financials",
+    "SourcedFrom": "8-K",
+    "PeriodEndDate": "2025-12-31",
+    "Unit": "Dollars"
+  },
+  {
+    "Ticker": "AMZN",
+    "Period": "Q4",
+    "Year": 2025,
+    "Interval": "quarterly",
+    "Metric": "SharesOutstanding",
+    "ParentMetric": "SharesOutstanding",
+    "Value": 10731000000,
+    "Section": "Financials",
+    "SourcedFrom": "8-K",
+    "PeriodEndDate": "2025-12-31",
+    "Unit": "Units"
+  },
+  {
+    "Ticker": "AMZN",
+    "Period": "FY",
+    "Year": 2025,
+    "Interval": "annual",
+    "Metric": "Revenue",
+    "ParentMetric": "Revenue",
+    "Value": 716924000000,
+    "Section": "Financials",
+    "SourcedFrom": "8-K",
+    "PeriodEndDate": "2025-12-31",
+    "Unit": "Dollars"
+  },
+  {
+    "Ticker": "AMZN",
+    "Period": "FY",
+    "Year": 2025,
+    "Interval": "annual",
+    "Metric": "NetIncome",
+    "ParentMetric": "NetIncome",
+    "Value": 77670000000,
+    "Section": "Financials",
+    "SourcedFrom": "8-K",
+    "PeriodEndDate": "2025-12-31",
+    "Unit": "Dollars"
+  },
+  {
+    "Ticker": "AMZN",
+    "Period": "FY",
+    "Year": 2025,
+    "Interval": "annual",
+    "Metric": "SharesOutstanding",
+    "ParentMetric": "SharesOutstanding",
+    "Value": 10731000000,
+    "Section": "Financials",
+    "SourcedFrom": "8-K",
+    "PeriodEndDate": "2025-12-31",
+    "Unit": "Units"
+  }
+]

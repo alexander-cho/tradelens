@@ -1,0 +1,15 @@
+[
+  {
+    "Ticker": "TSLA",
+    "Period": "Q3",
+    "Year": 2019,
+    "Interval": "quarterly",
+    "Metric": "Test",
+    "ParentMetric": "Test",
+    "Value": 209,
+    "Section": "KPI",
+    "SourcedFrom": "8-K",
+    "PeriodEndDate": "2019-09-30",
+    "Unit": "Percent"
+  }
+]
