@@ -2,18 +2,18 @@ using Tradelens.Infrastructure.Clients.Finnhub;
 
 namespace Tradelens.Cli.Commands;
 
-public class EdgarFactsCommand
+public class EdgarFactsCommand(IFinnhubClient client)
 {
-    private readonly IFinnhubClient _client;
-
-    public EdgarFactsCommand(IFinnhubClient client)
-    {
-        _client = client;
-    }
+    // private readonly IFinnhubClient _client;
+    //
+    // public EdgarFactsCommand(IFinnhubClient client)
+    // {
+    //     _client = client;
+    // }
 
     public async Task<int> ExecuteAsync(string ticker)
     {
-        var result = await _client.GetSecFilingsAsync(ticker);
+        var result = await client.GetSecFilingsAsync(ticker);
         var cikResult = result?[0].Cik;
         if (cikResult != null)
         {
