@@ -8,7 +8,8 @@ RUN cd apps/client-ng && npm ci
 
 COPY ["packages/", "./packages/"]
 COPY ["apps/client-ng/", "./apps/client-ng/"]
-RUN cd apps/client-ng && ng build --configuration production
+# output angular app build to new directory, before it was being copied to nowhere, Api ends up serving stale wwwroot
+RUN cd apps/client-ng && ng build --configuration production --output-path /app/dist
 
 
 FROM mcr.microsoft.com/dotnet/sdk:10.0 AS base
@@ -28,7 +29,7 @@ COPY ["apps/tradelens/src/Tradelens.Api", "./"]
 COPY ["apps/tradelens/src/Tradelens.Core", "./"]
 COPY ["apps/tradelens/src/Tradelens.Infrastructure", "./"]
 
-COPY --from=angular-builder ["/app/apps/tradelens/src/Tradelens.Api/wwwroot", "./Tradelens.Api/wwwroot/"]
+COPY --from=angular-builder ["/app/dist/browser", "./wwwroot/"]
 
 RUN dotnet publish "Tradelens.Api.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
