@@ -22,4 +22,11 @@ export const METRIC_DISPLAY_OVERRIDES: Record<string, string> = {
   'PercentageOfCustomersUsingSixOrMoreProducts': 'Percentage of Customers Using 6+ Products',
   'PercentageOfCustomersUsingEightOrMoreProducts': 'Percentage of Customers Using 8+ Products',
   'PercentageOfCustomersUsingTenOrMoreProducts': 'Percentage of Customers Using 10+ Products',
+  
+  // DIS
+  'AdvertisingRevenueFromESPN': 'Advertising Revenue From ESPN',
+  'AffiliationAndSubscriptionFeesRevenueFromESPN': 'Affiliation And Subscription Fees Revenue From ESPN',
+  'ESPNPlusAverageMonthlyRevenuePerPaidSubscriber': 'ESPN Plus Average Monthly Revenue Per Paid Subscriber',
+  'ESPNPlusPaidSubscribers': 'ESPNPlusPaidSubscribers',
+  'DirectToConsumerRevenueBreakdown': 'Direct-to-Consumer Revenue Breakdown'
 }
