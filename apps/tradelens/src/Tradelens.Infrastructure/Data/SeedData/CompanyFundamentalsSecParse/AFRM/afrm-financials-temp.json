@@ -1,0 +1,34 @@
+[
+  { "Ticker": "AFRM", "Period": "Q1", "Year": 2020, "Interval": "quarterly", "Metric": "Revenue", "ParentMetric": "Revenue", "Value": 88000000, "Section": "KPI", "SourcedFrom": "EarningsSupplement", "PeriodEndDate": "2019-09-30", "Unit": "Dollars" },
+  { "Ticker": "AFRM", "Period": "Q2", "Year": 2020, "Interval": "quarterly", "Metric": "Revenue", "ParentMetric": "Revenue", "Value": 130000000, "Section": "KPI", "SourcedFrom": "EarningsSupplement", "PeriodEndDate": "2019-12-31", "Unit": "Dollars" },
+  { "Ticker": "AFRM", "Period": "Q3", "Year": 2020, "Interval": "quarterly", "Metric": "Revenue", "ParentMetric": "Revenue", "Value": 138000000, "Section": "KPI", "SourcedFrom": "EarningsSupplement", "PeriodEndDate": "2020-03-31", "Unit": "Dollars" },
+  { "Ticker": "AFRM", "Period": "Q4", "Year": 2020, "Interval": "quarterly", "Metric": "Revenue", "ParentMetric": "Revenue", "Value": 153000000, "Section": "KPI", "SourcedFrom": "EarningsSupplement", "PeriodEndDate": "2020-06-30", "Unit": "Dollars" },
+
+  { "Ticker": "AFRM", "Period": "Q1", "Year": 2021, "Interval": "quarterly", "Metric": "Revenue", "ParentMetric": "Revenue", "Value": 174000000, "Section": "KPI", "SourcedFrom": "EarningsSupplement", "PeriodEndDate": "2020-09-30", "Unit": "Dollars" },
+  { "Ticker": "AFRM", "Period": "Q2", "Year": 2021, "Interval": "quarterly", "Metric": "Revenue", "ParentMetric": "Revenue", "Value": 204000000, "Section": "KPI", "SourcedFrom": "EarningsSupplement", "PeriodEndDate": "2020-12-31", "Unit": "Dollars" },
+  { "Ticker": "AFRM", "Period": "Q3", "Year": 2021, "Interval": "quarterly", "Metric": "Revenue", "ParentMetric": "Revenue", "Value": 231000000, "Section": "KPI", "SourcedFrom": "EarningsSupplement", "PeriodEndDate": "2021-03-31", "Unit": "Dollars" },
+  { "Ticker": "AFRM", "Period": "Q4", "Year": 2021, "Interval": "quarterly", "Metric": "Revenue", "ParentMetric": "Revenue", "Value": 262000000, "Section": "KPI", "SourcedFrom": "EarningsSupplement", "PeriodEndDate": "2021-06-30", "Unit": "Dollars" },
+
+  { "Ticker": "AFRM", "Period": "Q1", "Year": 2022, "Interval": "quarterly", "Metric": "Revenue", "ParentMetric": "Revenue", "Value": 269000000, "Section": "KPI", "SourcedFrom": "EarningsSupplement", "PeriodEndDate": "2021-09-30", "Unit": "Dollars" },
+  { "Ticker": "AFRM", "Period": "Q2", "Year": 2022, "Interval": "quarterly", "Metric": "Revenue", "ParentMetric": "Revenue", "Value": 361000000, "Section": "KPI", "SourcedFrom": "EarningsSupplement", "PeriodEndDate": "2021-12-31", "Unit": "Dollars" },
+  { "Ticker": "AFRM", "Period": "Q3", "Year": 2022, "Interval": "quarterly", "Metric": "Revenue", "ParentMetric": "Revenue", "Value": 355000000, "Section": "KPI", "SourcedFrom": "EarningsSupplement", "PeriodEndDate": "2022-03-31", "Unit": "Dollars" },
+  { "Ticker": "AFRM", "Period": "Q4", "Year": 2022, "Interval": "quarterly", "Metric": "Revenue", "ParentMetric": "Revenue", "Value": 364000000, "Section": "KPI", "SourcedFrom": "EarningsSupplement", "PeriodEndDate": "2022-06-30", "Unit": "Dollars" },
+
+  { "Ticker": "AFRM", "Period": "Q1", "Year": 2023, "Interval": "quarterly", "Metric": "Revenue", "ParentMetric": "Revenue", "Value": 362000000, "Section": "KPI", "SourcedFrom": "EarningsSupplement", "PeriodEndDate": "2022-09-30", "Unit": "Dollars" },
+  { "Ticker": "AFRM", "Period": "Q2", "Year": 2023, "Interval": "quarterly", "Metric": "Revenue", "ParentMetric": "Revenue", "Value": 400000000, "Section": "KPI", "SourcedFrom": "EarningsSupplement", "PeriodEndDate": "2022-12-31", "Unit": "Dollars" },
+  { "Ticker": "AFRM", "Period": "Q3", "Year": 2023, "Interval": "quarterly", "Metric": "Revenue", "ParentMetric": "Revenue", "Value": 381000000, "Section": "KPI", "SourcedFrom": "EarningsSupplement", "PeriodEndDate": "2023-03-31", "Unit": "Dollars" },
+  { "Ticker": "AFRM", "Period": "Q4", "Year": 2023, "Interval": "quarterly", "Metric": "Revenue", "ParentMetric": "Revenue", "Value": 446000000, "Section": "KPI", "SourcedFrom": "EarningsSupplement", "PeriodEndDate": "2023-06-30", "Unit": "Dollars" },
+
+  { "Ticker": "AFRM", "Period": "Q1", "Year": 2024, "Interval": "quarterly", "Metric": "Revenue", "ParentMetric": "Revenue", "Value": 497000000, "Section": "KPI", "SourcedFrom": "EarningsSupplement", "PeriodEndDate": "2023-09-30", "Unit": "Dollars" },
+  { "Ticker": "AFRM", "Period": "Q2", "Year": 2024, "Interval": "quarterly", "Metric": "Revenue", "ParentMetric": "Revenue", "Value": 591000000, "Section": "KPI", "SourcedFrom": "EarningsSupplement", "PeriodEndDate": "2023-12-31", "Unit": "Dollars" },
+  { "Ticker": "AFRM", "Period": "Q3", "Year": 2024, "Interval": "quarterly", "Metric": "Revenue", "ParentMetric": "Revenue", "Value": 576000000, "Section": "KPI", "SourcedFrom": "EarningsSupplement", "PeriodEndDate": "2024-03-31", "Unit": "Dollars" },
+  { "Ticker": "AFRM", "Period": "Q4", "Year": 2024, "Interval": "quarterly", "Metric": "Revenue", "ParentMetric": "Revenue", "Value": 659000000, "Section": "KPI", "SourcedFrom": "EarningsSupplement", "PeriodEndDate": "2024-06-30", "Unit": "Dollars" },
+
+  { "Ticker": "AFRM", "Period": "Q1", "Year": 2025, "Interval": "quarterly", "Metric": "Revenue", "ParentMetric": "Revenue", "Value": 698000000, "Section": "KPI", "SourcedFrom": "EarningsSupplement", "PeriodEndDate": "2024-09-30", "Unit": "Dollars" },
+  { "Ticker": "AFRM", "Period": "Q2", "Year": 2025, "Interval": "quarterly", "Metric": "Revenue", "ParentMetric": "Revenue", "Value": 866000000, "Section": "KPI", "SourcedFrom": "EarningsSupplement", "PeriodEndDate": "2024-12-31", "Unit": "Dollars" },
+  { "Ticker": "AFRM", "Period": "Q3", "Year": 2025, "Interval": "quarterly", "Metric": "Revenue", "ParentMetric": "Revenue", "Value": 783000000, "Section": "KPI", "SourcedFrom": "EarningsSupplement", "PeriodEndDate": "2025-03-31", "Unit": "Dollars" },
+  { "Ticker": "AFRM", "Period": "Q4", "Year": 2025, "Interval": "quarterly", "Metric": "Revenue", "ParentMetric": "Revenue", "Value": 876000000, "Section": "KPI", "SourcedFrom": "EarningsSupplement", "PeriodEndDate": "2025-06-30", "Unit": "Dollars" },
+
+  { "Ticker": "AFRM", "Period": "Q1", "Year": 2026, "Interval": "quarterly", "Metric": "Revenue", "ParentMetric": "Revenue", "Value": 933000000, "Section": "KPI", "SourcedFrom": "EarningsSupplement", "PeriodEndDate": "2025-09-30", "Unit": "Dollars" },
+  { "Ticker": "AFRM", "Period": "Q2", "Year": 2026, "Interval": "quarterly", "Metric": "Revenue", "ParentMetric": "Revenue", "Value": 1123000000, "Section": "KPI", "SourcedFrom": "EarningsSupplement", "PeriodEndDate": "2025-12-31", "Unit": "Dollars" }
+]

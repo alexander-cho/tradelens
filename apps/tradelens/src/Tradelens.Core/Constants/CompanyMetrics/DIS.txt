@@ -1,0 +1,44 @@
+DomesticLinearNetworksSubscribersByChannel: [DisneyChannel, Freeform, FX, NationalGeographic]
+InternationalLinearNetworksSubscribersByChannel: [GeneralEntertainment, Family]
+DomesticEspnSubscribersByChannel: [ESPN, ESPN2, ESPNU, ESPNEWS, SECNetwork, ACCNetwork]
+
+Revenue
+NetIncome
+OperatingExpenses: [CostOfServices, CostOfProducts, SellingGeneralAdministrativeOther, DepreciationAndAmortization]
+EPS: [Basic, Diluted]
+CashAndDebt: [CashAndCashEquivalents]
+TotalAssets
+TotalLiabilities
+TotalStockholdersEquity
+SharesOutstanding
+
+
+RevenueBreakdown: [Services, Products]
+RevenueBySegment: [Entertainment, Sports, Experiences, Eliminations]
+OperatingIncomeBySegment: [Entertainment, Sports, Experiences]
+
+EntertainmentRevenueBreakdown: [LinearNetworks, DirectToConsumer, ContentSalesLicensingAndOther]
+EntertainmentOperatingIncomeBreakdown: [LinearNetworks, DirectToConsumer, ContentSalesLicensingAndOther]
+LinearNetworksRevenueBreakdown: [AffiliateFees, Advertising, Other]
+AffiliateFeesRevenueByRegion: [Domestic, International]
+AdvertisingRevenueByRegion: [Domestic, International]
+DirectToConsumerRevenueBreakdown: [SubscriptionFees, Advertising, Other]
+DisneyPlusPaidSubscribers: [Domestic, International]
+HuluPaidSubscribers: [SVODOnly, LiveTVAndSVOD]
+DisneyPlusAverageMonthlyRevenuePerPaidSubscriber: [Domestic, International, DisneyPlusCore]
+HuluAverageMonthlyRevenuePerPaidSubscriber: [SVODOnly, LiveTVPlusSVOD]
+
+ContentSalesLicensingAndOtherRevenueBreakdown: [TvAndVodAndHomeEntertainmentDistribution, TheatricalDistribution, Other]
+
+SportsRevenueBreakdown: [AffiliateFees, SubscriptionFees, Advertising, Other]
+AffiliationAndSubscriptionFeesRevenueFromESPN
+AdvertisingRevenueFromESPN
+ESPNPlusPaidSubscribers
+ESPNPlusAverageMonthlyRevenuePerPaidSubscriber
+
+ExperiencesRevenueBreakdown: [ThemeParkAdmissions, ResortsAndVacations, ParksAndExperiencesMerchandiseFoodAndBeverage, MerchandiseLicensingAndRetail, ParksLicensingAndOther]
+ParksAttendanceIncrease: [Domestic, International]
+ParksPerCapitaGuestSpendingIncrease: [Domestic, International]
+HotelsOccupancy: [Domestic, International]
+HotelsAvailableRoomNights: [Domestic, International]
+HotelsChangeInPerRoomGuestSpending: [Domestic, International]

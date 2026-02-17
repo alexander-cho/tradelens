@@ -1,0 +1,20 @@
+Revenue
+OperatingExpenses: [Medical, Operating, CostOfProducts, DepreciationAndAmortization]
+OperatingIncome
+NetIncome
+EPS: [Basic, Diluted]
+TotalAssets
+TotalLiabilities
+TotalStockholdersEquity
+CashAndDebt: [CashAndCashEquivalents, Debt]
+
+RevenueBySegment: [Premiums, Products, Services, InvestmentAndOtherIncome]
+UnitedHealthcareRevenue: [EmployerAndIndividual, MedicareAndRetirement, CommunityAndState]
+OptumRevenue: [OptumHealth, OptumInsight, OptumRx]
+CommercialPeopleServed: [RiskBased, FeeBased]
+CommunityAndSeniorPeopleServed: [MedicareAdvantage, Medicaid, MedicareSupplement]
+TotalMedicalPeopleServed
+OptumHealthConsumersServed
+OptumInsightContractBacklog
+OptumRxQuarterlyAdjustedScripts
+MedicalCareRatio

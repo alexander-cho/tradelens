@@ -1,4 +1,5 @@
 docker_compose_up() {
+  docker compose -p tradelens build --no-cache
   docker compose -p tradelens up -d --force-recreate
 }
 
