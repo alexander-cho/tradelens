@@ -6,7 +6,7 @@ services:
     container_name: tradelens-app
     build:
       context: ..
-      dockerfile: docker/Dockerfile
+      dockerfile: docker/Tradelens.Api.Dockerfile
     ports:
       - "6502:6501"
     environment:
@@ -20,7 +20,7 @@ services:
     container_name: tradelens-worker
     build:
       context: ..
-      dockerfile: apps/tradelens/src/Tradelens.Worker/Dockerfile
+      dockerfile: docker/Tradelens.Worker.Dockerfile
     ports:
       - "27017:27017"
     depends_on:
