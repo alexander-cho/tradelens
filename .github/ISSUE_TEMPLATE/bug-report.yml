@@ -1,0 +1,91 @@
+name: Bug Report
+description: Report a bug encountered while using TradeLens
+labels: kind/bug
+title: "<title>"
+
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: What happened?
+      description: Provide a clear and concise description of the issue.
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: What did you expect to happen?
+    validations:
+      required: true
+
+  - type: textarea
+    id: repro
+    attributes:
+      label: Steps to reproduce
+      description: List minimal steps to reproduce the issue.
+      placeholder: |
+        1. Go to ...
+        2. Click ...
+        3. Observe ...
+    validations:
+      required: true
+
+  - type: textarea
+    id: frequency
+    attributes:
+      label: How often does this happen?
+      placeholder: e.g. Always, sometimes, once
+
+  - type: dropdown
+    id: environment
+    attributes:
+      label: Environment
+      options:
+        - Production
+        - Staging
+        - Local development
+    validations:
+      required: true
+
+  - type: input
+    id: browser
+    attributes:
+      label: Browser and version
+      placeholder: e.g. Chrome 123, Safari 17.4
+    validations:
+      required: true
+
+  - type: input
+    id: os
+    attributes:
+      label: Operating system / device
+      placeholder: e.g. macOS 14, Windows 11, iPhone iOS 17
+
+  - type: dropdown
+    id: device_type
+    attributes:
+      label: Device type
+      options:
+        - Desktop
+        - Mobile
+        - Tablet
+
+  - type: textarea
+    id: user_state
+    attributes:
+      label: User/account context
+      description: |
+        Any relevant info (logged in/out, account type, feature flags, etc.)
+
+  - type: textarea
+    id: console
+    attributes:
+      label: Console / network errors
+      description: Paste any errors from browser dev tools (if applicable)
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: Additional context
+      description: Screenshots, screen recordings, or anything else helpful
