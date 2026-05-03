@@ -1,9 +1,16 @@
 /* You can add global styles to this file, and also import other style files */
 //@use "tailwindcss";
 
-@import url('https://fonts.googleapis.com/css2?family=Spartan:wght@300;400;500;600;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap');
+//@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap');
 
+// https://pangrampangram.com/products/mori
+
+@font-face {
+  font-family: 'PP Mori';
+  src: url('assets/fonts/PPMori-Regular.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+}
 
 html, body {
   height: 100%;
@@ -11,11 +18,5 @@ html, body {
 
 body {
   margin: 0;
-  font-family: Poppins, "Helvetica Neue", sans-serif;
-}
-
-.ant-select-dropdown {
-  top: 0 !important;
-  margin-top: 1px !important;
-  position: absolute !important;
+  font-family: 'PP Mori', 'Helvetica Neue', sans-serif;
 }
