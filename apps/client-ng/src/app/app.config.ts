@@ -36,7 +36,8 @@ import {
   ArrowsAltOutline,
   PlusCircleOutline,
   CloudDownloadOutline,
-  MailOutline
+  MailOutline,
+  GithubOutline
 } from '@ant-design/icons-angular/icons';
 import { Chart, Filler } from 'chart.js/auto';
 import { InitService } from './core/services/init.service';
@@ -64,7 +65,8 @@ const icons: IconDefinition[] = [
   ArrowsAltOutline,
   PlusCircleOutline,
   CloudDownloadOutline,
-  MailOutline
+  MailOutline,
+  GithubOutline
 ];
 
 // global chart color config

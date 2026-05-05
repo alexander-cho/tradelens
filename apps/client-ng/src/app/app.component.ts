@@ -36,16 +36,15 @@ import { NzMessageService } from 'ng-zorro-antd/message';
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
-  title = signal("TradeLens");
+  public title = signal("TradeLens");
+  public thisYear = new Date().getFullYear();
+
   protected authService = inject(AuthService);
   protected isCollapsed = true;
-
   protected showNavbar = true;
+
   private hiddenRoutes = ['/login', '/auth/register', '/auth/landing'];
-
   private message = inject(NzMessageService);
-
-  public thisYear = new Date().getFullYear();
 
   constructor(protected router: Router) {
     this.router.events

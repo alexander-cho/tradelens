@@ -8,17 +8,31 @@ Check out `task.md` or `docs/`. Or submit a feature request: `.github/ISSUE_TEMP
 
 ___
 
+#### Run everything locally with Docker
+
+From the repository root run:
+```shell
+cd docker && docker compose -p tradelens up -d
+```
+**Note**: For this to work, create and populate `appsettings.Staging.json` under `apps/tradelens/src/Tradelens.Api/`, 
+using the`apps/tradelens/src/Tradelens.Api/appsettings.Example.json` as the template. Contact me for test keys, URLs,
+and/or environment variables.
+
+___
+
 ### Repository structure
 
-The bulk of it lies under `apps/`, currently separated with the backend and the client Angular app.
-
-Core: domain and core business logic
-
-Infrastructure: data access concerns- DB, external API, file I/O, etc.
+The bulk of it lies under `apps/`, currently split between the backend and the Angular client app.
 
 Api: controllers, app entry point, helpers/logic related to request/response cycle
 
+Core: domain and business logic
+
+Infrastructure: data access concerns- databases, external APIs, file I/O, etc.
+
 Cli: another client, to orchestrate document fetching/parsing among other concerns → reference/call related services in inner layers
+
+Worker: background services and workers, e.g. run DB refresh on a schedule, etc.
 
 ___
 
@@ -33,6 +47,8 @@ cache certain API responses to save API calls and faster response times (time an
 - for the time being, stock/options contract charts since we are limited to a measly 5 per minute.
 
 better UI for charts - think of client side rendering maybe
+
+___
 
 #### Postgres local dev container
 
