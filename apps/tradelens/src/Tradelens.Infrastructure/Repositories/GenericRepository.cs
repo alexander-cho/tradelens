@@ -9,7 +9,7 @@ namespace Tradelens.Infrastructure.Repositories;
 /// Generic repository for common data access operations.
 /// </summary>
 /// <remarks>
-/// The compiler cannot infer type T of entity to be passed in as a parameter, so we use Set(T)
+/// The compiler cannot infer type T of entity to be passed in as a parameter, so we use Set{T}
 /// </remarks>
 /// <param name="context">The database context.</param>
 /// <typeparam name="T">Generic type; BaseEntity</typeparam>
