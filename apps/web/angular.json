@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "client-ng": {
+    "web": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -98,10 +98,10 @@
           },
           "configurations": {
             "production": {
-              "buildTarget": "client-ng:build:production"
+              "buildTarget": "web:build:production"
             },
             "development": {
-              "buildTarget": "client-ng:build:development"
+              "buildTarget": "web:build:development"
             }
           },
           "defaultConfiguration": "development"

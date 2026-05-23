@@ -3,13 +3,13 @@ WORKDIR /app
 
 RUN npm install -g @angular/cli@20
 
-COPY ["apps/client-ng/package*.json", "./apps/client-ng/"]
-RUN cd apps/client-ng && npm ci
+COPY ["apps/web/package*.json", "./apps/web/"]
+RUN cd apps/web && npm ci
 
 COPY ["packages/", "./packages/"]
-COPY ["apps/client-ng/", "./apps/client-ng/"]
+COPY ["apps/web/", "./apps/web/"]
 # output angular app build to new directory, before it was being copied to nowhere, Api ends up serving stale wwwroot
-RUN cd apps/client-ng && ng build --configuration production --output-path /app/dist
+RUN cd apps/web && ng build --configuration production --output-path /app/dist
 
 
 FROM mcr.microsoft.com/dotnet/sdk:10.0 AS base
