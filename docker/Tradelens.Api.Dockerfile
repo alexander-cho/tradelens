@@ -3,31 +3,31 @@ WORKDIR /app
 
 RUN npm install -g @angular/cli@20
 
-COPY ["apps/client-ng/package*.json", "./apps/client-ng/"]
-RUN cd apps/client-ng && npm ci
+COPY ["apps/web/package*.json", "./apps/web/"]
+RUN cd apps/web && npm ci
 
 COPY ["packages/", "./packages/"]
-COPY ["apps/client-ng/", "./apps/client-ng/"]
+COPY ["apps/web/", "./apps/web/"]
 # output angular app build to new directory, before it was being copied to nowhere, Api ends up serving stale wwwroot
-RUN cd apps/client-ng && ng build --configuration production --output-path /app/dist
+RUN cd apps/web && ng build --configuration production --output-path /app/dist
 
 
 FROM mcr.microsoft.com/dotnet/sdk:10.0 AS base
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 
-COPY ["apps/tradelens/src/Tradelens.Api/Tradelens.Api.csproj", "Tradelens.Api/"]
-COPY ["apps/tradelens/src/Tradelens.Core/Tradelens.Core.csproj", "Tradelens.Core/"]
-COPY ["apps/tradelens/src/Tradelens.Infrastructure/Tradelens.Infrastructure.csproj", "Tradelens.Infrastructure/"]
+COPY ["tradelens/src/Tradelens.Api/Tradelens.Api.csproj", "Tradelens.Api/"]
+COPY ["tradelens/src/Tradelens.Core/Tradelens.Core.csproj", "Tradelens.Core/"]
+COPY ["tradelens/src/Tradelens.Infrastructure/Tradelens.Infrastructure.csproj", "Tradelens.Infrastructure/"]
 RUN dotnet restore "Tradelens.Api/Tradelens.Api.csproj"
 
 # https://devops.stackexchange.com/questions/17647/azure-devops-pipeline-failure-program-does-not-contain-a-static-main-method
 # this line used to be after the below COPY commands!
 WORKDIR /src/Tradelens.Api
 
-COPY ["apps/tradelens/src/Tradelens.Api", "./"]
-COPY ["apps/tradelens/src/Tradelens.Core", "./"]
-COPY ["apps/tradelens/src/Tradelens.Infrastructure", "./"]
+COPY ["tradelens/src/Tradelens.Api", "./"]
+COPY ["tradelens/src/Tradelens.Core", "./"]
+COPY ["tradelens/src/Tradelens.Infrastructure", "./"]
 
 COPY --from=angular-builder ["/app/dist/browser", "./wwwroot/"]
 

@@ -1,6 +1,6 @@
 import { Component, inject, input, OnInit } from '@angular/core';
-import { Bar, BarAggregates } from '../../../shared/models/polygon';
-import { Stock } from "../../../shared/models/stock";
+import { Bar, BarAggregates } from '../../models/polygon';
+import { Stock } from "../../models/stock";
 import { FormsModule } from '@angular/forms';
 import { CompanyDashboardService } from '../../../core/services/company-dashboard.service';
 // import { ChartComponent, NgApexchartsModule } from "ng-apexcharts";

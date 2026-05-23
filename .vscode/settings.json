@@ -1,0 +1,5 @@
+{
+  "chat.agent.enabled": false,
+  "chat.agent.maxRequests": 0,
+  "chat.editRequests": "none"
+}
