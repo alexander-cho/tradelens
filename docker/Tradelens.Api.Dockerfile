@@ -16,18 +16,18 @@ FROM mcr.microsoft.com/dotnet/sdk:10.0 AS base
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 
-COPY ["apps/tradelens/src/Tradelens.Api/Tradelens.Api.csproj", "Tradelens.Api/"]
-COPY ["apps/tradelens/src/Tradelens.Core/Tradelens.Core.csproj", "Tradelens.Core/"]
-COPY ["apps/tradelens/src/Tradelens.Infrastructure/Tradelens.Infrastructure.csproj", "Tradelens.Infrastructure/"]
+COPY ["tradelens/src/Tradelens.Api/Tradelens.Api.csproj", "Tradelens.Api/"]
+COPY ["tradelens/src/Tradelens.Core/Tradelens.Core.csproj", "Tradelens.Core/"]
+COPY ["tradelens/src/Tradelens.Infrastructure/Tradelens.Infrastructure.csproj", "Tradelens.Infrastructure/"]
 RUN dotnet restore "Tradelens.Api/Tradelens.Api.csproj"
 
 # https://devops.stackexchange.com/questions/17647/azure-devops-pipeline-failure-program-does-not-contain-a-static-main-method
 # this line used to be after the below COPY commands!
 WORKDIR /src/Tradelens.Api
 
-COPY ["apps/tradelens/src/Tradelens.Api", "./"]
-COPY ["apps/tradelens/src/Tradelens.Core", "./"]
-COPY ["apps/tradelens/src/Tradelens.Infrastructure", "./"]
+COPY ["tradelens/src/Tradelens.Api", "./"]
+COPY ["tradelens/src/Tradelens.Core", "./"]
+COPY ["tradelens/src/Tradelens.Infrastructure", "./"]
 
 COPY --from=angular-builder ["/app/dist/browser", "./wwwroot/"]
 
