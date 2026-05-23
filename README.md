@@ -28,15 +28,15 @@ From the repository root run:
 cd docker && docker compose -p tradelens up -d
 ```
 
-**Note**: For this to work, create and populate `appsettings.Staging.json` under `apps/tradelens/src/Tradelens.Api/`,
-using the`apps/tradelens/src/Tradelens.Api/appsettings.Example.json` as the template. Contact me for test keys, URLs,
+**Note**: For this to work, create and populate `appsettings.Staging.json` under `tradelens/src/Tradelens.Api/`,
+using the`tradelens/src/Tradelens.Api/appsettings.Example.json` as the template. Contact me for test keys, URLs,
 and/or environment variables.
 
 ___
 
 ### Repository structure
 
-The bulk of it lies under `apps/`, currently split between the backend and the Angular client app.
+The main platform lies under `tradelens/`, while any user-facing applications and the like are inside `apps/`.
 
 Api: controllers, app entry point, helpers/logic related to request/response cycle
 
