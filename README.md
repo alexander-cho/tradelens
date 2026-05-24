@@ -89,7 +89,7 @@ redis:latest
 
 ___
 
-#### EF Core Migrations (from /apps/tradelens/src/)
+#### EF Core Migrations (from inside `tradelens/src/`)
 
 ```shell
 dotnet ef migrations add <Migration Name> -s Tradelens.Api -p Tradelens.Infrastructure
