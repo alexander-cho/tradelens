@@ -1,4 +1,4 @@
-using Tradelens.Core.Models.CompanyFundamentals;
+using Tradelens.Domain.Models.CompanyFundamentals;
 using Tradelens.Infrastructure.Clients.Finnhub.DTOs;
 
 namespace Tradelens.Infrastructure.Mappers;

@@ -1,6 +1,6 @@
 using System.Text.Json;
-using Tradelens.Core.Interfaces;
 using StackExchange.Redis;
+using Tradelens.Domain.Interfaces;
 
 namespace Tradelens.Infrastructure.Services;
 

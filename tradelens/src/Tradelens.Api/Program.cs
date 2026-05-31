@@ -1,6 +1,6 @@
 using Tradelens.Api.Extensions;
 using Tradelens.Api.Middleware;
-using Tradelens.Core.Entities;
+using Tradelens.Domain.Entities;
 
 var builder = WebApplication.CreateBuilder(args);
 

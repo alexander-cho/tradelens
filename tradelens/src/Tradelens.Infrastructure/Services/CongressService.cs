@@ -1,5 +1,5 @@
-using Tradelens.Core.Interfaces;
-using Tradelens.Core.Models;
+using Tradelens.Domain.Interfaces;
+using Tradelens.Domain.Models;
 using Tradelens.Infrastructure.Clients.Fmp;
 using Tradelens.Infrastructure.Mappers;
 

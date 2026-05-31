@@ -1,6 +1,6 @@
-using Tradelens.Core.Constants;
-using Tradelens.Core.Interfaces;
-using Tradelens.Core.Models.CompanyFundamentals;
+using Tradelens.Domain.Constants;
+using Tradelens.Domain.Interfaces;
+using Tradelens.Domain.Models.CompanyFundamentals;
 using Tradelens.Infrastructure.Clients.Finnhub;
 using Tradelens.Infrastructure.Clients.Fmp;
 using Tradelens.Infrastructure.Clients.Polygon;

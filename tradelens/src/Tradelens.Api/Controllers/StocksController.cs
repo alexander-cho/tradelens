@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
-using Tradelens.Core.Entities;
-using Tradelens.Core.Interfaces;
-using Tradelens.Core.Specifications;
+using Tradelens.Domain.Entities;
+using Tradelens.Domain.Interfaces;
+using Tradelens.Domain.Specifications;
 
 namespace Tradelens.Api.Controllers;
 
@@ -22,7 +22,7 @@ public class StocksController(IGenericRepository<Stock> repository) : BaseApiCon
         //     .ToListAsync();
         // return await stocks;
     }
-    
+
     [HttpGet("{ticker}")]
     public async Task<ActionResult<Stock?>> GetCompany(string ticker)
     {
@@ -35,11 +35,11 @@ public class StocksController(IGenericRepository<Stock> repository) : BaseApiCon
 
         return stock;
     }
-    
-    
+
+
     // possible admin role: add, update, delete companies based on de-listings, new IPOs, changes, etc.
 
-    
+
     [HttpGet("ipoYears")]
     public async Task<ActionResult<IReadOnlyList<string>>> GetIpoYears()
     {
@@ -47,7 +47,7 @@ public class StocksController(IGenericRepository<Stock> repository) : BaseApiCon
         var ipoYears = await repository.ListWithSpecAsync(spec);
         return Ok(ipoYears);
     }
-    
+
     [HttpGet("countries")]
     public async Task<ActionResult<IReadOnlyList<string>>> GetCountries()
     {
@@ -55,7 +55,7 @@ public class StocksController(IGenericRepository<Stock> repository) : BaseApiCon
         var countries = await repository.ListWithSpecAsync(spec);
         return Ok(countries);
     }
-    
+
     [HttpGet("sectors")]
     public async Task<ActionResult<IReadOnlyList<string>>> GetSectors()
     {

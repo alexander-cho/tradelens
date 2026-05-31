@@ -1,5 +1,5 @@
-using Tradelens.Core.Models;
-using Tradelens.Core.Specifications;
+using Tradelens.Domain.Models;
+using Tradelens.Domain.Specifications;
 using Tradelens.Infrastructure.Clients.Polygon;
 using Tradelens.Infrastructure.Mappers;
 using Microsoft.AspNetCore.Mvc;

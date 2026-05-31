@@ -1,4 +1,4 @@
-using Tradelens.Core.Specifications;
+using Tradelens.Domain.Specifications;
 using Tradelens.Infrastructure.Clients.Polygon.DTOs;
 
 namespace Tradelens.Infrastructure.Clients.Polygon;

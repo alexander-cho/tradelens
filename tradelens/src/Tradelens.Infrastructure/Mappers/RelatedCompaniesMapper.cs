@@ -1,4 +1,4 @@
-using Tradelens.Core.Models;
+using Tradelens.Domain.Models;
 using Tradelens.Infrastructure.Clients.Polygon.DTOs;
 
 namespace Tradelens.Infrastructure.Mappers;
@@ -32,9 +32,9 @@ public static class RelatedCompaniesMapper
         };
     }
 
-    private static Core.Models.RelatedCompany ToRelatedCompanyDomainModel(Clients.Polygon.DTOs.RelatedCompany relatedCompany)
+    private static Domain.Models.RelatedCompany ToRelatedCompanyDomainModel(Clients.Polygon.DTOs.RelatedCompany relatedCompany)
     {
-        return new Core.Models.RelatedCompany
+        return new Domain.Models.RelatedCompany
         {
             Ticker = relatedCompany.Ticker
         };
