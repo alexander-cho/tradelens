@@ -1,4 +1,4 @@
-using Tradelens.Core.Models;
+using Tradelens.Domain.Models;
 using Tradelens.Infrastructure.Clients.Tradier.DTOs;
 
 namespace Tradelens.Infrastructure.Mappers;
@@ -13,9 +13,9 @@ public static class ExpirationsMapper
         };
     }
 
-    private static Core.Models.FullExpiryList ToFullExpiryListDomainModel(Clients.Tradier.DTOs.FullExpiryList fullExpiryList)
+    private static Domain.Models.FullExpiryList ToFullExpiryListDomainModel(Clients.Tradier.DTOs.FullExpiryList fullExpiryList)
     {
-        return new Core.Models.FullExpiryList
+        return new Domain.Models.FullExpiryList
         {
             Date = fullExpiryList.Date
         };

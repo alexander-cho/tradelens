@@ -1,4 +1,4 @@
-using Tradelens.Core.Interfaces;
+using Tradelens.Domain.Interfaces;
 using Tradelens.Infrastructure.Repositories;
 
 namespace Tradelens.Api.Extensions;

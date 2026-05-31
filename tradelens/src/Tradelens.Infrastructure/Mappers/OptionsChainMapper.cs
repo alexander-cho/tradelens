@@ -1,4 +1,4 @@
-using Tradelens.Core.Models;
+using Tradelens.Domain.Models;
 using Tradelens.Infrastructure.Clients.Tradier.DTOs;
 
 namespace Tradelens.Infrastructure.Mappers;
@@ -15,9 +15,9 @@ public static class OptionsChainMapper
         };
     }
 
-    private static Core.Models.StrikePriceData ToStrikePriceDataModel(Clients.Tradier.DTOs.StrikePriceData strikePriceData)
+    private static Domain.Models.StrikePriceData ToStrikePriceDataModel(Clients.Tradier.DTOs.StrikePriceData strikePriceData)
     {
-        return new Core.Models.StrikePriceData
+        return new Domain.Models.StrikePriceData
         {
             Description = strikePriceData.Description,
             ExpirationDate = strikePriceData.ExpirationDate,
@@ -36,12 +36,12 @@ public static class OptionsChainMapper
         };
     }
 
-    private static Core.Models.Greeks ToGreeksModel(Clients.Tradier.DTOs.Greeks? greeks)
+    private static Domain.Models.Greeks ToGreeksModel(Clients.Tradier.DTOs.Greeks? greeks)
     {
         if (greeks != null)
             
         {
-            return new Core.Models.Greeks
+            return new Domain.Models.Greeks
             {
                 Delta = greeks.Delta,
                 Gamma = greeks.Gamma,
@@ -53,14 +53,14 @@ public static class OptionsChainMapper
             };
         }
 
-        return new Core.Models.Greeks();
+        return new Domain.Models.Greeks();
     }
 
-    private static Core.Models.ImpliedVolatility ToImpliedVolatilityModel(Clients.Tradier.DTOs.Greeks? greeks)
+    private static Domain.Models.ImpliedVolatility ToImpliedVolatilityModel(Clients.Tradier.DTOs.Greeks? greeks)
     {
         if (greeks != null)
         {
-            return new Core.Models.ImpliedVolatility
+            return new Domain.Models.ImpliedVolatility
             {
                 BidIv = greeks.BidIv,
                 MidIv = greeks.MidIv,
@@ -69,10 +69,10 @@ public static class OptionsChainMapper
                 UpdatedAt = greeks.UpdatedAt
             };
         }
-        return new Core.Models.ImpliedVolatility();
+        return new Domain.Models.ImpliedVolatility();
     }
 
-    private static Core.Models.Activity ToActivity(Clients.Tradier.DTOs.StrikePriceData strikePriceData)
+    private static Domain.Models.Activity ToActivity(Clients.Tradier.DTOs.StrikePriceData strikePriceData)
     {
         return new Activity
         {

@@ -1,4 +1,4 @@
-using Tradelens.Core.Models;
+using Tradelens.Domain.Models;
 using Tradelens.Infrastructure.Clients.Fmp.DTOs;
 
 namespace Tradelens.Infrastructure.Mappers;

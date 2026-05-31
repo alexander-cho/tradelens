@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Mvc.Filters;
-using Tradelens.Core.Interfaces;
+using Tradelens.Domain.Interfaces;
 
 namespace Tradelens.Api.RequestHelpers;
 

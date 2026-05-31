@@ -1,6 +1,6 @@
 using System.Security.Authentication;
 using System.Security.Claims;
-using Tradelens.Core.Entities;
+using Tradelens.Domain.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 

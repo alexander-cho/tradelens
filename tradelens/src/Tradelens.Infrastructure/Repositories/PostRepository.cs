@@ -1,6 +1,6 @@
-// using Tradelens.Core.Entities;
-// using Tradelens.Core.Interfaces;
 // using Microsoft.EntityFrameworkCore;
+// using Tradelens.Domain.Entities;
+// using Tradelens.Domain.Interfaces;
 // using Tradelens.Infrastructure.Data;
 //
 // namespace Tradelens.Infrastructure.Repositories;

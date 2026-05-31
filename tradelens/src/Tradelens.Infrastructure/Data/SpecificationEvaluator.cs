@@ -1,5 +1,5 @@
-using Tradelens.Core.Entities;
-using Tradelens.Core.Interfaces;
+using Tradelens.Domain.Entities;
+using Tradelens.Domain.Interfaces;
 
 namespace Tradelens.Infrastructure.Data;
 

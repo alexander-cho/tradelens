@@ -1,8 +1,8 @@
-using Tradelens.Core.Interfaces;
-using Tradelens.Core.Models;
+using Tradelens.Domain.Interfaces;
+using Tradelens.Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 using Tradelens.Api.RequestHelpers;
-using Tradelens.Core.Specifications;
+using Tradelens.Domain.Specifications;
 
 namespace Tradelens.Api.Controllers;
 

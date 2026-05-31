@@ -1,7 +1,7 @@
 using System.Net.Http.Json;
 using AutoFixture;
-using Tradelens.Core.Entities;
 using FluentAssertions;
+using Tradelens.Domain.Entities;
 using Tradelens.Infrastructure.Data;
 
 namespace Tradelens.Api.IntegrationTests.Controllers;

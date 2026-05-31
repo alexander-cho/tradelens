@@ -1,5 +1,5 @@
 using System.Net.Http.Json;
-using Tradelens.Core.Specifications;
+using Tradelens.Domain.Specifications;
 using Microsoft.Extensions.Logging;
 using Tradelens.Infrastructure.Clients.Tradier.DTOs;
 

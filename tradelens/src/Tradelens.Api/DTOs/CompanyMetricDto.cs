@@ -1,4 +1,4 @@
-using Tradelens.Core.Entities;
+using Tradelens.Domain.Entities;
 
 namespace Tradelens.Api.DTOs;
 

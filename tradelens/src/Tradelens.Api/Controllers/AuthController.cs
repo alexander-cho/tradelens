@@ -1,9 +1,9 @@
-using Tradelens.Api.Extensions;
-using Tradelens.Core.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Tradelens.Api.DTOs;
+using Tradelens.Api.Extensions;
+using Tradelens.Domain.Entities;
 
 namespace Tradelens.Api.Controllers;
 
@@ -78,7 +78,7 @@ public class AuthController(SignInManager<User> signInManager) : BaseApiControll
             {
                 ModelState.AddModelError(error.Code, error.Description);
             }
-            
+
             return ValidationProblem();
         }
 

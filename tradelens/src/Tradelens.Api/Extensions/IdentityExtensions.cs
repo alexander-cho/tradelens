@@ -1,4 +1,4 @@
-using Tradelens.Core.Entities;
+using Tradelens.Domain.Entities;
 using Tradelens.Infrastructure.Data;
 
 namespace Tradelens.Api.Extensions;

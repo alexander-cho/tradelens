@@ -1,4 +1,4 @@
-using Tradelens.Core.Models.CompanyFundamentals;
+using Tradelens.Domain.Models.CompanyFundamentals;
 using Tradelens.Infrastructure.Clients.Fmp.DTOs;
 
 namespace Tradelens.Infrastructure.Mappers.CompanyFundamentals;

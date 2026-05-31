@@ -1,5 +1,5 @@
-using Tradelens.Core.Interfaces;
-using Tradelens.Core.Models;
+using Tradelens.Domain.Interfaces;
+using Tradelens.Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 using Tradelens.Api.RequestHelpers;
 

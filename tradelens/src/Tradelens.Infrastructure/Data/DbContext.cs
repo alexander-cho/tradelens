@@ -1,6 +1,6 @@
-using Tradelens.Core.Entities;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Tradelens.Domain.Entities;
 
 namespace Tradelens.Infrastructure.Data;
 

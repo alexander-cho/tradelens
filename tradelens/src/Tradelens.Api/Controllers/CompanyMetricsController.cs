@@ -1,6 +1,6 @@
-// using Tradelens.Core.Entities;
-// using Tradelens.Core.Interfaces;
-// using Tradelens.Core.Specifications;
+// using Tradelens.Domain.Entities;
+// using Tradelens.Domain.Interfaces;
+// using Tradelens.Domain.Specifications;
 using Tradelens.Infrastructure.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;

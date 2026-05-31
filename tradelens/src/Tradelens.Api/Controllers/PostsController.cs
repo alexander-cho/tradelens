@@ -1,6 +1,6 @@
-using Tradelens.Core.Entities;
-using Tradelens.Core.Interfaces;
-using Tradelens.Core.Specifications;
+using Tradelens.Domain.Entities;
+using Tradelens.Domain.Interfaces;
+using Tradelens.Domain.Specifications;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Tradelens.Api.Controllers;

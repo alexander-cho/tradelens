@@ -1,6 +1,6 @@
 using System.Reflection;
 using System.Text.Json;
-using Tradelens.Core.Entities;
+using Tradelens.Domain.Entities;
 
 namespace Tradelens.Infrastructure.Data;
 

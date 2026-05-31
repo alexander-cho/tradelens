@@ -7,8 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="Data\SeedData\**" CopyToOutputDirectory="PreserveNewest"/>
-    <ProjectReference Include="..\Tradelens.Core\Tradelens.Core.csproj" />
+    <None Include="Data\SeedData\**" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 
   <ItemGroup>
@@ -17,6 +16,11 @@
     <PackageReference Include="Microsoft.Extensions.Http" Version="10.0.1" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="10.0.0" />
     <PackageReference Include="StackExchange.Redis" Version="2.10.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Tradelens.Application\Tradelens.Application.csproj" />
+    <ProjectReference Include="..\Tradelens.Domain\Tradelens.Domain.csproj" />
   </ItemGroup>
 
 </Project>

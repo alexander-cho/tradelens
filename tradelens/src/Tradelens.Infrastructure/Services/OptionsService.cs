@@ -1,8 +1,8 @@
-using Tradelens.Core.Interfaces;
-using Tradelens.Core.Models;
-using Tradelens.Core.Services;
-using Tradelens.Core.Specifications;
 using Microsoft.Extensions.Logging;
+using Tradelens.Domain.Interfaces;
+using Tradelens.Domain.Models;
+using Tradelens.Domain.Services;
+using Tradelens.Domain.Specifications;
 using Tradelens.Infrastructure.Clients.Tradier;
 using Tradelens.Infrastructure.Mappers;
 
