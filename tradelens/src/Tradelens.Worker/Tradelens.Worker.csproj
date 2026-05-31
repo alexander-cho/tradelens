@@ -1,10 +1,5 @@
 <Project Sdk="Microsoft.NET.Sdk.Worker">
 
-  <ItemGroup>
-    <ProjectReference Include="..\Tradelens.Core\Tradelens.Core.csproj"/>
-    <ProjectReference Include="..\Tradelens.Infrastructure\Tradelens.Infrastructure.csproj"/>
-  </ItemGroup>
-
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
     <Nullable>enable</Nullable>
@@ -19,4 +14,10 @@
     <PackageReference Include="OpenTelemetry.Exporter.Console" Version="1.15.0" />
     <PackageReference Include="OpenTelemetry.Extensions.Hosting" Version="1.15.0" />
   </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Tradelens.Application\Tradelens.Application.csproj" />
+    <ProjectReference Include="..\Tradelens.Infrastructure\Tradelens.Infrastructure.csproj" />
+  </ItemGroup>
+  
 </Project>

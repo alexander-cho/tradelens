@@ -6,7 +6,8 @@ ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 
 COPY ["tradelens/src/Tradelens.Worker/Tradelens.Worker.csproj", "Tradelens.Worker/"]
-COPY ["tradelens/src/Tradelens.Core/Tradelens.Core.csproj", "Tradelens.Core/"]
+COPY ["tradelens/src/Tradelens.Application/Tradelens.Application.csproj", "Tradelens.Application/"]
+COPY ["tradelens/src/Tradelens.Domain/Tradelens.Domain.csproj", "Tradelens.Domain/"]
 COPY ["tradelens/src/Tradelens.Infrastructure/Tradelens.Infrastructure.csproj", "Tradelens.Infrastructure/"]
 RUN dotnet restore "Tradelens.Worker/Tradelens.Worker.csproj"
 
@@ -15,7 +16,8 @@ RUN dotnet restore "Tradelens.Worker/Tradelens.Worker.csproj"
 WORKDIR /src/Tradelens.Worker
 
 COPY ["tradelens/src/Tradelens.Worker", "./"]
-COPY ["tradelens/src/Tradelens.Core", "./"]
+COPY ["tradelens/src/Tradelens.Application", "./"]
+COPY ["tradelens/src/Tradelens.Domain", "./"]
 COPY ["tradelens/src/Tradelens.Infrastructure", "./"]
 
 RUN dotnet build "./Tradelens.Worker.csproj" -c $BUILD_CONFIGURATION -o /app/build

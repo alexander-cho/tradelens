@@ -22,8 +22,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Tradelens.Infrastructure\Tradelens.Infrastructure.csproj" />
     <ProjectReference Include="..\Tradelens.Application\Tradelens.Application.csproj" />
+    <ProjectReference Include="..\Tradelens.Infrastructure\Tradelens.Infrastructure.csproj" />
   </ItemGroup>
 
   <ItemGroup>

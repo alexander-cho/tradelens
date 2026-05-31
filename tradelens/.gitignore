@@ -103,8 +103,6 @@ _Chutzpah*
 
 # Visual C++ cache files
 ipch/
-*.aps
-*.ncb
 *.opendb
 *.opensdf
 *.sdf
@@ -405,3 +403,6 @@ appsettings.json
 appsettings.Production.json
 appsettings.Development.json
 appsettings.Staging.json
+
+# SEC parse with AI, company metrics and prompts
+src/Tradelens.Domain/Constants/CompanyMetrics/

@@ -17,7 +17,8 @@ ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 
 COPY ["tradelens/src/Tradelens.Api/Tradelens.Api.csproj", "Tradelens.Api/"]
-COPY ["tradelens/src/Tradelens.Core/Tradelens.Core.csproj", "Tradelens.Core/"]
+COPY ["tradelens/src/Tradelens.Application/Tradelens.Application.csproj", "Tradelens.Application/"]
+COPY ["tradelens/src/Tradelens.Domain/Tradelens.Domain.csproj", "Tradelens.Domain/"]
 COPY ["tradelens/src/Tradelens.Infrastructure/Tradelens.Infrastructure.csproj", "Tradelens.Infrastructure/"]
 RUN dotnet restore "Tradelens.Api/Tradelens.Api.csproj"
 
@@ -26,7 +27,8 @@ RUN dotnet restore "Tradelens.Api/Tradelens.Api.csproj"
 WORKDIR /src/Tradelens.Api
 
 COPY ["tradelens/src/Tradelens.Api", "./"]
-COPY ["tradelens/src/Tradelens.Core", "./"]
+COPY ["tradelens/src/Tradelens.Application", "./"]
+COPY ["tradelens/src/Tradelens.Domain", "./"]
 COPY ["tradelens/src/Tradelens.Infrastructure", "./"]
 
 COPY --from=angular-builder ["/app/dist/browser", "./wwwroot/"]
