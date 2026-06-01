@@ -1,0 +1,4 @@
+Cross-cutting Concerns - shared kernels
+
+Tradelens.SharedKernel - BaseEntity, Result<T>, ISpecification, Pagination primitives
+Tradelens.SharedInfra - ResponseCacheService, Global EF Core configurations
