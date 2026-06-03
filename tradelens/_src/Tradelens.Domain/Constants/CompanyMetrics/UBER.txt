@@ -1,0 +1,6 @@
+MonthlyActivePlatformConsumers
+Trips
+GrossBookings
+RevenueBySegment: [Mobility, Delivery, Freight]
+AdjustedEbitdaBySegment: [Mobility, Delivery, Freight]
+GrossBookingsBySegment: [Mobility, Delivery, Freight]

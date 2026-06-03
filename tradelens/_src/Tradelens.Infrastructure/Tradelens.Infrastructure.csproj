@@ -19,7 +19,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Tradelens.Application\Tradelens.Application.csproj" />
     <ProjectReference Include="..\Tradelens.Domain\Tradelens.Domain.csproj" />
   </ItemGroup>
 

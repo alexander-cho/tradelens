@@ -1,5 +1,0 @@
-Deployable Units, kept separate
-
-Tradelens.Api - ASP.NET Core Web API (Registers all module endpoints)
-Tradelens.Worker - Background Services Host
-Tradelens.Cli - Console App for SEC scraping/querying, etc.
