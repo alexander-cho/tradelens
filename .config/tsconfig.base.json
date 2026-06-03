@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "target": "es2016",
+    "module": "preserve",
+    "strict": true,
+    "moduleResolution": "NodeNext",
+    "composite": true,
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
+//    "paths": {
+//      "@ts-monorepo-linking/{ lib-a }": ""
+//    }
+  }
+}

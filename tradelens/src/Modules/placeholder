@@ -1,0 +1,9 @@
+Business Logic, modular take (Bounded contexts)
+
+ex:
+
+Discussion/                               # Module
+├── Tradelens.Discussion.Domain/          # entities, repository interfaces
+├── Tradelens.Discussion.Application/     # CreatePostCommand, GetPostsQuery
+├── Tradelens.Discussion.Infrastructure/  # DiscussionDbContext, repository impl
+└── Tradelens.Discussion.Api/             # Api controllers (endpoints)

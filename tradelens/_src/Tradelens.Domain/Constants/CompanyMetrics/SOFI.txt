@@ -1,0 +1,11 @@
+Total Deposits
+Net Interest Margin (as a Percent),
+Members,
+Galileo Accounts (Could be listed as Technology Platform accounts),
+Products: [Lending, Financial Services],
+Revenue By Segment: [Lending, Technology Platform, Financial Services],
+Contribution Profit: [Lending, Technology Platform, Financial Services],
+Lending Products: [Personal Loans, Student Loans, Home Loans],
+Financial Services Products: [Money, Invest, Credit Card, Referred Loans, Relay, At Work],
+Net Charge Off Rates: [Personal Loans, Student Loans] (as a Percent),
+Origination Volume: [Personal Loans, Student Loans, Home Loans]

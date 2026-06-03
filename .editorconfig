@@ -119,3 +119,6 @@ tab_width = 4
 
 [*.csproj]
 indent_size = 2
+
+[{*.sln,*.slnx}]
+indent_size = 2

@@ -1,0 +1,13 @@
+DailyActiveUsers
+DailyActiveUsersByRegion: [UnitedStatesAndCanada, Europe, AsiaPacific, RestOfWorld]
+HoursEngaged
+HoursEngagedByRegion: [UnitedStatesAndCanada, Europe, AsiaPacific, RestOfWorld]
+Bookings
+BookingsByRegion: [UnitedStatesAndCanada, Europe, AsiaPacific, RestOfWorld]
+AverageBookingsPerDailyActiveUser
+AverageBookingsPerDailyActiveUserByRegion: [UnitedStatesAndCanada, Europe, AsiaPacific, RestOfWorld]
+AverageMonthlyUniquePayers
+AverageBookingsPerMonthlyUniquePayer
+
+DailyActiveUsersByAgeGroup: [Under13, Over13, Unknown]
+HoursEngagedByAgeGroup: [Under13, Over13, Unknown]
