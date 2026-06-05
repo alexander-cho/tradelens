@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Tradelens.Discussion.Application\Tradelens.Discussion.Application.csproj" />
+  </ItemGroup>
+
 </Project>
