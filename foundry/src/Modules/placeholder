@@ -1,0 +1,9 @@
+Business Logic, modular take (Bounded contexts)
+
+ex:
+
+Discussion/                               # Module
+├── Foundry.Discussion.Domain/          # aggregate roots, repository interfaces
+├── Foundry.Discussion.Application/     # CreatePostCommand, GetPostsQuery
+├── Foundry.Discussion.Infrastructure/  # DiscussionDbContext, repository impl
+└── Foundry.Discussion.Api/             # Api controllers (endpoints)

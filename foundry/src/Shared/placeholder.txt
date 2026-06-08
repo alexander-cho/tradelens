@@ -1,0 +1,4 @@
+Cross-cutting Concerns - shared kernels
+
+Foundry.SharedKernel - BaseEntity, Result<T>, ISpecification, Pagination primitives, etc.
+Foundry.SharedInfra - ResponseCacheService, Global EF Core configurations, etc.
