@@ -40,7 +40,7 @@
           "builder": "@angular/build:application",
           "options": {
             "outputPath": {
-              "base": "../../tradelens/_src/Tradelens.Api/wwwroot",
+              "base": "../../tradelens/src/Tradelens.Api/wwwroot",
               "browser": ""
             },
             "index": "src/index.html",
