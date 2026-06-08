@@ -20,7 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\_current-app\_src\Tradelens.Infrastructure\Tradelens.Infrastructure.csproj" />
+    <ProjectReference Include="..\Tradelens.Infrastructure\Tradelens.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

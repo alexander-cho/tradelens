@@ -4,30 +4,15 @@
     <Platform Name="x64" />
     <Platform Name="x86" />
   </Configurations>
-  <Folder Name="/_current-app/_src/">
-    <Project Path="_current-app/_src/Tradelens.Api/Tradelens.Api.csproj" />
-    <Project Path="_current-app/_src/Tradelens.Domain/Tradelens.Domain.csproj" />
-    <Project Path="_current-app/_src/Tradelens.Infrastructure/Tradelens.Infrastructure.csproj" />
-  </Folder>
-  <Folder Name="/_current-app/_tests/">
-    <Project Path="_current-app/_tests/Tradelens.Api.IntegrationTests/Tradelens.Api.IntegrationTests.csproj" />
-    <Project Path="_current-app/_tests/Tradelens.Domain.UnitTests/Tradelens.Domain.UnitTests.csproj" />
-  </Folder>
-  
   <Folder Name="/src/">
-    <Project Path="src/Hosts/Tradelens.Api/Tradelens.Api.csproj" />
-    <Project Path="src/Hosts/Tradelens.Cli/Tradelens.Cli.csproj" />
-    <Project Path="src/Hosts/Tradelens.Worker/Tradelens.Worker.csproj" />
-
-    <Project Path="src/Modules/Discussion/Tradelens.Discussion.Api/Tradelens.Discussion.Api.csproj" />
-    <Project Path="src/Modules/Discussion/Tradelens.Discussion.Application/Tradelens.Discussion.Application.csproj" />
-    <Project Path="src/Modules/Discussion/Tradelens.Discussion.Domain/Tradelens.Discussion.Domain.csproj" />
-    <Project Path="src/Modules/Discussion/Tradelens.Discussion.Infrastructure/Tradelens.Discussion.Infrastructure.csproj" />
-
-    <Project Path="src/Shared/Tradelens.SharedInfra/Tradelens.SharedInfra.csproj" />
-    <Project Path="src/Shared/Tradelens.SharedKernel/Tradelens.SharedKernel.csproj" />
+    <Project Path="src/Tradelens.Api/Tradelens.Api.csproj" />
+    <Project Path="src/Tradelens.Domain/Tradelens.Domain.csproj" />
+    <Project Path="src/Tradelens.Infrastructure/Tradelens.Infrastructure.csproj" />
+    <Project Path="src/Tradelens.Cli/Tradelens.Cli.csproj" />
+    <Project Path="src/Tradelens.Worker/Tradelens.Worker.csproj" />
   </Folder>
   <Folder Name="/tests/">
-    <Project Path="tests/Modules/Discussion/Tradelens.Discussion.Domain.UnitTests/Tradelens.Discussion.Domain.UnitTests.csproj" />
+    <Project Path="tests/Tradelens.Api.IntegrationTests/Tradelens.Api.IntegrationTests.csproj" />
+    <Project Path="tests/Tradelens.Domain.UnitTests/Tradelens.Domain.UnitTests.csproj" />
   </Folder>
 </Solution>

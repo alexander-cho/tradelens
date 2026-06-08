@@ -7,8 +7,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{2460A86B-E7C
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tradelens.Api", "src\Tradelens.Api\Tradelens.Api.csproj", "{4B8AD157-4A1B-4641-8709-0DD762B3D423}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tradelens.Application", "src\Tradelens.Application\Tradelens.Application.csproj", "{272D6D0B-D519-40DA-85B0-86AB392CB655}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tradelens.Domain", "src\Tradelens.Domain\Tradelens.Domain.csproj", "{09C389BB-A4EA-451C-8758-6A0CE6543674}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tradelens.Infrastructure", "src\Tradelens.Infrastructure\Tradelens.Infrastructure.csproj", "{C33AF396-DDF4-4ED9-A860-6D4983D589E0}"
@@ -22,8 +20,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tradelens.Api.IntegrationTests", "tests\Tradelens.Api.IntegrationTests\Tradelens.Api.IntegrationTests.csproj", "{D106E1D5-053F-4527-9DD8-D572287B941E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tradelens.Domain.UnitTests", "tests\Tradelens.Domain.UnitTests\Tradelens.Domain.UnitTests.csproj", "{20E12979-69C1-4856-BF5A-2399EFA2A0E7}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tradelens.Application.UnitTests", "tests\Tradelens.Application.UnitTests\Tradelens.Application.UnitTests.csproj", "{D4FCD84B-E22B-4A21-B963-B97B2E89D8BA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
