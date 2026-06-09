@@ -1,0 +1,39 @@
+using Tradelens.Domain.Interfaces;
+using Tradelens.Domain.Models;
+using Microsoft.AspNetCore.Mvc;
+using Tradelens.Api.RequestHelpers;
+using Tradelens.Domain.Specifications;
+
+namespace Tradelens.Api.Controllers;
+
+[Route("api/[controller]")]
+[ApiController]
+public class OptionsController : ControllerBase
+{
+    private readonly IOptionsService _optionsService;
+
+    public OptionsController(IOptionsService optionsService)
+    {
+        this._optionsService = optionsService;
+    }
+
+    [Cache(600)]
+    [HttpGet("options-chain")]
+    public async Task<ActionResult<OptionsChainModel>> GetOptionsChain([FromQuery] TradierOptionChainSpecParams tradierOptionChainSpecParams)
+    {
+        return Ok(await _optionsService.GetOptionsChainAsync(tradierOptionChainSpecParams));
+    }
+    
+    [Cache(600)]
+    [HttpGet("cash-values")]
+    public async Task<ActionResult<CallsAndPutsCashSums>> GetCashValuesAndMaxPain([FromQuery] TradierOptionChainSpecParams tradierOptionChainSpecParams)
+    {
+        return Ok(await _optionsService.CalculateCashValuesForOneExpirationAsync(tradierOptionChainSpecParams));
+    }
+
+    [HttpGet("expirations")]
+    public async Task<ActionResult<ExpirationsModel>> GetExpiryListForUnderlying([FromQuery] string symbol)
+    {
+        return Ok(await _optionsService.GetExpiryListForUnderlyingAsync(symbol));
+    }
+}

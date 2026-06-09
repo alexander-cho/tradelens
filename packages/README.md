@@ -1,4 +1,6 @@
-# @tradelens/charting
+# packages
+
+### @tradelens/charting
 
 This package will provide any shared constants, configs, methods, etc. that are used across applications/components that
 have charting functionality.
@@ -8,4 +10,4 @@ gradient, etc. into here.
 
 ___
 
-# .
+### @tradelens/dashboard

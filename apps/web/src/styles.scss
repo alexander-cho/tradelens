@@ -1,0 +1,22 @@
+/* You can add global styles to this file, and also import other style files */
+//@use "tailwindcss";
+
+//@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap');
+
+// https://pangrampangram.com/products/mori
+
+@font-face {
+  font-family: 'PP Mori';
+  src: url('assets/fonts/PPMori-Regular.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: 'PP Mori', 'Helvetica Neue', sans-serif;
+}

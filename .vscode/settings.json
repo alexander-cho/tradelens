@@ -1,0 +1,47 @@
+{
+  "chat.agent.enabled": false,
+  "chat.agent.maxRequests": 0,
+  "chat.editRequests": "none",
+  "editor.fontSize": 13,
+  "terminal.integrated.fontSize": 13,
+  "editor.semanticTokenColorCustomizations": {
+        "enabled": true,
+        "rules": {
+            "namespace": "#c191ff",
+            "interface": "#c191ff",
+            "class": "#c191ff",
+            "delegate": "#e1bfff",
+            "event": "#ed94c0",
+            "keyword": "#6c95eb",
+            "field": "#66c3cc",
+            "property": "#66c3cc",
+            "enum": "#e1bfff",
+            "enumMember": {
+                "bold": true,
+                "foreground": "#66c3cc"
+            },
+            "method": "#39cc9b",
+            "parameter": "#bdbdbd",
+            "number": "#ed94c0",
+            "constant": "#66c3cc",
+            "struct": "#e1bfff",
+            "comment": "#85c46c",
+            "xmlDocCommentText": "#85c46c",
+            "xmlDocCommentAttributeName": "#487d34",
+            "xmlDocCommentName": "#487d34",
+            "string": "#c9a26d",
+            "variable": "#bdbdbd",
+            "typeParameter": "#e37878",
+        }
+    },
+    "editor.bracketPairColorization.enabled": true,
+    "workbench.colorCustomizations": {
+        "editorBracketHighlight.foreground1": "#FFFFFF",
+        "editorBracketHighlight.foreground2": "#FFFFFF",
+        "editorBracketHighlight.foreground3": "#FFFFFF",
+        "editorBracketHighlight.foreground4": "#FFFFFF",
+        "editorBracketHighlight.foreground5": "#FFFFFF",
+        "editorBracketHighlight.foreground6": "#FFFFFF",
+        "editorBracketHighlight.unexpectedBracket.foreground": "#FFFFFF"
+    }
+}

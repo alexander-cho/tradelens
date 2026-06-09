@@ -6,7 +6,7 @@ services:
     container_name: tradelens-app
     build:
       context: ..
-      dockerfile: docker/Dockerfile
+      dockerfile: docker/Tradelens.Api.Dockerfile
     ports:
       - "6502:6501"
     environment:
@@ -20,7 +20,7 @@ services:
     container_name: tradelens-worker
     build:
       context: ..
-      dockerfile: apps/tradelens/src/Tradelens.Worker/Dockerfile
+      dockerfile: docker/Tradelens.Worker.Dockerfile
     ports:
       - "27017:27017"
     depends_on:
@@ -67,7 +67,7 @@ services:
       - GF_SECURITY_ADMIN_USER=user
       - GF_SECURITY_ADMIN_PASSWORD=password
     volumes:
-      - ../config/grafana/grafana.ini:/etc/grafana/grafana.ini
+      - ../infra/observability/local/grafana/grafana.ini:/etc/grafana/grafana.ini
   
   loki:
     container_name: loki
@@ -75,7 +75,7 @@ services:
     platform: linux/arm64
     volumes:
       # mount the loki config file
-      - ../config/loki/loki-config.yml:/mnt/config/loki-config.yml
+      - ../infra/observability/local/loki/loki-config.yml:/mnt/config/loki-config.yml
     ports:
       - "3100:3100"
     command: -config.file=/mnt/config/loki-config.yml
@@ -87,7 +87,7 @@ services:
       - "9080:9080"
     volumes:
       # mount the promtail config file
-      - ../config/promtail/promtail-config.yml:/mnt/config/promtail-config.yml
+      - ../infra/observability/local/promtail/promtail-config.yml:/mnt/config/promtail-config.yml
 #      - /var/log:/var/log
       - /var/lib/docker/containers:/var/lib/docker/containers
       - /var/run/docker.sock:/var/run/docker.sock
