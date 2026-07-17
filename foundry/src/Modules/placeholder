@@ -1,9 +1,9 @@
-Business Logic, modular take (Bounded contexts)
+Business Logic, modular take (Bounded context)
 
 ex:
 
-Discussion/                               # Module
-├── Foundry.Discussion.Domain/          # aggregate roots, repository interfaces
-├── Foundry.Discussion.Application/     # CreatePostCommand, GetPostsQuery
-├── Foundry.Discussion.Infrastructure/  # DiscussionDbContext, repository impl
-└── Foundry.Discussion.Api/             # Api controllers (endpoints)
+Tasking/                                  # Module
+├── Foundry.Tasking.Domain/               # Logic, Aggregate roots, Repository interfaces, etc.
+├── Foundry.Tasking.Application/          # SubmitTaskCommand, GetTasksQuery
+├── Foundry.Tasking.Infrastructure/       # TaskingDbContext, repository impl
+└── Foundry.Tasking.Api/                  # Api controllers (endpoints)
