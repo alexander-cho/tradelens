@@ -8,5 +8,6 @@ public class PostTests
     public void PostTest1()
     {
         var post = Post.Create(userId: 1, text: "hello this is the first post from Alex $IWM");
+        Console.WriteLine("Post created at: " + post.CreatedAtUtc);
     }
 }
