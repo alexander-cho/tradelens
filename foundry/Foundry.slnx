@@ -1,1 +1,21 @@
-<Solution />
+<Solution>
+  <Configurations>
+    <Platform Name="Any CPU" />
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Folder Name="/src/">
+    <Project Path="src/Hosts/Foundry.Api/Foundry.Api.csproj" />
+
+    <Project Path="src/Modules/Discussion/Foundry.Discussion.Application/Foundry.Discussion.Application.csproj" />
+    <Project Path="src/Modules/Discussion/Foundry.Discussion.Domain/Foundry.Discussion.Domain.csproj" />
+    <Project Path="src/Modules/Discussion/Foundry.Discussion.Infrastructure/Foundry.Discussion.Infrastructure.csproj" />
+    <Project Path="src/Modules/Discussion/Foundry.Discussion.Presentation/Foundry.Discussion.Presentation.csproj" />
+
+    <Project Path="src/Shared/Foundry.SharedInfra/Foundry.SharedInfra.csproj" />
+    <Project Path="src/Shared/Foundry.SharedKernel/Foundry.SharedKernel.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/Modules/Discussion/Foundry.Discussion.Domain.UnitTests/Foundry.Discussion.Domain.UnitTests.csproj" />
+  </Folder>
+</Solution>

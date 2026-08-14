@@ -18,7 +18,7 @@ public class Post // inherit base Entity class, will define in Shared kernel
         CreatedAtUtc = DateTime.UtcNow;
     }
 
-    public static Post Create(string text, int userId)
+    public static Post Create(int userId, string text)
     {
         // var post = new Post()
         // {
