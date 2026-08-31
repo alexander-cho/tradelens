@@ -10,9 +10,13 @@
     <Project Path="src/Tradelens.Infrastructure/Tradelens.Infrastructure.csproj" />
     <Project Path="src/Tradelens.Cli/Tradelens.Cli.csproj" />
     <Project Path="src/Tradelens.Worker/Tradelens.Worker.csproj" />
+    
+    <Project Path="src/Modules/CompanyFundamentals/Tradelens.CompanyFundamentals.Domain/Tradelens.CompanyFundamentals.Domain.csproj" />
   </Folder>
   <Folder Name="/tests/">
     <Project Path="tests/Tradelens.Api.IntegrationTests/Tradelens.Api.IntegrationTests.csproj" />
     <Project Path="tests/Tradelens.Domain.UnitTests/Tradelens.Domain.UnitTests.csproj" />
+
+    <Project Path="tests/Modules/CompanyFundamentals/Tradelens.CompanyFundamentals.Domain.UnitTests/Tradelens.CompanyFundamentals.Domain.UnitTests.csproj" />
   </Folder>
 </Solution>
