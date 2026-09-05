@@ -16,7 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Tradelens.Infrastructure\Tradelens.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\_legacy\Tradelens.Infrastructure\Tradelens.Infrastructure.csproj" />
   </ItemGroup>
   
 </Project>

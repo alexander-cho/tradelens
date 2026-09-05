@@ -43,5 +43,6 @@
         "editorBracketHighlight.foreground5": "#FFFFFF",
         "editorBracketHighlight.foreground6": "#FFFFFF",
         "editorBracketHighlight.unexpectedBracket.foreground": "#FFFFFF"
-    }
+    },
+    "explorer.compactFolders": false
 }

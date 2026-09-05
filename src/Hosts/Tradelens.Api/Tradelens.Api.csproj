@@ -22,7 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Tradelens.Infrastructure\Tradelens.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\_legacy\Tradelens.Infrastructure\Tradelens.Infrastructure.csproj" />
   </ItemGroup>
 
   <ItemGroup>
@@ -33,6 +33,22 @@
   
   <ItemGroup>
     <InternalsVisibleTo Include="API.Tests" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="wwwroot\3rdpartylicenses.txt" />
+    <_ContentIncludedByDefault Remove="wwwroot\chart-engine-temp.png" />
+    <_ContentIncludedByDefault Remove="wwwroot\chunk-EEKRMUQK.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\chunk-FMVUT4YY.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\company-dashboard-sofi.png" />
+    <_ContentIncludedByDefault Remove="wwwroot\favicon.ico" />
+    <_ContentIncludedByDefault Remove="wwwroot\index.html" />
+    <_ContentIncludedByDefault Remove="wwwroot\main-TO23XFXR.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\media\PPMori-Regular-R5SYGWVA.otf" />
+    <_ContentIncludedByDefault Remove="wwwroot\pic3-temp.png" />
+    <_ContentIncludedByDefault Remove="wwwroot\prerendered-routes.json" />
+    <_ContentIncludedByDefault Remove="wwwroot\styles-OWR72W66.css" />
+    <_ContentIncludedByDefault Remove="wwwroot\tradelens.png" />
   </ItemGroup>
 
 </Project>
