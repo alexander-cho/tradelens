@@ -2,14 +2,26 @@ namespace Tradelens.CompanyFundamentals.Domain;
 
 public class LineItem
 {
-    public Guid Id { get; init; } = Guid.CreateVersion7();
+    public Guid Id { get; } = Guid.CreateVersion7();
     // reference to corresponding Filing object via filing_id probably
-    public required string AsReported { get; set; }
-    public required string Metric { get; set; }
-    public required double Value { get; set; }
+    public string AsReported { get; private set; }
+    public string Metric { get; private set; }
+    public double Value { get; private set; }
     public DateTime AddedAt { get; init; } = DateTime.UtcNow;
     
     private readonly List<object> _events = new List<object>();
+
+    private LineItem(string asReported, string metric, double value)
+    {
+        AsReported = asReported;
+        Metric = metric;
+        Value = value;
+    }
+
+    public static LineItem Create(string asReported, string metric, double value)
+    {
+        return new LineItem(asReported, metric, value);
+    }
 
     public List<object> GetEvents()
     {
