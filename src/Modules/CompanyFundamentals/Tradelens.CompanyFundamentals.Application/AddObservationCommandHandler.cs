@@ -1,6 +1,6 @@
 namespace Tradelens.CompanyFundamentals.Application;
 
-public class LineItemFlaggedEventHandler
+public class AddObservationCommandHandler
 {
     
 }

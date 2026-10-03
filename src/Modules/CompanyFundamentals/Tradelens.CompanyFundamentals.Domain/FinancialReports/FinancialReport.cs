@@ -1,9 +1,9 @@
-namespace Tradelens.CompanyFundamentals.Domain;
+namespace Tradelens.CompanyFundamentals.Domain.FinancialReports;
 
 public class FinancialReport
 {
     public Guid Id { get; init; } = Guid.CreateVersion7();
-    // reference to Company entity by id probably
+    // reference to LegalEntity entity by id probably
     // possibly consider value objects for some of the following
     public required string FilingType { get; set; }  // e.g. 10-Q, 8-K, 10-K
     public required string FiscalYear { get; set; }  // e.g. 2026
@@ -22,8 +22,8 @@ public class FinancialReport
 
     public void FlagFinancialReport()
     {
-        _events.Add(new FinancialReportNotifiedAboutFlaggedLineItem(this.Id, Guid.CreateVersion7(), DateTime.UtcNow));
+        _events.Add(new FinancialReportNotifiedAboutFlaggedObservation(this.Id, Guid.CreateVersion7(), DateTime.UtcNow));
     }
 }
 
-public record FinancialReportNotifiedAboutFlaggedLineItem(Guid FinancialReportId, Guid LineItemId, DateTime AddedAt);
+public record FinancialReportNotifiedAboutFlaggedObservation(Guid FinancialReportId, Guid LineItemId, DateTime AddedAt);
