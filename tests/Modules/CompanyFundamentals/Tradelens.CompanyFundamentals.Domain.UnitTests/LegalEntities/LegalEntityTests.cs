@@ -9,13 +9,15 @@ public class LegalEntityTests
     public void LegalEntityTest1()
     {
         var legalEntities = new List<LegalEntity>();
-    
-        var sofi = LegalEntity.Create("SoFi Technologies, Inc.", new LegalEntityIdentifier("549300SW81JCMVZDDY09"), new CentralIndexKey("0001818874"), new CountryCode("US"), "San Francisco");
-        
-        var msft = LegalEntity.Create("Microsoft Corporation", new LegalEntityIdentifier("INR2EJN1ERAN0W5ZP974"), new CentralIndexKey("0000789019"), new CountryCode("US"), "Redmond");
-    
+
+        var sofi = LegalEntity.Create("SoFi Technologies, Inc.", LegalEntityIdentifier.Create("549300SW81JCMVZDDY09"),
+            CentralIndexKey.Create("0001818874"), CountryCode.Create("US"), "San Francisco");
+
+        var msft = LegalEntity.Create("Microsoft Corporation", LegalEntityIdentifier.Create("INR2EJN1ERAN0W5ZP974"),
+            CentralIndexKey.Create("0000789019"), CountryCode.Create("US"), "Redmond");
+
         legalEntities.AddRange(sofi, msft);
-    
+
         legalEntities.Count.Should().Be(2);
     }
 }
