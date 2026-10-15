@@ -11,11 +11,13 @@
     
     <Project Path="src/_legacy/Tradelens.Domain/Tradelens.Domain.csproj" />
     <Project Path="src/_legacy/Tradelens.Infrastructure/Tradelens.Infrastructure.csproj" />
-    
+
+    <Project Path="src/Modules/Auditing/Tradelens.Auditing.Domain/Tradelens.Auditing.Domain.csproj" />
+
     <Project Path="src/Modules/CompanyFundamentals/Tradelens.CompanyFundamentals.Application/Tradelens.CompanyFundamentals.Application.csproj" />
     <Project Path="src/Modules/CompanyFundamentals/Tradelens.CompanyFundamentals.Domain/Tradelens.CompanyFundamentals.Domain.csproj" />
     <Project Path="src/Modules/CompanyFundamentals/Tradelens.CompanyFundamentals.Infrastructure/Tradelens.CompanyFundamentals.Infrastructure.csproj" />
-
+    
     <Project Path="src/Shared/Tradelens.SharedKernel/Tradelens.SharedKernel.csproj" />
     <Project Path="src/Shared/Tradelens.SharedInfra/Tradelens.SharedInfra.csproj" />
   </Folder>

@@ -1,0 +1,8 @@
+Audit functionality: company fundamentals observations, discussion posts/replies for spam or AI, etc.
+
+Observations, social feed Posts (+replies), etc. will be Auditable objects here, i.e. implemeting something like
+IAudit or IAuditable.
+
+behaviors and characteristics:
+- once audit is successfully submitted, i.e. approved or flagged by an authenticated user, a
+notification or email will be sent to an Admin.
