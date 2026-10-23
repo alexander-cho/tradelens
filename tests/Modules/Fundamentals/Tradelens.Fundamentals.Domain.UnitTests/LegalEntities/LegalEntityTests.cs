@@ -1,7 +1,7 @@
 ﻿using AwesomeAssertions;
-using Tradelens.CompanyFundamentals.Domain.LegalEntities;
+using Tradelens.Fundamentals.Domain.LegalEntities;
 
-namespace Tradelens.CompanyFundamentals.Domain.UnitTests.LegalEntities;
+namespace Tradelens.Fundamentals.Domain.UnitTests.LegalEntities;
 
 public class LegalEntityTests
 {

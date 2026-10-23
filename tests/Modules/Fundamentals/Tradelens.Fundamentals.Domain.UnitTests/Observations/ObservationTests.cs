@@ -1,7 +1,7 @@
 using AwesomeAssertions;
-using Tradelens.CompanyFundamentals.Domain.Observations;
+using Tradelens.Fundamentals.Domain.Observations;
 
-namespace Tradelens.CompanyFundamentals.Domain.UnitTests.Observations;
+namespace Tradelens.Fundamentals.Domain.UnitTests.Observations;
 
 public class ObservationTests
 {

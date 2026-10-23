@@ -14,9 +14,9 @@
 
     <Project Path="src/Modules/Auditing/Tradelens.Auditing.Domain/Tradelens.Auditing.Domain.csproj" />
 
-    <Project Path="src/Modules/CompanyFundamentals/Tradelens.CompanyFundamentals.Application/Tradelens.CompanyFundamentals.Application.csproj" />
-    <Project Path="src/Modules/CompanyFundamentals/Tradelens.CompanyFundamentals.Domain/Tradelens.CompanyFundamentals.Domain.csproj" />
-    <Project Path="src/Modules/CompanyFundamentals/Tradelens.CompanyFundamentals.Infrastructure/Tradelens.CompanyFundamentals.Infrastructure.csproj" />
+    <Project Path="src/Modules/Fundamentals/Tradelens.Fundamentals.Application/Tradelens.Fundamentals.Application.csproj" />
+    <Project Path="src/Modules/Fundamentals/Tradelens.Fundamentals.Domain/Tradelens.Fundamentals.Domain.csproj" />
+    <Project Path="src/Modules/Fundamentals/Tradelens.Fundamentals.Infrastructure/Tradelens.Fundamentals.Infrastructure.csproj" />
     
     <Project Path="src/Shared/Tradelens.SharedKernel/Tradelens.SharedKernel.csproj" />
     <Project Path="src/Shared/Tradelens.SharedInfra/Tradelens.SharedInfra.csproj" />
@@ -25,6 +25,6 @@
     <Project Path="tests/_legacy/Tradelens.Api.IntegrationTests/Tradelens.Api.IntegrationTests.csproj" />
     <Project Path="tests/_legacy/Tradelens.Domain.UnitTests/Tradelens.Domain.UnitTests.csproj" />
 
-    <Project Path="tests/Modules/CompanyFundamentals/Tradelens.CompanyFundamentals.Domain.UnitTests/Tradelens.CompanyFundamentals.Domain.UnitTests.csproj" />
+    <Project Path="tests/Modules/Fundamentals/Tradelens.Fundamentals.Domain.UnitTests/Tradelens.Fundamentals.Domain.UnitTests.csproj" />
   </Folder>
 </Solution>

@@ -1,4 +1,4 @@
-namespace Tradelens.CompanyFundamentals.Application;
+namespace Tradelens.Fundamentals.Application;
 
 public class ObservationFlaggedEventHandler
 {

@@ -1,4 +1,4 @@
-namespace Tradelens.CompanyFundamentals.Domain.FinancialReports;
+namespace Tradelens.Fundamentals.Domain.FinancialReports;
 
 public class FinancialReport
 {

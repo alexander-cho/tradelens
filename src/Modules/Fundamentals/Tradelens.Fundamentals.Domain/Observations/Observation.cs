@@ -1,4 +1,4 @@
-namespace Tradelens.CompanyFundamentals.Domain.Observations;
+namespace Tradelens.Fundamentals.Domain.Observations;
 
 /// <summary>
 /// 

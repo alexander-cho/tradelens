@@ -20,7 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\src\Modules\CompanyFundamentals\Tradelens.CompanyFundamentals.Domain\Tradelens.CompanyFundamentals.Domain.csproj" />
+    <ProjectReference Include="..\..\..\..\src\Modules\Fundamentals\Tradelens.Fundamentals.Domain\Tradelens.Fundamentals.Domain.csproj" />
   </ItemGroup>
 
 </Project>

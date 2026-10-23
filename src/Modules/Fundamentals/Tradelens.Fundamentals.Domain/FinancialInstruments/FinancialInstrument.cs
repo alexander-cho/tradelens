@@ -1,6 +1,6 @@
-using Tradelens.CompanyFundamentals.Domain.LegalEntities;
+using Tradelens.Fundamentals.Domain.LegalEntities;
 
-namespace Tradelens.CompanyFundamentals.Domain.FinancialInstruments;
+namespace Tradelens.Fundamentals.Domain.FinancialInstruments;
 
 public class FinancialInstrument
 {

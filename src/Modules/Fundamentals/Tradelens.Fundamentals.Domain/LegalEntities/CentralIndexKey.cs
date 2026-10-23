@@ -1,6 +1,6 @@
 using Tradelens.SharedKernel;
 
-namespace Tradelens.CompanyFundamentals.Domain.LegalEntities;
+namespace Tradelens.Fundamentals.Domain.LegalEntities;
 
 /// <summary>
 /// invariants: length must equal 10
