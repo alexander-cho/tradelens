@@ -4,27 +4,31 @@
     <Platform Name="x64" />
     <Platform Name="x86" />
   </Configurations>
-  <Folder Name="/src/">
+  <Folder Name="/src/_legacy/">
+    <Project Path="src/_legacy/Tradelens.Domain/Tradelens.Domain.csproj" />
+    <Project Path="src/_legacy/Tradelens.Infrastructure/Tradelens.Infrastructure.csproj" />
+  </Folder>
+  <Folder Name="/src/Hosts/">
     <Project Path="src/Hosts/Tradelens.Api/Tradelens.Api.csproj" />
     <Project Path="src/Hosts/Tradelens.Cli/Tradelens.Cli.csproj" />
     <Project Path="src/Hosts/Tradelens.Worker/Tradelens.Worker.csproj" />
-    
-    <Project Path="src/_legacy/Tradelens.Domain/Tradelens.Domain.csproj" />
-    <Project Path="src/_legacy/Tradelens.Infrastructure/Tradelens.Infrastructure.csproj" />
-
+  </Folder>
+  <Folder Name="/src/Modules/">
     <Project Path="src/Modules/Auditing/Tradelens.Auditing.Domain/Tradelens.Auditing.Domain.csproj" />
-
     <Project Path="src/Modules/Fundamentals/Tradelens.Fundamentals.Application/Tradelens.Fundamentals.Application.csproj" />
     <Project Path="src/Modules/Fundamentals/Tradelens.Fundamentals.Domain/Tradelens.Fundamentals.Domain.csproj" />
     <Project Path="src/Modules/Fundamentals/Tradelens.Fundamentals.Infrastructure/Tradelens.Fundamentals.Infrastructure.csproj" />
-    
+    <Project Path="src/Modules/Social/Tradelens.Social.Domain/Tradelens.Social.Domain.csproj" />
+  </Folder>
+  <Folder Name="/src/Shared/">
     <Project Path="src/Shared/Tradelens.SharedKernel/Tradelens.SharedKernel.csproj" />
     <Project Path="src/Shared/Tradelens.SharedInfra/Tradelens.SharedInfra.csproj" />
   </Folder>
-  <Folder Name="/tests/">
+  <Folder Name="/tests/_legacy/">
     <Project Path="tests/_legacy/Tradelens.Api.IntegrationTests/Tradelens.Api.IntegrationTests.csproj" />
     <Project Path="tests/_legacy/Tradelens.Domain.UnitTests/Tradelens.Domain.UnitTests.csproj" />
-
+  </Folder>
+  <Folder Name="/tests/Modules/">
     <Project Path="tests/Modules/Fundamentals/Tradelens.Fundamentals.Domain.UnitTests/Tradelens.Fundamentals.Domain.UnitTests.csproj" />
   </Folder>
 </Solution>
