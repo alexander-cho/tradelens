@@ -44,5 +44,6 @@
         "editorBracketHighlight.foreground6": "#FFFFFF",
         "editorBracketHighlight.unexpectedBracket.foreground": "#FFFFFF"
     },
-    "explorer.compactFolders": false
+    "explorer.compactFolders": false,
+    "dotnet.defaultSolution": "TradeLens.slnx"
 }

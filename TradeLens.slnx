@@ -18,7 +18,9 @@
     <Project Path="src/Modules/Fundamentals/Tradelens.Fundamentals.Application/Tradelens.Fundamentals.Application.csproj" />
     <Project Path="src/Modules/Fundamentals/Tradelens.Fundamentals.Domain/Tradelens.Fundamentals.Domain.csproj" />
     <Project Path="src/Modules/Fundamentals/Tradelens.Fundamentals.Infrastructure/Tradelens.Fundamentals.Infrastructure.csproj" />
+    <Project Path="src/Modules/Social/Tradelens.Social.Application/Tradelens.Social.Application.csproj" />
     <Project Path="src/Modules/Social/Tradelens.Social.Domain/Tradelens.Social.Domain.csproj" />
+    <Project Path="src/Modules/Social/Tradelens.Social.Infrastructure/Tradelens.Social.Infrastructure.csproj" />
   </Folder>
   <Folder Name="/src/Shared/">
     <Project Path="src/Shared/Tradelens.SharedKernel/Tradelens.SharedKernel.csproj" />
@@ -30,5 +32,6 @@
   </Folder>
   <Folder Name="/tests/Modules/">
     <Project Path="tests/Modules/Fundamentals/Tradelens.Fundamentals.Domain.UnitTests/Tradelens.Fundamentals.Domain.UnitTests.csproj" />
+    <Project Path="tests/Modules/Social/Tradelens.Social.Domain.UnitTests/Tradelens.Social.Domain.UnitTests.csproj" />
   </Folder>
 </Solution>
