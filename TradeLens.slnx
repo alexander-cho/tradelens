@@ -13,11 +13,15 @@
     <Project Path="src/Hosts/Tradelens.Cli/Tradelens.Cli.csproj" />
     <Project Path="src/Hosts/Tradelens.Worker/Tradelens.Worker.csproj" />
   </Folder>
-  <Folder Name="/src/Modules/">
+  <Folder Name="/src/Modules/Auditing/">
     <Project Path="src/Modules/Auditing/Tradelens.Auditing.Domain/Tradelens.Auditing.Domain.csproj" />
+  </Folder>
+  <Folder Name="/src/Modules/Fundamentals/">
     <Project Path="src/Modules/Fundamentals/Tradelens.Fundamentals.Application/Tradelens.Fundamentals.Application.csproj" />
     <Project Path="src/Modules/Fundamentals/Tradelens.Fundamentals.Domain/Tradelens.Fundamentals.Domain.csproj" />
     <Project Path="src/Modules/Fundamentals/Tradelens.Fundamentals.Infrastructure/Tradelens.Fundamentals.Infrastructure.csproj" />
+  </Folder>
+  <Folder Name="/src/Modules/Social/">
     <Project Path="src/Modules/Social/Tradelens.Social.Application/Tradelens.Social.Application.csproj" />
     <Project Path="src/Modules/Social/Tradelens.Social.Domain/Tradelens.Social.Domain.csproj" />
     <Project Path="src/Modules/Social/Tradelens.Social.Infrastructure/Tradelens.Social.Infrastructure.csproj" />
@@ -30,8 +34,10 @@
     <Project Path="tests/_legacy/Tradelens.Api.IntegrationTests/Tradelens.Api.IntegrationTests.csproj" />
     <Project Path="tests/_legacy/Tradelens.Domain.UnitTests/Tradelens.Domain.UnitTests.csproj" />
   </Folder>
-  <Folder Name="/tests/Modules/">
+  <Folder Name="/tests/Modules/Fundamentals/">
     <Project Path="tests/Modules/Fundamentals/Tradelens.Fundamentals.Domain.UnitTests/Tradelens.Fundamentals.Domain.UnitTests.csproj" />
+  </Folder>
+  <Folder Name="/tests/Modules/Social/">
     <Project Path="tests/Modules/Social/Tradelens.Social.Domain.UnitTests/Tradelens.Social.Domain.UnitTests.csproj" />
   </Folder>
 </Solution>
