@@ -13,7 +13,7 @@ public class Post : AggregateRoot
     public Post?
         ParentPost { get; private set; } // if this Post is a reply to another one, reference to the Parent post
 
-    public ICollection<string>?
+    public ICollection<Cashtag>?
         Cashtags
     {
         get;
@@ -30,7 +30,7 @@ public class Post : AggregateRoot
     {
     }
 
-    private Post(Post? parentPost, ICollection<string>? cashtags, string content, Sentiment? sentiment)
+    private Post(Post? parentPost, ICollection<Cashtag>? cashtags, string content, Sentiment? sentiment)
     {
         if (string.IsNullOrWhiteSpace(content))
         {
@@ -61,7 +61,7 @@ public class Post : AggregateRoot
         AddDomainEvent(new PostCreatedEvent(Id, UserId, CreatedAt));
     }
 
-    public static Post Create(Post? parentPost, ICollection<string>? cashtags, string content, Sentiment? sentiment)
+    public static Post Create(Post? parentPost, ICollection<Cashtag>? cashtags, string content, Sentiment? sentiment)
     {
         return new Post(parentPost, cashtags, content, sentiment);
     }
