@@ -25,10 +25,11 @@
     <Project Path="src/Modules/Social/Tradelens.Social.Application/Tradelens.Social.Application.csproj" />
     <Project Path="src/Modules/Social/Tradelens.Social.Domain/Tradelens.Social.Domain.csproj" />
     <Project Path="src/Modules/Social/Tradelens.Social.Infrastructure/Tradelens.Social.Infrastructure.csproj" />
+    <Project Path="src/Modules/Social/Tradelens.Social.Presentation/Tradelens.Social.Presentation.csproj" />
   </Folder>
   <Folder Name="/src/Shared/">
     <Project Path="src/Shared/Tradelens.SharedKernel/Tradelens.SharedKernel.csproj" />
-    <Project Path="src/Shared/Tradelens.SharedInfra/Tradelens.SharedInfra.csproj" />
+    <Project Path="src/Shared/Tradelens.Shared.Infrastructure/Tradelens.Shared.Infrastructure.csproj" />
   </Folder>
   <Folder Name="/tests/_legacy/">
     <Project Path="tests/_legacy/Tradelens.Api.IntegrationTests/Tradelens.Api.IntegrationTests.csproj" />
