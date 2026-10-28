@@ -5,11 +5,11 @@
     <Platform Name="x86" />
   </Configurations>
   <Folder Name="/src/_legacy/">
+    <Project Path="src/_legacy/Tradelens.Api/Tradelens.Api.csproj" />
     <Project Path="src/_legacy/Tradelens.Domain/Tradelens.Domain.csproj" />
     <Project Path="src/_legacy/Tradelens.Infrastructure/Tradelens.Infrastructure.csproj" />
   </Folder>
   <Folder Name="/src/Hosts/">
-    <Project Path="src/Hosts/Tradelens.Api/Tradelens.Api.csproj" />
     <Project Path="src/Hosts/Tradelens.Cli/Tradelens.Cli.csproj" />
     <Project Path="src/Hosts/Tradelens.Worker/Tradelens.Worker.csproj" />
   </Folder>
