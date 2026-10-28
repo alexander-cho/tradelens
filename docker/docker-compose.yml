@@ -6,7 +6,7 @@ services:
     container_name: tradelens-app
     build:
       context: ..
-      dockerfile: docker/Tradelens.Api.Dockerfile
+      dockerfile: docker/Tradelens.ApiVbeta.Dockerfile
     ports:
       - "6502:6501"
     environment:

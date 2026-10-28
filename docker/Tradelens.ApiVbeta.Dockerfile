@@ -16,16 +16,16 @@ FROM mcr.microsoft.com/dotnet/sdk:10.0 AS base
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 
-COPY ["src/Hosts/Tradelens.Api/Tradelens.Api.csproj", "Hosts/Tradelens.Api/"]
+COPY ["src/_legacy/Tradelens.Api/Tradelens.Api.csproj", "_legacy/Tradelens.Api/"]
 COPY ["src/_legacy/Tradelens.Domain/Tradelens.Domain.csproj", "_legacy/Tradelens.Domain/"]
 COPY ["src/_legacy/Tradelens.Infrastructure/Tradelens.Infrastructure.csproj", "_legacy/Tradelens.Infrastructure/"]
-RUN dotnet restore "Hosts/Tradelens.Api/Tradelens.Api.csproj"
+RUN dotnet restore "_legacy/Tradelens.Api/Tradelens.Api.csproj"
 
 # https://devops.stackexchange.com/questions/17647/azure-devops-pipeline-failure-program-does-not-contain-a-static-main-method
 # this line used to be after the below COPY commands!
 WORKDIR /src/Hosts/Tradelens.Api
 
-COPY ["src/Hosts/Tradelens.Api", "./"]
+COPY ["src/_legacy/Tradelens.Api", "./"]
 COPY ["src/_legacy/Tradelens.Domain", "./"]
 COPY ["src/_legacy/Tradelens.Infrastructure", "./"]
 

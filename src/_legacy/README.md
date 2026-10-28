@@ -1,3 +1,3 @@
-## _legacy
+## _legacy (Vbeta)
 
-This directory contains the pure-monolithic legacy application core that is being re-written in `Modules/`.
+This directory contains the 3-tier legacy application that is being re-written across `Hosts/`, `Modules/`, `Shared/`.
