@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Tradelens.Social.Application\Tradelens.Social.Application.csproj" />
+    <ProjectReference Include="..\Tradelens.Social.Domain\Tradelens.Social.Domain.csproj" />
     <ProjectReference Include="..\..\..\Shared\Tradelens.SharedInfra\Tradelens.SharedInfra.csproj" />
   </ItemGroup>
 

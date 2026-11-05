@@ -19,6 +19,6 @@ public class PostsController : ControllerBase
     [HttpPost]
     public async Task<ActionResult> CreatePost(CreatePostCommand command, CancellationToken cancellationToken)
     {
-        return Ok(await _createPostCommandHandler.Handle(command, cancellationToken));
+        return Ok(await _createPostCommandHandler.HandleAsync(command, cancellationToken));
     }
 }

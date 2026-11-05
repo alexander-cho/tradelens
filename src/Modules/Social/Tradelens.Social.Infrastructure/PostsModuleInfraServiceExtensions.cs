@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Tradelens.Social.Application.Posts;
+using Tradelens.Social.Domain.Posts;
 using Tradelens.Social.Infrastructure.Posts;
 
 namespace Tradelens.Social.Infrastructure;

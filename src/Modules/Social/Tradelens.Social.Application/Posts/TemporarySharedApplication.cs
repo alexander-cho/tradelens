@@ -20,7 +20,7 @@ public interface ICommand<TResponse>;
 
 public interface IQueryHandler<in TQuery, TResponse> where TQuery : IQuery<TResponse>
 {
-    Task<TResponse> Handle(TQuery query, CancellationToken cancellationToken = default);
+    Task<TResponse> HandleAsync(TQuery query, CancellationToken cancellationToken = default);
 }
 
 /// <summary>
@@ -31,12 +31,12 @@ public interface IQueryHandler<in TQuery, TResponse> where TQuery : IQuery<TResp
 /// <typeparam name="TCommand"></typeparam>
 public interface ICommandHandler<in TCommand> where TCommand : ICommand
 {
-    Task Handle(TCommand command, CancellationToken cancellationToken = default);
+    Task HandleAsync(TCommand command, CancellationToken cancellationToken = default);
 }
 
 public interface ICommandHandler<in TCommand, TResponse> where TCommand : ICommand<TResponse>
 {
-    Task<TResponse> Handle(TCommand command, CancellationToken cancellationToken = default);
+    Task<TResponse> HandleAsync(TCommand command, CancellationToken cancellationToken = default);
 }
 
 // public interface IQueryDispatcher;
