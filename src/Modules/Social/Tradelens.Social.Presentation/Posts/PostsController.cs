@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Tradelens.Shared.Application;
 using Tradelens.Social.Application.Posts;
 
 namespace Tradelens.Social.Presentation.Posts;
@@ -7,18 +8,16 @@ namespace Tradelens.Social.Presentation.Posts;
 [ApiController]
 public class PostsController : ControllerBase
 {
-    // inject handler object for each command/query or implement and use mediator
+    private readonly IMediator _mediator;
 
-    private readonly CreatePostCommandHandler _createPostCommandHandler;
-
-    public PostsController(CreatePostCommandHandler createPostCommandHandler)
+    public PostsController(IMediator mediator)
     {
-        _createPostCommandHandler = createPostCommandHandler;
+        _mediator = mediator;
     }
 
     [HttpPost]
-    public async Task<ActionResult> CreatePost(CreatePostCommand command, CancellationToken cancellationToken)
+    public async Task<ActionResult> CreatePost(CreatePostCommand request, CancellationToken cancellationToken = default)
     {
-        return Ok(await _createPostCommandHandler.HandleAsync(command, cancellationToken));
+        return Ok(await _mediator.Send(request, cancellationToken));
     }
 }

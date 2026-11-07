@@ -1,3 +1,4 @@
+using Tradelens.Shared.Application;
 using Tradelens.Social.Domain.Posts;
 
 namespace Tradelens.Social.Application.Posts;
@@ -11,7 +12,7 @@ public class CreatePostCommandHandler : ICommandHandler<CreatePostCommand, PostI
         _repository = repository;
     }
 
-    public async Task<PostId> HandleAsync(CreatePostCommand command, CancellationToken cancellationToken = default)
+    public async Task<PostId> Handle(CreatePostCommand command, CancellationToken cancellationToken)
     {
         var post = Post.Create(command.ParentPost, command.Cashtags, command.Content, command.Sentiment);
 

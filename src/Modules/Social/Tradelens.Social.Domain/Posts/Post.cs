@@ -23,7 +23,7 @@ public class Post : AggregateRoot
     public string Content { get; private set; }
     public Sentiment? Sentiment { get; private set; }
     public Status Status { get; private set; }
-    public DateTime CreatedAt { get; private set; }
+    public DateTime CreatedAt { get; init; }
     // more properties as needed
 
     private Post()

@@ -1,3 +1,4 @@
+using Tradelens.Shared.Application;
 using Tradelens.Social.Domain.Posts;
 
 namespace Tradelens.Social.Application.Posts;
