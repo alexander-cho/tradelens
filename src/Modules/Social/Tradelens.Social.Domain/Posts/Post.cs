@@ -55,7 +55,7 @@ public class Post : AggregateRoot
         Cashtags = cashtags;
         Content = content;
         Sentiment = sentiment;
-        Status = Status.Published;
+        Status = new Status("Published");
         CreatedAt = DateTime.UtcNow;
 
         AddDomainEvent(new PostCreatedEvent(Id, UserId, CreatedAt));
@@ -78,6 +78,6 @@ public class Post : AggregateRoot
             throw new DomainException($"Cannot delete a post written more than {MinutesToDelete} minutes ago");
         }
 
-        Status = Status.Deleted;
+        Status = new Status("Deleted");
     }
 }

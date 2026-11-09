@@ -1,7 +1,5 @@
+using Tradelens.SharedKernel;
+
 namespace Tradelens.Social.Domain.Posts;
 
-public enum Status
-{
-    Published,
-    Deleted
-}
+public sealed record Status(string Value) : ValueObject;

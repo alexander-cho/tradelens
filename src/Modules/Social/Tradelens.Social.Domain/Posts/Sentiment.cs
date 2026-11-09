@@ -1,7 +1,5 @@
+using Tradelens.SharedKernel;
+
 namespace Tradelens.Social.Domain.Posts;
 
-public enum Sentiment
-{
-    Bullish,
-    Bearish
-}
+public sealed record Sentiment(string Value) : ValueObject;

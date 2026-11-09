@@ -11,11 +11,11 @@ public class PostTests
             parentPost: null,
             cashtags:
             [
-                Cashtag.Create("NVDA"), Cashtag.Create("AMD"), Cashtag.Create("MU"), Cashtag.Create("AMAT"),
-                Cashtag.Create("INTC"), Cashtag.Create("ARM")
+                new Cashtag("NVDA"), new Cashtag("AMD"), new Cashtag("MU"), new Cashtag("AMAT"), new Cashtag("INTC"),
+                new Cashtag("ARM")
             ],
             content: "Quite bullish on memory and hardware thanks to demand from AI infrastructure buildout.",
-            sentiment: Sentiment.Bullish
+            sentiment: new Sentiment("Bullish")
         );
     }
 
@@ -26,11 +26,10 @@ public class PostTests
             parentPost: null,
             cashtags:
             [
-                Cashtag.Create("NVDA"), Cashtag.Create("AMD"), Cashtag.Create("MU"), Cashtag.Create("AMAT"),
-                Cashtag.Create("INTC")
+                new Cashtag("NVDA"), new Cashtag("AMD"), new Cashtag("MU"), new Cashtag("AMAT"), new Cashtag("INTC")
             ],
             content: "going to zero",
-            sentiment: Sentiment.Bearish
+            sentiment: new Sentiment("Bearish")
         );
     }
 
@@ -41,11 +40,10 @@ public class PostTests
             parentPost: null,
             cashtags:
             [
-                Cashtag.Create("NVDA"), Cashtag.Create("AMD"), Cashtag.Create("MU"), Cashtag.Create("AMAT"),
-                Cashtag.Create("INTC")
+                new Cashtag("NVDA"), new Cashtag("AMD"), new Cashtag("MU"), new Cashtag("AMAT"), new Cashtag("INTC")
             ],
             content: "Quite bullish on memory and hardware thanks to demand from AI infrastructure buildout.",
-            sentiment: Sentiment.Bullish
+            sentiment: new Sentiment("Bullish")
         );
     }
 }
