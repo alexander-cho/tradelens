@@ -10,6 +10,7 @@
     <Project Path="src/_legacy/Tradelens.Infrastructure/Tradelens.Infrastructure.csproj" />
   </Folder>
   <Folder Name="/src/Hosts/">
+    <Project Path="src/Hosts/Tradelens.Api/Tradelens.Api.csproj" />
     <Project Path="src/Hosts/Tradelens.Cli/Tradelens.Cli.csproj" />
     <Project Path="src/Hosts/Tradelens.Worker/Tradelens.Worker.csproj" />
   </Folder>
@@ -26,9 +27,11 @@
     <Project Path="src/Modules/Social/Tradelens.Social.Domain/Tradelens.Social.Domain.csproj" />
     <Project Path="src/Modules/Social/Tradelens.Social.Infrastructure/Tradelens.Social.Infrastructure.csproj" />
     <Project Path="src/Modules/Social/Tradelens.Social.Presentation/Tradelens.Social.Presentation.csproj" />
+    <Project Path="src/Modules/Social/Tradelens.Social.Startup/Tradelens.Social.Startup.csproj" />
   </Folder>
   <Folder Name="/src/Shared/">
     <Project Path="src/Shared/Tradelens.SharedKernel/Tradelens.SharedKernel.csproj" />
+    <Project Path="src/Shared/Tradelens.Shared.Application/Tradelens.Shared.Application.csproj" />
     <Project Path="src/Shared/Tradelens.Shared.Infrastructure/Tradelens.Shared.Infrastructure.csproj" />
   </Folder>
   <Folder Name="/tests/_legacy/">
