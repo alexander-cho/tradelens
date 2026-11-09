@@ -14,5 +14,6 @@ public class PostRepository : IPostRepository
     public async Task CreatePost(Post post, CancellationToken cancellationToken)
     {
         await _dbContext.Posts.AddAsync(post, cancellationToken);
+        await _dbContext.SaveChangesAsync(cancellationToken);
     }
 }

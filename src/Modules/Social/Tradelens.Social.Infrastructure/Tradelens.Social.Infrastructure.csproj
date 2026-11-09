@@ -8,11 +8,13 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Tradelens.Social.Domain\Tradelens.Social.Domain.csproj" />
-    <ProjectReference Include="..\..\..\Shared\Tradelens.SharedInfra\Tradelens.SharedInfra.csproj" />
+    <ProjectReference Include="..\..\..\Shared\Tradelens.Shared.Infrastructure\Tradelens.Shared.Infrastructure.csproj" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.14" />
     <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="10.0.14" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="10.0.3" />
   </ItemGroup>
 
 </Project>

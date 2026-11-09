@@ -7,7 +7,7 @@ using Tradelens.Social.Infrastructure.Posts;
 
 namespace Tradelens.Social.Infrastructure;
 
-public static class SocialModuleInfraServiceExtensions
+public static class SocialModuleInfrastructureServiceExtensions
 {
     public static IServiceCollection AddSocialModuleInfrastructure(this IServiceCollection services,
         IConfiguration config)
@@ -25,7 +25,7 @@ public static class SocialModuleInfraServiceExtensions
         services.AddDbContext<SocialDbContext>((serviceProvider, opt) =>
         {
             var settings = serviceProvider.GetRequiredService<IOptions<SocialModuleSettings>>().Value;
-            opt.UseNpgsql(config.GetConnectionString(settings.DefaultConnection));
+            opt.UseNpgsql(settings.DefaultConnection);
         });
 
         return services;
