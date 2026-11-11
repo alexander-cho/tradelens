@@ -4,11 +4,13 @@
 
   // List of extensions which should be recommended for users of this workspace.
   "recommendations": [
-    "ms-dotnettools.csdevkit",
+    "jetbrains.resharper-code",
+    "ms-dotnettools.vscode-dotnet-runtime",
+    "digimezzo.jetbrains-rider-new-ui-theme",
+    "jasonlhy.hungry-delete",
     "Angular.ng-template",
     "formulahendry.auto-rename-tag",
     "patcx.vscode-nuget-gallery",
-    "dunn.redis",
     "bradlc.vscode-tailwindcss",
     "ghaschel.vscode-angular-html"
   ],
