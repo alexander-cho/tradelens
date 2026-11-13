@@ -7,18 +7,17 @@ public class Post : AggregateRoot
     private const int MaxCashtagsPerPost = 5;
     private const int MinContentLength = 50;
     private const int MinutesToDelete = 5;
+
     public PostId Id { get; init; }
-    public Guid UserId { get; init; } // change to strongly typed User id or reference User BC
 
-    public Post?
-        ParentPost { get; private set; } // if this Post is a reply to another one, reference to the Parent post
+    // change to strongly typed User id or reference User BC
+    public Guid UserId { get; init; }
 
-    public IList<Cashtag>?
-        Cashtags
-    {
-        get;
-        private set;
-    } // need to be a reference to the Financial Instruments aggregate in Fundamentals BC
+    // if this Post is a reply to another one, reference to the Parent post
+    public Post? ParentPost { get; private set; }
+
+    // need to be a reference to the Financial Instruments aggregate in Fundamentals BC
+    public IList<Cashtag>? Cashtags { get; private set; }
 
     public string Content { get; private set; }
     public Sentiment? Sentiment { get; private set; }
