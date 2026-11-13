@@ -35,7 +35,17 @@
       "string": "#c9a26d",
       "variable": "#bdbdbd",
       "typeParameter": "#e37878",
-    }
+    },
+  },
+  "editor.tokenColorCustomizations": {
+    "textMateRules": [
+      {
+        "scope": "keyword.operator.expression.await.cs",
+        "settings": {
+          "foreground": "#6c95eb"
+        }
+      }
+    ]
   },
   "editor.bracketPairColorization.enabled": true,
   "workbench.colorCustomizations": {
