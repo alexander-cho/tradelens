@@ -34,4 +34,6 @@ app.MapControllers();
 
 app.MapGet("/configuration", (IConfiguration config) => config.AsEnumerable());
 
+await app.MigrateDatabaseAsync();
+
 app.Run();
