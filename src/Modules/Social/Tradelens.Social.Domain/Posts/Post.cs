@@ -42,7 +42,7 @@ public class Post : AggregateRoot
                 $"Only up to {MaxCashtagsPerPost} cashtags allowed per post for user on <base> tier");
         }
 
-        if (content.Length > MinContentLength)
+        if (content.Length < MinContentLength)
         {
             throw new DomainException(
                 $"Post content length must have a minimum of {MinContentLength} characters");
