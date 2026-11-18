@@ -5,7 +5,7 @@
 <div style="text-align:center">
 
 [//]: # (    <img src="https://custom-icon-badges.demolab.com/badge/No%20AI-2f2f2f?logo=non-ai&logoColor=white" alt=""/>)
-    <img src="https://img.shields.io/badge/.NET-10-purple" alt=""/>
+    <img src="https://img.shields.io/badge/.NET-11-purple" alt=""/>
     <img src="https://img.shields.io/badge/Angular-20-red" alt=""/>
     <img src="https://img.shields.io/badge/Postgres-17-blue" alt=""/>
     <img src="https://img.shields.io/badge/Firefox-FF7139?logo=firefoxbrowser&logoColor=white)" alt=""/>
