@@ -44,6 +44,12 @@
         "settings": {
           "foreground": "#6c95eb"
         }
+      },
+      {
+        "scope": "keyword.operator.expression.default.cs",
+        "settings": {
+          "foreground": "#6c95eb",
+        }
       }
     ]
   },

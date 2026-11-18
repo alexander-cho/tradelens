@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Tradelens.Social.Application\Tradelens.Social.Application.csproj" />
+    <ProjectReference Include="..\..\..\Shared\Tradelens.Shared.Presentation\Tradelens.Shared.Presentation.csproj" />
   </ItemGroup>
 
   <ItemGroup>

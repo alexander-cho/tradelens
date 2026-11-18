@@ -8,10 +8,15 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Tradelens.Social.Domain\Tradelens.Social.Domain.csproj" />
+
+    <!-- temporary (?), in order to get read repository interface from application layer! -->
+    <ProjectReference Include="..\Tradelens.Social.Application\Tradelens.Social.Application.csproj" />
+
     <ProjectReference Include="..\..\..\Shared\Tradelens.Shared.Infrastructure\Tradelens.Shared.Infrastructure.csproj" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Dapper" Version="2.1.89" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.14" />
     <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="10.0.14" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="10.0.3" />
