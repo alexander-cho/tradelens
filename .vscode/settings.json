@@ -50,6 +50,12 @@
         "settings": {
           "foreground": "#6c95eb",
         }
+      },
+      {
+        "scope": "entity.name.variable.property.cs",
+        "settings": {
+          "foreground": "#66c3cc",
+        }
       }
     ]
   },

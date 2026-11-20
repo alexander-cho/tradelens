@@ -2,7 +2,7 @@ using Tradelens.SharedKernel;
 
 namespace Tradelens.Social.Domain.Posts;
 
-public class Post : AggregateRoot
+public class Post : Entity, IAggregateRoot
 {
     private const int MaxCashtagsPerPost = 5;
     private const int MinContentLength = 50;
@@ -14,6 +14,7 @@ public class Post : AggregateRoot
     public Guid UserId { get; init; }
 
     // if this Post is a reply to another one, reference to the Parent post
+    // think about if we need to reference the whole Post object or just PostId
     public Post? ParentPost { get; private set; }
 
     // need to be a reference to the Financial Instruments aggregate in Fundamentals BC
@@ -57,7 +58,7 @@ public class Post : AggregateRoot
         Status = new Status("Published");
         CreatedAt = DateTime.UtcNow;
 
-        AddDomainEvent(new PostCreatedEvent(Id, UserId, CreatedAt));
+        AddDomainEvent(new PostCreatedEvent());
     }
 
     public static Post Create(Post? parentPost, IList<Cashtag>? cashtags, string content, Sentiment? sentiment)

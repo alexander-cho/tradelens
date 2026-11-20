@@ -13,15 +13,15 @@ public class PostReadRepository : IPostReadRepository
         _db = db;
     }
 
-    public async Task<PostResponse> GetPostByIdAsync(GetPostByIdQuery query, CancellationToken cancellationToken)
+    public async Task<PostDto> GetPostByIdAsync(GetPostByIdQuery query, CancellationToken cancellationToken)
     {
         // possible null reference return, look into result pattern
         const string sql =
             """SELECT "Id", "UserId", "Cashtags", "Content", "Sentiment_Value" AS "Sentiment", "CreatedAt" FROM "Posts" WHERE "Id" = @id""";
-        return await _db.QueryFirstOrDefaultAsync<PostResponse>(sql, new { id = query.PostId });
+        return await _db.QueryFirstOrDefaultAsync<PostDto>(sql, new { id = query.PostId });
     }
 
-    public async Task<IEnumerable<PostResponse>> GetPostsAsync(GetPostsQuery query, CancellationToken cancellationToken)
+    public async Task<IEnumerable<PostDto>> GetPostsAsync(GetPostsQuery query, CancellationToken cancellationToken)
     {
         throw new NotImplementedException();
     }
