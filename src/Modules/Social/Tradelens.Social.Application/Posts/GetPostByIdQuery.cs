@@ -4,4 +4,4 @@ namespace Tradelens.Social.Application.Posts;
 
 public record GetPostByIdQuery(
     Guid PostId
-) : IQuery<PostResponse>;
+) : IQuery<PostDto>;

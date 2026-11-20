@@ -2,7 +2,7 @@ using Tradelens.Shared.Application;
 
 namespace Tradelens.Social.Application.Posts;
 
-public class GetPostsQueryHandler : IQueryHandler<GetPostsQuery, IEnumerable<PostResponse>>
+public class GetPostsQueryHandler : IQueryHandler<GetPostsQuery, IEnumerable<PostDto>>
 {
     private readonly IPostReadRepository _repository;
 
@@ -11,7 +11,7 @@ public class GetPostsQueryHandler : IQueryHandler<GetPostsQuery, IEnumerable<Pos
         _repository = repository;
     }
 
-    public async Task<IEnumerable<PostResponse>> Handle(GetPostsQuery request, CancellationToken cancellationToken)
+    public async Task<IEnumerable<PostDto>> Handle(GetPostsQuery request, CancellationToken cancellationToken)
     {
         return await _repository.GetPostsAsync(request, cancellationToken);
     }

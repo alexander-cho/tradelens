@@ -1,8 +1,13 @@
+using Tradelens.Shared.Application;
+
 namespace Tradelens.Social.Application.Posts;
 
-public interface IPostReadRepository
+/// <summary>
+/// Read repository interface for querying from Post aggregate
+/// </summary>
+public interface IPostReadRepository : IReadRepository
 {
-    Task<PostResponse> GetPostByIdAsync(GetPostByIdQuery query, CancellationToken cancellationToken);
+    Task<PostDto> GetPostByIdAsync(GetPostByIdQuery query, CancellationToken cancellationToken);
 
-    Task<IEnumerable<PostResponse>> GetPostsAsync(GetPostsQuery query, CancellationToken cancellationToken);
+    Task<IEnumerable<PostDto>> GetPostsAsync(GetPostsQuery query, CancellationToken cancellationToken);
 }

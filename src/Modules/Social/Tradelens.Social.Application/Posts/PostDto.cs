@@ -1,6 +1,6 @@
 namespace Tradelens.Social.Application.Posts;
 
-public record PostResponse(
+public record PostDto(
     Guid Id,
     Guid UserId,
     string Cashtags,

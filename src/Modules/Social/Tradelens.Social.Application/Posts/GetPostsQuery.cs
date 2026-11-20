@@ -6,4 +6,4 @@ namespace Tradelens.Social.Application.Posts;
 public record GetPostsQuery(
     IList<Cashtag> Cashtags,
     int PageSize
-) : IRequest<IEnumerable<PostResponse>>;
+) : IQuery<IEnumerable<PostDto>>;
