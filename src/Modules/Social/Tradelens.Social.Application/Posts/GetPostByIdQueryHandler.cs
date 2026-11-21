@@ -10,7 +10,7 @@ public class GetPostByIdQueryHandler : IQueryHandler<GetPostByIdQuery, PostDto>
     {
         _repository = repository;
     }
-    
+
     public async Task<PostDto> Handle(GetPostByIdQuery query, CancellationToken cancellationToken)
     {
         return await _repository.GetPostByIdAsync(query, cancellationToken);

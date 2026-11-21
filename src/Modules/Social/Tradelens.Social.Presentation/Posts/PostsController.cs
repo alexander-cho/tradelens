@@ -29,8 +29,6 @@ public class PostsController : ControllerBase
     //     _mediator = mediator;
     // }
 
-    // Think about: If it's ActionResult<PostId>, the presentation layer knows about a domain concept, which is
-    // not unreasonable since there is a transitive dependency.
     [HttpPost]
     public async Task<ActionResult<Guid>> CreatePost(CreatePostCommand request,
         CancellationToken cancellationToken = default)
@@ -45,16 +43,17 @@ public class PostsController : ControllerBase
     public async Task<ActionResult<PostResponse>> GetPostById(Guid id,
         CancellationToken cancellationToken = default)
     {
-        var q = new GetPostByIdQuery(id);
-        return Ok(await _getPostByIdQueryHandler.Handle(q, cancellationToken));
+        var query = new GetPostByIdQuery(id);
+        return Ok(await _getPostByIdQueryHandler.Handle(query, cancellationToken));
     }
 
     [ActionArguments]
     [HandleException]
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<PostResponse>>> GetPosts(GetPostsQuery request,
+    public async Task<ActionResult<IEnumerable<PostResponse>>> GetPosts([FromQuery] GetPostsRequest request,
         CancellationToken cancellationToken = default)
     {
-        return Ok(await _getPostsQueryHandler.Handle(request, cancellationToken));
+        var query = new GetPostsQuery(request.PageSize);
+        return Ok(await _getPostsQueryHandler.Handle(query, cancellationToken));
     }
 }

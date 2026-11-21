@@ -23,6 +23,8 @@ public class PostReadRepository : IPostReadRepository
 
     public async Task<IEnumerable<PostDto>> GetPostsAsync(GetPostsQuery query, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        const string sql =
+            """SELECT "Id", "UserId", "Cashtags", "Content", "Sentiment_Value" AS "Sentiment", "CreatedAt" FROM "Posts" ORDER BY "CreatedAt" LIMIT @pageSize""";
+        return await _db.QueryAsync<PostDto>(sql, new { pageSize = query.PageSize });
     }
 }
