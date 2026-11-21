@@ -2,7 +2,7 @@ using Tradelens.Social.Domain.Posts;
 
 namespace Tradelens.Social.Infrastructure.Posts;
 
-public class PostRepository : IPostRepository
+public sealed class PostRepository : IPostRepository
 {
     private readonly SocialDbContext _dbContext;
 

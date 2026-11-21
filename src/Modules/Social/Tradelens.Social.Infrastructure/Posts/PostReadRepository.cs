@@ -4,7 +4,7 @@ using Tradelens.Social.Application.Posts;
 
 namespace Tradelens.Social.Infrastructure.Posts;
 
-public class PostReadRepository : IPostReadRepository
+public sealed class PostReadRepository : IPostReadRepository
 {
     private readonly IDbConnection _db;
 

@@ -1,6 +1,6 @@
 namespace Tradelens.Social.Infrastructure;
 
-public class SocialModuleSettings
+public sealed class SocialModuleSettings
 {
     public const string SectionName = "Modules:Social";
 

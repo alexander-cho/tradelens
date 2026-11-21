@@ -10,7 +10,7 @@ namespace Tradelens.Shared.Presentation;
 /// ASP.NET Core in Action, 3rd Edition, Andrew Lock. Listing 22.8 (page 545)
 /// </remarks>
 [AttributeUsage(AttributeTargets.Method)]
-public class HandleExceptionAttribute : Attribute, IExceptionFilter
+public sealed class HandleExceptionAttribute : Attribute, IExceptionFilter
 {
     public void OnException(ExceptionContext context)
     {

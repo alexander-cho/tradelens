@@ -3,7 +3,7 @@ using Tradelens.Social.Domain.Posts;
 
 namespace Tradelens.Social.Application.Posts;
 
-public class CreatePostCommandHandler : ICommandHandler<CreatePostCommand, PostId>
+public sealed class CreatePostCommandHandler : ICommandHandler<CreatePostCommand, PostId>
 {
     private readonly IPostRepository _repository;
 

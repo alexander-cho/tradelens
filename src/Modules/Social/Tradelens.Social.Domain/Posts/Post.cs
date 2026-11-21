@@ -2,7 +2,7 @@ using Tradelens.SharedKernel;
 
 namespace Tradelens.Social.Domain.Posts;
 
-public class Post : Entity, IAggregateRoot
+public sealed class Post : Entity, IAggregateRoot
 {
     private const int MaxCashtagsPerPost = 5;
     private const int MinContentLength = 50;

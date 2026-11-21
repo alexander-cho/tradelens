@@ -2,7 +2,7 @@ using Tradelens.Shared.Application;
 
 namespace Tradelens.Social.Application.Posts;
 
-public class GetPostsQueryHandler : IQueryHandler<GetPostsQuery, IEnumerable<PostDto>>
+public sealed class GetPostsQueryHandler : IQueryHandler<GetPostsQuery, IEnumerable<PostDto>>
 {
     private readonly IPostReadRepository _repository;
 

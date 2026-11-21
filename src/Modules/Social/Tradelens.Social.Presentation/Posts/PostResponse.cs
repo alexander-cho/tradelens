@@ -1,6 +1,6 @@
 namespace Tradelens.Social.Presentation.Posts;
 
-public record PostResponse(
+public sealed record PostResponse(
     Guid Id,
     Guid UserId,
     string Cashtags,

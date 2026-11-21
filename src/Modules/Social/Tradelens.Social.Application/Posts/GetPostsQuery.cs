@@ -3,7 +3,7 @@ using Tradelens.Shared.Application;
 
 namespace Tradelens.Social.Application.Posts;
 
-public record GetPostsQuery(
+public sealed record GetPostsQuery(
     // // select from existing cashtags dropdown
     // // search bar
     // // main ticker page feed, etc.

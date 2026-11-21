@@ -7,7 +7,7 @@ namespace Tradelens.Shared.Presentation;
 /// that are going to be used to execute the action method with context.ActionArguments
 /// </summary>
 [AttributeUsage(AttributeTargets.Method)]
-public class ActionArgumentsAttribute : Attribute, IAsyncActionFilter
+public sealed class ActionArgumentsAttribute : Attribute, IAsyncActionFilter
 {
     public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
     {

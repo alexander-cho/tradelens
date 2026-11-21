@@ -3,7 +3,7 @@ using Tradelens.Social.Domain.Posts;
 
 namespace Tradelens.Social.Infrastructure;
 
-public class SocialDbContext : DbContext
+public sealed class SocialDbContext : DbContext
 {
     public SocialDbContext(DbContextOptions<SocialDbContext> options) : base(options)
     {
