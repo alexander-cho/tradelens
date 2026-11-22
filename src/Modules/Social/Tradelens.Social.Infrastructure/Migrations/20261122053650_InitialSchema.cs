@@ -27,17 +27,7 @@ namespace Tradelens.Social.Infrastructure.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Posts", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Posts_Posts_ParentPostId",
-                        column: x => x.ParentPostId,
-                        principalTable: "Posts",
-                        principalColumn: "Id");
                 });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Posts_ParentPostId",
-                table: "Posts",
-                column: "ParentPostId");
         }
 
         /// <inheritdoc />

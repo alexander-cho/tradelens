@@ -1,11 +1,10 @@
 using Tradelens.Shared.Application;
-using Tradelens.Social.Domain.Posts;
 
 namespace Tradelens.Social.Application.Posts;
 
 public sealed record CreatePostCommand(
-    Post? ParentPost,
-    IList<Cashtag>? Cashtags,
+    Guid? ParentPostId,
+    IList<string>? Cashtags,
     string Content,
-    Sentiment Sentiment
-) : ICommand<PostId>;
+    string? Sentiment
+) : ICommand<Guid>;

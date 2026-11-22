@@ -18,8 +18,15 @@ public sealed class SocialDbContext : DbContext
         // https://learn.microsoft.com/en-us/ef/core/modeling/keys?tabs=fluent-api#keys-on-complex-type-properties
         modelBuilder.Entity<Post>().HasKey(p => p.Id);
 
+        // Value conversions HasConversion()
+        // Post.Id => PostId -> Guid on writes, Guid -> PostId on reads
         modelBuilder.Entity<Post>().Property(p => p.Id)
             .HasConversion(id => id.Value, value => new PostId(value))
+            .ValueGeneratedNever();
+        // Post.ParentPostId => PostId? -> Guid on writes, Guid -> PostId on reads
+        // EFCore in Action (Smith, 2021) 2nd edition: null values are not passed to value converters
+        modelBuilder.Entity<Post>().Property(p => p.ParentPostId)
+            .HasConversion(id => id!.Value.Value, value => new PostId(value))
             .ValueGeneratedNever();
 
         modelBuilder.Entity<Post>(builder =>

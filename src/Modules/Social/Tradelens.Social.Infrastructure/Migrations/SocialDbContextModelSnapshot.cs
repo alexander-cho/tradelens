@@ -69,18 +69,7 @@ namespace Tradelens.Social.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ParentPostId");
-
                     b.ToTable("Posts");
-                });
-
-            modelBuilder.Entity("Tradelens.Social.Domain.Posts.Post", b =>
-                {
-                    b.HasOne("Tradelens.Social.Domain.Posts.Post", "ParentPost")
-                        .WithMany()
-                        .HasForeignKey("ParentPostId");
-
-                    b.Navigation("ParentPost");
                 });
 #pragma warning restore 612, 618
         }

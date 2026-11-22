@@ -8,7 +8,7 @@ public class PostTests
     public void GivenOverFiveCashtags_WhenPostCreateAttempt_ThenCreationFails()
     {
         var post = Post.Create(
-            parentPost: null,
+            parentPostId: null,
             cashtags:
             [
                 new Cashtag("NVDA"), new Cashtag("AMD"), new Cashtag("MU"), new Cashtag("AMAT"), new Cashtag("INTC"),
@@ -23,7 +23,7 @@ public class PostTests
     public void GivenPostContentLessThanLength50_WhenPostCreateAttempt_ThenCreationFails()
     {
         var post = Post.Create(
-            parentPost: null,
+            parentPostId: null,
             cashtags:
             [
                 new Cashtag("NVDA"), new Cashtag("AMD"), new Cashtag("MU"), new Cashtag("AMAT"), new Cashtag("INTC")
@@ -37,7 +37,7 @@ public class PostTests
     public void GivenOver5MinutesPassedSincePostCreated_WhenPostDeleteAttempt_ThenDeletionFails()
     {
         var post = Post.Create(
-            parentPost: null,
+            parentPostId: null,
             cashtags:
             [
                 new Cashtag("NVDA"), new Cashtag("AMD"), new Cashtag("MU"), new Cashtag("AMAT"), new Cashtag("INTC")

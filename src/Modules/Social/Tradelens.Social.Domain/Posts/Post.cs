@@ -15,7 +15,7 @@ public sealed class Post : Entity, IAggregateRoot
 
     // if this Post is a reply to another one, reference to the Parent post
     // think about if we need to reference the whole Post object or just PostId
-    public Post? ParentPost { get; private set; }
+    public PostId? ParentPostId { get; private set; }
 
     // need to be a reference to the Financial Instruments aggregate in Fundamentals BC
     public IList<Cashtag>? Cashtags { get; private set; }
@@ -30,7 +30,7 @@ public sealed class Post : Entity, IAggregateRoot
     {
     }
 
-    private Post(Post? parentPost, IList<Cashtag>? cashtags, string content, Sentiment? sentiment)
+    private Post(PostId? parentPostId, IList<Cashtag>? cashtags, string content, Sentiment? sentiment)
     {
         if (string.IsNullOrWhiteSpace(content))
         {
@@ -51,7 +51,7 @@ public sealed class Post : Entity, IAggregateRoot
 
         Id = PostId.New();
         UserId = Guid.CreateVersion7();
-        ParentPost = parentPost;
+        ParentPostId = parentPostId;
         Cashtags = cashtags;
         Content = content;
         Sentiment = sentiment;
@@ -61,9 +61,9 @@ public sealed class Post : Entity, IAggregateRoot
         AddDomainEvent(new PostCreatedEvent());
     }
 
-    public static Post Create(Post? parentPost, IList<Cashtag>? cashtags, string content, Sentiment? sentiment)
+    public static Post Create(PostId? parentPostId, IList<Cashtag>? cashtags, string content, Sentiment? sentiment)
     {
-        return new Post(parentPost, cashtags, content, sentiment);
+        return new Post(parentPostId, cashtags, content, sentiment);
     }
 
     public Post Edit()

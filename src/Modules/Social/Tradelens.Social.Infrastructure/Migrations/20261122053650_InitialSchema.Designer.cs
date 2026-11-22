@@ -13,7 +13,7 @@ using Tradelens.Social.Infrastructure;
 namespace Tradelens.Social.Infrastructure.Migrations
 {
     [DbContext(typeof(SocialDbContext))]
-    [Migration("20261109044337_InitialSchema")]
+    [Migration("20261122053650_InitialSchema")]
     partial class InitialSchema
     {
         /// <inheritdoc />
@@ -72,18 +72,7 @@ namespace Tradelens.Social.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ParentPostId");
-
                     b.ToTable("Posts");
-                });
-
-            modelBuilder.Entity("Tradelens.Social.Domain.Posts.Post", b =>
-                {
-                    b.HasOne("Tradelens.Social.Domain.Posts.Post", "ParentPost")
-                        .WithMany()
-                        .HasForeignKey("ParentPostId");
-
-                    b.Navigation("ParentPost");
                 });
 #pragma warning restore 612, 618
         }

@@ -5,6 +5,7 @@ using Tradelens.Social.Application.Posts;
 
 namespace Tradelens.Social.Presentation.Posts;
 
+// look into whether we can make this class internal
 [Route("api/v1/[controller]")]
 [ApiController]
 public sealed class PostsController : ControllerBase
@@ -29,14 +30,6 @@ public sealed class PostsController : ControllerBase
     //     _mediator = mediator;
     // }
 
-    [HttpPost]
-    public async Task<ActionResult<Guid>> CreatePost(CreatePostCommand request,
-        CancellationToken cancellationToken = default)
-    {
-        var response = await _createPostCommandHandler.Handle(request, cancellationToken);
-        return Ok(response.Value);
-    }
-
     [ActionArguments]
     [HandleException]
     [HttpGet("{id:Guid}")]
@@ -55,5 +48,13 @@ public sealed class PostsController : ControllerBase
     {
         var query = new GetPostsQuery(request.PageSize);
         return Ok(await _getPostsQueryHandler.Handle(query, cancellationToken));
+    }
+
+    [HttpPost]
+    public async Task<ActionResult<Guid>> CreatePost(CreatePostRequest request,
+        CancellationToken cancellationToken = default)
+    {
+        var command = new CreatePostCommand(request.ParentPostId, request.Cashtags, request.Content, request.Sentiment);
+        return Ok(await _createPostCommandHandler.Handle(command, cancellationToken));
     }
 }

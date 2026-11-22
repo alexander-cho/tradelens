@@ -3,7 +3,7 @@ using Tradelens.Social.Domain.Posts;
 
 namespace Tradelens.Social.Application.Posts;
 
-public sealed class CreatePostCommandHandler : ICommandHandler<CreatePostCommand, PostId>
+public sealed class CreatePostCommandHandler : ICommandHandler<CreatePostCommand, Guid>
 {
     private readonly IPostRepository _repository;
 
@@ -12,12 +12,36 @@ public sealed class CreatePostCommandHandler : ICommandHandler<CreatePostCommand
         _repository = repository;
     }
 
-    public async Task<PostId> Handle(CreatePostCommand command, CancellationToken cancellationToken)
+    public async Task<Guid> Handle(CreatePostCommand command, CancellationToken cancellationToken)
     {
-        var post = Post.Create(command.ParentPost, command.Cashtags, command.Content, command.Sentiment);
+        // consider whether this validation and converting the request/command -> valid domain aggregate/entity
+        PostId? parentPostId = null;
+        if (command.ParentPostId.HasValue)
+        {
+            parentPostId = new PostId(command.ParentPostId.Value);
+        }
+
+        var cashtags = new List<Cashtag>();
+        if (command.Cashtags != null)
+        {
+            foreach (var ct in command.Cashtags)
+            {
+                var cashtag = new Cashtag(ct);
+                cashtags?.Add(cashtag);
+            }
+            // cashtags.AddRange(command.Cashtags.Select(ct => new Cashtag(ct)));
+        }
+
+        Sentiment? sentiment = null;
+        if (command.Sentiment != null)
+        {
+            sentiment = new Sentiment(command.Sentiment);
+        }
+
+        var post = Post.Create(parentPostId, cashtags, command.Content, sentiment);
 
         await _repository.CreatePost(post, cancellationToken);
 
-        return post.Id;
+        return post.Id.Value;
     }
 }
