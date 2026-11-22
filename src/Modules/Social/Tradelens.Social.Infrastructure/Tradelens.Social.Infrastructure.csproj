@@ -16,10 +16,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Dapper" Version="2.1.89" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.14" />
+    <PackageReference Include="Dapper" Version="2.1.100" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="11.0.0" />
     <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="11.0.0" />
-    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="10.0.3" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="11.0.0" />
   </ItemGroup>
 
 </Project>
