@@ -1,4 +1,4 @@
-namespace Tradelens.SharedKernel;
+namespace ApriumResearch.SharedKernel;
 
 /// <summary>
 /// Domain exceptions are thrown for any violations of invariants or defined rules.

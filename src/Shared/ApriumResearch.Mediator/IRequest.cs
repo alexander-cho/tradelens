@@ -1,4 +1,4 @@
-namespace Tradelens.Shared.Application;
+namespace ApriumResearch.Mediator;
 
 /*
  * IRequest (Message contract). The Producer: A Request or any type implementing IRequest will be dispatched,

@@ -1,4 +1,4 @@
-namespace Tradelens.Shared.Application;
+namespace ApriumResearch.Mediator;
 
 /// <summary>
 /// Sender interface responsible for dispatching requests to their corresponding handlers.

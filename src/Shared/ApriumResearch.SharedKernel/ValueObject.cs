@@ -1,4 +1,4 @@
-namespace Tradelens.SharedKernel;
+namespace ApriumResearch.SharedKernel;
 
 public abstract record ValueObject;
 

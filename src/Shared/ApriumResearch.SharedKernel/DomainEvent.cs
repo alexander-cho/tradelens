@@ -1,4 +1,4 @@
-namespace Tradelens.SharedKernel;
+namespace ApriumResearch.SharedKernel;
 
 /// <summary>
 /// Base class for domain events. OccuredAt property is set on creation.

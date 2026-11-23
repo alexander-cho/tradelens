@@ -1,4 +1,4 @@
-namespace Tradelens.Shared.Application;
+namespace ApriumResearch.Mediator;
 
 /// <summary>
 /// Marker interface for command handlers that don't return a response

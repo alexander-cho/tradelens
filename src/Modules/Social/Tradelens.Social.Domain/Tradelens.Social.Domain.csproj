@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Shared\Tradelens.SharedKernel\Tradelens.SharedKernel.csproj" />
+    <ProjectReference Include="..\..\..\Shared\ApriumResearch.SharedKernel\ApriumResearch.SharedKernel.csproj" />
   </ItemGroup>
 
 </Project>

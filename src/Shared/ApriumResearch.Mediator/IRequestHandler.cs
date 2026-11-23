@@ -1,4 +1,4 @@
-namespace Tradelens.Shared.Application;
+namespace ApriumResearch.Mediator;
 
 /*
  * IRequestHandler (Message handler contract). The Consumer

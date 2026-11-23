@@ -1,4 +1,4 @@
-using Tradelens.Shared.Application;
+using ApriumResearch.Mediator;
 using Tradelens.Social.Domain.Posts;
 
 namespace Tradelens.Social.Application.Posts;

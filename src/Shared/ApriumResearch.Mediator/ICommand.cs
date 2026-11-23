@@ -1,4 +1,4 @@
-namespace Tradelens.Shared.Application;
+namespace ApriumResearch.Mediator;
 
 /// <summary>
 /// Marker interface for commands. All concrete command types should implement this.

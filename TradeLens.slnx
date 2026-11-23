@@ -30,10 +30,13 @@
     <Project Path="src/Modules/Social/Tradelens.Social.Startup/Tradelens.Social.Startup.csproj" />
   </Folder>
   <Folder Name="/src/Shared/">
-    <Project Path="src/Shared/Tradelens.SharedKernel/Tradelens.SharedKernel.csproj" />
     <Project Path="src/Shared/Tradelens.Shared.Application/Tradelens.Shared.Application.csproj" />
     <Project Path="src/Shared/Tradelens.Shared.Infrastructure/Tradelens.Shared.Infrastructure.csproj" />
     <Project Path="src/Shared/Tradelens.Shared.Presentation/Tradelens.Shared.Presentation.csproj" />
+    
+    <Project Path="src/Shared/ApriumResearch.Mediator/ApriumResearch.Mediator.csproj" />
+    <Project Path="src/Shared/ApriumResearch.Result/ApriumResearch.Result.csproj" />
+    <Project Path="src/Shared/ApriumResearch.SharedKernel/ApriumResearch.SharedKernel.csproj" />
   </Folder>
   <Folder Name="/tests/_legacy/">
     <Project Path="tests/_legacy/Tradelens.Api.IntegrationTests/Tradelens.Api.IntegrationTests.csproj" />

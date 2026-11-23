@@ -1,4 +1,4 @@
-namespace Tradelens.SharedKernel;
+namespace ApriumResearch.SharedKernel;
 
 /// <summary>
 /// Interface for domain events.

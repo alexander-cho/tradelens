@@ -1,4 +1,4 @@
-namespace Tradelens.Shared.Application;
+namespace ApriumResearch.Mediator;
 
 /// <summary>
 /// Publisher interface responsible for publishing a notification or event for whichever handler(s)
