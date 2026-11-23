@@ -1,4 +1,4 @@
-using Tradelens.SharedKernel;
+using ApriumResearch.SharedKernel;
 
 namespace Tradelens.Fundamentals.Domain.LegalEntities;
 

@@ -1,7 +1,5 @@
 namespace Tradelens.Fundamentals.Domain.LegalEntities;
 
-public readonly record struct LegalEntityId(Guid Value);
-
 /// <summary>
 /// Represents the central anchor for a particular legal/business entity, e.g. "MICROSOFT CORPORATION",
 /// "SOFI TECHNOLOGIES, INC.", etc. A majority have a globally unique 20-digit Legal Entity Identifier (LEI).
