@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\Shared\ApriumResearch.SharedKernel\ApriumResearch.SharedKernel.csproj" />
+    <ProjectReference Include="..\..\..\Shared\ApriumResearch.TidyResult\ApriumResearch.TidyResult.csproj" />
   </ItemGroup>
 
 </Project>

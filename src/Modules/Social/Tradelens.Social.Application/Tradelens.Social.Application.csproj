@@ -11,7 +11,6 @@
     <ProjectReference Include="..\..\..\Shared\Tradelens.Shared.Application\Tradelens.Shared.Application.csproj" />
 
     <ProjectReference Include="..\..\..\Shared\ApriumResearch.Mediator\ApriumResearch.Mediator.csproj" />
-    <ProjectReference Include="..\..\..\Shared\ApriumResearch.Result\ApriumResearch.Result.csproj" />
   </ItemGroup>
 
 </Project>

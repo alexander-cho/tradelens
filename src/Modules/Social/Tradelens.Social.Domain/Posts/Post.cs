@@ -1,4 +1,5 @@
 using ApriumResearch.SharedKernel;
+using ApriumResearch.TidyResult;
 
 namespace Tradelens.Social.Domain.Posts;
 
@@ -32,23 +33,6 @@ public sealed class Post : Entity, IAggregateRoot
 
     private Post(PostId? parentPostId, IList<Cashtag>? cashtags, string content, Sentiment? sentiment)
     {
-        if (string.IsNullOrWhiteSpace(content))
-        {
-            throw new DomainException("Post content cannot be empty");
-        }
-
-        if (cashtags?.Count > MaxCashtagsPerPost)
-        {
-            throw new DomainException(
-                $"Only up to {MaxCashtagsPerPost} cashtags allowed per post for user on <base> tier");
-        }
-
-        if (content.Length < MinContentLength)
-        {
-            throw new DomainException(
-                $"Post content length must have a minimum of {MinContentLength} characters");
-        }
-
         Id = PostId.New();
         UserId = Guid.CreateVersion7();
         ParentPostId = parentPostId;
@@ -61,9 +45,24 @@ public sealed class Post : Entity, IAggregateRoot
         AddDomainEvent(new PostCreatedEvent());
     }
 
-    public static Post Create(PostId? parentPostId, IList<Cashtag>? cashtags, string content, Sentiment? sentiment)
+    public static Result<Post> Create(PostId? parentPostId, IList<Cashtag>? cashtags, string content, Sentiment? sentiment)
     {
-        return new Post(parentPostId, cashtags, content, sentiment);
+        if (string.IsNullOrWhiteSpace(content))
+        {
+            return Result<Post>.Failure(PostErrors.EmptyContent);
+        }
+
+        if (cashtags?.Count > MaxCashtagsPerPost)
+        {
+            return Result<Post>.Failure(PostErrors.MaxCashtagsPerPostLimitExceeded);
+        }
+
+        if (content.Length < MinContentLength)
+        {
+            return Result<Post>.Failure(PostErrors.MinimumContentLengthNotMet);
+        }
+
+        return Result<Post>.Success(new Post(parentPostId, cashtags, content, sentiment));
     }
 
     public Post Edit()
@@ -75,7 +74,7 @@ public sealed class Post : Entity, IAggregateRoot
     {
         if (DateTime.UtcNow - CreatedAt > TimeSpan.FromMinutes(MinutesToDelete))
         {
-            throw new DomainException($"Cannot delete a post written more than {MinutesToDelete} minutes ago");
+            // return Result<Guid>.Failure(PostErrors.CannotDeletePastTime);
         }
 
         Status = new Status("Deleted");

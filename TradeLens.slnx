@@ -35,8 +35,8 @@
     <Project Path="src/Shared/Tradelens.Shared.Presentation/Tradelens.Shared.Presentation.csproj" />
     
     <Project Path="src/Shared/ApriumResearch.Mediator/ApriumResearch.Mediator.csproj" />
-    <Project Path="src/Shared/ApriumResearch.Result/ApriumResearch.Result.csproj" />
     <Project Path="src/Shared/ApriumResearch.SharedKernel/ApriumResearch.SharedKernel.csproj" />
+    <Project Path="src/Shared/ApriumResearch.TidyResult/ApriumResearch.TidyResult.csproj" />
   </Folder>
   <Folder Name="/tests/_legacy/">
     <Project Path="tests/_legacy/Tradelens.Api.IntegrationTests/Tradelens.Api.IntegrationTests.csproj" />
