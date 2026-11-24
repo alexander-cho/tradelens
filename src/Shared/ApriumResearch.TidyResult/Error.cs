@@ -10,6 +10,4 @@ public sealed record Error
         Code = code;
         Message = message;
     }
-
-    public static Error None => new("", "");
 }

@@ -17,7 +17,7 @@ public sealed class Result<T>
     {
         IsSuccess = true;
         _value = value;
-        _error = Error.None;
+        _error = null;
     }
 
     /// <summary>
