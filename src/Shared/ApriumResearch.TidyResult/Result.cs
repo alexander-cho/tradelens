@@ -31,6 +31,16 @@ public sealed class Result<T>
         _error = error;
     }
 
+    public T? GetValue()
+    {
+        return _value;
+    }
+
+    public Error? GetError()
+    {
+        return _error;
+    }
+
     public bool IsSuccess { get; }
 
     public static Result<T> Success(T value) => new(value);
